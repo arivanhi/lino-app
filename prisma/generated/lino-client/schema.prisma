@@ -1,0 +1,89 @@
+// lino-app/prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/lino-client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL_LINO")
+}
+
+// =======================
+// ENUMS LINO
+// =======================
+enum TipeSoal {
+  LITERASI
+  NUMERASI
+}
+
+enum StatusTugas {
+  DRAFT
+  DITUGASKAN
+  SELESAI
+}
+
+// =======================
+// ENTITAS MASTER LINO
+// =======================
+
+// Bank Soal untuk Lino
+model BankSoal {
+  id         String   @id @default(uuid())
+  tipe       TipeSoal // LITERASI atau NUMERASI
+  tingkat    String // Contoh: "Kelas X", "Kelas XI"
+  pertanyaan String   @db.Text
+  opsiA      String   @db.Text
+  opsiB      String   @db.Text
+  opsiC      String   @db.Text
+  opsiD      String   @db.Text
+  opsiE      String?  @db.Text
+  kunciBenar String // "A", "B", "C", "D", "E"
+  bobotNilai Int      @default(10)
+
+  pembuatId String // ID Guru/Admin (disimpan sebagai string referensi ke E-Journal)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Sesi Penugasan (Dibuat oleh Guru/Koordinator)
+model PenugasanLino {
+  id        String   @id @default(uuid())
+  judul     String
+  tipe      TipeSoal
+  deskripsi String?  @db.Text
+
+  // Referensi ke E-Journal
+  tahunAjaranId String
+  kelasId       String? // Jika null, berarti untuk semua kelas
+  guruId        String // Siapa yang menugaskan
+
+  waktuMulai   DateTime
+  waktuSelesai DateTime
+  status       StatusTugas @default(DRAFT)
+
+  hasilKerjaSiswa HasilKerjaSiswa[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+// Rekap Jawaban dan File Upload Siswa
+model HasilKerjaSiswa {
+  id          String @id @default(uuid())
+  penugasanId String
+  siswaId     String // ID Siswa dari E-Journal
+
+  // Penyimpanan Base64 jika siswa diminta upload coretan/essay
+  fileJawabanPdf String? @db.LongText
+
+  nilaiAkhir       Float?
+  statusPengerjaan String  @default("BELUM_MULAI") // BELUM_MULAI, PROSES, SELESAI
+  catatanGuru      String? @db.Text
+
+  waktuMulai   DateTime?
+  waktuSelesai DateTime?
+
+  penugasan PenugasanLino @relation(fields: [penugasanId], references: [id], onDelete: Cascade)
+
+  @@unique([penugasanId, siswaId])
+}
