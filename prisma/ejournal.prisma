@@ -1,0 +1,91 @@
+// lino-app/prisma/ejournal.prisma
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/ejournal-client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL_EJOURNAL")
+}
+
+// Enum Wajib dari E-Journal
+enum Role {
+  ADMIN_TU
+  WAKA
+  KEPSEK
+  WALI_KELAS
+  GURU
+  SISWA
+}
+
+// Tabel Induk Auth
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String
+  nama      String
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  guru      Guru?
+  siswa     Siswa?
+}
+
+model TahunAjaran {
+  id           String              @id @default(uuid())
+  nama         String              @unique
+  isActive     Boolean             @default(false)
+  riwayatSiswa RiwayatKelasSiswa[]
+}
+
+model Kelas {
+  id           String              @id @default(uuid())
+  nama         String              @unique
+  riwayatSiswa RiwayatKelasSiswa[]
+  waliKelas    KelasWali[]
+}
+
+model Guru {
+  id           String      @id @default(uuid())
+  npp          String      @unique
+  jenisKelamin String
+  status       Boolean     @default(true)
+  userId       String      @unique
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  waliKelasDi  KelasWali[]
+}
+
+model KelasWali {
+  id        String   @id @default(uuid())
+  guruId    String
+  kelasId   String
+  guru      Guru     @relation(fields: [guruId], references: [id], onDelete: Cascade)
+  kelas     Kelas    @relation(fields: [kelasId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([guruId, kelasId])
+}
+
+model Siswa {
+  id           String              @id @default(uuid())
+  nisn         String              @unique
+  nis          String              @unique
+  jenisKelamin String
+  userId       String              @unique
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  riwayatKelas RiwayatKelasSiswa[]
+}
+
+model RiwayatKelasSiswa {
+  id            String      @id @default(uuid())
+  siswaId       String
+  kelasId       String
+  tahunAjaranId String
+  siswa         Siswa       @relation(fields: [siswaId], references: [id], onDelete: Cascade)
+  kelas         Kelas       @relation(fields: [kelasId], references: [id], onDelete: Cascade)
+  tahunAjaran   TahunAjaran @relation(fields: [tahunAjaranId], references: [id], onDelete: Cascade)
+
+  @@unique([siswaId, tahunAjaranId])
+}

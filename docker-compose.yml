@@ -1,0 +1,17 @@
+services:
+  lino_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lino_app
+    ports:
+      - "4002:3000" # Port eksternal Lino
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - smandabes_net # Terhubung ke jembatan E-Journal
+
+networks:
+  smandabes_net:
+    external: true
