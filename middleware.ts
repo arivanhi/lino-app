@@ -26,8 +26,7 @@ export async function middleware(req: NextRequest) {
 		dashboardUrl = "/wali-kelas/dashboard";
 	} else if (userRole === "KEPSEK") {
 		dashboardUrl = "/pimpinan/dashboard";
-	} else if (userRole === "ADMIN_TU" || userRole === "WAKA" || userRole === "KOORDINATOR") {
-		// Koordinator Literasi ditambahkan di sini, mengakses rute admin
+	} else if (["ADMIN_TU", "WAKA", "KOORDINATOR"].includes(userRole)) {
 		dashboardUrl = "/admin/dashboard";
 	} else {
 		// Guru reguler yang bukan wali kelas diblokir atau diarahkan ke halaman khusus

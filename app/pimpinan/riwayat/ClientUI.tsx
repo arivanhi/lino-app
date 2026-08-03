@@ -1,4 +1,4 @@
-// app/admin/riwayat/ClientUI.tsx
+// app/pimpinan/riwayat/ClientUI.tsx
 "use client";
 
 import { useState } from "react";
@@ -140,7 +140,7 @@ export default function RiwayatClientUI({
 					const status = getStatus(k.literasi, k.numerasi);
 					return (
 						<Link
-							href={`/admin/riwayat/${k.id}`}
+							href={`/pimpinan/riwayat/${k.id}`}
 							key={k.id}
 							className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition-all cursor-pointer block border-l-4 border-l-slate-800"
 						>
@@ -172,7 +172,7 @@ export default function RiwayatClientUI({
 			{totalPages > 1 && (
 				<div className="flex items-center justify-between border-t border-slate-200 pt-6 mt-8">
 					<Link
-						href={`/admin/riwayat?page=${currentPage - 1}`}
+						href={`/pimpinan/riwayat?page=${currentPage - 1}`}
 						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold ${currentPage === 1 ? "pointer-events-none opacity-50" : "hover:bg-slate-50"}`}
 					>
 						<ChevronLeft className="h-4 w-4" /> Previous
@@ -181,7 +181,7 @@ export default function RiwayatClientUI({
 						{currentPage} / {totalPages}
 					</span>
 					<Link
-						href={`/admin/riwayat?page=${currentPage + 1}`}
+						href={`/pimpinan/riwayat?page=${currentPage + 1}`}
 						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold ${currentPage === totalPages ? "pointer-events-none opacity-50" : "hover:bg-slate-50"}`}
 					>
 						Next <ChevronRight className="h-4 w-4" />

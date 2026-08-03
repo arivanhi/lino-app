@@ -1,4 +1,4 @@
-// app/admin/riwayat/[kelasId]/ClientUI.tsx
+// app/pimpinan/riwayat/[kelasId]/ClientUI.tsx
 "use client";
 
 import { useState } from "react";
@@ -144,7 +144,7 @@ export default function RiwayatDetailClientUI({
 			<div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
 				<div className="flex items-start gap-4">
 					<button
-						onClick={() => router.push("/admin/riwayat")}
+						onClick={() => router.push("/pimpinan/riwayat")}
 						className="mt-1 p-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 shadow-sm"
 					>
 						<ArrowLeft className="h-5 w-5" />
