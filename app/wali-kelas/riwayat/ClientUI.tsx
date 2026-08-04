@@ -14,47 +14,46 @@ import {
 	ResponsiveContainer,
 } from "recharts";
 
+// PERBAIKAN: KopSurat sekarang murni <div> (bukan <tr>), jadi aman dipanggil di dalam div mana pun!
 const KopSurat = () => (
-	<tr>
-		<td colSpan={100} style={{ paddingBottom: "10px", backgroundColor: "white" }}>
-			<div
-				style={{
-					display: "flex",
-					alignItems: "center",
-					borderBottom: "3px solid black",
-					paddingBottom: "6px",
-					marginBottom: "2px",
-				}}
-			>
-				<img
-					src="/logo_sekolah.jpg"
-					onError={(e) => (e.currentTarget.src = "/logo.jpeg")}
-					style={{ width: "80px", height: "80px", objectFit: "contain" }}
-				/>
-				<div style={{ flex: 1, textAlign: "center" }}>
-					<h2
-						style={{
-							fontFamily: '"Times New Roman", Times, serif',
-							fontSize: "22px",
-							fontWeight: "bold",
-							margin: "0 0 4px 0",
-							letterSpacing: "1px",
-						}}
-					>
-						SMA NEGERI 2 BREBES
-					</h2>
-					<p style={{ fontFamily: "Arial, sans-serif", fontSize: "12px", margin: "0 0 2px 0" }}>
-						Jl. Jend. A. Yani 77 Brebes 52212 Telp. (0283) 671060
-					</p>
-					<p style={{ fontFamily: "Arial, sans-serif", fontSize: "12px", margin: 0 }}>
-						Website: www.sman2-brebes.sch.id - Email: smadabes@ymail.com
-					</p>
-				</div>
-				<div style={{ width: "80px" }}></div>
+	<div style={{ paddingBottom: "10px", backgroundColor: "white" }}>
+		<div
+			style={{
+				display: "flex",
+				alignItems: "center",
+				borderBottom: "3px solid black",
+				paddingBottom: "6px",
+				marginBottom: "2px",
+			}}
+		>
+			<img
+				src="/logo_sekolah.jpg"
+				onError={(e) => (e.currentTarget.src = "/logo.jpeg")}
+				style={{ width: "80px", height: "80px", objectFit: "contain" }}
+			/>
+			<div style={{ flex: 1, textAlign: "center" }}>
+				<h2
+					style={{
+						fontFamily: '"Times New Roman", Times, serif',
+						fontSize: "22px",
+						fontWeight: "bold",
+						margin: "0 0 4px 0",
+						letterSpacing: "1px",
+					}}
+				>
+					SMA NEGERI 2 BREBES
+				</h2>
+				<p style={{ fontFamily: "Arial, sans-serif", fontSize: "12px", margin: "0 0 2px 0" }}>
+					Jl. Jend. A. Yani 77 Brebes 52212 Telp. (0283) 671060
+				</p>
+				<p style={{ fontFamily: "Arial, sans-serif", fontSize: "12px", margin: 0 }}>
+					Website: www.sman2-brebes.sch.id - Email: smadabes@ymail.com
+				</p>
 			</div>
-			<div style={{ borderBottom: "1px solid black", marginBottom: "10px" }}></div>
-		</td>
-	</tr>
+			<div style={{ width: "80px" }}></div>
+		</div>
+		<div style={{ borderBottom: "1px solid black", marginBottom: "10px" }}></div>
+	</div>
 );
 
 export default function WaliKelasRiwayatClient({
@@ -71,11 +70,11 @@ export default function WaliKelasRiwayatClient({
 	const router = useRouter();
 	const [selectedLitHistory, setSelectedLitHistory] = useState<any[] | null>(null);
 	const [studentNameModal, setStudentNameModal] = useState("");
+
 	const [isExportModalOpen, setIsExportModalOpen] = useState(false);
 	const [jangkaWaktu, setJangkaWaktu] = useState("SEMESTER");
 	const [isDownloading, setIsDownloading] = useState(false);
 
-	// Jika tidak punya kelas
 	if (isEmpty) {
 		return (
 			<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
@@ -142,10 +141,17 @@ export default function WaliKelasRiwayatClient({
 			});
 	};
 
-	const openPdf = (base64: string) => {
-		const pdfWindow = window.open("");
-		if (pdfWindow) pdfWindow.document.write(`<iframe width='100%' height='100%' src='${base64}'></iframe>`);
+	const openPdf = (pdfUrl: string) => {
+		if (!pdfUrl) return;
+		window.open(pdfUrl, "_blank");
 	};
+
+	const teksPeriode =
+		jangkaWaktu === "SEMESTER"
+			? `Semester ${semesterName}`
+			: jangkaWaktu === "1 BULAN"
+				? "1 Bulan Terakhir"
+				: "2 Bulan Terakhir";
 
 	return (
 		<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6 relative">
@@ -180,7 +186,6 @@ export default function WaliKelasRiwayatClient({
 				</button>
 			</div>
 
-			{/* (KODE CARD LITERASI, NUMERASI, & TABEL BAWAH SAMA PERSIS DENGAN DETAIL CLIENT UI ADMIN/PIMPINAN SEBELUMNYA) */}
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
 				<div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
 					<h3 className="font-bold text-slate-800 text-lg mb-4 flex items-center gap-2">
@@ -309,8 +314,267 @@ export default function WaliKelasRiwayatClient({
 				</table>
 			</div>
 
-			{/* MODAL EXPORT PDF, MODAL TUGAS SISWA & HIDDEN PDF SAMA PERSIS SEPERTI SEBELUMNYA */}
-			{/* ... (Sisipkan kode modal dan <div id="pdf-detail-report"> dari Detail Admin sebelumnya di sini agar Export PDF tetap berfungsi) ... */}
+			{isExportModalOpen && (
+				<div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+					<div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+						<div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+							<h2 className="text-lg font-bold text-slate-900">Export Laporan Kelas</h2>
+							<button
+								onClick={() => setIsExportModalOpen(false)}
+								disabled={isDownloading}
+								className="text-slate-400 hover:text-slate-600 disabled:opacity-50"
+							>
+								<X className="h-5 w-5" />
+							</button>
+						</div>
+						<div className="p-6">
+							<label className="block text-sm font-bold text-slate-700 mb-2">Pilih Jangka Waktu</label>
+							<select
+								value={jangkaWaktu}
+								onChange={(e) => setJangkaWaktu(e.target.value)}
+								className="w-full bg-white border border-slate-300 text-slate-700 text-sm font-semibold px-4 py-2.5 rounded-xl outline-none focus:border-teal-500 mb-6 transition-colors cursor-pointer"
+							>
+								<option value="SEMESTER">Satu Semester Penuh</option>
+								<option value="1 BULAN">1 Bulan Terakhir</option>
+								<option value="2 BULAN">2 Bulan Terakhir</option>
+							</select>
+							<div className="flex gap-3">
+								<button
+									onClick={() => setIsExportModalOpen(false)}
+									disabled={isDownloading}
+									className="flex-1 px-4 py-2.5 bg-white border border-slate-300 text-slate-700 text-sm font-bold rounded-xl hover:bg-slate-50 transition-colors disabled:opacity-50"
+								>
+									Batal
+								</button>
+								<button
+									onClick={handleDownloadDetail}
+									disabled={isDownloading}
+									className="flex-1 px-4 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-xl hover:bg-slate-800 disabled:opacity-50 flex justify-center items-center gap-2 transition-colors"
+								>
+									{isDownloading ? (
+										<>
+											<div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />{" "}
+											Mengekspor...
+										</>
+									) : (
+										"Download PDF"
+									)}
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
+
+			{selectedLitHistory && (
+				<div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+					<div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
+						<div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+							<h2 className="text-lg font-bold text-slate-900">Riwayat Tugas: {studentNameModal}</h2>
+							<button onClick={() => setSelectedLitHistory(null)} className="text-slate-400">
+								<X className="h-5 w-5" />
+							</button>
+						</div>
+						<div className="p-6 max-h-[60vh] overflow-y-auto space-y-3">
+							{selectedLitHistory.length === 0 ? (
+								<p className="text-sm text-slate-500 italic text-center">Belum ada tugas yang dikerjakan.</p>
+							) : (
+								selectedLitHistory.map((h, i) => (
+									<div
+										key={i}
+										className="flex justify-between items-center bg-slate-50 p-3 rounded-xl border border-slate-100"
+									>
+										<div className="flex items-center gap-3">
+											<FileText className="h-5 w-5 text-slate-400" />
+											<div>
+												<p className="text-sm font-bold text-slate-800">{h.judul}</p>
+												<p
+													className={`text-xs font-bold ${h.status === "SELESAI" ? "text-teal-600" : "text-amber-500"}`}
+												>
+													{h.status}
+												</p>
+											</div>
+										</div>
+										{h.pdf && (
+											<button
+												onClick={() => openPdf(h.pdf)}
+												className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-teal-50 text-teal-600 tooltip"
+												title="Lihat Dokumen"
+											>
+												<Eye className="h-4 w-4" />
+											</button>
+										)}
+									</div>
+								))
+							)}
+						</div>
+					</div>
+				</div>
+			)}
+
+			{/* --- HIDDEN PDF TEMPLATE (LANDSCAPE) --- */}
+			<div style={{ display: "none" }}>
+				<div id="pdf-detail-report" style={{ width: "297mm", backgroundColor: "white", color: "black" }}>
+					{/* Cover Page */}
+					<div
+						style={{
+							height: "170mm",
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+							justifyContent: "center",
+							textAlign: "center",
+							boxSizing: "border-box",
+						}}
+					>
+						<img
+							src="/logo_sekolah.jpg"
+							onError={(e) => (e.currentTarget.src = "/logo.jpeg")}
+							style={{ width: "120px", height: "120px", marginBottom: "24px", objectFit: "contain" }}
+						/>
+						<h1 style={{ fontSize: "28pt", fontWeight: "bold", textTransform: "uppercase", marginBottom: "8px" }}>
+							LAPORAN DETAIL KELAS
+						</h1>
+						<h2 style={{ fontSize: "22pt", fontWeight: "bold", color: "#0f172a" }}>Kelas {kelasNama}</h2>
+						<div style={{ width: "50px", height: "4px", backgroundColor: "#0f172a", margin: "24px auto" }}></div>
+
+						<p style={{ fontSize: "14pt", fontWeight: "bold" }}>{teksPeriode}</p>
+						<p style={{ fontSize: "12pt", marginTop: "8px" }}>Wali Kelas: {waliKelas}</p>
+
+						<p style={{ fontSize: "14pt", marginTop: "60px", fontWeight: "bold" }}>SMA NEGERI 2 BREBES</p>
+					</div>
+
+					{/* Content Page 1: Grafik Numerasi */}
+					<div className="html2pdf__page-break"></div>
+					<div style={{ padding: "15mm 20mm" }}>
+						<KopSurat />
+						<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 20px 0", textAlign: "center" }}>
+							Tren Numerasi - Kelas {kelasNama} ({teksPeriode})
+						</h3>
+						<div
+							style={{
+								width: "100%",
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+								paddingTop: "10px",
+							}}
+						>
+							{/* SOLUSI JITU PDF: Mengganti ResponsiveContainer menjadi explicit Width & Height */}
+							<LineChart width={800} height={320} data={chartData}>
+								<CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+								<XAxis
+									dataKey="name"
+									axisLine={false}
+									tickLine={false}
+									tick={{ fill: "#475569", fontSize: 12 }}
+									dy={10}
+								/>
+								<YAxis
+									domain={[0, 100]}
+									axisLine={false}
+									tickLine={false}
+									tick={{ fill: "#475569", fontSize: 12 }}
+									dx={-10}
+								/>
+								<Line
+									type="monotone"
+									dataKey="actual"
+									stroke="#f59e0b"
+									strokeWidth={4}
+									dot={{ r: 5, fill: "#f59e0b" }}
+									isAnimationActive={false}
+								/>
+							</LineChart>
+						</div>
+					</div>
+
+					{/* Content Page 2: Tabel Literasi */}
+					<div className="html2pdf__page-break"></div>
+					<div style={{ padding: "15mm 20mm" }}>
+						<KopSurat />
+						<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 15px 0", textAlign: "center" }}>
+							Rekap Literasi Siswa
+						</h3>
+						<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
+							<thead>
+								<tr style={{ backgroundColor: "#f1f5f9" }}>
+									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>Nama Siswa</th>
+									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>NIS</th>
+									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>Tugas Terkumpul</th>
+								</tr>
+							</thead>
+							<tbody>
+								{literasiSiswa.map((s: any) => (
+									<tr key={s.siswaId}>
+										<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{s.nama}</td>
+										<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>{s.nis}</td>
+										<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+											{s.completed} / {s.total}
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+
+					{/* Content Page 3: Tabel Numerasi */}
+					<div className="html2pdf__page-break"></div>
+					<div style={{ padding: "15mm 20mm" }}>
+						<KopSurat />
+						<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 15px 0", textAlign: "center" }}>
+							Rekap Nilai Numerasi
+						</h3>
+						<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
+							<thead>
+								<tr style={{ backgroundColor: "#f1f5f9" }}>
+									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>Nama Siswa</th>
+									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>NIS</th>
+									{numHeaders.map((h: any) => (
+										<th key={h.id} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+											{h.judul}
+										</th>
+									))}
+									<th
+										style={{
+											border: "1px solid #cbd5e1",
+											padding: "10px",
+											textAlign: "center",
+											backgroundColor: "#e2e8f0",
+										}}
+									>
+										Rata-Rata
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								{numerasiSiswa.map((s: any) => (
+									<tr key={s.siswaId}>
+										<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{s.nama}</td>
+										<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>{s.nis}</td>
+										{numHeaders.map((h: any) => (
+											<td key={h.id} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+												{s.scores[h.id] !== null ? s.scores[h.id] : "-"}
+											</td>
+										))}
+										<td
+											style={{
+												border: "1px solid #cbd5e1",
+												padding: "10px",
+												textAlign: "center",
+												fontWeight: "bold",
+												backgroundColor: "#f8fafc",
+											}}
+										>
+											{s.average}
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 }

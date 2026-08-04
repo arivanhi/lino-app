@@ -11,6 +11,8 @@ services:
     restart: unless-stopped
     networks:
       - smandabes_net # Terhubung ke jembatan E-Journal
+    volumes:
+      - ./storage/uploads:/app/storage/uploads
 
 networks:
   smandabes_net:
