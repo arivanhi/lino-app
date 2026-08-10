@@ -37,6 +37,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 		{ name: "Riwayat Lino", icon: History, path: "/admin/riwayat" },
 	];
 
+	if (session?.user?.role !== "KOORDINATOR") {
+		menuItems.push({ name: "Akun Koordinator", icon: UserCircle, path: "/admin/koordinator" });
+	}
+
 	if (!session) return null;
 
 	return (
