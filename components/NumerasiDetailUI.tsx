@@ -1,13 +1,16 @@
 // components/NumerasiDetailUI.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Download, X, Calculator, CheckCircle, ClipboardList } from "lucide-react";
+import { ArrowLeft, Download, X, Calculator, CheckCircle, ClipboardList, Search } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from "recharts";
 
+// ============================================================================
+// KOMPONEN KOP SURAT
+// ============================================================================
 const KopSurat = () => (
-	<div style={{ marginBottom: "20px", backgroundColor: "white" }}>
+	<div style={{ marginBottom: "20px", backgroundColor: "white", pageBreakInside: "avoid" }}>
 		<div
 			style={{
 				display: "flex",
@@ -39,12 +42,77 @@ const KopSurat = () => (
 					Jl. Jend. A. Yani 77 Brebes 52212 Telp. (0283) 671060
 				</p>
 				<p style={{ fontFamily: "Arial, sans-serif", fontSize: "11pt", margin: 0, color: "#000" }}>
-					Website: www.sman2-brebes.sch.id - Email: smadabes@ymail.com
+					Website: sman2brebes.sch.id - Email: smandabes@gmail.com
 				</p>
 			</div>
 			<div style={{ width: "100px" }}></div>
 		</div>
 		<div style={{ borderBottom: "1px solid black" }}></div>
+	</div>
+);
+
+// ============================================================================
+// KOMPONEN PEMBANTU PAGINATION MANUAL (PDF)
+// ============================================================================
+const chunkArray = <T,>(arr: T[], size: number): T[][] => {
+	const chunked = [];
+	for (let i = 0; i < arr.length; i += size) {
+		chunked.push(arr.slice(i, i + size));
+	}
+	return chunked;
+};
+
+const PageContainer = ({
+	children,
+	orientation = "portrait",
+	isLast
+}: {
+	children: React.ReactNode;
+	orientation?: "portrait" | "landscape";
+	isLast?: boolean;
+}) => {
+	const isPortrait = orientation === "portrait";
+	const width = isPortrait ? "210mm" : "297mm"; // A4 Landscape width
+	const height = isPortrait ? "296mm" : "208mm"; // A4 Landscape height (dikurangi 2mm untuk toleransi margin)
+
+	return (
+		<div
+			style={{
+				width,
+				height,
+				backgroundColor: "white",
+				color: "black",
+				boxSizing: "border-box",
+				padding: "10mm 15mm",
+				position: "relative",
+				display: "flex",
+				flexDirection: "column",
+				pageBreakAfter: isLast ? "auto" : "always",
+				overflow: "hidden"
+			}}
+		>
+			{children}
+		</div>
+	);
+};
+
+const PageFooter = ({ current, total }: { current: number; total: number }) => (
+	<div
+		style={{
+			marginTop: "auto",
+			paddingTop: "10px",
+			borderTop: "1px solid #e2e8f0",
+			display: "flex",
+			justifyContent: "space-between",
+			alignItems: "center",
+			fontSize: "9pt",
+			color: "#64748b",
+		}}
+	>
+		<span>Dicetak dari Sistem Lino - SMA Negeri 2 Brebes</span>
+		<span>
+			Halaman {current} dari {total}
+		</span>
 	</div>
 );
 
@@ -59,8 +127,22 @@ export default function NumerasiDetailUI({
 }: any) {
 	const router = useRouter();
 	const [isExportModalOpen, setIsExportModalOpen] = useState(false);
-	const [jangkaWaktu, setJangkaWaktu] = useState("SEMESTER");
+
+	// STATE TANGGAL (DATE PICKER)
+	const [startDate, setStartDate] = useState("");
+	const [endDate, setEndDate] = useState("");
 	const [isDownloading, setIsDownloading] = useState(false);
+
+	const [search, setSearch] = useState("");
+
+	// Sorting Nama Siswa Abjad (A-Z)
+	const sortedStudents = useMemo(() => {
+		return [...students].sort((a: any, b: any) => a.nama.localeCompare(b.nama));
+	}, [students]);
+
+	const filteredStudents = sortedStudents.filter(
+		(s: any) => s.nama.toLowerCase().includes(search.toLowerCase()) || s.nis.includes(search),
+	);
 
 	// Kalkulasi Tingkat Kelulusan (Nilai rata-rata siswa >= 70)
 	const lulusCount = students.filter((s: any) => s.average !== "-" && Number(s.average) >= 70).length;
@@ -84,35 +166,51 @@ export default function NumerasiDetailUI({
 	});
 
 	const handleDownload = async () => {
+		if (!startDate || !endDate) {
+			alert("Silakan pilih Tanggal Mulai dan Tanggal Selesai terlebih dahulu.");
+			return;
+		}
 		setIsDownloading(true);
-		const html2pdf = (await import("html2pdf.js")).default;
-		const element = document.getElementById("pdf-numerasi-detail");
+		setTimeout(async () => {
+			try {
+				const html2pdf = (await import("html2pdf.js")).default;
+				const element = document.getElementById("pdf-numerasi-detail");
 
-		const opt = {
-			margin: 0,
-			filename: `Detail_Numerasi_${kelasNama}_${semesterName.replace(/\s/g, "_")}.pdf`,
-			image: { type: "jpeg", quality: 1 },
-			html2canvas: { scale: 2, useCORS: true },
-			jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
-			pagebreak: { mode: ["css", "legacy"] },
-		};
+				const opt = {
+					margin: 0, // KUNCI: Margin 0 agar mengikuti PageContainer
+					filename: `Detail_Numerasi_${kelasNama}_${semesterName.replace(/\s/g, "_")}.pdf`,
+					image: { type: "jpeg", quality: 1 },
+					html2canvas: { scale: 2, useCORS: true },
+					jsPDF: { unit: "mm", format: "a4", orientation: "landscape" }, // Landscape
+					pagebreak: { mode: ["css"] },
+				};
 
-		html2pdf()
-			.set(opt)
-			.from(element)
-			.save()
-			.then(() => {
+				await html2pdf().set(opt).from(element).save();
+			} catch (error) {
+				console.error("PDF Export error:", error);
+				alert("Terjadi kesalahan saat memproses PDF.");
+			} finally {
 				setIsDownloading(false);
 				setIsExportModalOpen(false);
-			});
+			}
+		}, 500);
 	};
 
-	const teksPeriode =
-		jangkaWaktu === "SEMESTER"
-			? `Semester ${semesterName}`
-			: jangkaWaktu === "1 BULAN"
-				? "1 Bulan Terakhir"
-				: "2 Bulan Terakhir";
+	const formatD = (dStr: string) => new Date(dStr).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+	const teksPeriode = (!startDate || !endDate) ? `Semester ${semesterName}` : `Periode: ${formatD(startDate)} s.d. ${formatD(endDate)}`;
+
+	// ============================================================================
+	// PAGINATION PDF: MAKSIMAL 10 BARIS DATA AGAR TIDAK MENGGANGGU HEADER TABEL
+	// ============================================================================
+	const PDF_MAX_ROWS = 10;
+	const tasksChunks = chunkArray(tasks, PDF_MAX_ROWS);
+	if (tasksChunks.length === 0) tasksChunks.push([]);
+
+	const studentsChunks = chunkArray(sortedStudents, PDF_MAX_ROWS);
+	if (studentsChunks.length === 0) studentsChunks.push([]);
+
+	const pdfTotalPages = 1 + tasksChunks.length + studentsChunks.length;
+	let pageCounter = 1;
 
 	return (
 		<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6 relative">
@@ -196,16 +294,29 @@ export default function NumerasiDetailUI({
 				</div>
 			</div>
 
-			{/* TABLE DIBAWAH */}
-			<div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-				<div className="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-					<h3 className="font-bold text-slate-900 text-lg">Data Nilai Siswa</h3>
+			{/* TABLE SISWA WEB UI */}
+			<div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col mt-8">
+				<div className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 bg-slate-50">
+					<h3 className="font-bold text-slate-900 text-lg">Data Detail Siswa</h3>
+					<div className="relative">
+						<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+						<input
+							type="text"
+							placeholder="Cari siswa..."
+							value={search}
+							onChange={(e) => setSearch(e.target.value)}
+							// PERBAIKAN: Text color dipertegas
+							className="pl-9 pr-4 py-2 border border-slate-300 rounded-lg text-sm w-full sm:w-64 outline-none focus:border-slate-500 text-slate-900 placeholder:text-slate-400"
+						/>
+					</div>
 				</div>
-				<div className="overflow-x-auto">
+
+				{/* PERBAIKAN: Pembatasan tinggi tabel agar muat ~10 baris visual + fitur Scroll Vertikal */}
+				<div className="overflow-x-auto overflow-y-auto max-h-[500px] custom-scrollbar">
 					<table className="w-full text-sm text-left border-collapse">
-						<thead className="bg-white text-slate-500 font-bold border-b border-slate-200 text-xs tracking-wider uppercase">
+						<thead className="bg-white text-slate-500 font-bold border-b border-slate-200 text-xs tracking-wider uppercase sticky top-0 z-10 shadow-sm">
 							<tr>
-								<th className="py-4 px-5">No</th>
+								<th className="py-4 px-5 text-center">No</th>
 								<th className="py-4 px-5">Nama Siswa</th>
 								<th className="py-4 px-5">NIS</th>
 								{tasks.map((t: any) => (
@@ -217,53 +328,79 @@ export default function NumerasiDetailUI({
 							</tr>
 						</thead>
 						<tbody className="divide-y divide-slate-100">
-							{students.map((s: any, idx: number) => (
-								<tr key={s.siswaId} className="hover:bg-slate-50">
-									<td className="py-4 px-5 text-slate-500">{idx + 1}</td>
-									<td className="py-4 px-5 font-bold text-slate-800">{s.nama}</td>
-									<td className="py-4 px-5 text-slate-500">{s.nis}</td>
-									{tasks.map((t: any) => {
-										const val = s.scores[t.id];
-										return (
-											<td key={t.id} className="py-4 px-5 text-center font-semibold text-slate-700">
-												{val !== null ? val : "-"}
-											</td>
-										);
-									})}
-									<td
-										className={`py-4 px-5 text-center font-black ${s.average !== "-" && Number(s.average) >= 70 ? "text-teal-600" : s.average !== "-" ? "text-red-500" : "text-slate-900"}`}
-									>
-										{s.average}
-									</td>
+							{filteredStudents.length === 0 ? (
+								<tr>
+									<td colSpan={10} className="p-6 text-center text-slate-500">Tidak ada data siswa ditemukan.</td>
 								</tr>
-							))}
+							) : (
+								filteredStudents.map((s: any, idx: number) => (
+									<tr key={s.siswaId} className="hover:bg-slate-50">
+										<td className="py-4 px-5 text-center text-slate-500 font-medium">{idx + 1}</td>
+										<td className="py-4 px-5 font-bold text-slate-800">{s.nama}</td>
+										<td className="py-4 px-5 text-slate-500">{s.nis}</td>
+										{tasks.map((t: any) => {
+											const val = s.scores[t.id];
+											return (
+												<td key={t.id} className="py-4 px-5 text-center font-semibold text-slate-700">
+													<span className={val !== null && val < 50 ? "text-red-500" : ""}>
+														{val !== null ? val : "-"}
+													</span>
+												</td>
+											);
+										})}
+										<td
+											className={`py-4 px-5 text-center font-black ${s.average !== "-" && Number(s.average) >= 70 ? "text-teal-600" : s.average !== "-" ? "text-red-500" : "text-slate-900"}`}
+										>
+											{s.average}
+										</td>
+									</tr>
+								))
+							)}
 						</tbody>
 					</table>
 				</div>
 			</div>
 
-			{/* MODAL EXPORT PDF */}
+			{/* MODAL EXPORT PDF DENGAN DATE PICKER */}
 			{isExportModalOpen && (
 				<div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
 					<div className="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200">
 						<div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
-							<h2 className="text-lg font-bold text-slate-800 border-l-4 border-teal-600 pl-2">Export Data Kelas</h2>
+							<h2 className="text-lg font-bold text-slate-800 border-l-4 border-teal-600 pl-2">
+								Export Detail Numerasi
+							</h2>
 							<button onClick={() => setIsExportModalOpen(false)} className="text-slate-400 hover:text-slate-600">
 								<X className="h-5 w-5" />
 							</button>
 						</div>
 						<div className="p-6 space-y-4">
 							<div>
-								<label className="block text-xs font-bold text-slate-700 mb-1">Jangka Waktu</label>
-								<select
-									value={jangkaWaktu}
-									onChange={(e) => setJangkaWaktu(e.target.value)}
+								<label className="block text-xs font-bold text-slate-700 mb-1">Target Export</label>
+								<input
+									type="text"
+									disabled
+									value={`Detail Kelas ${kelasNama}`}
+									className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-slate-50 text-slate-500 font-medium"
+								/>
+							</div>
+							{/* DATE PICKER */}
+							<div>
+								<label className="block text-xs font-bold text-slate-700 mb-1">Tanggal Mulai</label>
+								<input
+									type="date"
+									value={startDate}
+									onChange={(e) => setStartDate(e.target.value)}
 									className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none text-slate-900 bg-white"
-								>
-									<option value="1 BULAN">1 Bulan Terakhir</option>
-									<option value="2 BULAN">2 Bulan Terakhir</option>
-									<option value="SEMESTER">Satu Semester (Penuh)</option>
-								</select>
+								/>
+							</div>
+							<div>
+								<label className="block text-xs font-bold text-slate-700 mb-1">Tanggal Selesai</label>
+								<input
+									type="date"
+									value={endDate}
+									onChange={(e) => setEndDate(e.target.value)}
+									className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none text-slate-900 bg-white"
+								/>
 							</div>
 							<button
 								onClick={handleDownload}
@@ -277,158 +414,178 @@ export default function NumerasiDetailUI({
 				</div>
 			)}
 
-			{/* HIDDEN PDF TEMPLATE (LANDSCAPE) */}
-			<div style={{ position: "fixed", top: 0, left: 0, zIndex: -9999, opacity: 0, pointerEvents: "none" }}>
-				<div
-					id="pdf-numerasi-detail"
-					style={{ width: "297mm", backgroundColor: "white", color: "black", boxSizing: "border-box" }}
-				>
-					{/* Cover */}
-					<div
-						style={{
-							height: "170mm",
-							display: "flex",
-							flexDirection: "column",
-							alignItems: "center",
-							justifyContent: "center",
-							textAlign: "center",
-							padding: "40px",
-						}}
-					>
-						<img
-							src="/logo_sekolah.jpg"
-							onError={(e) => (e.currentTarget.src = "/logo.jpeg")}
-							style={{ width: "120px", height: "120px", marginBottom: "24px", objectFit: "contain" }}
-						/>
-						<h1 style={{ fontSize: "32px", fontWeight: "bold", textTransform: "uppercase", marginBottom: "8px" }}>
-							LAPORAN NUMERASI KELAS
-						</h1>
-						<h2 style={{ fontSize: "24px", fontWeight: "bold", color: "#0f172a" }}>Kelas {kelasNama}</h2>
-						<div style={{ width: "50px", height: "4px", backgroundColor: "#0f172a", margin: "24px auto" }}></div>
-						<p style={{ fontSize: "18px", fontWeight: "600" }}>{teksPeriode}</p>
-						<p style={{ fontSize: "16px", marginTop: "8px" }}>Wali Kelas: {waliKelas}</p>
-						<p style={{ fontSize: "14px", marginTop: "auto", fontWeight: "bold" }}>SMA NEGERI 2 BREBES</p>
-					</div>
+			{/* HIDDEN PDF TEMPLATE (LANDSCAPE MAX 10 BARIS/HALAMAN) */}
+			<div style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }}>
+				<div id="pdf-numerasi-detail" style={{ backgroundColor: "white", width: "297mm" }}>
 
-					{/* Halaman 2: Grafik & Ringkasan */}
+					{/* Halaman 1: Cover */}
+					<PageContainer orientation="landscape" isLast={false}>
+						<div
+							style={{
+								flex: 1,
+								display: "flex",
+								flexDirection: "column",
+								alignItems: "center",
+								justifyContent: "center",
+								textAlign: "center",
+							}}
+						>
+							<img
+								src="/logo_sekolah.jpg"
+								onError={(e) => (e.currentTarget.src = "/logo.jpeg")}
+								style={{ width: "120px", height: "120px", marginBottom: "24px", objectFit: "contain" }}
+							/>
+							<h1 style={{ fontSize: "32px", fontWeight: "bold", textTransform: "uppercase", marginBottom: "8px" }}>
+								LAPORAN DETAIL NUMERASI
+							</h1>
+							<h2 style={{ fontSize: "24px", fontWeight: "bold", color: "#0f172a" }}>Kelas {kelasNama}</h2>
+							<div style={{ width: "50px", height: "4px", backgroundColor: "#0f172a", margin: "24px auto" }}></div>
+							<p style={{ fontSize: "18px", fontWeight: "600" }}>{teksPeriode}</p>
+							<p style={{ fontSize: "16px", marginTop: "8px" }}>Wali Kelas: {waliKelas}</p>
+							<p style={{ fontSize: "14px", marginTop: "60px", fontWeight: "bold" }}>SMA NEGERI 2 BREBES</p>
+						</div>
+						<PageFooter current={pageCounter++} total={pdfTotalPages} />
+					</PageContainer>
 					<div className="html2pdf__page-break"></div>
-					<div style={{ padding: "0 20mm 15mm 20mm" }}>
-						<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px" }}>
-							<thead style={{ display: "table-header-group" }}>
-								<tr>
-									<td style={{ paddingTop: "20px" }}>
-										<KopSurat />
-									</td>
-								</tr>
-								<tr>
-									<td style={{ textAlign: "center", padding: "10px 0" }}>
-										<h3 style={{ fontSize: "20px", fontWeight: "bold", margin: 0 }}>
-											Grafik Tren Numerasi ({teksPeriode})
-										</h3>
-									</td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>
-										<div style={{ width: "100%", display: "flex", justifyContent: "center", marginTop: "20px" }}>
-											<BarChart width={800} height={350} data={chartData}>
-												<CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-												<XAxis
-													dataKey="name"
-													axisLine={false}
-													tickLine={false}
-													tick={{ fill: "#475569", fontSize: 12 }}
-													dy={10}
-												/>
-												<YAxis
-													domain={[0, 100]}
-													axisLine={false}
-													tickLine={false}
-													tick={{ fill: "#475569", fontSize: 12 }}
-													dx={-10}
-												/>
-												{/* IsAnimationActive false sangat penting untuk PDF */}
-												<Bar dataKey="score" fill="#7dd3fc" radius={[4, 4, 0, 0]} isAnimationActive={false} />
-											</BarChart>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
 
-					{/* Halaman 3+: Tabel Detail */}
-					<div className="html2pdf__page-break"></div>
-					<div style={{ padding: "0 20mm 15mm 20mm" }}>
-						<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "11px" }}>
-							<thead style={{ display: "table-header-group" }}>
-								<tr>
-									<td colSpan={tasks.length + 3} style={{ paddingTop: "20px" }}>
-										<KopSurat />
-									</td>
-								</tr>
-								<tr>
-									<td colSpan={tasks.length + 3} style={{ textAlign: "center", padding: "10px 0 20px 0" }}>
-										<h3 style={{ fontSize: "18px", fontWeight: "bold", margin: 0 }}>Data Detail Nilai Siswa</h3>
-									</td>
-								</tr>
-								<tr style={{ backgroundColor: "#f1f5f9" }}>
-									<th style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "left" }}>Nama Siswa</th>
-									<th style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "left" }}>NIS</th>
-									{tasks.map((h: any) => (
-										<th key={h.id} style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "center" }}>
-											{h.judul}
-										</th>
-									))}
-									<th
-										style={{
-											border: "1px solid #cbd5e1",
-											padding: "8px",
-											textAlign: "center",
-											backgroundColor: "#e2e8f0",
-										}}
-									>
-										Rata-Rata
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{students.map((s: any) => (
-									<tr key={s.siswaId}>
-										<td style={{ border: "1px solid #cbd5e1", padding: "8px", fontWeight: "bold" }}>{s.nama}</td>
-										<td style={{ border: "1px solid #cbd5e1", padding: "8px" }}>{s.nis}</td>
-										{tasks.map((h: any) => (
-											<td
-												key={h.id}
-												style={{
-													border: "1px solid #cbd5e1",
-													padding: "8px",
-													textAlign: "center",
-													color: s.scores[h.id] !== null && s.scores[h.id] < 50 ? "red" : "black",
-												}}
-											>
-												{s.scores[h.id] !== null ? s.scores[h.id] : "-"}
-											</td>
-										))}
-										<td
-											style={{
-												border: "1px solid #cbd5e1",
-												padding: "8px",
-												textAlign: "center",
-												fontWeight: "bold",
-												backgroundColor: "#f8fafc",
-											}}
-										>
-											{s.average}
-										</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
+					{/* Halaman 2+: Daftar Tugas */}
+					{tasksChunks.map((chunk, chunkIdx) => (
+						<div key={`tasks-page-${chunkIdx}`}>
+							<PageContainer orientation="landscape" isLast={false}>
+								<KopSurat />
+								<h3 style={{ fontSize: "16pt", fontWeight: "bold", textTransform: "uppercase", textAlign: "center", marginBottom: "20px" }}>
+									Daftar Tugas Numerasi {tasksChunks.length > 1 ? `(Bag. ${chunkIdx + 1})` : ""}
+								</h3>
+								<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "11pt" }}>
+									<thead>
+										<tr style={{ backgroundColor: "#f1f5f9" }}>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", width: "10%" }}>No</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "60%" }}>Judul Tugas</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", width: "30%" }}>Diberikan Pada</th>
+										</tr>
+									</thead>
+									<tbody>
+										{chunk.length === 0 ? (
+											<tr>
+												<td colSpan={3} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", fontStyle: "italic" }}>
+													Belum ada tugas.
+												</td>
+											</tr>
+										) : (
+											chunk.map((t: any, idx: number) => (
+												<tr key={t.id} style={{ pageBreakInside: "avoid" }}>
+													<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+														{chunkIdx * PDF_MAX_ROWS + idx + 1}
+													</td>
+													<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{t.judul}</td>
+													<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+														{new Date(t.createdAt).toLocaleDateString("id-ID", {
+															day: "numeric", month: "short", year: "numeric",
+														})}
+													</td>
+												</tr>
+											))
+										)}
+									</tbody>
+								</table>
+								<PageFooter current={pageCounter++} total={pdfTotalPages} />
+							</PageContainer>
+							<div className="html2pdf__page-break"></div>
+						</div>
+					))}
+
+					{/* Halaman 3+: Daftar Nilai Siswa */}
+					{studentsChunks.map((chunk, chunkIdx) => {
+						const isVeryLastPage = chunkIdx === studentsChunks.length - 1;
+						return (
+							<div key={`students-page-${chunkIdx}`}>
+								<PageContainer orientation="landscape" isLast={isVeryLastPage}>
+									<KopSurat />
+									<h3 style={{ fontSize: "16pt", fontWeight: "bold", textTransform: "uppercase", textAlign: "center", marginBottom: "20px" }}>
+										Rincian Nilai Siswa {studentsChunks.length > 1 ? `(Bag. ${chunkIdx + 1})` : ""}
+									</h3>
+									<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "11pt" }}>
+										<thead>
+											<tr style={{ backgroundColor: "#f1f5f9" }}>
+												<th style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "center", width: "5%" }}>No</th>
+												<th style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "left", width: "35%" }}>Nama Siswa</th>
+												<th style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "left", width: "15%" }}>NIS</th>
+												{tasks.map((t: any) => (
+													<th key={t.id} style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "center" }}>
+														{t.judul}
+													</th>
+												))}
+												<th style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "center", backgroundColor: "#e2e8f0" }}>
+													Rata-rata
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											{chunk.map((s: any, idx: number) => (
+												<tr key={s.siswaId} style={{ pageBreakInside: "avoid" }}>
+													<td style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "center" }}>
+														{chunkIdx * PDF_MAX_ROWS + idx + 1}
+													</td>
+													<td style={{ border: "1px solid #cbd5e1", padding: "8px", fontWeight: "bold" }}>{s.nama}</td>
+													<td style={{ border: "1px solid #cbd5e1", padding: "8px" }}>{s.nis}</td>
+													{tasks.map((t: any) => {
+														const val = s.scores[t.id];
+														return (
+															<td
+																key={t.id}
+																style={{
+																	border: "1px solid #cbd5e1",
+																	padding: "8px",
+																	textAlign: "center",
+																	color: val !== null && val < 50 ? "red" : "black",
+																	fontWeight: val !== null && val < 50 ? "bold" : "normal"
+																}}
+															>
+																{val !== null ? val : "-"}
+															</td>
+														);
+													})}
+													<td
+														style={{
+															border: "1px solid #cbd5e1",
+															padding: "8px",
+															textAlign: "center",
+															fontWeight: "bold",
+															color: s.average !== "-" && Number(s.average) < 50 ? "red" : "black"
+														}}
+													>
+														{s.average}
+													</td>
+												</tr>
+											))}
+										</tbody>
+									</table>
+									<PageFooter current={pageCounter++} total={pdfTotalPages} />
+								</PageContainer>
+								{!isVeryLastPage && <div className="html2pdf__page-break"></div>}
+							</div>
+						);
+					})}
 				</div>
 			</div>
+
+			{/* Custom CSS untuk styling custom scrollbar pada Web UI */}
+			<style jsx global>{`
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 6px;
+                    height: 6px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: transparent; 
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: #cbd5e1; 
+                    border-radius: 10px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: #94a3b8; 
+                }
+            `}</style>
 		</div>
 	);
 }

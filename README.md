@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LiNO App SMAN 2 Brebes (Literasi dan Numerasi)
 
-## Getting Started
+Aplikasi manajemen Literasi dan Numerasi terpadu untuk SMAN 2 Brebes. Aplikasi ini berbagi database (skema User) yang sama dengan E-Journal.
 
-First, run the development server:
+## 📝 Changelog (Pembaruan Terkini)
+
+### v1.1.0 - Fitur Akun Koordinator
+- **Penambahan Role & Manajemen Koordinator:**
+  - Menambahkan dukungan untuk role `KOORDINATOR` pada sistem.
+  - Admin/Waka kini dapat menambah, melihat, dan menghapus akun Koordinator dari menu "Akun Koordinator" di sidebar Admin.
+  - Role Koordinator diarahkan ke panel admin tetapi tidak dapat melihat menu manajemen Akun Koordinator.
+- **Perbaikan UI:**
+  - Penyesuaian warna teks dan placeholder pada modal form tambah akun agar lebih jelas dibaca.
+
+---
+
+## 🚀 Panduan Instalasi & Update (Server)
+
+Aplikasi ini berjalan secara penuh menggunakan lingkungan **Docker** (Next.js dan MySQL dari jaringan E-Journal).
+
+### 1. Instalasi di Server Baru
+
+Jika Anda memindahkan atau menginstal program ini ke server/VPS/Komputer baru, ikuti langkah berikut:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# 1. Kloning (Clone) atau salin folder project ke server
+git clone https://github.com/arivanhi/lino-app.git lino-app
+cd lino-app
+
+# 2. Salin file environment (pastikan konfigurasi .env sesuai dengan server baru)
+cp .env.example .env
+
+# 3. Jalankan Docker Compose (build & jalankan di background)
+docker compose up -d --build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Update Program (Server Lama)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Jika server sudah menyala dan Anda baru saja menerima *update* kodingan (seperti *Changelog* di atas), lakukan perintah berikut untuk menerapkan pembaruan:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# 1. Masuk ke folder project
+cd lino-app
 
-## Learn More
+# 2. Tarik update terbaru dari repositori Git
+git pull origin main
 
-To learn more about Next.js, take a look at the following resources:
+# 3. Bangun ulang (Rebuild) container aplikasi Next.js dan jalankan
+docker compose up -d --build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+*Catatan: Perintah `docker compose up -d --build` akan membangun ulang aplikasi secara otomatis dan mengeksekusi Prisma client generation di tahap build.*
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🛠 Konfigurasi Tambahan
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Port Aplikasi LiNO:** `http://localhost:3005` (Atau sesuai definisi di docker-compose.yml)
+- **Timezone Server:** `Asia/Jakarta` (WIB)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Dikelola & Dikembangkan untuk SMAN 2 Brebes.

@@ -47,6 +47,64 @@ const KopSurat = () => (
 	</div>
 );
 
+const chunkArray = <T,>(arr: T[], size: number): T[][] => {
+	const chunked = [];
+	for (let i = 0; i < arr.length; i += size) {
+		chunked.push(arr.slice(i, i + size));
+	}
+	return chunked;
+};
+
+const PageContainer = ({
+	children,
+	orientation = "portrait",
+}: {
+	children: React.ReactNode;
+	orientation?: "portrait" | "landscape";
+}) => {
+	const isPortrait = orientation === "portrait";
+	const width = isPortrait ? "210mm" : "297mm";
+	const minHeight = isPortrait ? "296mm" : "209mm";
+
+	return (
+		<div
+			style={{
+				width,
+				minHeight,
+				backgroundColor: "white",
+				color: "black",
+				boxSizing: "border-box",
+				padding: "10mm 15mm",
+				position: "relative",
+				display: "flex",
+				flexDirection: "column",
+			}}
+		>
+			{children}
+		</div>
+	);
+};
+
+const PageFooter = ({ current, total }: { current: number; total: number }) => (
+	<div
+		style={{
+			marginTop: "auto",
+			paddingTop: "10px",
+			borderTop: "1px solid #e2e8f0",
+			display: "flex",
+			justifyContent: "space-between",
+			alignItems: "center",
+			fontSize: "9pt",
+			color: "#64748b",
+		}}
+	>
+		<span>Dicetak dari Sistem Lino - SMA Negeri 2 Brebes</span>
+		<span>
+			Halaman {current} dari {total}
+		</span>
+	</div>
+);
+
 export default function DashboardClientUI({
 	role,
 	totalSiswa,
@@ -166,6 +224,11 @@ export default function DashboardClientUI({
 			.save()
 			.then(() => setIsDownloading(false));
 	};
+
+	// Chunk data siswa untuk tabel (maksimal 25 baris per halaman)
+	const studentChunks = chunkArray(activeClassData?.students || [], 25);
+	const totalPages = 1 + studentChunks.length;
+	let pageCounter = 1;
 
 	return (
 		<>
@@ -452,11 +515,9 @@ export default function DashboardClientUI({
 
 			{/* === HIDDEN PDF TEMPLATE (EKSPOR LAPORAN HARI INI) === */}
 			<div style={{ position: "fixed", top: 0, left: 0, zIndex: -9999, opacity: 0, pointerEvents: "none" }}>
-				<div
-					id="pdf-harian-report"
-					style={{ width: "210mm", backgroundColor: "white", color: "black", boxSizing: "border-box" }}
-				>
-					<div style={{ padding: "20mm" }}>
+				<div id="pdf-harian-report" style={{ backgroundColor: "white" }}>
+					{/* HALAMAN 1: COVER & OVERVIEW */}
+					<PageContainer orientation="portrait">
 						<KopSurat />
 
 						<h3
@@ -523,7 +584,7 @@ export default function DashboardClientUI({
 						</div>
 
 						{/* List Peringatan Berjejer Kiri-Kanan */}
-						<div style={{ display: "flex", gap: "20px", marginBottom: "30px" }}>
+						<div style={{ display: "flex", gap: "20px", marginBottom: "auto" }}>
 							<div style={{ flex: 1 }}>
 								<h4
 									style={{
@@ -575,55 +636,66 @@ export default function DashboardClientUI({
 								</ul>
 							</div>
 						</div>
+						
+						<PageFooter current={pageCounter++} total={totalPages} />
+					</PageContainer>
 
-						{/* Tabel Detail Data Kelas Aktif yang sedang terbuka */}
-						<h4 style={{ fontSize: "14pt", fontWeight: "bold", marginBottom: "15px", marginTop: "40px" }}>
-							Detail Numerasi: Kelas {activeClassData?.kelasNama}
-						</h4>
-						<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
-							<thead style={{ display: "table-header-group" }}>
-								<tr style={{ backgroundColor: "#f1f5f9" }}>
-									<th style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "left" }}>Nama Siswa</th>
-									<th style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "left" }}>NIS</th>
-									{activeClassData?.numHeaders.map((h: any) => (
-										<th key={h.id} style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "center" }}>
-											{h.judul}
-										</th>
-									))}
-									<th style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "center" }}>Rata-rata</th>
-								</tr>
-							</thead>
-							<tbody>
-								{activeClassData?.students.map((s: any) => (
-									<tr key={s.siswaId}>
-										<td style={{ border: "1px solid #cbd5e1", padding: "8px", fontWeight: "bold" }}>{s.nama}</td>
-										<td style={{ border: "1px solid #cbd5e1", padding: "8px" }}>{s.nis}</td>
-										{activeClassData?.numHeaders.map((h: any) => {
-											const val = s.scores[h.id];
-											return (
+					{/* HALAMAN 2+: TABEL DETAIL SISWA */}
+					{studentChunks.map((chunk, chunkIdx) => (
+						<div key={`students-page-${chunkIdx}`}>
+							<div className="html2pdf__page-break"></div>
+							<PageContainer orientation="portrait">
+								<KopSurat />
+								<h4 style={{ fontSize: "14pt", fontWeight: "bold", marginBottom: "15px", marginTop: "10px", textAlign: "center" }}>
+									Detail Numerasi: Kelas {activeClassData?.kelasNama} {studentChunks.length > 1 ? `(Bag. ${chunkIdx + 1})` : ""}
+								</h4>
+								<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
+									<thead>
+										<tr style={{ backgroundColor: "#f1f5f9" }}>
+											<th style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "left" }}>Nama Siswa</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "left" }}>NIS</th>
+											{activeClassData?.numHeaders.map((h: any) => (
+												<th key={h.id} style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "center" }}>
+													{h.judul}
+												</th>
+											))}
+											<th style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "center" }}>Rata-rata</th>
+										</tr>
+									</thead>
+									<tbody>
+										{chunk.map((s: any) => (
+											<tr key={s.siswaId} style={{ pageBreakInside: "avoid" }}>
+												<td style={{ border: "1px solid #cbd5e1", padding: "8px", fontWeight: "bold" }}>{s.nama}</td>
+												<td style={{ border: "1px solid #cbd5e1", padding: "8px" }}>{s.nis}</td>
+												{activeClassData?.numHeaders.map((h: any) => {
+													const val = s.scores[h.id];
+													return (
+														<td
+															key={h.id}
+															style={{
+																border: "1px solid #cbd5e1",
+																padding: "8px",
+																textAlign: "center",
+																color: val !== null && val < 50 ? "#b91c1c" : "inherit",
+															}}
+														>
+															{val !== null ? val : "-"}
+														</td>
+													);
+												})}
 												<td
-													key={h.id}
-													style={{
-														border: "1px solid #cbd5e1",
-														padding: "8px",
-														textAlign: "center",
-														color: val !== null && val < 50 ? "#b91c1c" : "inherit",
-													}}
+													style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "center", fontWeight: "bold" }}
 												>
-													{val !== null ? val : "-"}
+													{s.average}
 												</td>
-											);
-										})}
-										<td
-											style={{ border: "1px solid #cbd5e1", padding: "8px", textAlign: "center", fontWeight: "bold" }}
-										>
-											{s.average}
-										</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
+											</tr>
+										))}
+									</tbody>
+								</table>
+								<PageFooter current={pageCounter++} total={totalPages} />
+							</PageContainer>
+						</div>
+					))}
 				</div>
 			</div>
 		</>

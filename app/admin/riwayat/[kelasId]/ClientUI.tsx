@@ -1,7 +1,7 @@
 // app/admin/riwayat/[kelasId]/ClientUI.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Download, Eye, X, FileText, Calendar, User, BookOpen, Calculator, BarChart2 } from "lucide-react";
 import {
@@ -22,12 +22,14 @@ type NumStudent = {
 	taken: number;
 	totalNum: number;
 	scores: Record<string, number | null>;
-	average: number;
+	average: number | string;
 };
 
-// Komponen Kop Surat Independen
+// ============================================================================
+// KOMPONEN KOP SURAT
+// ============================================================================
 const KopSurat = () => (
-	<div style={{ marginBottom: "20px", backgroundColor: "white" }}>
+	<div style={{ marginBottom: "20px", backgroundColor: "white", pageBreakInside: "avoid" }}>
 		<div
 			style={{
 				display: "flex",
@@ -59,7 +61,7 @@ const KopSurat = () => (
 					Jl. Jend. A. Yani 77 Brebes 52212 Telp. (0283) 671060
 				</p>
 				<p style={{ fontFamily: "Arial, sans-serif", fontSize: "11pt", margin: 0, color: "#000" }}>
-					Website: www.sman2-brebes.sch.id - Email: smadabes@ymail.com
+					Website: sman2brebes.sch.id - Email: smandabes@gmail.com
 				</p>
 			</div>
 			<div style={{ width: "100px" }}></div>
@@ -68,6 +70,69 @@ const KopSurat = () => (
 	</div>
 );
 
+// ============================================================================
+// KOMPONEN PEMBANTU PAGINATION MANUAL (PDF)
+// ============================================================================
+const chunkArray = <T,>(arr: T[], size: number): T[][] => {
+	const chunked = [];
+	for (let i = 0; i < arr.length; i += size) {
+		chunked.push(arr.slice(i, i + size));
+	}
+	return chunked;
+};
+
+// Menggunakan fixed landscape orientation dengan akurasi 209.8mm
+const PageContainer = ({
+	children,
+	isLast
+}: {
+	children: React.ReactNode;
+	isLast?: boolean;
+}) => {
+	return (
+		<div
+			style={{
+				width: "297mm",
+				height: "209.8mm", // Sangat pas dengan A4 Landscape tanpa overflow
+				backgroundColor: "white",
+				color: "black",
+				boxSizing: "border-box",
+				padding: "10mm 15mm",
+				position: "relative",
+				display: "flex",
+				flexDirection: "column",
+				pageBreakAfter: isLast ? "auto" : "always",
+				overflow: "hidden"
+			}}
+		>
+			{children}
+		</div>
+	);
+};
+
+const PageFooter = ({ current, total }: { current: number; total: number }) => (
+	<div
+		style={{
+			marginTop: "auto",
+			paddingTop: "10px",
+			borderTop: "1px solid #e2e8f0",
+			display: "flex",
+			justifyContent: "space-between",
+			alignItems: "center",
+			fontSize: "9pt",
+			color: "#64748b",
+		}}
+	>
+		<span>Dicetak dari Sistem Lino - SMA Negeri 2 Brebes</span>
+		<span>
+			Halaman {current} dari {total}
+		</span>
+	</div>
+);
+
+// ============================================================================
+// KOMPONEN UTAMA
+// ============================================================================
 export default function RiwayatDetailClientUI({
 	kelasNama,
 	waliKelas,
@@ -75,6 +140,7 @@ export default function RiwayatDetailClientUI({
 	literasiSiswa,
 	numerasiSiswa,
 	numHeaders,
+	backUrl,
 }: {
 	kelasNama: string;
 	waliKelas: string;
@@ -82,17 +148,41 @@ export default function RiwayatDetailClientUI({
 	literasiSiswa: LitStudent[];
 	numerasiSiswa: NumStudent[];
 	numHeaders: { id: string; judul: string }[];
+	backUrl?: string;
 }) {
 	const router = useRouter();
 	const [selectedLitHistory, setSelectedLitHistory] = useState<any[] | null>(null);
 	const [studentNameModal, setStudentNameModal] = useState("");
 
+	// STATE EXPORT DENGAN DATE PICKER
 	const [isExportModalOpen, setIsExportModalOpen] = useState(false);
-	const [jangkaWaktu, setJangkaWaktu] = useState("SEMESTER");
+	const [startDate, setStartDate] = useState("");
+	const [endDate, setEndDate] = useState("");
 	const [isDownloading, setIsDownloading] = useState(false);
 
-	const totalRataNum = numerasiSiswa.reduce((sum, s) => sum + s.average, 0) / (numerasiSiswa.length || 1);
+	// SORTING SISWA ABJAD (A-Z)
+	const sortedLitSiswa = useMemo(() => {
+		return [...literasiSiswa].sort((a, b) => a.nama.localeCompare(b.nama));
+	}, [literasiSiswa]);
 
+	const sortedNumSiswa = useMemo(() => {
+		return [...numerasiSiswa].sort((a, b) => a.nama.localeCompare(b.nama));
+	}, [numerasiSiswa]);
+
+	// Kalkulasi Rata-rata Total Kelas
+	const totalRataNum = useMemo(() => {
+		let sum = 0;
+		let validSiswaCount = 0;
+		numerasiSiswa.forEach(s => {
+			if (s.average !== "-" && !isNaN(Number(s.average))) {
+				sum += Number(s.average);
+				validSiswaCount++;
+			}
+		});
+		return validSiswaCount > 0 ? sum / validSiswaCount : 0;
+	}, [numerasiSiswa]);
+
+	// Data Grafik Numerasi
 	const chartData = numHeaders.map((h, idx) => {
 		const validScores = numerasiSiswa.map((s) => s.scores[h.id]).filter((score) => score !== null) as number[];
 		const avg = validScores.length > 0 ? validScores.reduce((a, b) => a + b, 0) / validScores.length : 0;
@@ -103,27 +193,36 @@ export default function RiwayatDetailClientUI({
 	});
 
 	const handleDownloadDetail = async () => {
+		if (!startDate || !endDate) {
+			alert("Silakan pilih Tanggal Mulai dan Tanggal Selesai terlebih dahulu.");
+			return;
+		}
+
 		setIsDownloading(true);
-		const html2pdf = (await import("html2pdf.js")).default;
-		const element = document.getElementById("pdf-detail-report");
-		if (!element) return;
+		setTimeout(async () => {
+			try {
+				const html2pdf = (await import("html2pdf.js")).default;
+				const element = document.getElementById("pdf-detail-report");
+				if (!element) return;
 
-		const opt = {
-			margin: 0,
-			filename: `Detail_Lino_${kelasNama}_${semesterName.replace(/\s/g, "_")}.pdf`,
-			image: { type: "jpeg", quality: 1 },
-			html2canvas: { scale: 2, useCORS: true },
-			jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
-		};
+				const opt = {
+					margin: 0,
+					filename: `Detail_Lino_${kelasNama}_${semesterName.replace(/\s/g, "_")}.pdf`,
+					image: { type: "jpeg", quality: 1 },
+					html2canvas: { scale: 2, useCORS: true },
+					jsPDF: { unit: "mm", format: "a4", orientation: "landscape" }, // Landscape Wajib
+					pagebreak: { mode: ["css"] }, // Murni CSS
+				};
 
-		html2pdf()
-			.set(opt)
-			.from(element)
-			.save()
-			.then(() => {
+				await html2pdf().set(opt).from(element).save();
+			} catch (error) {
+				console.error("PDF Export error:", error);
+				alert("Terjadi kesalahan saat mengekspor laporan.");
+			} finally {
 				setIsDownloading(false);
 				setIsExportModalOpen(false);
-			});
+			}
+		}, 500);
 	};
 
 	const openPdf = (base64: string) => {
@@ -131,24 +230,36 @@ export default function RiwayatDetailClientUI({
 		if (pdfWindow) pdfWindow.document.write(`<iframe width='100%' height='100%' src='${base64}'></iframe>`);
 	};
 
-	const teksPeriode =
-		jangkaWaktu === "SEMESTER"
-			? `Semester ${semesterName}`
-			: jangkaWaktu === "1 BULAN"
-				? "1 Bulan Terakhir"
-				: "2 Bulan Terakhir";
+	const formatD = (dStr: string) => new Date(dStr).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+	const teksPeriode = (!startDate || !endDate) ? `Semester ${semesterName}` : `Periode: ${formatD(startDate)} s.d. ${formatD(endDate)}`;
+
+	// ============================================================================
+	// PAGINATION PDF: MAX 10 BARIS DATA AGAR RAPI DI LANDSCAPE
+	// ============================================================================
+	const PDF_MAX_ROWS = 10;
+
+	const literasiChunks = chunkArray(sortedLitSiswa, PDF_MAX_ROWS);
+	if (literasiChunks.length === 0) literasiChunks.push([]);
+
+	const numerasiChunks = chunkArray(sortedNumSiswa, PDF_MAX_ROWS);
+	if (numerasiChunks.length === 0) numerasiChunks.push([]);
+
+	const pdfTotalPages = 1 + 1 + literasiChunks.length + numerasiChunks.length; // Cover + Chart + Lit + Num
+	let pageCounter = 1;
 
 	return (
-		<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
+		<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6 relative">
 			{/* Header */}
 			<div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
 				<div className="flex items-start gap-4">
-					<button
-						onClick={() => router.push("/admin/riwayat")}
-						className="mt-1 p-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 shadow-sm"
-					>
-						<ArrowLeft className="h-5 w-5" />
-					</button>
+					{backUrl && (
+						<button
+							onClick={() => router.push(backUrl)}
+							className="mt-1 p-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 shadow-sm"
+						>
+							<ArrowLeft className="h-5 w-5" />
+						</button>
+					)}
 					<div>
 						<h1 className="text-3xl font-bold text-slate-900">Kelas {kelasNama} - Riwayat Detail</h1>
 						<p className="text-sm font-semibold text-slate-500 mt-1 flex items-center gap-3">
@@ -165,55 +276,65 @@ export default function RiwayatDetailClientUI({
 					onClick={() => setIsExportModalOpen(true)}
 					className="px-4 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-lg shadow-sm hover:bg-slate-800 flex items-center gap-2 h-fit"
 				>
-					<Download className="h-4 w-4" /> Export to PDF
+					<Download className="h-4 w-4" /> Export Data PDF
 				</button>
 			</div>
 
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-				<div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+				{/* LITERACY ENGAGEMENT */}
+				<div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col max-h-[500px]">
 					<h3 className="font-bold text-slate-800 text-lg mb-4 flex items-center gap-2">
 						<BookOpen className="h-5 w-5 text-teal-600" /> Literacy Engagement
 					</h3>
-					<div className="max-h-[300px] overflow-y-auto pr-2">
-						<table className="w-full text-sm text-left">
-							<thead className="bg-slate-50 text-slate-500 font-semibold sticky top-0">
+					<div className="overflow-y-auto pr-2 custom-scrollbar flex-1">
+						<table className="w-full text-sm text-left border-collapse">
+							<thead className="bg-slate-50 text-slate-500 font-semibold sticky top-0 z-10 shadow-sm">
 								<tr>
-									<th className="py-2 px-2">Nama Siswa</th>
-									<th className="py-2 px-2 text-center">Terkumpul</th>
-									<th className="py-2 px-2 text-right">Aksi</th>
+									<th className="py-3 px-3">No</th>
+									<th className="py-3 px-3">Nama Siswa</th>
+									<th className="py-3 px-3 text-center">Terkumpul</th>
+									<th className="py-3 px-3 text-right">Aksi</th>
 								</tr>
 							</thead>
 							<tbody className="divide-y divide-slate-100">
-								{literasiSiswa.map((s) => (
-									<tr key={s.siswaId}>
-										<td className="py-3 px-2 font-semibold text-slate-800">{s.nama}</td>
-										<td className="py-3 px-2 text-center font-bold text-slate-600">
-											<span
-												className={
-													s.completed === s.total ? "text-teal-600" : s.completed < s.total / 2 ? "text-red-600" : ""
-												}
-											>
-												{s.completed}/{s.total}
-											</span>
-										</td>
-										<td className="py-3 px-2 text-right">
-											<button
-												onClick={() => {
-													setStudentNameModal(s.nama);
-													setSelectedLitHistory(s.history);
-												}}
-												className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1.5 rounded-lg"
-											>
-												Lihat Tugas
-											</button>
-										</td>
+								{sortedLitSiswa.length === 0 ? (
+									<tr>
+										<td colSpan={4} className="py-6 text-center text-slate-500">Tidak ada data.</td>
 									</tr>
-								))}
+								) : (
+									sortedLitSiswa.map((s, idx) => (
+										<tr key={s.siswaId} className="hover:bg-slate-50">
+											<td className="py-3 px-3 text-slate-500 font-medium">{idx + 1}</td>
+											<td className="py-3 px-3 font-semibold text-slate-800">{s.nama}</td>
+											<td className="py-3 px-3 text-center font-bold text-slate-600">
+												<span
+													className={
+														s.completed === s.total ? "text-teal-600" : s.completed < s.total / 2 ? "text-red-600" : ""
+													}
+												>
+													{s.completed}/{s.total}
+												</span>
+											</td>
+											<td className="py-3 px-3 text-right">
+												<button
+													onClick={() => {
+														setStudentNameModal(s.nama);
+														setSelectedLitHistory(s.history);
+													}}
+													className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1.5 rounded-lg"
+												>
+													Lihat Tugas
+												</button>
+											</td>
+										</tr>
+									))
+								)}
 							</tbody>
 						</table>
 					</div>
 				</div>
 
+				{/* NUMERACY TREND */}
 				<div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
 					<h3 className="font-bold text-slate-800 text-lg mb-4 flex items-center gap-2">
 						<Calculator className="h-5 w-5 text-amber-500" /> Numeracy Performance
@@ -224,15 +345,13 @@ export default function RiwayatDetailClientUI({
 							<p className="text-[10px] font-bold text-slate-500 mt-1 uppercase tracking-wide text-center">Rata-Rata</p>
 						</div>
 						<p className="text-sm font-medium text-slate-600">
-							Siswa rata-rata telah menyelesaikan <strong className="text-slate-900">{numHeaders.length}</strong> sesi
-							tes numerasi.
+							Siswa rata-rata telah menyelesaikan <strong className="text-slate-900">{numHeaders.length}</strong> sesi tes numerasi.
 						</p>
 					</div>
 					<div className="flex-1 min-h-[150px] w-full">
 						<h4 className="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider flex items-center gap-1">
 							<BarChart2 className="h-3.5 w-3.5" /> Tren Nilai Kelas
 						</h4>
-						{/* Pada Web UI, kita tetap menggunakan ResponsiveContainer agar menyesuaikan layar browser */}
 						<ResponsiveContainer width="100%" height="100%">
 							<LineChart data={chartData}>
 								<CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
@@ -257,6 +376,7 @@ export default function RiwayatDetailClientUI({
 									stroke="#f59e0b"
 									strokeWidth={3}
 									dot={{ r: 3, fill: "#f59e0b" }}
+									isAnimationActive={false}
 								/>
 							</LineChart>
 						</ResponsiveContainer>
@@ -264,41 +384,59 @@ export default function RiwayatDetailClientUI({
 				</div>
 			</div>
 
-			<div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
+			{/* TABEL NUMERASI (Web UI: Dibatasi max tinggi menampung +- 5 baris data dgn scroll) */}
+			<div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
 				<h3 className="font-bold text-slate-800 text-lg mb-4 flex items-center gap-2">
 					<BarChart2 className="h-5 w-5 text-blue-500" /> Detailed Numeracy Scores
 				</h3>
-				<table className="w-full text-sm text-left border-collapse">
-					<thead className="bg-slate-50 text-slate-700 font-bold border-b-2 border-slate-200 uppercase text-xs tracking-wide">
-						<tr>
-							<th className="py-3 px-4">Nama Siswa</th>
-							<th className="py-3 px-4">NIS</th>
-							{numHeaders.map((h) => (
-								<th key={h.id} className="py-3 px-4 text-center">
-									{h.judul}
-								</th>
-							))}
-							<th className="py-3 px-4 text-center bg-slate-100">Average</th>
-						</tr>
-					</thead>
-					<tbody className="divide-y divide-slate-100">
-						{numerasiSiswa.map((s) => (
-							<tr key={s.siswaId} className="hover:bg-slate-50">
-								<td className="py-3 px-4 font-bold text-slate-800">{s.nama}</td>
-								<td className="py-3 px-4 text-slate-600 font-medium">{s.nis}</td>
+				<div className="overflow-x-auto overflow-y-auto max-h-[280px] custom-scrollbar">
+					<table className="w-full text-sm text-left border-collapse">
+						<thead className="bg-slate-50 text-slate-700 font-bold border-b-2 border-slate-200 uppercase text-xs tracking-wide sticky top-0 z-10 shadow-sm">
+							<tr>
+								<th className="py-3 px-4 text-center w-[5%]">No</th>
+								<th className="py-3 px-4 w-[25%]">Nama Siswa</th>
+								<th className="py-3 px-4 w-[15%]">NIS</th>
 								{numHeaders.map((h) => (
-									<td key={h.id} className="py-3 px-4 text-center font-semibold text-slate-700">
-										{s.scores[h.id] !== null ? s.scores[h.id] : "-"}
-									</td>
+									<th key={h.id} className="py-3 px-4 text-center">
+										{h.judul}
+									</th>
 								))}
-								<td className="py-3 px-4 text-center font-black bg-slate-50 text-slate-900">{s.average}</td>
+								<th className="py-3 px-4 text-center bg-slate-100">Average</th>
 							</tr>
-						))}
-					</tbody>
-				</table>
+						</thead>
+						<tbody className="divide-y divide-slate-100">
+							{sortedNumSiswa.length === 0 ? (
+								<tr>
+									<td colSpan={10} className="py-6 text-center text-slate-500">Tidak ada data.</td>
+								</tr>
+							) : (
+								sortedNumSiswa.map((s, idx) => (
+									<tr key={s.siswaId} className="hover:bg-slate-50">
+										<td className="py-3 px-4 text-center text-slate-500 font-medium">{idx + 1}</td>
+										<td className="py-3 px-4 font-bold text-slate-800">{s.nama}</td>
+										<td className="py-3 px-4 text-slate-600 font-medium">{s.nis}</td>
+										{numHeaders.map((h) => {
+											const val = s.scores[h.id];
+											return (
+												<td key={h.id} className="py-3 px-4 text-center font-semibold text-slate-700">
+													<span className={val !== null && val < 50 ? "text-red-500" : ""}>
+														{val !== null ? val : "-"}
+													</span>
+												</td>
+											);
+										})}
+										<td className={`py-3 px-4 text-center font-black bg-slate-50 ${s.average !== "-" && Number(s.average) < 50 ? "text-red-600" : "text-slate-900"}`}>
+											{s.average}
+										</td>
+									</tr>
+								))
+							)}
+						</tbody>
+					</table>
+				</div>
 			</div>
 
-			{/* --- MODAL PILIH BULAN EXPORT PDF --- */}
+			{/* --- MODAL PILIH WAKTU EXPORT PDF --- */}
 			{isExportModalOpen && (
 				<div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
 					<div className="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200">
@@ -321,16 +459,22 @@ export default function RiwayatDetailClientUI({
 								/>
 							</div>
 							<div>
-								<label className="block text-xs font-bold text-slate-700 mb-1">Jangka Waktu</label>
-								<select
-									value={jangkaWaktu}
-									onChange={(e) => setJangkaWaktu(e.target.value)}
+								<label className="block text-xs font-bold text-slate-700 mb-1">Tanggal Mulai</label>
+								<input
+									type="date"
+									value={startDate}
+									onChange={(e) => setStartDate(e.target.value)}
 									className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none text-slate-900 bg-white focus:border-slate-500"
-								>
-									<option value="1 BULAN">1 Bulan Terakhir</option>
-									<option value="2 BULAN">2 Bulan Terakhir</option>
-									<option value="SEMESTER">Satu Semester (Penuh)</option>
-								</select>
+								/>
+							</div>
+							<div>
+								<label className="block text-xs font-bold text-slate-700 mb-1">Tanggal Selesai</label>
+								<input
+									type="date"
+									value={endDate}
+									onChange={(e) => setEndDate(e.target.value)}
+									className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none text-slate-900 bg-white focus:border-slate-500"
+								/>
 							</div>
 							<button
 								onClick={handleDownloadDetail}
@@ -348,13 +492,16 @@ export default function RiwayatDetailClientUI({
 			{selectedLitHistory && (
 				<div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
 					<div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
-						<div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
-							<h2 className="text-lg font-bold text-slate-900">Riwayat Tugas: {studentNameModal}</h2>
-							<button onClick={() => setSelectedLitHistory(null)} className="text-slate-400">
+						<div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+							<div>
+								<h2 className="text-lg font-bold text-slate-900">Riwayat Tugas</h2>
+								<p className="text-xs font-semibold text-slate-500">{studentNameModal}</p>
+							</div>
+							<button onClick={() => setSelectedLitHistory(null)} className="text-slate-400 hover:text-slate-600">
 								<X className="h-5 w-5" />
 							</button>
 						</div>
-						<div className="p-6 max-h-[60vh] overflow-y-auto space-y-3">
+						<div className="p-6 max-h-[60vh] overflow-y-auto space-y-3 custom-scrollbar">
 							{selectedLitHistory.length === 0 ? (
 								<p className="text-sm text-slate-500 italic text-center">Belum ada tugas yang dikerjakan.</p>
 							) : (
@@ -391,41 +538,43 @@ export default function RiwayatDetailClientUI({
 				</div>
 			)}
 
-			{/* --- HIDDEN PDF TEMPLATE (LANDSCAPE) --- */}
-			<div style={{ display: "none" }}>
-				<div id="pdf-detail-report" style={{ width: "297mm", backgroundColor: "white", color: "black" }}>
+			{/* --- HIDDEN PDF TEMPLATE (LANDSCAPE 10 DATA/HALAMAN) --- */}
+			<div style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }}>
+				<div id="pdf-detail-report" style={{ backgroundColor: "white", width: "297mm" }}>
+
 					{/* Cover Page */}
-					<div
-						style={{
-							height: "170mm",
-							display: "flex",
-							flexDirection: "column",
-							alignItems: "center",
-							justifyContent: "center",
-							textAlign: "center",
-							boxSizing: "border-box",
-						}}
-					>
-						<img
-							src="/logo_sekolah.jpg"
-							onError={(e) => (e.currentTarget.src = "/logo.jpeg")}
-							style={{ width: "120px", height: "120px", marginBottom: "24px", objectFit: "contain" }}
-						/>
-						<h1 style={{ fontSize: "28pt", fontWeight: "bold", textTransform: "uppercase", marginBottom: "8px" }}>
-							LAPORAN DETAIL KELAS
-						</h1>
-						<h2 style={{ fontSize: "22pt", fontWeight: "bold", color: "#0f172a" }}>Kelas {kelasNama}</h2>
-						<div style={{ width: "50px", height: "4px", backgroundColor: "#0f172a", margin: "24px auto" }}></div>
+					<PageContainer isLast={false}>
+						<div
+							style={{
+								flex: 1,
+								display: "flex",
+								flexDirection: "column",
+								alignItems: "center",
+								justifyContent: "center",
+								textAlign: "center",
+							}}
+						>
+							<img
+								src="/logo_sekolah.jpg"
+								onError={(e) => (e.currentTarget.src = "/logo.jpeg")}
+								style={{ width: "120px", height: "120px", marginBottom: "24px", objectFit: "contain" }}
+							/>
+							<h1 style={{ fontSize: "28pt", fontWeight: "bold", textTransform: "uppercase", marginBottom: "8px" }}>
+								LAPORAN DETAIL KELAS
+							</h1>
+							<h2 style={{ fontSize: "22pt", fontWeight: "bold", color: "#0f172a" }}>Kelas {kelasNama}</h2>
+							<div style={{ width: "50px", height: "4px", backgroundColor: "#0f172a", margin: "24px auto" }}></div>
 
-						<p style={{ fontSize: "14pt", fontWeight: "bold" }}>{teksPeriode}</p>
-						<p style={{ fontSize: "12pt", marginTop: "8px" }}>Wali Kelas: {waliKelas}</p>
+							<p style={{ fontSize: "14pt", fontWeight: "bold" }}>{teksPeriode}</p>
+							<p style={{ fontSize: "12pt", marginTop: "8px" }}>Wali Kelas: {waliKelas}</p>
 
-						<p style={{ fontSize: "14pt", marginTop: "60px", fontWeight: "bold" }}>SMA NEGERI 2 BREBES</p>
-					</div>
+							<p style={{ fontSize: "14pt", marginTop: "60px", fontWeight: "bold" }}>SMA NEGERI 2 BREBES</p>
+						</div>
+						<PageFooter current={pageCounter++} total={pdfTotalPages} />
+					</PageContainer>
 
 					{/* Content Page 1: Grafik Numerasi */}
-					<div className="html2pdf__page-break"></div>
-					<div style={{ padding: "15mm 20mm" }}>
+					<PageContainer isLast={false}>
 						<KopSurat />
 						<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 20px 0", textAlign: "center" }}>
 							Tren Numerasi - Kelas {kelasNama} ({teksPeriode})
@@ -439,7 +588,6 @@ export default function RiwayatDetailClientUI({
 								paddingTop: "10px",
 							}}
 						>
-							{/* SOLUSI JITU PDF: Mengganti ResponsiveContainer menjadi explicit Width & Height */}
 							<LineChart width={800} height={320} data={chartData}>
 								<CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
 								<XAxis
@@ -462,98 +610,161 @@ export default function RiwayatDetailClientUI({
 									stroke="#f59e0b"
 									strokeWidth={4}
 									dot={{ r: 5, fill: "#f59e0b" }}
-									isAnimationActive={false}
+									isAnimationActive={false} // Disable animasi agar render PDF sempurna
 								/>
 							</LineChart>
 						</div>
-					</div>
+						<PageFooter current={pageCounter++} total={pdfTotalPages} />
+					</PageContainer>
 
-					{/* Content Page 2: Tabel Literasi */}
-					<div className="html2pdf__page-break"></div>
-					<div style={{ padding: "15mm 20mm" }}>
-						<KopSurat />
-						<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 15px 0", textAlign: "center" }}>
-							Rekap Literasi Siswa
-						</h3>
-						<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
-							<thead>
-								<tr style={{ backgroundColor: "#f1f5f9" }}>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>Nama Siswa</th>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>NIS</th>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>Tugas Terkumpul</th>
-								</tr>
-							</thead>
-							<tbody>
-								{literasiSiswa.map((s) => (
-									<tr key={s.siswaId}>
-										<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{s.nama}</td>
-										<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>{s.nis}</td>
-										<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
-											{s.completed} / {s.total}
-										</td>
+					{/* Content Page 2+: Tabel Literasi (10 Baris per Halaman) */}
+					{literasiChunks.map((chunk, chunkIdx) => (
+						<PageContainer key={`lit-page-${chunkIdx}`} isLast={false}>
+							<KopSurat />
+							<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 15px 0", textAlign: "center" }}>
+								Rekap Literasi Siswa {literasiChunks.length > 1 ? `(Bag. ${chunkIdx + 1})` : ""}
+							</h3>
+							<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
+								<thead>
+									<tr style={{ backgroundColor: "#f1f5f9" }}>
+										<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", width: "10%" }}>No</th>
+										<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "40%" }}>Nama Siswa</th>
+										<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "20%" }}>NIS</th>
+										<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", width: "30%" }}>Tugas Terkumpul</th>
 									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
-
-					{/* Content Page 3: Tabel Numerasi */}
-					<div className="html2pdf__page-break"></div>
-					<div style={{ padding: "15mm 20mm" }}>
-						<KopSurat />
-						<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 15px 0", textAlign: "center" }}>
-							Rekap Nilai Numerasi
-						</h3>
-						<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
-							<thead>
-								<tr style={{ backgroundColor: "#f1f5f9" }}>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>Nama Siswa</th>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>NIS</th>
-									{numHeaders.map((h) => (
-										<th key={h.id} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
-											{h.judul}
-										</th>
-									))}
-									<th
-										style={{
-											border: "1px solid #cbd5e1",
-											padding: "10px",
-											textAlign: "center",
-											backgroundColor: "#e2e8f0",
-										}}
-									>
-										Rata-Rata
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{numerasiSiswa.map((s) => (
-									<tr key={s.siswaId}>
-										<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{s.nama}</td>
-										<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>{s.nis}</td>
-										{numHeaders.map((h) => (
-											<td key={h.id} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
-												{s.scores[h.id] !== null ? s.scores[h.id] : "-"}
+								</thead>
+								<tbody>
+									{chunk.length === 0 ? (
+										<tr>
+											<td colSpan={4} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", fontStyle: "italic" }}>
+												Tidak ada data.
 											</td>
-										))}
-										<td
-											style={{
-												border: "1px solid #cbd5e1",
-												padding: "10px",
-												textAlign: "center",
-												fontWeight: "bold",
-												backgroundColor: "#f8fafc",
-											}}
-										>
-											{s.average}
-										</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
+										</tr>
+									) : (
+										chunk.map((s: any, idx: number) => (
+											<tr key={s.siswaId} style={{ pageBreakInside: "avoid" }}>
+												<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+													{chunkIdx * PDF_MAX_ROWS + idx + 1}
+												</td>
+												<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{s.nama}</td>
+												<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>{s.nis}</td>
+												<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+													{s.completed} / {s.total}
+												</td>
+											</tr>
+										))
+									)}
+								</tbody>
+							</table>
+							<PageFooter current={pageCounter++} total={pdfTotalPages} />
+						</PageContainer>
+					))}
+
+					{/* Content Page 3+: Tabel Numerasi (10 Baris per Halaman) */}
+					{numerasiChunks.map((chunk, chunkIdx) => {
+						const isVeryLastPage = chunkIdx === numerasiChunks.length - 1;
+						return (
+							<PageContainer key={`num-page-${chunkIdx}`} isLast={isVeryLastPage}>
+								<KopSurat />
+								<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 15px 0", textAlign: "center" }}>
+									Rekap Nilai Numerasi {numerasiChunks.length > 1 ? `(Bag. ${chunkIdx + 1})` : ""}
+								</h3>
+								<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
+									<thead>
+										<tr style={{ backgroundColor: "#f1f5f9" }}>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", width: "5%" }}>No</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "30%" }}>Nama Siswa</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "15%" }}>NIS</th>
+											{numHeaders.map((h: any) => (
+												<th key={h.id} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+													{h.judul}
+												</th>
+											))}
+											<th
+												style={{
+													border: "1px solid #cbd5e1",
+													padding: "10px",
+													textAlign: "center",
+													backgroundColor: "#e2e8f0",
+												}}
+											>
+												Rata-Rata
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										{chunk.length === 0 ? (
+											<tr>
+												<td colSpan={numHeaders.length + 4} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", fontStyle: "italic" }}>
+													Tidak ada data.
+												</td>
+											</tr>
+										) : (
+											chunk.map((s: any, idx: number) => (
+												<tr key={s.siswaId} style={{ pageBreakInside: "avoid" }}>
+													<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+														{chunkIdx * PDF_MAX_ROWS + idx + 1}
+													</td>
+													<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{s.nama}</td>
+													<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>{s.nis}</td>
+													{numHeaders.map((h: any) => {
+														const val = s.scores[h.id];
+														return (
+															<td
+																key={h.id}
+																style={{
+																	border: "1px solid #cbd5e1",
+																	padding: "10px",
+																	textAlign: "center",
+																	color: val !== null && val < 50 ? "red" : "black",
+																	fontWeight: val !== null && val < 50 ? "bold" : "normal"
+																}}
+															>
+																{val !== null ? val : "-"}
+															</td>
+														);
+													})}
+													<td
+														style={{
+															border: "1px solid #cbd5e1",
+															padding: "10px",
+															textAlign: "center",
+															fontWeight: "bold",
+															color: s.average !== "-" && Number(s.average) < 50 ? "red" : "black",
+															backgroundColor: "#f8fafc",
+														}}
+													>
+														{s.average}
+													</td>
+												</tr>
+											))
+										)}
+									</tbody>
+								</table>
+								<PageFooter current={pageCounter++} total={pdfTotalPages} />
+							</PageContainer>
+						);
+					})}
 				</div>
 			</div>
+
+			{/* Custom CSS untuk styling custom scrollbar pada Web UI */}
+			<style jsx global>{`
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 6px;
+                    height: 6px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: transparent; 
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: #cbd5e1; 
+                    border-radius: 10px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: #94a3b8; 
+                }
+            `}</style>
 		</div>
 	);
 }

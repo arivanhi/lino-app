@@ -55,6 +55,64 @@ const KopSurat = () => (
 	</div>
 );
 
+const chunkArray = <T,>(arr: T[], size: number): T[][] => {
+	const chunked = [];
+	for (let i = 0; i < arr.length; i += size) {
+		chunked.push(arr.slice(i, i + size));
+	}
+	return chunked;
+};
+
+const PageContainer = ({
+	children,
+	orientation = "portrait",
+}: {
+	children: React.ReactNode;
+	orientation?: "portrait" | "landscape";
+}) => {
+	const isPortrait = orientation === "portrait";
+	const width = isPortrait ? "210mm" : "297mm";
+	const minHeight = isPortrait ? "296mm" : "209mm";
+
+	return (
+		<div
+			style={{
+				width,
+				minHeight,
+				backgroundColor: "white",
+				color: "black",
+				boxSizing: "border-box",
+				padding: "10mm 15mm",
+				position: "relative",
+				display: "flex",
+				flexDirection: "column",
+			}}
+		>
+			{children}
+		</div>
+	);
+};
+
+const PageFooter = ({ current, total }: { current: number; total: number }) => (
+	<div
+		style={{
+			marginTop: "auto",
+			paddingTop: "10px",
+			borderTop: "1px solid #e2e8f0",
+			display: "flex",
+			justifyContent: "space-between",
+			alignItems: "center",
+			fontSize: "9pt",
+			color: "#64748b",
+		}}
+	>
+		<span>Dicetak dari Sistem Lino - SMA Negeri 2 Brebes</span>
+		<span>
+			Halaman {current} dari {total}
+		</span>
+	</div>
+);
+
 // Tambahkan prop kelasNama di sini
 export default function NumerasiSiswaUI({ studentName, kelasNama, semesterName, stats, chartData, historyData }: any) {
 	const [searchTerm, setSearchTerm] = useState("");
@@ -84,6 +142,11 @@ export default function NumerasiSiswaUI({ studentName, kelasNama, semesterName, 
 			.save()
 			.then(() => setIsDownloading(false));
 	};
+
+	// Pagination
+	const historyChunks = chunkArray(historyData, 25);
+	const totalPages = 1 + historyChunks.length; // Cover + History Tables
+	let pageCounter = 1;
 
 	return (
 		<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6 relative">
@@ -289,12 +352,10 @@ export default function NumerasiSiswaUI({ studentName, kelasNama, semesterName, 
 
 			{/* === HIDDEN PDF TEMPLATE === */}
 			<div style={{ position: "fixed", top: 0, left: 0, zIndex: -9999, opacity: 0, pointerEvents: "none" }}>
-				<div
-					id="pdf-numerasi-siswa"
-					style={{ width: "210mm", backgroundColor: "white", color: "black", boxSizing: "border-box" }}
-				>
+				<div id="pdf-numerasi-siswa" style={{ backgroundColor: "white" }}>
+					
 					{/* HALAMAN 1: KOP SURAT, RINGKASAN, GRAFIK */}
-					<div style={{ padding: "20mm 20mm 15mm 20mm" }}>
+					<PageContainer orientation="portrait">
 						<KopSurat />
 
 						<h3
@@ -309,7 +370,6 @@ export default function NumerasiSiswaUI({ studentName, kelasNama, semesterName, 
 							Laporan Hasil Numerasi Siswa
 						</h3>
 
-						{/* Tambahan keterangan KELAS */}
 						<p style={{ textAlign: "center", fontSize: "11pt", marginBottom: "30px" }}>
 							Nama: <strong>{studentName}</strong> &nbsp;|&nbsp; Kelas: <strong>{kelasNama}</strong> &nbsp;|&nbsp;
 							Semester: <strong>{semesterName}</strong>
@@ -440,51 +500,60 @@ export default function NumerasiSiswaUI({ studentName, kelasNama, semesterName, 
 								</div>
 							</div>
 						)}
-					</div>
+						<PageFooter current={pageCounter++} total={totalPages} />
+					</PageContainer>
 
 					{/* HALAMAN 2: TABEL RINCIAN NILAI (DIPISAH DENGAN PAGE-BREAK) */}
-					<div className="html2pdf__page-break"></div>
-
-					<div style={{ padding: "15mm 20mm 20mm 20mm" }}>
-						<h4 style={{ fontSize: "12pt", fontWeight: "bold", marginBottom: "15px" }}>Rincian Riwayat Nilai</h4>
-						<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
-							<thead style={{ display: "table-header-group" }}>
-								<tr style={{ backgroundColor: "#f1f5f9" }}>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", width: "40px" }}>
-										No
-									</th>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>Nama Asesmen</th>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>Tanggal</th>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>Nilai</th>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>Status</th>
-								</tr>
-							</thead>
-							<tbody>
-								{historyData.map((h: any, idx: number) => (
-									<tr key={h.id}>
-										<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>{idx + 1}</td>
-										<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>
-											<strong>{h.judul}</strong>
-											{/* Deskripsi (nama semester) sudah dihilangkan dari tabel PDF */}
-										</td>
-										<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>{h.tanggal}</td>
-										<td
-											style={{
-												border: "1px solid #cbd5e1",
-												padding: "10px",
-												textAlign: "center",
-												fontWeight: "bold",
-												color: h.nilai !== null && h.nilai < 70 ? "#b91c1c" : "#0d9488",
-											}}
-										>
-											{h.nilai !== null ? h.nilai : "-"}
-										</td>
-										<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>{h.status}</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
+					{historyChunks.map((chunk, chunkIdx) => (
+						<div key={`history-page-${chunkIdx}`}>
+							<div className="html2pdf__page-break"></div>
+							<PageContainer orientation="portrait">
+								<KopSurat />
+								<h4 style={{ fontSize: "12pt", fontWeight: "bold", marginBottom: "15px", textAlign: "center" }}>
+									Rincian Riwayat Nilai {historyChunks.length > 1 ? `(Bag. ${chunkIdx + 1})` : ""}
+								</h4>
+								<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
+									<thead style={{ display: "table-header-group" }}>
+										<tr style={{ backgroundColor: "#f1f5f9" }}>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", width: "40px" }}>
+												No
+											</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>Nama Asesmen</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>Tanggal</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>Nilai</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>Status</th>
+										</tr>
+									</thead>
+									<tbody>
+										{chunk.map((h: any, idx: number) => (
+											<tr key={h.id} style={{ pageBreakInside: "avoid" }}>
+												<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+													{chunkIdx * 25 + idx + 1}
+												</td>
+												<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>
+													<strong>{h.judul}</strong>
+												</td>
+												<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>{h.tanggal}</td>
+												<td
+													style={{
+														border: "1px solid #cbd5e1",
+														padding: "10px",
+														textAlign: "center",
+														fontWeight: "bold",
+														color: h.nilai !== null && h.nilai < 70 ? "#b91c1c" : "#0d9488",
+													}}
+												>
+													{h.nilai !== null ? h.nilai : "-"}
+												</td>
+												<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>{h.status}</td>
+											</tr>
+										))}
+									</tbody>
+								</table>
+								<PageFooter current={pageCounter++} total={totalPages} />
+							</PageContainer>
+						</div>
+					))}
 				</div>
 			</div>
 		</div>

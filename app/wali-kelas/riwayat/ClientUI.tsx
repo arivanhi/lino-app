@@ -56,6 +56,64 @@ const KopSurat = () => (
 	</div>
 );
 
+const chunkArray = <T,>(arr: T[], size: number): T[][] => {
+	const chunked = [];
+	for (let i = 0; i < arr.length; i += size) {
+		chunked.push(arr.slice(i, i + size));
+	}
+	return chunked;
+};
+
+const PageContainer = ({
+	children,
+	orientation = "portrait",
+}: {
+	children: React.ReactNode;
+	orientation?: "portrait" | "landscape";
+}) => {
+	const isPortrait = orientation === "portrait";
+	const width = isPortrait ? "210mm" : "297mm";
+	const minHeight = isPortrait ? "296mm" : "209mm";
+
+	return (
+		<div
+			style={{
+				width,
+				minHeight,
+				backgroundColor: "white",
+				color: "black",
+				boxSizing: "border-box",
+				padding: "10mm 15mm",
+				position: "relative",
+				display: "flex",
+				flexDirection: "column",
+			}}
+		>
+			{children}
+		</div>
+	);
+};
+
+const PageFooter = ({ current, total }: { current: number; total: number }) => (
+	<div
+		style={{
+			marginTop: "auto",
+			paddingTop: "10px",
+			borderTop: "1px solid #e2e8f0",
+			display: "flex",
+			justifyContent: "space-between",
+			alignItems: "center",
+			fontSize: "9pt",
+			color: "#64748b",
+		}}
+	>
+		<span>Dicetak dari Sistem Lino - SMA Negeri 2 Brebes</span>
+		<span>
+			Halaman {current} dari {total}
+		</span>
+	</div>
+);
+
 export default function WaliKelasRiwayatClient({
 	isEmpty,
 	listTa,
@@ -124,9 +182,9 @@ export default function WaliKelasRiwayatClient({
 		const html2pdf = (await import("html2pdf.js")).default;
 		const element = document.getElementById("pdf-detail-report");
 		const opt = {
-			margin: 10,
+			margin: 0,
 			filename: `Detail_Lino_${kelasNama}_${semesterName.replace(/\s/g, "_")}.pdf`,
-			image: { type: "jpeg", quality: 0.98 },
+			image: { type: "jpeg", quality: 1 },
 			html2canvas: { scale: 2, useCORS: true },
 			jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
 			pagebreak: { mode: ["css", "legacy"] },
@@ -152,6 +210,12 @@ export default function WaliKelasRiwayatClient({
 			: jangkaWaktu === "1 BULAN"
 				? "1 Bulan Terakhir"
 				: "2 Bulan Terakhir";
+
+	// Pagination
+	const literasiChunks = chunkArray(literasiSiswa, 25);
+	const numerasiChunks = chunkArray(numerasiSiswa, 20); // 20 per page for numerasi table
+	const totalPages = 1 + 1 + literasiChunks.length + numerasiChunks.length; // Cover + Chart + Lit + Num
+	let pageCounter = 1;
 
 	return (
 		<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6 relative">
@@ -413,40 +477,44 @@ export default function WaliKelasRiwayatClient({
 			)}
 
 			{/* --- HIDDEN PDF TEMPLATE (LANDSCAPE) --- */}
-			<div style={{ display: "none" }}>
-				<div id="pdf-detail-report" style={{ width: "297mm", backgroundColor: "white", color: "black" }}>
+			<div style={{ position: "fixed", top: 0, left: 0, zIndex: -9999, opacity: 0, pointerEvents: "none" }}>
+				<div id="pdf-detail-report" style={{ backgroundColor: "white" }}>
+					
 					{/* Cover Page */}
-					<div
-						style={{
-							height: "170mm",
-							display: "flex",
-							flexDirection: "column",
-							alignItems: "center",
-							justifyContent: "center",
-							textAlign: "center",
-							boxSizing: "border-box",
-						}}
-					>
-						<img
-							src="/logo_sekolah.jpg"
-							onError={(e) => (e.currentTarget.src = "/logo.jpeg")}
-							style={{ width: "120px", height: "120px", marginBottom: "24px", objectFit: "contain" }}
-						/>
-						<h1 style={{ fontSize: "28pt", fontWeight: "bold", textTransform: "uppercase", marginBottom: "8px" }}>
-							LAPORAN DETAIL KELAS
-						</h1>
-						<h2 style={{ fontSize: "22pt", fontWeight: "bold", color: "#0f172a" }}>Kelas {kelasNama}</h2>
-						<div style={{ width: "50px", height: "4px", backgroundColor: "#0f172a", margin: "24px auto" }}></div>
+					<PageContainer orientation="landscape">
+						<div
+							style={{
+								flex: 1,
+								display: "flex",
+								flexDirection: "column",
+								alignItems: "center",
+								justifyContent: "center",
+								textAlign: "center",
+								boxSizing: "border-box",
+							}}
+						>
+							<img
+								src="/logo_sekolah.jpg"
+								onError={(e) => (e.currentTarget.src = "/logo.jpeg")}
+								style={{ width: "120px", height: "120px", marginBottom: "24px", objectFit: "contain" }}
+							/>
+							<h1 style={{ fontSize: "28pt", fontWeight: "bold", textTransform: "uppercase", marginBottom: "8px" }}>
+								LAPORAN DETAIL KELAS
+							</h1>
+							<h2 style={{ fontSize: "22pt", fontWeight: "bold", color: "#0f172a" }}>Kelas {kelasNama}</h2>
+							<div style={{ width: "50px", height: "4px", backgroundColor: "#0f172a", margin: "24px auto" }}></div>
 
-						<p style={{ fontSize: "14pt", fontWeight: "bold" }}>{teksPeriode}</p>
-						<p style={{ fontSize: "12pt", marginTop: "8px" }}>Wali Kelas: {waliKelas}</p>
+							<p style={{ fontSize: "14pt", fontWeight: "bold" }}>{teksPeriode}</p>
+							<p style={{ fontSize: "12pt", marginTop: "8px" }}>Wali Kelas: {waliKelas}</p>
 
-						<p style={{ fontSize: "14pt", marginTop: "60px", fontWeight: "bold" }}>SMA NEGERI 2 BREBES</p>
-					</div>
+							<p style={{ fontSize: "14pt", marginTop: "60px", fontWeight: "bold" }}>SMA NEGERI 2 BREBES</p>
+						</div>
+						<PageFooter current={pageCounter++} total={totalPages} />
+					</PageContainer>
 
 					{/* Content Page 1: Grafik Numerasi */}
 					<div className="html2pdf__page-break"></div>
-					<div style={{ padding: "15mm 20mm" }}>
+					<PageContainer orientation="landscape">
 						<KopSurat />
 						<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 20px 0", textAlign: "center" }}>
 							Tren Numerasi - Kelas {kelasNama} ({teksPeriode})
@@ -460,7 +528,6 @@ export default function WaliKelasRiwayatClient({
 								paddingTop: "10px",
 							}}
 						>
-							{/* SOLUSI JITU PDF: Mengganti ResponsiveContainer menjadi explicit Width & Height */}
 							<LineChart width={800} height={320} data={chartData}>
 								<CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
 								<XAxis
@@ -487,92 +554,103 @@ export default function WaliKelasRiwayatClient({
 								/>
 							</LineChart>
 						</div>
-					</div>
+						<PageFooter current={pageCounter++} total={totalPages} />
+					</PageContainer>
 
 					{/* Content Page 2: Tabel Literasi */}
-					<div className="html2pdf__page-break"></div>
-					<div style={{ padding: "15mm 20mm" }}>
-						<KopSurat />
-						<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 15px 0", textAlign: "center" }}>
-							Rekap Literasi Siswa
-						</h3>
-						<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
-							<thead>
-								<tr style={{ backgroundColor: "#f1f5f9" }}>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>Nama Siswa</th>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>NIS</th>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>Tugas Terkumpul</th>
-								</tr>
-							</thead>
-							<tbody>
-								{literasiSiswa.map((s: any) => (
-									<tr key={s.siswaId}>
-										<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{s.nama}</td>
-										<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>{s.nis}</td>
-										<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
-											{s.completed} / {s.total}
-										</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
+					{literasiChunks.map((chunk, chunkIdx) => (
+						<div key={`lit-page-${chunkIdx}`}>
+							<div className="html2pdf__page-break"></div>
+							<PageContainer orientation="landscape">
+								<KopSurat />
+								<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 15px 0", textAlign: "center" }}>
+									Rekap Literasi Siswa {literasiChunks.length > 1 ? `(Bag. ${chunkIdx + 1})` : ""}
+								</h3>
+								<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
+									<thead>
+										<tr style={{ backgroundColor: "#f1f5f9" }}>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>Nama Siswa</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>NIS</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>Tugas Terkumpul</th>
+										</tr>
+									</thead>
+									<tbody>
+										{chunk.map((s: any) => (
+											<tr key={s.siswaId} style={{ pageBreakInside: "avoid" }}>
+												<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{s.nama}</td>
+												<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>{s.nis}</td>
+												<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+													{s.completed} / {s.total}
+												</td>
+											</tr>
+										))}
+									</tbody>
+								</table>
+								<PageFooter current={pageCounter++} total={totalPages} />
+							</PageContainer>
+						</div>
+					))}
 
 					{/* Content Page 3: Tabel Numerasi */}
-					<div className="html2pdf__page-break"></div>
-					<div style={{ padding: "15mm 20mm" }}>
-						<KopSurat />
-						<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 15px 0", textAlign: "center" }}>
-							Rekap Nilai Numerasi
-						</h3>
-						<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
-							<thead>
-								<tr style={{ backgroundColor: "#f1f5f9" }}>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>Nama Siswa</th>
-									<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>NIS</th>
-									{numHeaders.map((h: any) => (
-										<th key={h.id} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
-											{h.judul}
-										</th>
-									))}
-									<th
-										style={{
-											border: "1px solid #cbd5e1",
-											padding: "10px",
-											textAlign: "center",
-											backgroundColor: "#e2e8f0",
-										}}
-									>
-										Rata-Rata
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{numerasiSiswa.map((s: any) => (
-									<tr key={s.siswaId}>
-										<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{s.nama}</td>
-										<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>{s.nis}</td>
-										{numHeaders.map((h: any) => (
-											<td key={h.id} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
-												{s.scores[h.id] !== null ? s.scores[h.id] : "-"}
-											</td>
+					{numerasiChunks.map((chunk, chunkIdx) => (
+						<div key={`num-page-${chunkIdx}`}>
+							<div className="html2pdf__page-break"></div>
+							<PageContainer orientation="landscape">
+								<KopSurat />
+								<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 15px 0", textAlign: "center" }}>
+									Rekap Nilai Numerasi {numerasiChunks.length > 1 ? `(Bag. ${chunkIdx + 1})` : ""}
+								</h3>
+								<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
+									<thead>
+										<tr style={{ backgroundColor: "#f1f5f9" }}>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>Nama Siswa</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left" }}>NIS</th>
+											{numHeaders.map((h: any) => (
+												<th key={h.id} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+													{h.judul}
+												</th>
+											))}
+											<th
+												style={{
+													border: "1px solid #cbd5e1",
+													padding: "10px",
+													textAlign: "center",
+													backgroundColor: "#e2e8f0",
+												}}
+											>
+												Rata-Rata
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										{chunk.map((s: any) => (
+											<tr key={s.siswaId} style={{ pageBreakInside: "avoid" }}>
+												<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{s.nama}</td>
+												<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>{s.nis}</td>
+												{numHeaders.map((h: any) => (
+													<td key={h.id} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+														{s.scores[h.id] !== null ? s.scores[h.id] : "-"}
+													</td>
+												))}
+												<td
+													style={{
+														border: "1px solid #cbd5e1",
+														padding: "10px",
+														textAlign: "center",
+														fontWeight: "bold",
+														backgroundColor: "#f8fafc",
+													}}
+												>
+													{s.average}
+												</td>
+											</tr>
 										))}
-										<td
-											style={{
-												border: "1px solid #cbd5e1",
-												padding: "10px",
-												textAlign: "center",
-												fontWeight: "bold",
-												backgroundColor: "#f8fafc",
-											}}
-										>
-											{s.average}
-										</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
+									</tbody>
+								</table>
+								<PageFooter current={pageCounter++} total={totalPages} />
+							</PageContainer>
+						</div>
+					))}
 				</div>
 			</div>
 		</div>
