@@ -55,6 +55,17 @@ export default async function KelasDetailServerPage({
 		const tugasSelesai = progresSiswaIni.filter((p) => p.statusPengerjaan === "SELESAI").length;
 		const fileTerakhir = progresSiswaIni.find((p) => p.fileJawabanPdf !== null)?.fileJawabanPdf;
 
+		// PERBAIKAN: Menyusun array history (Riwayat Tugas) agar bisa ditampilkan di Modal Client UI
+		const historyData = progresSiswaIni.map((hasil) => {
+			// Cari judul tugas yang bersesuaian
+			const tugasTerkait = tugasList.find((t) => t.id === hasil.penugasanId);
+			return {
+				judul: tugasTerkait?.judul || "Tugas Literasi",
+				status: hasil.statusPengerjaan,
+				pdf: hasil.fileJawabanPdf || null,
+			};
+		});
+
 		return {
 			siswaId: riwayat.siswaId,
 			nama: riwayat.siswa.user.nama,
@@ -62,6 +73,7 @@ export default async function KelasDetailServerPage({
 			tugasSelesai,
 			totalTugas,
 			filePdfTerakhir: fileTerakhir || null,
+			history: historyData, // Variabel history dimasukkan ke dalam objek
 		};
 	});
 

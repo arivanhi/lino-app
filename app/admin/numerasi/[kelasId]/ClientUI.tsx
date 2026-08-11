@@ -3,7 +3,6 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-// Tambahkan ArrowLeft di sini
 import { Upload, Plus, X, Search, FileSpreadsheet, Download, Pencil, ArrowLeft, TrendingUp } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 import * as XLSX from "xlsx";
@@ -23,11 +22,13 @@ export default function NumerasiDetailClient({
 	namaKelas,
 	tasks,
 	students,
+	backUrl,
 }: {
 	kelasId: string;
 	namaKelas: string;
 	tasks: TaskProps[];
 	students: StudentProps[];
+	backUrl?: string; // Tipe data tetap dipertahankan untuk kompatibilitas jika dikirim dari server
 }) {
 	const router = useRouter();
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -41,7 +42,9 @@ export default function NumerasiDetailClient({
 	const [inputNilai, setInputNilai] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const filteredStudents = students.filter(
+	// Filter data siswa sesuai pencarian, dan diurutkan abjad
+	const sortedStudents = [...students].sort((a, b) => a.nama.localeCompare(b.nama));
+	const filteredStudents = sortedStudents.filter(
 		(s) => s.nama.toLowerCase().includes(search.toLowerCase()) || s.nis.includes(search),
 	);
 
@@ -58,12 +61,12 @@ export default function NumerasiDetailClient({
 
 	const getStatusBadge = (avg: number) => {
 		if (avg >= 85)
-			return <span className="bg-teal-100 text-teal-700 text-xs font-bold px-3 py-1 rounded-full">Sangat Baik</span>;
+			return <span className="bg-teal-100 text-teal-700 text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">Sangat Baik</span>;
 		if (avg >= 70)
 			return (
-				<span className="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">Sesuai Target</span>
+				<span className="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">Sesuai Target</span>
 			);
-		return <span className="bg-red-100 text-red-700 text-xs font-bold px-3 py-1 rounded-full">Beresiko</span>;
+		return <span className="bg-red-100 text-red-700 text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">Beresiko</span>;
 	};
 
 	const chartData = tasks.map((t, index) => ({
@@ -89,6 +92,7 @@ export default function NumerasiDetailClient({
 			setNamaTugas("");
 			setSelectedStudent("");
 			setInputNilai("");
+			router.refresh();
 		} catch (error) {
 			alert("Terjadi kesalahan saat menyimpan nilai.");
 		} finally {
@@ -109,6 +113,7 @@ export default function NumerasiDetailClient({
 				await uploadExcelNumerasi(kelasId, jsonData);
 
 				setModalType(null);
+				router.refresh();
 			} catch (error) {
 				alert("Format Excel tidak sesuai. Pastikan menggunakan template yang disediakan.");
 			} finally {
@@ -122,7 +127,7 @@ export default function NumerasiDetailClient({
 		const nextTaskNumber = tasks.length + 1;
 		const defaultTaskName = `Numerasi ${nextTaskNumber}`;
 
-		const dataExcel = students.map((siswa) => ({
+		const dataExcel = sortedStudents.map((siswa) => ({
 			NIS: siswa.nis,
 			"Nama Siswa": siswa.nama,
 			[defaultTaskName]: "",
@@ -138,12 +143,12 @@ export default function NumerasiDetailClient({
 
 	return (
 		<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
-			{/* Header View 2 dengan Tombol Back */}
+			{/* Header View dengan Tombol Back */}
 			<div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
 				<div className="flex items-start gap-4">
-					{/* Tombol Back */}
+					{/* Tombol Back dibuat Permanen */}
 					<button
-						onClick={() => router.push("/admin/numerasi")}
+						onClick={() => backUrl ? router.push(backUrl) : router.back()}
 						className="mt-1 p-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-slate-600 shadow-sm"
 						title="Kembali ke Daftar Kelas"
 					>
@@ -237,25 +242,28 @@ export default function NumerasiDetailClient({
 				</div>
 			</div>
 
-			{/* Tabel Detail Siswa */}
-			<div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
-				<div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+			{/* Tabel Detail Siswa (Scrollable UI) */}
+			<div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col mt-8">
+				<div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50">
 					<h3 className="font-bold text-slate-900 text-lg">Detail Performa Siswa</h3>
 					<div className="relative">
-						<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+						<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
 						<input
 							type="text"
 							placeholder="Cari siswa..."
 							value={search}
 							onChange={(e) => setSearch(e.target.value)}
+							// Warna text dipertajam agar jelas terbaca
 							className="pl-9 pr-4 py-2 border border-slate-300 rounded-lg text-sm w-full sm:w-64 outline-none focus:border-teal-500 bg-white text-slate-900 placeholder:text-slate-400"
 						/>
 					</div>
 				</div>
 
-				<div className="overflow-x-auto">
+				{/* Container yang di-scroll, max-height membatasi hingga menampung ~10 baris */}
+				<div className="overflow-x-auto overflow-y-auto max-h-[500px] custom-scrollbar">
 					<table className="w-full text-sm text-left">
-						<thead className="bg-slate-50 text-slate-700 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+						{/* Header table sticky di atas */}
+						<thead className="bg-white text-slate-500 font-bold border-b border-slate-200 text-xs uppercase tracking-wider sticky top-0 z-10 shadow-sm">
 							<tr>
 								<th className="px-6 py-4">Nama Siswa</th>
 								<th className="px-6 py-4">NIS</th>
@@ -269,49 +277,57 @@ export default function NumerasiDetailClient({
 							</tr>
 						</thead>
 						<tbody className="divide-y divide-slate-100">
-							{filteredStudents.map((siswa) => (
-								<tr key={siswa.siswaId} className="hover:bg-slate-50 transition-colors">
-									<td className="px-6 py-4 font-bold text-slate-800 flex items-center gap-3">
-										<div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-bold">
-											{getInitials(siswa.nama)}
-										</div>
-										{siswa.nama}
-									</td>
-									<td className="px-6 py-4 text-slate-600 font-medium">{siswa.nis}</td>
-									{tasks.map((t) => {
-										const skor = siswa.scores[t.id];
-										return (
-											<td key={t.id} className="px-6 py-4 text-center font-bold">
-												{skor !== null ? (
-													<span
-														className={skor >= 80 ? "text-teal-600" : skor < 70 ? "text-red-600" : "text-slate-800"}
-													>
-														{skor}
-													</span>
-												) : (
-													<span className="text-slate-300">-</span>
-												)}
-											</td>
-										);
-									})}
-									<td className="px-6 py-4 text-center">
-										{siswa.average > 0 ? (
-											getStatusBadge(siswa.average)
-										) : (
-											<span className="text-slate-400 text-xs italic">Belum ada data</span>
-										)}
-									</td>
-									<td className="px-6 py-4 flex justify-center">
-										<button
-											onClick={() => handleEdit(siswa.siswaId)}
-											className="p-1.5 text-teal-600 hover:bg-teal-50 rounded-md transition-colors"
-											title="Edit Nilai"
-										>
-											<Pencil className="h-4 w-4" />
-										</button>
+							{filteredStudents.length === 0 ? (
+								<tr>
+									<td colSpan={tasks.length + 4} className="py-8 text-center text-slate-500 italic">
+										Tidak ada siswa yang cocok dengan pencarian.
 									</td>
 								</tr>
-							))}
+							) : (
+								filteredStudents.map((siswa) => (
+									<tr key={siswa.siswaId} className="hover:bg-slate-50 transition-colors">
+										<td className="px-6 py-4 font-bold text-slate-800 flex items-center gap-3">
+											<div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-bold shrink-0">
+												{getInitials(siswa.nama)}
+											</div>
+											{siswa.nama}
+										</td>
+										<td className="px-6 py-4 text-slate-600 font-medium">{siswa.nis}</td>
+										{tasks.map((t) => {
+											const skor = siswa.scores[t.id];
+											return (
+												<td key={t.id} className="px-6 py-4 text-center font-bold">
+													{skor !== null ? (
+														<span
+															className={skor >= 80 ? "text-teal-600" : skor < 70 ? "text-red-600" : "text-slate-800"}
+														>
+															{skor}
+														</span>
+													) : (
+														<span className="text-slate-300">-</span>
+													)}
+												</td>
+											);
+										})}
+										<td className="px-6 py-4 text-center">
+											{siswa.average > 0 ? (
+												getStatusBadge(siswa.average)
+											) : (
+												<span className="text-slate-400 text-xs italic">Belum ada data</span>
+											)}
+										</td>
+										<td className="px-6 py-4 flex justify-center">
+											<button
+												onClick={() => handleEdit(siswa.siswaId)}
+												className="p-1.5 text-teal-600 hover:bg-teal-50 rounded-md transition-colors tooltip"
+												title="Edit Nilai"
+											>
+												<Pencil className="h-4 w-4" />
+											</button>
+										</td>
+									</tr>
+								))
+							)}
 						</tbody>
 					</table>
 				</div>
@@ -351,9 +367,8 @@ export default function NumerasiDetailClient({
 									if (e.dataTransfer.files && e.dataTransfer.files[0]) processExcelFile(e.dataTransfer.files[0]);
 								}}
 								onClick={() => fileInputRef.current?.click()}
-								className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center transition-colors cursor-pointer group mb-4 ${
-									isDragging ? "border-teal-500 bg-teal-50" : "border-slate-300 bg-slate-50 hover:bg-slate-100"
-								}`}
+								className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center transition-colors cursor-pointer group mb-4 ${isDragging ? "border-teal-500 bg-teal-50" : "border-slate-300 bg-slate-50 hover:bg-slate-100"
+									}`}
 							>
 								{isSubmitting ? (
 									<div className="w-8 h-8 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin mb-3"></div>
@@ -416,7 +431,7 @@ export default function NumerasiDetailClient({
 									<option value="" disabled>
 										-- Pilih Siswa --
 									</option>
-									{students.map((s) => (
+									{sortedStudents.map((s) => (
 										<option key={s.siswaId} value={s.siswaId}>
 											{s.nis} - {s.nama}
 										</option>
@@ -438,18 +453,18 @@ export default function NumerasiDetailClient({
 								/>
 							</div>
 
-							<div className="pt-4 flex justify-end gap-3">
+							<div className="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-6">
 								<button
 									type="button"
 									onClick={() => setModalType(null)}
-									className="px-4 py-2 border border-slate-300 text-slate-700 text-sm font-bold rounded-lg hover:bg-slate-50"
+									className="px-4 py-2 border border-slate-300 text-slate-700 text-sm font-bold rounded-lg hover:bg-slate-50 transition-colors"
 								>
 									Batal
 								</button>
 								<button
 									type="submit"
 									disabled={isSubmitting}
-									className="px-4 py-2 bg-slate-900 text-white text-sm font-bold rounded-lg hover:bg-slate-800"
+									className="px-4 py-2 bg-slate-900 text-white text-sm font-bold rounded-lg hover:bg-slate-800 disabled:opacity-50 transition-colors"
 								>
 									{isSubmitting ? "Menyimpan..." : "Simpan Nilai"}
 								</button>
@@ -458,6 +473,24 @@ export default function NumerasiDetailClient({
 					</div>
 				</div>
 			)}
+
+			{/* Custom CSS untuk styling custom scrollbar pada Web UI */}
+			<style jsx global>{`
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 6px;
+                    height: 6px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: transparent; 
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: #cbd5e1; 
+                    border-radius: 10px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: #94a3b8; 
+                }
+            `}</style>
 		</div>
 	);
 }

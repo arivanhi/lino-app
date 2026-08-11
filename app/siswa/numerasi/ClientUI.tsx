@@ -46,7 +46,7 @@ const KopSurat = () => (
 					Jl. Jend. A. Yani 77 Brebes 52212 Telp. (0283) 671060
 				</p>
 				<p style={{ fontFamily: "Arial, sans-serif", fontSize: "11pt", margin: 0, color: "#000" }}>
-					Website: www.sman2-brebes.sch.id - Email: smadabes@ymail.com
+					Website:  sman2brebes.sch.id - Email:  smandabes@gmail.com
 				</p>
 			</div>
 			<div style={{ width: "100px" }}></div>
@@ -144,7 +144,7 @@ export default function NumerasiSiswaUI({ studentName, kelasNama, semesterName, 
 	};
 
 	// Pagination
-	const historyChunks = chunkArray(historyData, 25);
+	const historyChunks = chunkArray(historyData, 15);
 	const totalPages = 1 + historyChunks.length; // Cover + History Tables
 	let pageCounter = 1;
 
@@ -330,9 +330,8 @@ export default function NumerasiSiswaUI({ studentName, kelasNama, semesterName, 
 										</td>
 										<td className="py-4 px-6 text-left">
 											<span
-												className={`inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-md ${
-													h.status === "Selesai" ? "bg-teal-50 text-teal-700" : "bg-slate-100 text-slate-600"
-												}`}
+												className={`inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-md ${h.status === "Selesai" ? "bg-teal-50 text-teal-700" : "bg-slate-100 text-slate-600"
+													}`}
 											>
 												{h.status === "Selesai" ? (
 													<CheckCircle2 className="h-3.5 w-3.5" />
@@ -353,7 +352,7 @@ export default function NumerasiSiswaUI({ studentName, kelasNama, semesterName, 
 			{/* === HIDDEN PDF TEMPLATE === */}
 			<div style={{ position: "fixed", top: 0, left: 0, zIndex: -9999, opacity: 0, pointerEvents: "none" }}>
 				<div id="pdf-numerasi-siswa" style={{ backgroundColor: "white" }}>
-					
+
 					{/* HALAMAN 1: KOP SURAT, RINGKASAN, GRAFIK */}
 					<PageContainer orientation="portrait">
 						<KopSurat />

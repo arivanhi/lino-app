@@ -81,14 +81,8 @@ const chunkArray = <T,>(arr: T[], size: number): T[][] => {
 	return chunked;
 };
 
-// Menggunakan fixed landscape orientation dengan akurasi 209.8mm
-const PageContainer = ({
-	children,
-	isLast
-}: {
-	children: React.ReactNode;
-	isLast?: boolean;
-}) => {
+// PERBAIKAN: pageBreakAfter dihapus agar tidak berbenturan dengan html2pdf__page-break
+const PageContainer = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<div
 			style={{
@@ -101,7 +95,6 @@ const PageContainer = ({
 				position: "relative",
 				display: "flex",
 				flexDirection: "column",
-				pageBreakAfter: isLast ? "auto" : "always",
 				overflow: "hidden"
 			}}
 		>
@@ -252,14 +245,13 @@ export default function RiwayatDetailClientUI({
 			{/* Header */}
 			<div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
 				<div className="flex items-start gap-4">
-					{backUrl && (
-						<button
-							onClick={() => router.push(backUrl)}
-							className="mt-1 p-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 shadow-sm"
-						>
-							<ArrowLeft className="h-5 w-5" />
-						</button>
-					)}
+					<button
+						onClick={() => backUrl ? router.push(backUrl) : router.back()}
+						className="mt-1 p-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 shadow-sm transition-colors"
+						title="Kembali"
+					>
+						<ArrowLeft className="h-5 w-5" />
+					</button>
 					<div>
 						<h1 className="text-3xl font-bold text-slate-900">Kelas {kelasNama} - Riwayat Detail</h1>
 						<p className="text-sm font-semibold text-slate-500 mt-1 flex items-center gap-3">
@@ -274,7 +266,7 @@ export default function RiwayatDetailClientUI({
 				</div>
 				<button
 					onClick={() => setIsExportModalOpen(true)}
-					className="px-4 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-lg shadow-sm hover:bg-slate-800 flex items-center gap-2 h-fit"
+					className="px-4 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-lg shadow-sm hover:bg-slate-800 flex items-center gap-2 h-fit transition-colors"
 				>
 					<Download className="h-4 w-4" /> Export Data PDF
 				</button>
@@ -290,10 +282,10 @@ export default function RiwayatDetailClientUI({
 						<table className="w-full text-sm text-left border-collapse">
 							<thead className="bg-slate-50 text-slate-500 font-semibold sticky top-0 z-10 shadow-sm">
 								<tr>
-									<th className="py-3 px-3">No</th>
-									<th className="py-3 px-3">Nama Siswa</th>
-									<th className="py-3 px-3 text-center">Terkumpul</th>
-									<th className="py-3 px-3 text-right">Aksi</th>
+									<th className="py-2 px-2">No</th>
+									<th className="py-2 px-2">Nama Siswa</th>
+									<th className="py-2 px-2 text-center">Terkumpul</th>
+									<th className="py-2 px-2 text-right">Aksi</th>
 								</tr>
 							</thead>
 							<tbody className="divide-y divide-slate-100">
@@ -304,9 +296,9 @@ export default function RiwayatDetailClientUI({
 								) : (
 									sortedLitSiswa.map((s, idx) => (
 										<tr key={s.siswaId} className="hover:bg-slate-50">
-											<td className="py-3 px-3 text-slate-500 font-medium">{idx + 1}</td>
-											<td className="py-3 px-3 font-semibold text-slate-800">{s.nama}</td>
-											<td className="py-3 px-3 text-center font-bold text-slate-600">
+											<td className="py-3 px-2 text-slate-500 font-medium">{idx + 1}</td>
+											<td className="py-3 px-2 font-semibold text-slate-800">{s.nama}</td>
+											<td className="py-3 px-2 text-center font-bold text-slate-600">
 												<span
 													className={
 														s.completed === s.total ? "text-teal-600" : s.completed < s.total / 2 ? "text-red-600" : ""
@@ -315,13 +307,13 @@ export default function RiwayatDetailClientUI({
 													{s.completed}/{s.total}
 												</span>
 											</td>
-											<td className="py-3 px-3 text-right">
+											<td className="py-3 px-2 text-right">
 												<button
 													onClick={() => {
 														setStudentNameModal(s.nama);
 														setSelectedLitHistory(s.history);
 													}}
-													className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1.5 rounded-lg"
+													className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1.5 rounded-lg transition-colors"
 												>
 													Lihat Tugas
 												</button>
@@ -479,7 +471,7 @@ export default function RiwayatDetailClientUI({
 							<button
 								onClick={handleDownloadDetail}
 								disabled={isDownloading}
-								className="w-full mt-2 px-4 py-2 bg-slate-900 text-white text-sm font-bold rounded-lg hover:bg-slate-800 flex justify-center items-center gap-2"
+								className="w-full mt-2 px-4 py-2 bg-slate-900 text-white text-sm font-bold rounded-lg hover:bg-slate-800 flex justify-center items-center gap-2 transition-colors"
 							>
 								{isDownloading ? "Memproses PDF..." : "Generate & Download PDF"}
 							</button>
@@ -524,7 +516,7 @@ export default function RiwayatDetailClientUI({
 										{h.pdf && (
 											<button
 												onClick={() => openPdf(h.pdf)}
-												className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-teal-50 text-teal-600 tooltip"
+												className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-teal-50 text-teal-600 tooltip transition-colors"
 												title="Lihat Dokumen"
 											>
 												<Eye className="h-4 w-4" />
@@ -538,12 +530,12 @@ export default function RiwayatDetailClientUI({
 				</div>
 			)}
 
-			{/* --- HIDDEN PDF TEMPLATE (LANDSCAPE 10 DATA/HALAMAN) --- */}
+			{/* --- HIDDEN PDF TEMPLATE (LANDSCAPE MAX 10 DATA/HALAMAN) --- */}
 			<div style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }}>
 				<div id="pdf-detail-report" style={{ backgroundColor: "white", width: "297mm" }}>
 
 					{/* Cover Page */}
-					<PageContainer isLast={false}>
+					<PageContainer>
 						<div
 							style={{
 								flex: 1,
@@ -572,9 +564,10 @@ export default function RiwayatDetailClientUI({
 						</div>
 						<PageFooter current={pageCounter++} total={pdfTotalPages} />
 					</PageContainer>
+					<div className="html2pdf__page-break"></div>
 
 					{/* Content Page 1: Grafik Numerasi */}
-					<PageContainer isLast={false}>
+					<PageContainer>
 						<KopSurat />
 						<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 20px 0", textAlign: "center" }}>
 							Tren Numerasi - Kelas {kelasNama} ({teksPeriode})
@@ -616,86 +609,29 @@ export default function RiwayatDetailClientUI({
 						</div>
 						<PageFooter current={pageCounter++} total={pdfTotalPages} />
 					</PageContainer>
+					<div className="html2pdf__page-break"></div>
 
 					{/* Content Page 2+: Tabel Literasi (10 Baris per Halaman) */}
 					{literasiChunks.map((chunk, chunkIdx) => (
-						<PageContainer key={`lit-page-${chunkIdx}`} isLast={false}>
-							<KopSurat />
-							<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 15px 0", textAlign: "center" }}>
-								Rekap Literasi Siswa {literasiChunks.length > 1 ? `(Bag. ${chunkIdx + 1})` : ""}
-							</h3>
-							<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
-								<thead>
-									<tr style={{ backgroundColor: "#f1f5f9" }}>
-										<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", width: "10%" }}>No</th>
-										<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "40%" }}>Nama Siswa</th>
-										<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "20%" }}>NIS</th>
-										<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", width: "30%" }}>Tugas Terkumpul</th>
-									</tr>
-								</thead>
-								<tbody>
-									{chunk.length === 0 ? (
-										<tr>
-											<td colSpan={4} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", fontStyle: "italic" }}>
-												Tidak ada data.
-											</td>
-										</tr>
-									) : (
-										chunk.map((s: any, idx: number) => (
-											<tr key={s.siswaId} style={{ pageBreakInside: "avoid" }}>
-												<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
-													{chunkIdx * PDF_MAX_ROWS + idx + 1}
-												</td>
-												<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{s.nama}</td>
-												<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>{s.nis}</td>
-												<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
-													{s.completed} / {s.total}
-												</td>
-											</tr>
-										))
-									)}
-								</tbody>
-							</table>
-							<PageFooter current={pageCounter++} total={pdfTotalPages} />
-						</PageContainer>
-					))}
-
-					{/* Content Page 3+: Tabel Numerasi (10 Baris per Halaman) */}
-					{numerasiChunks.map((chunk, chunkIdx) => {
-						const isVeryLastPage = chunkIdx === numerasiChunks.length - 1;
-						return (
-							<PageContainer key={`num-page-${chunkIdx}`} isLast={isVeryLastPage}>
+						<div key={`lit-page-${chunkIdx}`}>
+							<PageContainer>
 								<KopSurat />
 								<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 15px 0", textAlign: "center" }}>
-									Rekap Nilai Numerasi {numerasiChunks.length > 1 ? `(Bag. ${chunkIdx + 1})` : ""}
+									Rekap Literasi Siswa {literasiChunks.length > 1 ? `(Bag. ${chunkIdx + 1})` : ""}
 								</h3>
 								<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
 									<thead>
 										<tr style={{ backgroundColor: "#f1f5f9" }}>
-											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", width: "5%" }}>No</th>
-											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "30%" }}>Nama Siswa</th>
-											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "15%" }}>NIS</th>
-											{numHeaders.map((h: any) => (
-												<th key={h.id} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
-													{h.judul}
-												</th>
-											))}
-											<th
-												style={{
-													border: "1px solid #cbd5e1",
-													padding: "10px",
-													textAlign: "center",
-													backgroundColor: "#e2e8f0",
-												}}
-											>
-												Rata-Rata
-											</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", width: "10%" }}>No</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "40%" }}>Nama Siswa</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "20%" }}>NIS</th>
+											<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", width: "30%" }}>Tugas Terkumpul</th>
 										</tr>
 									</thead>
 									<tbody>
 										{chunk.length === 0 ? (
 											<tr>
-												<td colSpan={numHeaders.length + 4} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", fontStyle: "italic" }}>
+												<td colSpan={4} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", fontStyle: "italic" }}>
 													Tidak ada data.
 												</td>
 											</tr>
@@ -707,34 +643,8 @@ export default function RiwayatDetailClientUI({
 													</td>
 													<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{s.nama}</td>
 													<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>{s.nis}</td>
-													{numHeaders.map((h: any) => {
-														const val = s.scores[h.id];
-														return (
-															<td
-																key={h.id}
-																style={{
-																	border: "1px solid #cbd5e1",
-																	padding: "10px",
-																	textAlign: "center",
-																	color: val !== null && val < 50 ? "red" : "black",
-																	fontWeight: val !== null && val < 50 ? "bold" : "normal"
-																}}
-															>
-																{val !== null ? val : "-"}
-															</td>
-														);
-													})}
-													<td
-														style={{
-															border: "1px solid #cbd5e1",
-															padding: "10px",
-															textAlign: "center",
-															fontWeight: "bold",
-															color: s.average !== "-" && Number(s.average) < 50 ? "red" : "black",
-															backgroundColor: "#f8fafc",
-														}}
-													>
-														{s.average}
+													<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+														{s.completed} / {s.total}
 													</td>
 												</tr>
 											))
@@ -743,6 +653,96 @@ export default function RiwayatDetailClientUI({
 								</table>
 								<PageFooter current={pageCounter++} total={pdfTotalPages} />
 							</PageContainer>
+							<div className="html2pdf__page-break"></div>
+						</div>
+					))}
+
+					{/* Content Page 3+: Tabel Numerasi (10 Baris per Halaman) */}
+					{numerasiChunks.map((chunk, chunkIdx) => {
+						const isVeryLastPage = chunkIdx === numerasiChunks.length - 1;
+						return (
+							<div key={`num-page-${chunkIdx}`}>
+								<PageContainer>
+									<KopSurat />
+									<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 15px 0", textAlign: "center" }}>
+										Rekap Nilai Numerasi {numerasiChunks.length > 1 ? `(Bag. ${chunkIdx + 1})` : ""}
+									</h3>
+									<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
+										<thead>
+											<tr style={{ backgroundColor: "#f1f5f9" }}>
+												<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", width: "5%" }}>No</th>
+												<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "30%" }}>Nama Siswa</th>
+												<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "15%" }}>NIS</th>
+												{numHeaders.map((h: any) => (
+													<th key={h.id} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+														{h.judul}
+													</th>
+												))}
+												<th
+													style={{
+														border: "1px solid #cbd5e1",
+														padding: "10px",
+														textAlign: "center",
+														backgroundColor: "#e2e8f0",
+													}}
+												>
+													Rata-Rata
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											{chunk.length === 0 ? (
+												<tr>
+													<td colSpan={numHeaders.length + 4} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", fontStyle: "italic" }}>
+														Tidak ada data.
+													</td>
+												</tr>
+											) : (
+												chunk.map((s: any, idx: number) => (
+													<tr key={s.siswaId} style={{ pageBreakInside: "avoid" }}>
+														<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+															{chunkIdx * PDF_MAX_ROWS + idx + 1}
+														</td>
+														<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{s.nama}</td>
+														<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>{s.nis}</td>
+														{numHeaders.map((h: any) => {
+															const val = s.scores[h.id];
+															return (
+																<td
+																	key={h.id}
+																	style={{
+																		border: "1px solid #cbd5e1",
+																		padding: "10px",
+																		textAlign: "center",
+																		color: val !== null && val < 50 ? "red" : "black",
+																		fontWeight: val !== null && val < 50 ? "bold" : "normal"
+																	}}
+																>
+																	{val !== null ? val : "-"}
+																</td>
+															);
+														})}
+														<td
+															style={{
+																border: "1px solid #cbd5e1",
+																padding: "10px",
+																textAlign: "center",
+																fontWeight: "bold",
+																color: s.average !== "-" && Number(s.average) < 50 ? "red" : "black",
+																backgroundColor: "#f8fafc",
+															}}
+														>
+															{s.average}
+														</td>
+													</tr>
+												))
+											)}
+										</tbody>
+									</table>
+									<PageFooter current={pageCounter++} total={pdfTotalPages} />
+								</PageContainer>
+								{!isVeryLastPage && <div className="html2pdf__page-break"></div>}
+							</div>
 						);
 					})}
 				</div>
