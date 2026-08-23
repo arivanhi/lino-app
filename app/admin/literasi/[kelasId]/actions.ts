@@ -4,17 +4,43 @@
 import { PrismaClient as EjournalClient } from "../../../../prisma/generated/ejournal-client";
 import { PrismaClient as LinoClient } from "../../../../prisma/generated/lino-client";
 import { revalidatePath } from "next/cache";
+import fs from "fs";
+import path from "path";
 
 const prismaEjournal = new EjournalClient();
 const prismaLino = new LinoClient();
 
-export async function createLiteracyTask(kelasId: string, judul: string, deadline: string, instruksi: string) {
+export async function createLiteracyTask(kelasId: string, formData: FormData) {
 	// 1. Cari tahun ajaran aktif dari E-Journal
 	const ta = await prismaEjournal.tahunAjaran.findFirst({
 		where: { isActive: true },
 	});
 
 	if (!ta) throw new Error("Tahun ajaran aktif tidak ditemukan.");
+
+	const judul = formData.get("judul") as string;
+	const deadline = formData.get("deadline") as string;
+	const instruksi = formData.get("instruksi") as string;
+	const file = formData.get("file") as File | null;
+
+	let fileSoalUrl = null;
+
+	if (file && file.size > 0) {
+		const buffer = Buffer.from(await file.arrayBuffer());
+		const ext = path.extname(file.name) || ".pdf";
+		const safeName = judul.replace(/[^a-zA-Z0-9]/g, "_").toLowerCase();
+		const filename = `${Date.now()}_${safeName}${ext}`;
+		
+		const uploadDir = path.join(process.cwd(), "storage", "uploads", "tugas_literasi", kelasId);
+		if (!fs.existsSync(uploadDir)) {
+			fs.mkdirSync(uploadDir, { recursive: true });
+		}
+
+		const filePath = path.join(uploadDir, filename);
+		fs.writeFileSync(filePath, buffer);
+		
+		fileSoalUrl = `/api/uploads/tugas_literasi/${kelasId}/${filename}`;
+	}
 
 	// 2. Simpan tugas baru ke database Lino
 	await prismaLino.penugasanLino.create({
@@ -28,6 +54,7 @@ export async function createLiteracyTask(kelasId: string, judul: string, deadlin
 			waktuMulai: new Date(),
 			waktuSelesai: new Date(deadline),
 			status: "DITUGASKAN", // Status langsung ditugaskan agar muncul di siswa
+			fileSoalUrl: fileSoalUrl,
 		},
 	});
 

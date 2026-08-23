@@ -3,10 +3,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, X, Eye, TrendingUp, Book, AlertTriangle, Users, ArrowLeft, Search, CheckCircle, Clock, AlertCircle, FileText } from "lucide-react";
+import { Plus, X, Eye, TrendingUp, Book, AlertTriangle, Users, ArrowLeft, Search, CheckCircle, Clock, AlertCircle, FileText, BookOpen } from "lucide-react";
 import { createLiteracyTask } from "./actions";
 
-type TaskProps = { id: string; judul: string; waktuSelesai: Date; status: string };
+type TaskProps = { id: string; judul: string; waktuSelesai: Date; status: string; fileSoalUrl?: string | null };
 type StudentProps = {
 	siswaId: string;
 	nama: string;
@@ -40,6 +40,18 @@ export default function LiterasiDetailClient({
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [search, setSearch] = useState("");
 
+	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+	const [isDragging, setIsDragging] = useState(false);
+	const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
+	const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+
+	const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+
+	const showToast = (message: string, type: "success" | "error") => {
+		setToast({ message, type });
+		setTimeout(() => setToast(null), 3000);
+	};
+
 	// Perhitungan Statistik
 	const avgSubmission = students.length > 0
 		? Math.round((students.reduce((acc, s) => acc + s.tugasSelesai, 0) / (students.length * (tasks.length || 1))) * 100)
@@ -57,14 +69,23 @@ export default function LiterasiDetailClient({
 		setIsSubmitting(true);
 
 		try {
-			await createLiteracyTask(kelasId, judul, deadline, instruksi);
+			const formData = new FormData();
+			formData.append("judul", judul);
+			formData.append("deadline", deadline);
+			formData.append("instruksi", instruksi);
+			if (selectedFile) formData.append("file", selectedFile);
+
+			await createLiteracyTask(kelasId, formData);
+			
 			setJudul("");
 			setDeadline("");
 			setInstruksi("");
+			setSelectedFile(null);
 			setIsModalOpen(false);
+			showToast("Tugas berhasil ditambahkan", "success");
 			router.refresh(); // Refresh data setelah tugas ditambahkan
-		} catch (error) {
-			alert("Terjadi kesalahan saat menyimpan tugas. Pastikan Tahun Ajaran aktif sudah disetel.");
+		} catch (error: any) {
+			showToast(error.message || "Terjadi kesalahan saat menyimpan tugas.", "error");
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -85,7 +106,18 @@ export default function LiterasiDetailClient({
 	};
 
 	return (
-		<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
+		<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6 relative">
+			{/* TOAST NOTIFICATION */}
+			{toast && (
+				<div
+					className={`fixed top-4 right-4 z-[200] px-6 py-3 rounded-xl shadow-lg border text-sm font-bold animate-in fade-in slide-in-from-top-5 duration-300 ${
+						toast.type === "success" ? "bg-teal-50 border-teal-200 text-teal-800" : "bg-red-50 border-red-200 text-red-800"
+					}`}
+				>
+					{toast.message}
+				</div>
+			)}
+
 			{/* Header View dengan Tombol Back */}
 			<div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
 				<div className="flex items-start gap-4">
@@ -156,11 +188,25 @@ export default function LiterasiDetailClient({
 							tasks.map((task) => (
 								<div key={task.id} className="pb-4 border-b border-slate-100 last:border-0 last:pb-0">
 									<p className="font-bold text-slate-800 text-sm mb-1">{task.judul}</p>
-									<div className="flex justify-between items-center text-xs text-slate-500">
+									<div className="flex justify-between items-center text-xs text-slate-500 mt-2">
 										<span>Tenggat: {new Date(task.waktuSelesai).toLocaleDateString("id-ID")}</span>
-										<span className={task.status === "SELESAI" ? "bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full font-bold" : "bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold"}>
-											{task.status === "SELESAI" ? "Selesai" : "Aktif"}
-										</span>
+										<div className="flex gap-2 items-center">
+											{task.fileSoalUrl && (
+												<button
+													onClick={() => {
+														setPdfUrl(task.fileSoalUrl!);
+														setIsPdfModalOpen(true);
+													}}
+													className="p-1 text-teal-600 hover:bg-teal-50 rounded-md transition-colors tooltip flex justify-center border border-teal-200"
+													title="Lihat Soal PDF"
+												>
+													<Eye className="h-3 w-3" />
+												</button>
+											)}
+											<span className={task.status === "SELESAI" ? "bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full font-bold" : "bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold"}>
+												{task.status === "SELESAI" ? "Selesai" : "Aktif"}
+											</span>
+										</div>
 									</div>
 								</div>
 							))
@@ -286,18 +332,32 @@ export default function LiterasiDetailClient({
 												</p>
 											</div>
 										</div>
-										{h.pdf && (
-											<button
-												onClick={(e) => {
-													e.stopPropagation(); // Mencegah event click merambat
-													handleViewPdf(h.pdf);
-												}}
-												className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-teal-50 text-teal-600 tooltip transition-colors"
-												title="Lihat Dokumen"
-											>
-												<Eye className="h-4 w-4" />
-											</button>
-										)}
+										<div className="flex items-center gap-2">
+											{h.soalPdf && (
+												<button
+													onClick={(e) => {
+														e.stopPropagation();
+														handleViewPdf(h.soalPdf);
+													}}
+													className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-teal-50 text-teal-600 tooltip transition-colors"
+													title="Lihat Soal"
+												>
+													<BookOpen className="h-4 w-4" />
+												</button>
+											)}
+											{h.pdf && (
+												<button
+													onClick={(e) => {
+														e.stopPropagation(); // Mencegah event click merambat
+														handleViewPdf(h.pdf);
+													}}
+													className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-teal-50 text-teal-600 tooltip transition-colors"
+													title="Lihat Jawaban"
+												>
+													<Eye className="h-4 w-4" />
+												</button>
+											)}
+										</div>
 									</div>
 								))
 							)}
@@ -357,12 +417,46 @@ export default function LiterasiDetailClient({
 								<label className="block text-xs font-bold text-slate-700 mb-1">Instruksi Tugas</label>
 								<textarea
 									required
-									rows={4}
+									rows={3}
 									value={instruksi}
 									onChange={(e) => setInstruksi(e.target.value)}
 									placeholder="Tuliskan instruksi detail mengenai buku atau artikel yang harus dibaca..."
 									className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 bg-white placeholder:text-slate-400 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none resize-none"
 								></textarea>
+							</div>
+
+							<div>
+								<label className="block text-xs font-bold text-slate-800 mb-1">File Soal PDF (Opsional)</label>
+								<input
+									type="file"
+									id="file-upload-literasi"
+									className="hidden"
+									accept=".pdf"
+									onChange={(e) => {
+										if (e.target.files && e.target.files[0]) setSelectedFile(e.target.files[0]);
+									}}
+								/>
+								<div
+									onDragOver={(e) => {
+										e.preventDefault();
+										setIsDragging(true);
+									}}
+									onDragLeave={() => setIsDragging(false)}
+									onDrop={(e) => {
+										e.preventDefault();
+										setIsDragging(false);
+										if (e.dataTransfer.files && e.dataTransfer.files[0]) setSelectedFile(e.dataTransfer.files[0]);
+									}}
+									onClick={() => document.getElementById("file-upload-literasi")?.click()}
+									className={`border-2 border-dashed rounded-xl p-4 flex flex-col items-center justify-center transition-colors cursor-pointer group ${isDragging ? "border-teal-500 bg-teal-50" : "border-slate-300 bg-slate-50 hover:bg-slate-100"
+										}`}
+								>
+									<FileText className="h-6 w-6 text-teal-600 mb-2 group-hover:scale-110 transition-transform" />
+									<p className="text-sm font-bold text-slate-800 text-center">
+										{selectedFile ? selectedFile.name : "Klik atau Drag & Drop file PDF"}
+									</p>
+									<p className="text-xs text-slate-500 mt-1">Maks 5MB</p>
+								</div>
 							</div>
 
 							<div className="pt-4 flex justify-end gap-3 border-t border-slate-100">
@@ -382,6 +476,23 @@ export default function LiterasiDetailClient({
 								</button>
 							</div>
 						</form>
+					</div>
+				</div>
+			)}
+
+			{/* --- MODAL PREVIEW PDF --- */}
+			{isPdfModalOpen && pdfUrl && (
+				<div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+					<div className="bg-white rounded-2xl shadow-xl w-full max-w-4xl h-[90vh] overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+						<div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+							<h2 className="text-lg font-bold text-slate-900">Preview Dokumen</h2>
+							<button onClick={() => setIsPdfModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+								<X className="h-5 w-5" />
+							</button>
+						</div>
+						<div className="flex-1 w-full bg-slate-200">
+							<iframe src={pdfUrl} className="w-full h-full border-none" title="PDF Document" />
+						</div>
 					</div>
 				</div>
 			)}

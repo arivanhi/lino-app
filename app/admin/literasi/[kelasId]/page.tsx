@@ -63,6 +63,7 @@ export default async function KelasDetailServerPage({
 				judul: tugasTerkait?.judul || "Tugas Literasi",
 				status: hasil.statusPengerjaan,
 				pdf: hasil.fileJawabanPdf || null,
+				soalPdf: tugasTerkait?.fileSoalUrl || null,
 			};
 		});
 

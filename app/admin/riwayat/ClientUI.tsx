@@ -3,6 +3,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Download, ChevronLeft, ChevronRight, X } from "lucide-react";
 
 type StudentData = { nama: string; nis: string; litCompleted: number; litTotal: number; numAvg: number };
@@ -121,19 +122,24 @@ const PageFooter = ({ current, total }: { current: number; total: number }) => (
 // ============================================================================
 export default function RiwayatClientUI({
 	semesterName,
+	semuaSemester,
+	selectedTaId,
 	cards,
 	allClasses,
 	currentPage,
 	totalPages,
 }: {
 	semesterName: string;
+	semuaSemester: { id: string; nama: string }[];
+	selectedTaId: string;
 	cards: ClassData[];
 	allClasses: ClassData[];
 	currentPage: number;
 	totalPages: number;
 }) {
+	const router = useRouter();
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [selectedClass, setSelectedClass] = useState("SEMUA");
+	const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
 
 	// STATE TANGGAL (DATE PICKER)
 	const [startDate, setStartDate] = useState("");
@@ -180,7 +186,7 @@ export default function RiwayatClientUI({
 		}, 500);
 	};
 
-	const filteredDataPdf = selectedClass === "SEMUA" ? allClasses : allClasses.filter((c) => c.id === selectedClass);
+	const filteredDataPdf = selectedClasses.length === 0 ? allClasses : allClasses.filter((c) => selectedClasses.includes(c.id));
 
 	const formatD = (dStr: string) => new Date(dStr).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
 	const teksPeriode = (!startDate || !endDate) ? `Semester ${semesterName}` : `Periode: ${formatD(startDate)} s.d. ${formatD(endDate)}`;
@@ -218,10 +224,15 @@ export default function RiwayatClientUI({
 					<div>
 						<label className="block text-xs font-bold text-slate-500 mb-1">Semester</label>
 						<select
-							disabled
+							value={selectedTaId}
+							onChange={(e) => router.push(`?taId=${e.target.value}`)}
 							className="px-4 py-2 border border-slate-300 rounded-lg text-sm bg-slate-50 font-semibold text-slate-700 outline-none"
 						>
-							<option>{semesterName}</option>
+							{semuaSemester.map((s) => (
+								<option key={s.id} value={s.id}>
+									{s.nama}
+								</option>
+							))}
 						</select>
 					</div>
 					<button
@@ -301,19 +312,35 @@ export default function RiwayatClientUI({
 						</div>
 						<div className="p-6 space-y-4">
 							<div>
-								<label className="block text-xs font-bold text-slate-700 mb-1">Pilih Kelas</label>
-								<select
-									value={selectedClass}
-									onChange={(e) => setSelectedClass(e.target.value)}
-									className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none text-slate-900 bg-white"
-								>
-									<option value="SEMUA">Semua Kelas</option>
+								<label className="block text-xs font-bold text-slate-700 mb-2">Pilih Kelas</label>
+								<div className="max-h-40 overflow-y-auto border border-slate-300 rounded-lg p-2 bg-white space-y-2 custom-scrollbar">
+									<label className="flex items-center gap-2 text-sm font-medium text-slate-800 cursor-pointer p-1 hover:bg-slate-50 rounded">
+										<input
+											type="checkbox"
+											checked={selectedClasses.length === 0}
+											onChange={() => setSelectedClasses([])}
+											className="rounded text-slate-900 focus:ring-slate-900"
+										/>
+										Semua Kelas
+									</label>
 									{allClasses.map((c) => (
-										<option key={c.id} value={c.id}>
+										<label key={c.id} className="flex items-center gap-2 text-sm font-medium text-slate-700 cursor-pointer p-1 hover:bg-slate-50 rounded">
+											<input
+												type="checkbox"
+												checked={selectedClasses.includes(c.id)}
+												onChange={(e) => {
+													if (e.target.checked) {
+														setSelectedClasses((prev) => [...prev, c.id]);
+													} else {
+														setSelectedClasses((prev) => prev.filter((id) => id !== c.id));
+													}
+												}}
+												className="rounded text-slate-900 focus:ring-slate-900"
+											/>
 											{c.nama}
-										</option>
+										</label>
 									))}
-								</select>
+								</div>
 							</div>
 
 							{/* DATE PICKER */}
@@ -377,9 +404,9 @@ export default function RiwayatClientUI({
 
 							<p style={{ fontSize: "14pt", fontWeight: "bold" }}>{teksPeriode}</p>
 							<p style={{ fontSize: "12pt", marginTop: "8px" }}>
-								{selectedClass === "SEMUA"
+								{selectedClasses.length === 0
 									? "Semua Kelas Terdata"
-									: `Kelas: ${allClasses.find((c) => c.id === selectedClass)?.nama}`}
+									: `Kelas: ${allClasses.filter((c) => selectedClasses.includes(c.id)).map(c => c.nama).join(", ")}`}
 							</p>
 
 							<div style={{ marginTop: "100px" }}>

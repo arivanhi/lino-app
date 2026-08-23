@@ -42,13 +42,18 @@ export default async function RiwayatDetailServer({ params }: { params: Promise<
 	// 4. Petakan Data Literasi per Siswa
 	const literasiSiswa = siswaData.map((riwayat) => {
 		let completed = 0;
-		const history: { judul: string; status: string; pdf: string | null }[] = [];
+		const history: { judul: string; status: string; pdf: string | null; soalPdf: string | null }[] = [];
 
 		tugasLit.forEach((t) => {
 			const h = t.hasilKerjaSiswa.find((h) => h.siswaId === riwayat.siswaId);
 			if (h?.statusPengerjaan === "SELESAI") completed++;
 			if (h) {
-				history.push({ judul: t.judul, status: h.statusPengerjaan, pdf: h.fileJawabanPdf || null });
+				history.push({ 
+					judul: t.judul, 
+					status: h.statusPengerjaan, 
+					pdf: h.fileJawabanPdf || null,
+					soalPdf: t.fileSoalUrl || null
+				});
 			}
 		});
 
@@ -67,6 +72,7 @@ export default async function RiwayatDetailServer({ params }: { params: Promise<
 		let countTaken = 0;
 		let sumScore = 0;
 		const scores: Record<string, number | null> = {};
+		const numHistory: { judul: string; nilai: number | null; soalPdf: string | null; jawabanPdf: string | null }[] = [];
 
 		tugasNum.forEach((t) => {
 			const h = t.hasilKerjaSiswa.find((h) => h.siswaId === riwayat.siswaId);
@@ -76,6 +82,12 @@ export default async function RiwayatDetailServer({ params }: { params: Promise<
 				countTaken++;
 				sumScore += nilai;
 			}
+			numHistory.push({
+				judul: t.judul,
+				nilai: nilai,
+				soalPdf: t.fileSoalUrl || null,
+				jawabanPdf: h?.fileJawabanPdf || null,
+			});
 		});
 
 		return {
@@ -85,6 +97,7 @@ export default async function RiwayatDetailServer({ params }: { params: Promise<
 			taken: countTaken,
 			totalNum: tugasNum.length,
 			scores,
+			numHistory,
 			average: countTaken > 0 ? Number((sumScore / countTaken).toFixed(1)) : 0,
 		};
 	});
