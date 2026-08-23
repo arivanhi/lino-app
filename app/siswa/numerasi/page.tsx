@@ -81,6 +81,8 @@ export default async function NumerasiSiswaPage() {
 			tanggal: dateStr,
 			nilai: nilai,
 			status: nilai !== null ? "Selesai" : "Menunggu Hasil",
+			soalPdf: t.fileSoalUrl || null,
+			jawabanPdf: hasil?.fileJawabanPdf || null,
 		});
 	});
 
@@ -113,6 +115,8 @@ export default async function NumerasiSiswaPage() {
 
 	return (
 		<NumerasiSiswaUI
+			siswaId={siswaId}
+			kelasId={kelasId}
 			studentName={user.nama}
 			kelasNama={kelasNama} // Kirim ke Client UI
 			semesterName={ta.nama}

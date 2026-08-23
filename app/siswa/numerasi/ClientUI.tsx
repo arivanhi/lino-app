@@ -11,7 +11,24 @@ import {
 	Tooltip as RechartsTooltip,
 	ResponsiveContainer,
 } from "recharts";
-import { Download, Search, CheckCircle2, Clock, Calculator, ShieldCheck, X } from "lucide-react";
+import {
+	Download,
+	Search,
+	CheckCircle2,
+	Clock,
+	Calculator,
+	ShieldCheck,
+	X,
+	Eye,
+	UploadCloud,
+	File,
+	AlertCircle,
+	HelpCircle,
+	RefreshCw,
+} from "lucide-react";
+import { submitTugasNumerasi } from "./actions";
+import { useRouter } from "next/navigation";
+import { useRef } from "react";
 
 const KopSurat = () => (
 	<div style={{ marginBottom: "20px", backgroundColor: "white" }}>
@@ -114,13 +131,123 @@ const PageFooter = ({ current, total }: { current: number; total: number }) => (
 );
 
 // Tambahkan prop kelasNama di sini
-export default function NumerasiSiswaUI({ studentName, kelasNama, semesterName, stats, chartData, historyData }: any) {
+export default function NumerasiSiswaUI({ siswaId, kelasId, studentName, kelasNama, semesterName, stats, chartData, historyData }: any) {
+	const router = useRouter();
 	const [searchTerm, setSearchTerm] = useState("");
 	const [isDownloading, setIsDownloading] = useState(false);
 
 	const filteredHistory = historyData.filter((item: any) =>
 		item.judul.toLowerCase().includes(searchTerm.toLowerCase()),
 	);
+
+	// === STATE MODAL UPLOAD ===
+	const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+	const [selectedTask, setSelectedTask] = useState<any>(null);
+	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+	const [errorMsg, setErrorMsg] = useState("");
+	const [isDragging, setIsDragging] = useState(false);
+	const [isConfirming, setIsConfirming] = useState(false);
+	const [isUploading, setIsUploading] = useState(false);
+
+	// === STATE TOAST NOTIFICATION ===
+	const [toastMessage, setToastMessage] = useState("");
+
+	const fileInputRef = useRef<HTMLInputElement>(null);
+	const MAX_FILE_SIZE_MB = 5;
+
+	const openUploadModal = (task: any) => {
+		setSelectedTask(task);
+		setSelectedFile(null);
+		setErrorMsg("");
+		setIsConfirming(false);
+		setIsUploading(false);
+		setIsUploadModalOpen(true);
+	};
+
+	const closeUploadModal = () => {
+		setIsUploadModalOpen(false);
+		setSelectedFile(null);
+		setErrorMsg("");
+		setIsConfirming(false);
+		setTimeout(() => setSelectedTask(null), 200);
+	};
+
+	const handleFileSelect = (file: File | undefined) => {
+		setErrorMsg("");
+		if (!file) return;
+
+		if (file.type !== "application/pdf") {
+			setErrorMsg("Format file harus PDF.");
+			return;
+		}
+		if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+			setErrorMsg(`Ukuran file melebihi batas maksimal (${MAX_FILE_SIZE_MB}MB).`);
+			return;
+		}
+		setSelectedFile(file);
+	};
+
+	const handleDragOver = (e: React.DragEvent) => {
+		e.preventDefault();
+		setIsDragging(true);
+	};
+	const handleDragLeave = (e: React.DragEvent) => {
+		e.preventDefault();
+		setIsDragging(false);
+	};
+	const handleDrop = (e: React.DragEvent) => {
+		e.preventDefault();
+		setIsDragging(false);
+		if (e.dataTransfer.files && e.dataTransfer.files.length > 0) handleFileSelect(e.dataTransfer.files[0]);
+	};
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files.length > 0) handleFileSelect(e.target.files[0]);
+	};
+
+	const handleRequestUpload = () => {
+		if (!selectedFile) {
+			setErrorMsg("Pilih file terlebih dahulu.");
+			return;
+		}
+		setIsConfirming(true);
+	};
+
+	const handleUploadSubmit = () => {
+		setIsUploading(true);
+
+		try {
+			const reader = new FileReader();
+
+			reader.onloadend = async () => {
+				const base64String = reader.result as string;
+
+				try {
+					await submitTugasNumerasi(selectedTask.id, siswaId, selectedFile!.name, base64String, kelasId);
+
+					setIsUploading(false);
+					closeUploadModal();
+
+					setToastMessage(`Berhasil! Jawaban untuk "${selectedTask.judul}" telah diunggah.`);
+					setTimeout(() => setToastMessage(""), 4000);
+
+					router.refresh();
+				} catch (serverError) {
+					setIsUploading(false);
+					setErrorMsg("Gagal menyimpan tugas ke database. Coba lagi.");
+				}
+			};
+
+			reader.onerror = () => {
+				setIsUploading(false);
+				setErrorMsg("Gagal membaca file dari komputer Anda.");
+			};
+
+			reader.readAsDataURL(selectedFile!);
+		} catch (error) {
+			setIsUploading(false);
+			setErrorMsg("Terjadi kesalahan sistem saat memproses file.");
+		}
+	};
 
 	const handleDownloadPdf = async () => {
 		setIsDownloading(true);
@@ -150,6 +277,16 @@ export default function NumerasiSiswaUI({ studentName, kelasNama, semesterName, 
 
 	return (
 		<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6 relative">
+			{/* === TOAST NOTIFICATION COMPONENT === */}
+			{toastMessage && (
+				<div className="fixed top-6 right-6 z-[200] animate-in slide-in-from-top-5 fade-in duration-300">
+					<div className="bg-teal-600 text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-3 font-semibold text-sm">
+						<CheckCircle2 className="h-5 w-5 text-teal-200" />
+						{toastMessage}
+					</div>
+				</div>
+			)}
+
 			{/* HEADER */}
 			<div>
 				<h1 className="text-3xl font-black text-slate-900 tracking-tight">Daftar Nilai Numerasi</h1>
@@ -300,6 +437,7 @@ export default function NumerasiSiswaUI({ studentName, kelasNama, semesterName, 
 								<th className="py-4 px-6 text-center">Tanggal Pelaksanaan</th>
 								<th className="py-4 px-6 text-center">Nilai</th>
 								<th className="py-4 px-6 text-left">Status</th>
+								<th className="py-4 px-6 text-right">Aksi</th>
 							</tr>
 						</thead>
 						<tbody className="divide-y divide-slate-100">
@@ -314,9 +452,21 @@ export default function NumerasiSiswaUI({ studentName, kelasNama, semesterName, 
 									<tr key={h.id} className="hover:bg-slate-50 transition-colors">
 										<td className="py-4 px-6 text-center text-slate-500">{idx + 1}</td>
 										<td className="py-4 px-6">
-											<p className="font-bold text-slate-800">{h.judul}</p>
-											{/* Deskripsi tetap ada di Web UI jika benar-benar ada (bukan sekadar fallback nama semester) */}
-											{h.deskripsi && <p className="text-xs text-slate-500 mt-0.5">{h.deskripsi}</p>}
+											<div className="flex items-center gap-2">
+												<div>
+													<p className="font-bold text-slate-800">{h.judul}</p>
+													{h.deskripsi && <p className="text-xs text-slate-500 mt-0.5">{h.deskripsi}</p>}
+												</div>
+												{h.soalPdf && (
+													<button
+														onClick={() => window.open(h.soalPdf, "_blank")}
+														className="text-teal-600 hover:text-teal-800 tooltip flex items-center justify-center p-1.5 bg-teal-50 rounded-full ml-2"
+														title="Lihat Soal"
+													>
+														<Eye className="h-4 w-4" />
+													</button>
+												)}
+											</div>
 										</td>
 										<td className="py-4 px-6 text-center text-slate-500 font-medium">{h.tanggal}</td>
 										<td className="py-4 px-6 text-center">
@@ -341,6 +491,37 @@ export default function NumerasiSiswaUI({ studentName, kelasNama, semesterName, 
 												{h.status}
 											</span>
 										</td>
+										<td className="py-4 px-6 text-right">
+											<div className="flex items-center justify-end gap-2">
+												{h.jawabanPdf && (
+													<button
+														onClick={() => window.open(h.jawabanPdf, "_blank")}
+														className="px-3 py-2 bg-slate-100 border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-200 tooltip flex items-center gap-2"
+														title="Lihat Jawaban"
+													>
+														<Eye className="h-4 w-4" />
+													</button>
+												)}
+												<button
+													onClick={() => openUploadModal(h)}
+													className={`px-4 py-2 text-xs font-bold rounded-lg flex items-center gap-2 ${
+														h.jawabanPdf
+															? "bg-white border border-teal-500 text-teal-600 hover:bg-teal-50"
+															: "bg-slate-900 text-white hover:bg-slate-800 shadow-sm"
+													}`}
+												>
+													{h.jawabanPdf ? (
+														<>
+															<RefreshCw className="h-4 w-4" /> Ganti Jawaban
+														</>
+													) : (
+														<>
+															<UploadCloud className="h-4 w-4" /> Upload Jawaban
+														</>
+													)}
+												</button>
+											</div>
+										</td>
 									</tr>
 								))
 							)}
@@ -348,6 +529,168 @@ export default function NumerasiSiswaUI({ studentName, kelasNama, semesterName, 
 					</table>
 				</div>
 			</div>
+
+			{/* === MODAL UPLOAD / KONFIRMASI === */}
+			{isUploadModalOpen && (
+				<div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+					<div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+						<div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+							<div>
+								<h2 className="text-lg font-bold text-slate-900">
+									{selectedTask?.jawabanPdf ? "Re-Upload Jawaban" : "Upload Jawaban Numerasi"}
+								</h2>
+								<p className="text-xs font-semibold text-slate-500 truncate max-w-[300px] mt-0.5">
+									{selectedTask?.judul}
+								</p>
+							</div>
+							<button
+								onClick={closeUploadModal}
+								disabled={isUploading}
+								className="text-slate-400 hover:text-slate-600 bg-white rounded-full p-1 border border-slate-200 disabled:opacity-50"
+							>
+								<X className="h-5 w-5" />
+							</button>
+						</div>
+
+						<div className="p-6">
+							{!isConfirming ? (
+								<>
+									{errorMsg && (
+										<div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-lg flex items-start gap-2 text-red-600 text-sm font-medium">
+											<AlertCircle className="h-5 w-5 shrink-0" />
+											<p>{errorMsg}</p>
+										</div>
+									)}
+
+									<div
+										className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer flex flex-col items-center justify-center min-h-[200px] ${
+											isDragging
+												? "border-teal-500 bg-teal-50"
+												: selectedFile
+													? "border-slate-200 bg-slate-50"
+													: "border-slate-300 hover:border-teal-400 hover:bg-slate-50"
+										}`}
+										onDragOver={handleDragOver}
+										onDragLeave={handleDragLeave}
+										onDrop={handleDrop}
+										onClick={() => !selectedFile && fileInputRef.current?.click()}
+									>
+										<input
+											type="file"
+											ref={fileInputRef}
+											onChange={handleFileChange}
+											accept="application/pdf"
+											className="hidden"
+										/>
+
+										{selectedFile ? (
+											<div className="w-full flex flex-col items-center">
+												<div className="w-16 h-16 bg-white border border-slate-200 rounded-xl flex items-center justify-center mb-3 shadow-sm">
+													<File className="h-8 w-8 text-teal-600" />
+												</div>
+												<p className="text-sm font-bold text-slate-800 truncate max-w-full px-4">{selectedFile.name}</p>
+												<p className="text-xs font-medium text-slate-500 mt-1">
+													{(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
+												</p>
+												<button
+													onClick={(e) => {
+														e.stopPropagation();
+														setSelectedFile(null);
+													}}
+													className="mt-4 px-4 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
+												>
+													Hapus File
+												</button>
+											</div>
+										) : (
+											<>
+												<div className="w-14 h-14 bg-white border border-slate-200 rounded-full flex items-center justify-center mb-4 shadow-sm">
+													<UploadCloud className="h-6 w-6 text-teal-600" />
+												</div>
+												<p className="text-sm font-bold text-slate-700 mb-1">Drag & drop file PDF di sini</p>
+												<p className="text-xs text-slate-500">Atau klik tombol di bawah untuk memilih file</p>
+												<p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-4">
+													Maksimal {MAX_FILE_SIZE_MB}MB
+												</p>
+												<button
+													onClick={(e) => {
+														e.stopPropagation();
+														fileInputRef.current?.click();
+													}}
+													className="mt-4 px-5 py-2 bg-white border border-slate-300 text-slate-700 text-xs font-bold rounded-lg hover:bg-slate-50 shadow-sm"
+												>
+													Browse File
+												</button>
+											</>
+										)}
+									</div>
+
+									<div className="flex gap-3 mt-6">
+										<button
+											onClick={closeUploadModal}
+											className="flex-1 px-4 py-2.5 bg-white border border-slate-300 text-slate-700 text-sm font-bold rounded-xl hover:bg-slate-50 transition-colors"
+										>
+											Batal
+										</button>
+										<button
+											onClick={handleRequestUpload}
+											disabled={!selectedFile}
+											className="flex-1 px-4 py-2.5 bg-teal-600 text-white text-sm font-bold rounded-xl hover:bg-teal-700 disabled:opacity-50 disabled:bg-slate-300 disabled:text-slate-500 transition-colors"
+										>
+											Lanjutkan
+										</button>
+									</div>
+								</>
+							) : (
+								<div className="flex flex-col items-center justify-center text-center py-4 animate-in fade-in zoom-in-95 duration-200">
+									<div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4">
+										<HelpCircle className="h-8 w-8" />
+									</div>
+									<h3 className="text-xl font-black text-slate-900 mb-2">Konfirmasi Pengiriman</h3>
+									<p className="text-sm text-slate-600">
+										Apakah Anda yakin ingin mengunggah file <br />
+										<span className="font-bold text-slate-800 bg-slate-100 px-2 py-1 rounded mt-1 inline-block">
+											{selectedFile?.name}
+										</span>{" "}
+										<br />
+										untuk jawaban ini?
+									</p>
+
+									{selectedTask?.jawabanPdf && (
+										<div className="mt-4 p-3 bg-amber-50 text-amber-700 text-xs font-semibold rounded-lg border border-amber-200">
+											File lama Anda akan ditimpa (digantikan) dengan file baru ini.
+										</div>
+									)}
+
+									<div className="flex gap-3 mt-8 w-full">
+										<button
+											onClick={() => setIsConfirming(false)}
+											disabled={isUploading}
+											className="flex-1 px-4 py-2.5 bg-white border border-slate-300 text-slate-700 text-sm font-bold rounded-xl hover:bg-slate-50 disabled:opacity-50 transition-colors"
+										>
+											Pilih Ulang File
+										</button>
+										<button
+											onClick={handleUploadSubmit}
+											disabled={isUploading}
+											className="flex-1 px-4 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-xl hover:bg-slate-800 disabled:opacity-50 disabled:bg-slate-500 flex justify-center items-center gap-2 transition-colors"
+										>
+											{isUploading ? (
+												<>
+													<div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />{" "}
+													Mengunggah...
+												</>
+											) : (
+												"Ya, Yakin & Kirim"
+											)}
+										</button>
+									</div>
+								</div>
+							)}
+						</div>
+					</div>
+				</div>
+			)}
 
 			{/* === HIDDEN PDF TEMPLATE === */}
 			<div style={{ position: "fixed", top: 0, left: 0, zIndex: -9999, opacity: 0, pointerEvents: "none" }}>

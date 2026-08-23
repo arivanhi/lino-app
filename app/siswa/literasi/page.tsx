@@ -83,13 +83,15 @@ export default async function LiterasiSiswaPage() {
 			isDeadlinePassed, // Dikirim ke UI
 			hasilId: hasil?.id || null,
 			filePdf: hasil?.fileJawabanPdf || null,
+			soalPdf: t.fileSoalUrl || null,
 		};
 	});
 
 	return (
 		<LiterasiSiswaUI
 			siswaId={siswaId}
-			/* <-- TAMBAHKAN BARIS INI */ stats={{ total: totalTugas, selesai: tugasSelesai, aktif: tugasAktif }}
+			kelasId={kelasId}
+			stats={{ total: totalTugas, selesai: tugasSelesai, aktif: tugasAktif }}
 			tasks={tasksData}
 		/>
 	);

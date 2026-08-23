@@ -15,10 +15,11 @@ import {
 	AlertCircle,
 	HelpCircle,
 	RefreshCw,
+	Eye,
 } from "lucide-react";
 import { submitTugasLiterasi } from "./actions"; // Import Server Action kita
 
-export default function LiterasiSiswaUI({ siswaId, stats, tasks }: any) {
+export default function LiterasiSiswaUI({ siswaId, kelasId, stats, tasks }: any) {
 	const router = useRouter();
 
 	const [currentPage, setCurrentPage] = useState(1);
@@ -41,7 +42,7 @@ export default function LiterasiSiswaUI({ siswaId, stats, tasks }: any) {
 	const [toastMessage, setToastMessage] = useState("");
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
-	const MAX_FILE_SIZE_MB = 1;
+	const MAX_FILE_SIZE_MB = 5;
 
 	const openUploadModal = (task: any) => {
 		setSelectedTask(task);
@@ -113,7 +114,7 @@ export default function LiterasiSiswaUI({ siswaId, stats, tasks }: any) {
 
 				try {
 					// Panggil Server Action dengan parameter string yang aman
-					await submitTugasLiterasi(selectedTask.id, siswaId, selectedFile!.name, base64String);
+					await submitTugasLiterasi(selectedTask.id, siswaId, selectedFile!.name, base64String, kelasId);
 
 					setIsUploading(false);
 					closeUploadModal();
@@ -219,7 +220,20 @@ export default function LiterasiSiswaUI({ siswaId, stats, tasks }: any) {
 									return (
 										<tr key={t.id} className="hover:bg-slate-50 transition-colors">
 											<td className="py-4 px-6 text-center text-slate-500">{actualNumber}</td>
-											<td className="py-4 px-6 font-bold text-slate-800">{t.judul}</td>
+											<td className="py-4 px-6 font-bold text-slate-800">
+												<div className="flex items-center gap-2">
+													{t.judul}
+													{t.soalPdf && (
+														<button
+															onClick={() => window.open(t.soalPdf, "_blank")}
+															className="text-teal-600 hover:text-teal-800 tooltip flex items-center justify-center p-1.5 bg-teal-50 rounded-full"
+															title="Lihat Soal"
+														>
+															<Eye className="h-4 w-4" />
+														</button>
+													)}
+												</div>
+											</td>
 											<td className="py-4 px-6 text-center text-slate-500">{t.tanggalDitugaskan}</td>
 											<td className="py-4 px-6 text-center">
 												<span
@@ -247,6 +261,16 @@ export default function LiterasiSiswaUI({ siswaId, stats, tasks }: any) {
 												</span>
 											</td>
 											<td className="py-4 px-6 text-right">
+												<div className="flex items-center justify-end gap-2">
+													{t.filePdf && (
+														<button
+															onClick={() => window.open(t.filePdf, "_blank")}
+															className="px-3 py-2 bg-slate-100 border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-200 tooltip flex items-center gap-2"
+															title="Lihat Jawaban"
+														>
+															<Eye className="h-4 w-4" />
+														</button>
+													)}
 												{t.status === "Selesai" ? (
 													t.isDeadlinePassed ? (
 														<span className="text-sm font-bold text-slate-400 italic cursor-not-allowed">
@@ -255,7 +279,7 @@ export default function LiterasiSiswaUI({ siswaId, stats, tasks }: any) {
 													) : (
 														<button
 															onClick={() => openUploadModal(t)}
-															className="px-4 py-2 bg-white border border-teal-500 text-teal-600 text-xs font-bold rounded-lg hover:bg-teal-50 flex items-center gap-2 ml-auto"
+															className="px-4 py-2 bg-white border border-teal-500 text-teal-600 text-xs font-bold rounded-lg hover:bg-teal-50 flex items-center gap-2"
 														>
 															<RefreshCw className="h-4 w-4" /> Ganti File
 														</button>
@@ -263,18 +287,19 @@ export default function LiterasiSiswaUI({ siswaId, stats, tasks }: any) {
 												) : t.status === "Aktif" ? (
 													<button
 														onClick={() => openUploadModal(t)}
-														className="px-4 py-2 bg-slate-900 text-white text-xs font-bold rounded-lg hover:bg-slate-800 shadow-sm flex items-center gap-2 ml-auto"
+														className="px-4 py-2 bg-slate-900 text-white text-xs font-bold rounded-lg hover:bg-slate-800 shadow-sm flex items-center gap-2"
 													>
 														<UploadCloud className="h-4 w-4" /> Upload
 													</button>
 												) : (
 													<button
 														onClick={() => openUploadModal(t)}
-														className="px-4 py-2 bg-white border border-red-500 text-red-600 text-xs font-bold rounded-lg hover:bg-red-50 flex items-center gap-2 ml-auto"
+														className="px-4 py-2 bg-white border border-red-500 text-red-600 text-xs font-bold rounded-lg hover:bg-red-50 flex items-center gap-2"
 													>
 														<UploadCloud className="h-4 w-4" /> Upload Susulan
 													</button>
 												)}
+												</div>
 											</td>
 										</tr>
 									);

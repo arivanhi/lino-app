@@ -1,4 +1,3 @@
-// app/siswa/literasi/action.ts
 "use server";
 
 import { PrismaClient as LinoClient } from "../../../prisma/generated/lino-client";
@@ -7,16 +6,16 @@ import path from "path";
 
 const prismaLino = new LinoClient();
 
-export async function submitTugasLiterasi(
-	penugasanId: string, 
-	siswaId: string, 
-	fileName: string, 
+export async function submitTugasNumerasi(
+	penugasanId: string,
+	siswaId: string,
+	fileName: string,
 	fileBase64: string,
 	kelasId: string
 ) {
 	try {
-		// 1. Persiapkan folder penyimpanannya di "storage/uploads" (Bukan public)
-		const uploadDir = path.join(process.cwd(), "storage", "uploads", "jawaban_literasi", kelasId);
+		// 1. Persiapkan folder penyimpanannya di "storage/uploads"
+		const uploadDir = path.join(process.cwd(), "storage", "uploads", "jawaban_numerasi", kelasId);
 		try {
 			await mkdir(uploadDir, { recursive: true });
 		} catch (err) {
@@ -34,8 +33,8 @@ export async function submitTugasLiterasi(
 		const buffer = Buffer.from(base64Data, "base64");
 		await writeFile(filePath, buffer);
 
-		// 4. PATH URL BARU: Mengarah ke API Route yang baru kita buat!
-		const fileUrl = `/api/uploads/jawaban_literasi/${kelasId}/${finalFileName}`;
+		// 4. PATH URL BARU: Mengarah ke API Route
+		const fileUrl = `/api/uploads/jawaban_numerasi/${kelasId}/${finalFileName}`;
 
 		// 5. Simpan link API tersebut ke Database Prisma
 		const existing = await prismaLino.hasilKerjaSiswa.findFirst({
@@ -63,7 +62,7 @@ export async function submitTugasLiterasi(
 
 		return { success: true };
 	} catch (error) {
-		console.error("Error upload tugas:", error);
+		console.error("Error upload tugas numerasi:", error);
 		throw new Error("Gagal menyimpan tugas ke server.");
 	}
 }
