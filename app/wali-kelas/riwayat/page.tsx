@@ -61,7 +61,12 @@ export default async function WaliKelasRiwayatPage({ searchParams }: { searchPar
 		tugasLit.forEach((t) => {
 			const h = t.hasilKerjaSiswa.find((h) => h.siswaId === riwayat.siswaId);
 			if (h?.statusPengerjaan === "SELESAI") completed++;
-			if (h) history.push({ judul: t.judul, status: h.statusPengerjaan, pdf: h.fileJawabanPdf || null });
+			if (h) history.push({ 
+				judul: t.judul, 
+				status: h.statusPengerjaan, 
+				pdf: h.fileJawabanPdf || null,
+				soalPdf: t.fileSoalUrl || null
+			});
 		});
 		return {
 			siswaId: riwayat.siswaId,
@@ -77,6 +82,7 @@ export default async function WaliKelasRiwayatPage({ searchParams }: { searchPar
 		let countTaken = 0;
 		let sumScore = 0;
 		const scores: Record<string, number | null> = {};
+		const numHistory: any[] = [];
 		tugasNum.forEach((t) => {
 			const h = t.hasilKerjaSiswa.find((h) => h.siswaId === riwayat.siswaId);
 			const nilai = h?.nilaiAkhir ?? null;
@@ -85,6 +91,12 @@ export default async function WaliKelasRiwayatPage({ searchParams }: { searchPar
 				countTaken++;
 				sumScore += nilai;
 			}
+			numHistory.push({
+				judul: t.judul,
+				nilai: nilai,
+				soalPdf: t.fileSoalUrl || null,
+				jawabanPdf: h?.fileJawabanPdf || null,
+			});
 		});
 		return {
 			siswaId: riwayat.siswaId,
@@ -94,6 +106,7 @@ export default async function WaliKelasRiwayatPage({ searchParams }: { searchPar
 			totalNum: tugasNum.length,
 			scores,
 			average: countTaken > 0 ? Number((sumScore / countTaken).toFixed(1)) : 0,
+			numHistory,
 		};
 	});
 

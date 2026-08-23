@@ -322,9 +322,9 @@ export default function DashboardClientUI({
 					</div>
 
 					{/* SCROLLABLE WARNING LISTS */}
-					<div className="space-y-6 flex flex-col h-full">
+					<div className="space-y-6 flex flex-col">
 						{/* Box Literasi Belum */}
-						<div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col flex-1 h-[200px]">
+						<div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-[250px]">
 							<div className="p-4 border-b border-slate-100 bg-slate-50">
 								<h4 className="text-xs font-bold text-teal-700 flex items-center gap-1.5">
 									<AlertTriangle className="h-4 w-4" /> Literasi: Belum Selesai
@@ -347,7 +347,7 @@ export default function DashboardClientUI({
 						</div>
 
 						{/* Box Numerasi Merah */}
-						<div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col flex-1 h-[200px]">
+						<div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-[250px]">
 							<div className="p-4 border-b border-slate-100 bg-slate-50">
 								<h4 className="text-xs font-bold text-red-600 flex items-center gap-1.5">
 									<AlertCircle className="h-4 w-4" /> Numerasi: Nilai &lt; 50
