@@ -8,14 +8,18 @@ import RiwayatPimpinanUI from "./ClientUI";
 const prismaEjournal = new EjournalClient();
 const prismaLino = new LinoClient();
 
-export default async function PimpinanRiwayatPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+export default async function PimpinanRiwayatPage({ searchParams }: { searchParams: Promise<{ page?: string; taId?: string }> }) {
 	const awaitedParams = await searchParams;
 	const currentPage = Number(awaitedParams?.page) || 1;
 	const itemsPerPage = 6;
 	const skip = (currentPage - 1) * itemsPerPage;
 
-	const ta = await prismaEjournal.tahunAjaran.findFirst({ where: { isActive: true } });
-	if (!ta) return <div className="p-8 font-bold">Belum Ada Tahun Ajaran Aktif</div>;
+	const semuaTA = await prismaEjournal.tahunAjaran.findMany({ orderBy: { nama: "desc" } });
+	const activeTA = semuaTA.find((t) => t.isActive) || semuaTA[0];
+	const selectedTAId = awaitedParams?.taId || activeTA?.id;
+	const ta = semuaTA.find((t) => t.id === selectedTAId);
+
+	if (!ta) return <div className="p-8 font-bold">Belum Ada Tahun Ajaran</div>;
 
 	const syaratKelasAktif = { riwayatSiswa: { some: { tahunAjaranId: ta.id } } };
 
@@ -111,6 +115,8 @@ export default async function PimpinanRiwayatPage({ searchParams }: { searchPara
 	return (
 		<RiwayatPimpinanUI
 			semesterName={ta.nama}
+			semuaTA={semuaTA}
+			selectedTAId={ta.id}
 			cards={cardsData}
 			allClasses={allDataForPdf}
 			currentPage={currentPage}

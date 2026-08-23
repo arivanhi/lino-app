@@ -41,13 +41,21 @@ export default async function PimpinanNumerasiDetail({ params }: { params: Promi
 		const scores: Record<string, number | null> = {};
 		let total = 0;
 		let count = 0;
+		const numHistory: any[] = [];
 		tasks.forEach((t) => {
-			const val = t.hasilKerjaSiswa.find((h) => h.siswaId === riwayat.siswaId)?.nilaiAkhir ?? null;
+			const h = t.hasilKerjaSiswa.find((h) => h.siswaId === riwayat.siswaId);
+			const val = h?.nilaiAkhir ?? null;
 			scores[t.id] = val;
 			if (val !== null) {
 				total += val;
 				count++;
 			}
+			numHistory.push({
+				judul: t.judul,
+				nilai: val,
+				soalPdf: t.fileSoalUrl || null,
+				jawabanPdf: h?.fileJawabanPdf || null,
+			});
 		});
 
 		const avgSiswa = count > 0 ? Number((total / count).toFixed(1)) : null;
@@ -62,6 +70,7 @@ export default async function PimpinanNumerasiDetail({ params }: { params: Promi
 			nis: riwayat.siswa.nis,
 			scores,
 			average: avgSiswa !== null ? avgSiswa : "-",
+			numHistory,
 		};
 	});
 

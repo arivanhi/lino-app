@@ -259,7 +259,8 @@ export default function LiterasiDetailUI({ kelasNama, waliKelas, semesterName, t
 								<tr>
 									<th className="py-3 px-5">Topic Name</th>
 									<th className="py-3 px-5">Date Assigned</th>
-									<th className="py-3 px-5 text-right">Status</th>
+									<th className="py-3 px-5 text-center">Status</th>
+									<th className="py-3 px-5 text-center">Aksi</th>
 								</tr>
 							</thead>
 							<tbody className="divide-y divide-slate-100">
@@ -280,10 +281,23 @@ export default function LiterasiDetailUI({ kelasNama, waliKelas, semesterName, t
 													year: "numeric",
 												})}
 											</td>
-											<td className="py-3 px-5 text-right">
+											<td className="py-3 px-5 text-center">
 												<span className="bg-teal-100 text-teal-700 text-xs font-bold px-3 py-1 rounded-full">
 													{t.status === "SELESAI" ? "Completed" : "Active"}
 												</span>
+											</td>
+											<td className="py-3 px-5 flex justify-center">
+												{t.fileSoalUrl ? (
+													<button
+														onClick={() => openPdf(t.fileSoalUrl)}
+														className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-teal-50 text-teal-600 tooltip transition-colors"
+														title="Lihat Soal"
+													>
+														<BookOpen className="h-4 w-4" />
+													</button>
+												) : (
+													<span className="text-slate-400 text-xs italic">-</span>
+												)}
 											</td>
 										</tr>
 									))
@@ -403,15 +417,26 @@ export default function LiterasiDetailUI({ kelasNama, waliKelas, semesterName, t
 												</p>
 											</div>
 										</div>
-										{h.pdf && (
-											<button
-												onClick={() => openPdf(h.pdf)}
-												className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-teal-50 text-teal-600 shadow-sm"
-												title="View Document"
-											>
-												<Eye className="h-4 w-4" />
-											</button>
-										)}
+										<div className="flex items-center gap-2">
+											{h.soalPdf && (
+												<button
+													onClick={() => openPdf(h.soalPdf)}
+													className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-teal-50 text-teal-600 shadow-sm"
+													title="Lihat Soal"
+												>
+													<BookOpen className="h-4 w-4" />
+												</button>
+											)}
+											{h.pdf && (
+												<button
+													onClick={() => openPdf(h.pdf)}
+													className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-teal-50 text-teal-600 shadow-sm"
+													title="Lihat Jawaban"
+												>
+													<Eye className="h-4 w-4" />
+												</button>
+											)}
+										</div>
 									</div>
 								))
 							)}

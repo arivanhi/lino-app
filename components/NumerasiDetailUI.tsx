@@ -3,7 +3,7 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Download, X, Calculator, CheckCircle, ClipboardList, Search } from "lucide-react";
+import { ArrowLeft, Download, X, Calculator, CheckCircle, ClipboardList, Search, BookOpen, Eye } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from "recharts";
 
 // ============================================================================
@@ -134,6 +134,9 @@ export default function NumerasiDetailUI({
 	const [isDownloading, setIsDownloading] = useState(false);
 
 	const [search, setSearch] = useState("");
+
+	const [selectedNumHistory, setSelectedNumHistory] = useState<any[] | null>(null);
+	const [studentNameModal, setStudentNameModal] = useState("");
 
 	// Sorting Nama Siswa Abjad (A-Z)
 	const sortedStudents = useMemo(() => {
@@ -325,6 +328,7 @@ export default function NumerasiDetailUI({
 									</th>
 								))}
 								<th className="py-4 px-5 text-center">Rata-rata</th>
+								<th className="py-4 px-5 text-center">Aksi</th>
 							</tr>
 						</thead>
 						<tbody className="divide-y divide-slate-100">
@@ -353,6 +357,17 @@ export default function NumerasiDetailUI({
 										>
 											{s.average}
 										</td>
+										<td className="py-4 px-5 text-center">
+											<button
+												onClick={() => {
+													setStudentNameModal(s.nama);
+													setSelectedNumHistory(s.numHistory);
+												}}
+												className="text-xs font-bold text-amber-600 hover:text-amber-800 bg-amber-50 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap"
+											>
+												Lihat Tugas
+											</button>
+										</td>
 									</tr>
 								))
 							)}
@@ -360,6 +375,73 @@ export default function NumerasiDetailUI({
 					</table>
 				</div>
 			</div>
+
+			{/* --- MODAL LIHAT TUGAS NUMERASI SISWA --- */}
+			{selectedNumHistory && (
+				<div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+					<div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
+						<div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+							<div>
+								<h2 className="text-lg font-bold text-slate-900">Riwayat Numerasi</h2>
+								<p className="text-xs font-semibold text-slate-500">{studentNameModal}</p>
+							</div>
+							<button onClick={() => setSelectedNumHistory(null)} className="text-slate-400 hover:text-slate-600">
+								<X className="h-5 w-5" />
+							</button>
+						</div>
+						<div className="p-6 max-h-[60vh] overflow-y-auto space-y-3 custom-scrollbar">
+							{selectedNumHistory.length === 0 ? (
+								<p className="text-sm text-slate-500 italic text-center">Belum ada tugas yang dikerjakan.</p>
+							) : (
+								selectedNumHistory.map((h: any, i: number) => (
+									<div
+										key={i}
+										className="flex justify-between items-center bg-slate-50 p-3 rounded-xl border border-slate-100"
+									>
+										<div className="flex items-center gap-3">
+											<Calculator className="h-5 w-5 text-slate-400" />
+											<div>
+												<p className="text-sm font-bold text-slate-800">{h.judul}</p>
+												<p
+													className={`text-xs font-bold ${h.nilai !== null && h.nilai < 50 ? "text-red-500" : h.nilai !== null ? "text-teal-600" : "text-slate-400"}`}
+												>
+													Nilai: {h.nilai !== null ? h.nilai : "-"}
+												</p>
+											</div>
+										</div>
+										<div className="flex items-center gap-2">
+											{h.soalPdf && (
+												<button
+													onClick={() => {
+														const pdfWindow = window.open("");
+														if (pdfWindow) pdfWindow.document.write(`<iframe width='100%' height='100%' src='${h.soalPdf}'></iframe>`);
+													}}
+													className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-amber-50 text-amber-600 tooltip transition-colors"
+													title="Lihat Soal"
+												>
+													<BookOpen className="h-4 w-4" />
+												</button>
+											)}
+											{h.jawabanPdf && (
+												<button
+													onClick={() => {
+														const pdfWindow = window.open("");
+														if (pdfWindow) pdfWindow.document.write(`<iframe width='100%' height='100%' src='${h.jawabanPdf}'></iframe>`);
+													}}
+													className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-amber-50 text-amber-600 tooltip transition-colors"
+													title="Lihat Jawaban"
+												>
+													<Eye className="h-4 w-4" />
+												</button>
+											)}
+										</div>
+									</div>
+								))
+							)}
+						</div>
+					</div>
+				</div>
+			)}
 
 			{/* MODAL EXPORT PDF DENGAN DATE PICKER */}
 			{isExportModalOpen && (

@@ -44,7 +44,12 @@ export default async function PimpinanLiterasiDetail({ params }: { params: Promi
 		tasks.forEach((t) => {
 			const h = t.hasilKerjaSiswa.find((h) => h.siswaId === riwayat.siswaId);
 			if (h?.statusPengerjaan === "SELESAI") uploaded++;
-			if (h) history.push({ judul: t.judul, status: h.statusPengerjaan, pdf: h.fileJawabanPdf || null });
+			if (h) history.push({ 
+				judul: t.judul, 
+				status: h.statusPengerjaan, 
+				pdf: h.fileJawabanPdf || null,
+				soalPdf: t.fileSoalUrl || null 
+			});
 		});
 
 		const isMastered = uploaded === tasks.length && tasks.length > 0;
