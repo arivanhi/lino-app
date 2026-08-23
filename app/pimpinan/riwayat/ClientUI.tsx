@@ -3,8 +3,8 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { Download, ChevronLeft, ChevronRight, X } from "lucide-react";
+import ClassFilter from "../../components/ClassFilter";
 
 type StudentData = { nama: string; nis: string; litCompleted: number; litTotal: number; numAvg: number };
 type ClassData = { id: string; nama: string; literasi: number; numerasi: number; students?: StudentData[] };
@@ -136,6 +136,8 @@ export default function RiwayatClientUI({
 	allClasses: ClassData[];
 	currentPage: number;
 	totalPages: number;
+	tab: string;
+	q: string;
 }) {
 	const router = useRouter();
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -186,7 +188,14 @@ export default function RiwayatClientUI({
 		}, 500);
 	};
 
-	const filteredDataPdf = selectedClasses.length === 0 ? allClasses : allClasses.filter((c) => selectedClasses.includes(c.id));
+	const availableClassesForExport = useMemo(() => {
+		return allClasses.filter((k: any) => {
+			const matchTab = tab === "Semua Kelas" || k.nama.startsWith(`${tab}-`);
+			return matchTab;
+		});
+	}, [allClasses, tab]);
+
+	const filteredDataPdf = selectedClasses.length === 0 ? availableClassesForExport : availableClassesForExport.filter((c) => selectedClasses.includes(c.id));
 
 	const formatD = (dStr: string) => new Date(dStr).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
 	const teksPeriode = (!startDate || !endDate) ? `Semester ${semesterName}` : `Periode: ${formatD(startDate)} s.d. ${formatD(endDate)}`;
@@ -218,8 +227,9 @@ export default function RiwayatClientUI({
 			<div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-6">
 				<div>
 					<h1 className="text-3xl font-bold text-slate-900">Riwayat Lino</h1>
-					<p className="text-slate-500 mt-1">Review historical literacy and numeracy performance across classes.</p>
+					<p className="text-slate-500 mt-1 mb-6">Review historical literacy and numeracy performance across classes.</p>
 				</div>
+				<ClassFilter />
 				<div className="flex gap-4 items-end">
 					<div>
 						<label className="block text-xs font-bold text-slate-500 mb-1">Semester</label>
@@ -283,19 +293,19 @@ export default function RiwayatClientUI({
 			{totalPages > 1 && (
 				<div className="flex items-center justify-between border-t border-slate-200 pt-6 mt-8">
 					<Link
-						href={`/pimpinan/riwayat?page=${currentPage - 1}`}
-						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold ${currentPage === 1 ? "pointer-events-none opacity-50" : "hover:bg-slate-50"}`}
+						href={`/pimpinan/riwayat?page=${currentPage - 1}${selectedTAId ? `&taId=${selectedTAId}` : ""}${tab !== "Semua Kelas" ? `&tab=${tab}` : ""}${q ? `&q=${q}` : ""}`}
+						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold text-slate-800 transition-colors ${currentPage === 1 ? "pointer-events-none opacity-50" : "hover:bg-slate-50"}`}
 					>
-						<ChevronLeft className="h-4 w-4" /> Previous
+						<ChevronLeft className="h-4 w-4" /> Sebelumnya
 					</Link>
-					<span className="text-sm font-bold text-slate-900">
-						{currentPage} / {totalPages}
+					<span className="text-sm font-medium text-slate-600">
+						Halaman {currentPage} dari {totalPages}
 					</span>
 					<Link
-						href={`/pimpinan/riwayat?page=${currentPage + 1}`}
-						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold ${currentPage === totalPages ? "pointer-events-none opacity-50" : "hover:bg-slate-50"}`}
+						href={`/pimpinan/riwayat?page=${currentPage + 1}${selectedTAId ? `&taId=${selectedTAId}` : ""}${tab !== "Semua Kelas" ? `&tab=${tab}` : ""}${q ? `&q=${q}` : ""}`}
+						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold text-slate-800 transition-colors ${currentPage === totalPages ? "pointer-events-none opacity-50" : "hover:bg-slate-50"}`}
 					>
-						Next <ChevronRight className="h-4 w-4" />
+						Selanjutnya <ChevronRight className="h-4 w-4" />
 					</Link>
 				</div>
 			)}
@@ -317,13 +327,20 @@ export default function RiwayatClientUI({
 									<label className="flex items-center gap-2 text-sm font-medium text-slate-800 cursor-pointer p-1 hover:bg-slate-50 rounded">
 										<input
 											type="checkbox"
-											checked={selectedClasses.length === 0}
-											onChange={() => setSelectedClasses([])}
+											checked={selectedClasses.length === availableClassesForExport.length && availableClassesForExport.length > 0}
+											onChange={(e) => {
+												if (e.target.checked) {
+													setSelectedClasses(availableClassesForExport.map((c: any) => c.id));
+												} else {
+													setSelectedClasses([]);
+												}
+											}}
 											className="rounded text-slate-900 focus:ring-slate-900"
 										/>
-										Semua Kelas
+										Pilih Semua (Tab {tab})
 									</label>
-									{allClasses.map((c) => (
+									<hr className="border-slate-100 my-1" />
+									{availableClassesForExport.map((c) => (
 										<label key={c.id} className="flex items-center gap-2 text-sm font-medium text-slate-700 cursor-pointer p-1 hover:bg-slate-50 rounded">
 											<input
 												type="checkbox"

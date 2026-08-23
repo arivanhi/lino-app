@@ -4,14 +4,17 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { PrismaClient as EjournalClient } from "../../../prisma/generated/ejournal-client";
 import { PrismaClient as LinoClient } from "../../../prisma/generated/lino-client";
-import { ChevronLeft, ChevronRight, CheckCircle2, Clock } from "lucide-react";
+import { ChevronLeft, ChevronRight, FileText } from "lucide-react";
+import ClassFilter from "../../components/ClassFilter";
 
 const prismaEjournal = new EjournalClient();
 const prismaLino = new LinoClient();
 
-export default async function NumerasiPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+export default async function NumerasiPage({ searchParams }: { searchParams: Promise<{ page?: string, tab?: string, q?: string }> }) {
 	const awaitedParams = await searchParams;
 	const currentPage = Number(awaitedParams?.page) || 1;
+	const tab = awaitedParams?.tab || "Semua Kelas";
+	const q = awaitedParams?.q || "";
 	const itemsPerPage = 6;
 	const skip = (currentPage - 1) * itemsPerPage;
 
@@ -31,9 +34,23 @@ export default async function NumerasiPage({ searchParams }: { searchParams: Pro
 		);
 	}
 
-	const syaratKelasAktif = {
-		riwayatSiswa: { some: { tahunAjaranId: tahunAjaranAktif.id } },
+	// Syarat pencarian: Kelas harus memiliki riwayat siswa pada tahun ajaran yang aktif
+	const syaratKelasAktif: any = {
+		riwayatSiswa: {
+			some: { tahunAjaranId: tahunAjaranAktif.id },
+		},
 	};
+
+	if (q) {
+		syaratKelasAktif.nama = { contains: q };
+	}
+
+	if (tab !== "Semua Kelas") {
+		syaratKelasAktif.nama = {
+			...syaratKelasAktif.nama,
+			startsWith: `${tab}-`,
+		};
+	}
 
 	// 2. Ambil data Kelas dengan paginasi
 	const [kelasData, totalKelas] = await Promise.all([
@@ -66,20 +83,13 @@ export default async function NumerasiPage({ searchParams }: { searchParams: Pro
 		<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
 			<div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
 				<div>
-					<h1 className="text-3xl font-bold text-slate-900">Pemantauan Hasil Numerasi</h1>
-					<p className="text-slate-500 mt-1">Pilih kelas untuk melihat dan mengelola performa numerasi.</p>
+					<h1 className="text-3xl font-bold text-slate-900">Manajemen Numerasi</h1>
+					<p className="text-slate-500 mt-1 mb-6">
+						Tahun Ajaran Aktif: <span className="font-semibold text-teal-600">{tahunAjaranAktif.nama}</span>
+					</p>
 				</div>
-				{/* Mock Search & Filter dari desain View 1 */}
-				<div className="flex gap-2">
-					<input
-						type="text"
-						placeholder="Cari kelas..."
-						className="px-4 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:border-teal-500"
-					/>
-					<button className="px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold hover:bg-slate-50">
-						Filter
-					</button>
-				</div>
+
+				<ClassFilter />
 			</div>
 
 			{/* Grid Kartu Kelas */}
@@ -115,11 +125,11 @@ export default async function NumerasiPage({ searchParams }: { searchParams: Pro
 									</span>
 								) : isCompleted ? (
 									<span className="bg-teal-50 text-teal-700 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
-										<CheckCircle2 className="h-3.5 w-3.5" /> Selesai
+										<FileText className="h-3.5 w-3.5" /> Selesai
 									</span>
 								) : (
 									<span className="bg-amber-50 text-amber-700 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
-										<Clock className="h-3.5 w-3.5" /> Menunggu
+										<FileText className="h-3.5 w-3.5" /> Menunggu
 									</span>
 								)}
 							</div>
@@ -150,8 +160,10 @@ export default async function NumerasiPage({ searchParams }: { searchParams: Pro
 			{totalPages > 1 && (
 				<div className="flex items-center justify-between border-t border-slate-200 pt-6 mt-8">
 					<Link
-						href={`/admin/numerasi?page=${currentPage - 1}`}
-						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold transition-colors ${currentPage === 1 ? "pointer-events-none opacity-50" : "hover:bg-slate-50"}`}
+						href={`/admin/numerasi?page=${currentPage - 1}${tab !== "Semua Kelas" ? `&tab=${tab}` : ""}${q ? `&q=${q}` : ""}`}
+						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold text-slate-800 transition-colors ${
+							currentPage === 1 ? "pointer-events-none opacity-50" : "hover:bg-slate-50"
+						}`}
 					>
 						<ChevronLeft className="h-4 w-4" /> Sebelumnya
 					</Link>
@@ -159,8 +171,10 @@ export default async function NumerasiPage({ searchParams }: { searchParams: Pro
 						Halaman {currentPage} dari {totalPages}
 					</span>
 					<Link
-						href={`/admin/numerasi?page=${currentPage + 1}`}
-						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold transition-colors ${currentPage === totalPages ? "pointer-events-none opacity-50" : "hover:bg-slate-50"}`}
+						href={`/admin/numerasi?page=${currentPage + 1}${tab !== "Semua Kelas" ? `&tab=${tab}` : ""}${q ? `&q=${q}` : ""}`}
+						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold text-slate-800 transition-colors ${
+							currentPage === totalPages ? "pointer-events-none opacity-50" : "hover:bg-slate-50"
+						}`}
 					>
 						Selanjutnya <ChevronRight className="h-4 w-4" />
 					</Link>

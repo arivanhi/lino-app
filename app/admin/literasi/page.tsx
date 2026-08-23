@@ -5,6 +5,7 @@ import Link from "next/link";
 import { PrismaClient as EjournalClient } from "../../../prisma/generated/ejournal-client";
 import { PrismaClient as LinoClient } from "../../../prisma/generated/lino-client";
 import { ChevronLeft, ChevronRight, FileText } from "lucide-react";
+import ClassFilter from "../../components/ClassFilter";
 
 const prismaEjournal = new EjournalClient();
 const prismaLino = new LinoClient();
@@ -17,6 +18,8 @@ export default async function LiterasiPage({
 }) {
 	const awaitedParams = await searchParams;
 	const currentPage = Number(awaitedParams?.page) || 1;
+	const tab = awaitedParams?.tab || "Semua Kelas";
+	const q = awaitedParams?.q || "";
 	const itemsPerPage = 6;
 	const skip = (currentPage - 1) * itemsPerPage;
 
@@ -37,11 +40,22 @@ export default async function LiterasiPage({
 	}
 
 	// Syarat pencarian: Kelas harus memiliki riwayat siswa pada tahun ajaran yang aktif
-	const syaratKelasAktif = {
+	const syaratKelasAktif: any = {
 		riwayatSiswa: {
 			some: { tahunAjaranId: tahunAjaranAktif.id },
 		},
 	};
+
+	if (q) {
+		syaratKelasAktif.nama = { contains: q };
+	}
+
+	if (tab !== "Semua Kelas") {
+		syaratKelasAktif.nama = {
+			...syaratKelasAktif.nama,
+			startsWith: `${tab}-`,
+		};
+	}
 
 	// 2. Ambil data Kelas & Wali Kelas dengan syarat di atas
 	const [kelasData, totalKelas] = await Promise.all([
@@ -86,10 +100,12 @@ export default async function LiterasiPage({
 		<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
 			<div>
 				<h1 className="text-3xl font-bold text-slate-900">Manajemen Literasi</h1>
-				<p className="text-slate-500 mt-1">
+				<p className="text-slate-500 mt-1 mb-6">
 					Tahun Ajaran Aktif: <span className="font-semibold text-teal-600">{tahunAjaranAktif.nama}</span>
 				</p>
 			</div>
+
+			<ClassFilter />
 
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 				{kelasData.map((kelas) => {
@@ -132,8 +148,8 @@ export default async function LiterasiPage({
 			{totalPages > 1 && (
 				<div className="flex items-center justify-between border-t border-slate-200 pt-6 mt-8">
 					<Link
-						href={`/admin/literasi?page=${currentPage - 1}`}
-						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold transition-colors ${
+						href={`/admin/literasi?page=${currentPage - 1}${tab !== "Semua Kelas" ? `&tab=${tab}` : ""}${q ? `&q=${q}` : ""}`}
+						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold text-slate-800 transition-colors ${
 							currentPage === 1 ? "pointer-events-none opacity-50" : "hover:bg-slate-50"
 						}`}
 					>
@@ -143,8 +159,8 @@ export default async function LiterasiPage({
 						Halaman {currentPage} dari {totalPages}
 					</span>
 					<Link
-						href={`/admin/literasi?page=${currentPage + 1}`}
-						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold transition-colors ${
+						href={`/admin/literasi?page=${currentPage + 1}${tab !== "Semua Kelas" ? `&tab=${tab}` : ""}${q ? `&q=${q}` : ""}`}
+						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold text-slate-800 transition-colors ${
 							currentPage === totalPages ? "pointer-events-none opacity-50" : "hover:bg-slate-50"
 						}`}
 					>

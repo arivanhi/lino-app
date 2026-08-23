@@ -8,9 +8,12 @@ import RiwayatPimpinanUI from "./ClientUI";
 const prismaEjournal = new EjournalClient();
 const prismaLino = new LinoClient();
 
-export default async function PimpinanRiwayatPage({ searchParams }: { searchParams: Promise<{ page?: string; taId?: string }> }) {
+export default async function PimpinanRiwayatPage({ searchParams }: { searchParams: Promise<{ page?: string; taId?: string; tab?: string; q?: string }> }) {
 	const awaitedParams = await searchParams;
 	const currentPage = Number(awaitedParams?.page) || 1;
+	const selectedTaId = awaitedParams?.taId;
+	const tab = awaitedParams?.tab || "Semua Kelas";
+	const q = awaitedParams?.q || "";
 	const itemsPerPage = 6;
 	const skip = (currentPage - 1) * itemsPerPage;
 
@@ -21,7 +24,18 @@ export default async function PimpinanRiwayatPage({ searchParams }: { searchPara
 
 	if (!ta) return <div className="p-8 font-bold">Belum Ada Tahun Ajaran</div>;
 
-	const syaratKelasAktif = { riwayatSiswa: { some: { tahunAjaranId: ta.id } } };
+	const syaratKelasAktif: any = { riwayatSiswa: { some: { tahunAjaranId: ta.id } } };
+
+	if (q) {
+		syaratKelasAktif.nama = { contains: q };
+	}
+
+	if (tab !== "Semua Kelas") {
+		syaratKelasAktif.nama = {
+			...syaratKelasAktif.nama,
+			startsWith: `${tab}-`,
+		};
+	}
 
 	const [kelasPaginasi, totalKelas, semuaKelas, semuaSiswa] = await Promise.all([
 		prismaEjournal.kelas.findMany({ skip, take: itemsPerPage, where: syaratKelasAktif, orderBy: { nama: "asc" } }),
@@ -121,6 +135,8 @@ export default async function PimpinanRiwayatPage({ searchParams }: { searchPara
 			allClasses={allDataForPdf}
 			currentPage={currentPage}
 			totalPages={totalPages}
+			tab={tab}
+			q={q}
 		/>
 	);
 }

@@ -3,7 +3,8 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { Download, ChevronRight, ChevronLeft, BookOpen, User, X } from "lucide-react";
+import { Download, ChevronRight, ChevronLeft, BookOpen, User, X, Search } from "lucide-react";
+import ClassFilter from "../../components/ClassFilter";
 
 const KopSurat = () => (
 	<div style={{ marginBottom: "20px", backgroundColor: "white" }}>
@@ -105,9 +106,9 @@ const PageFooter = ({ current, total }: { current: number; total: number }) => (
 	</div>
 );
 
-export default function LiterasiPimpinanClient({ semesterName, cards, allClasses, currentPage, totalPages }: any) {
+export default function LiterasiPimpinanClient({ semesterName, cards, allClasses, currentPage, totalPages, tab, q }: any) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [selectedClass, setSelectedClass] = useState("SEMUA");
+	const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
 
 	// State tanggal mulai dan selesai (Date Picker)
 	const [startDate, setStartDate] = useState("");
@@ -142,7 +143,14 @@ export default function LiterasiPimpinanClient({ semesterName, cards, allClasses
 			});
 	};
 
-	const filteredData = selectedClass === "SEMUA" ? allClasses : allClasses.filter((c: any) => c.id === selectedClass);
+	const availableClassesForExport = useMemo(() => {
+		return allClasses.filter((k: any) => {
+			const matchTab = tab === "Semua Kelas" || k.nama.startsWith(`${tab}-`);
+			return matchTab;
+		});
+	}, [allClasses, tab]);
+
+	const filteredData = selectedClasses.length === 0 ? availableClassesForExport : availableClassesForExport.filter((c: any) => selectedClasses.includes(c.id));
 
 	const teksPeriode = useMemo(() => {
 		if (!startDate || !endDate) return `Semester ${semesterName}`;
@@ -150,14 +158,9 @@ export default function LiterasiPimpinanClient({ semesterName, cards, allClasses
 		return `Periode: ${formatD(startDate)} s.d. ${formatD(endDate)}`;
 	}, [startDate, endDate, semesterName]);
 
-	// Batasi pagination card maksimal 20 per halaman sesuai permintaan
-	const itemsPerPage = 20;
-	const paginatedCards = useMemo(() => {
-		const start = (currentPage - 1) * itemsPerPage;
-		return cards.slice(start, start + itemsPerPage);
-	}, [cards, currentPage]);
-
-	const calculatedTotalPages = Math.max(1, Math.ceil(cards.length / itemsPerPage));
+	// Hapus client-side pagination yang salah (karena cards sudah dipaginasi dari server)
+	const calculatedTotalPages = totalPages;
+	const paginatedCards = cards;
 
 	// Pagination Data PDF
 	const summaryChunks = chunkArray(filteredData, 20);
@@ -176,8 +179,9 @@ export default function LiterasiPimpinanClient({ semesterName, cards, allClasses
 			<div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-6">
 				<div>
 					<h1 className="text-3xl font-bold text-slate-900">Manajemen Literasi</h1>
-					<p className="text-slate-500 mt-1">Pantau dan kelola aktivitas literasi untuk setiap kelas.</p>
+					<p className="text-slate-500 mt-1 mb-6">Pantau dan kelola aktivitas literasi untuk setiap kelas.</p>
 				</div>
+				<ClassFilter />
 				<button
 					onClick={() => setIsModalOpen(true)}
 					className="px-4 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-lg hover:bg-slate-800 flex items-center gap-2"
@@ -189,7 +193,7 @@ export default function LiterasiPimpinanClient({ semesterName, cards, allClasses
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
 				{paginatedCards.map((k: any, idx: number) => {
 					// Menambahkan nomor urut pada card
-					const nomorUrut = (currentPage - 1) * itemsPerPage + idx + 1;
+					const nomorUrut = (currentPage - 1) * 6 + idx + 1;
 					return (
 						<div
 							key={k.id}
@@ -234,18 +238,18 @@ export default function LiterasiPimpinanClient({ semesterName, cards, allClasses
 				<div className="flex items-center justify-between border-t border-slate-200 pt-6 mt-8">
 					<Link
 						href={`/pimpinan/literasi?page=${currentPage - 1}`}
-						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold ${currentPage === 1 ? "pointer-events-none opacity-50" : "hover:bg-slate-50"}`}
+						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold text-slate-800 transition-colors ${currentPage === 1 ? "pointer-events-none opacity-50" : "hover:bg-slate-50"}`}
 					>
-						<ChevronLeft className="h-4 w-4" /> Previous
+						<ChevronLeft className="h-4 w-4" /> Sebelumnya
 					</Link>
 					<span className="text-sm font-bold text-slate-900">
-						Page {currentPage} of {calculatedTotalPages}
+						Halaman {currentPage} dari {calculatedTotalPages}
 					</span>
 					<Link
 						href={`/pimpinan/literasi?page=${currentPage + 1}`}
-						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold ${currentPage === calculatedTotalPages ? "pointer-events-none opacity-50" : "hover:bg-slate-50"}`}
+						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold text-slate-800 transition-colors ${currentPage === calculatedTotalPages ? "pointer-events-none opacity-50" : "hover:bg-slate-50"}`}
 					>
-						Next <ChevronRight className="h-4 w-4" />
+						Selanjutnya <ChevronRight className="h-4 w-4" />
 					</Link>
 				</div>
 			)}
@@ -263,18 +267,41 @@ export default function LiterasiPimpinanClient({ semesterName, cards, allClasses
 						<div className="p-6 space-y-4">
 							<div>
 								<label className="block text-xs font-bold text-slate-700 mb-1">Pilih Kelas</label>
-								<select
-									value={selectedClass}
-									onChange={(e) => setSelectedClass(e.target.value)}
-									className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none text-slate-900 bg-white"
-								>
-									<option value="SEMUA">Semua Kelas</option>
-									{allClasses.map((c: any) => (
-										<option key={c.id} value={c.id}>
+								<div className="border border-slate-300 rounded-lg p-3 bg-white max-h-40 overflow-y-auto space-y-2">
+									<label className="flex items-center gap-2 text-sm font-semibold text-slate-700 cursor-pointer">
+										<input
+											type="checkbox"
+											checked={selectedClasses.length === availableClassesForExport.length && availableClassesForExport.length > 0}
+											onChange={(e) => {
+												if (e.target.checked) {
+													setSelectedClasses(availableClassesForExport.map((c: any) => c.id));
+												} else {
+													setSelectedClasses([]);
+												}
+											}}
+											className="rounded border-slate-300 text-teal-600 focus:ring-teal-500"
+										/>
+										Pilih Semua (Tab {tab})
+									</label>
+									<hr className="border-slate-100" />
+									{availableClassesForExport.map((c: any) => (
+										<label key={c.id} className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer hover:bg-slate-50 p-1 rounded">
+											<input
+												type="checkbox"
+												checked={selectedClasses.includes(c.id)}
+												onChange={(e) => {
+													if (e.target.checked) {
+														setSelectedClasses((prev) => [...prev, c.id]);
+													} else {
+														setSelectedClasses((prev) => prev.filter((id) => id !== c.id));
+													}
+												}}
+												className="rounded border-slate-300 text-teal-600 focus:ring-teal-500"
+											/>
 											{c.nama}
-										</option>
+										</label>
 									))}
-								</select>
+								</div>
 							</div>
 
 							{/* DATE PICKER UNTUK RENTANG WAKTU */}
@@ -337,9 +364,9 @@ export default function LiterasiPimpinanClient({ semesterName, cards, allClasses
 							<div style={{ width: "60px", height: "4px", backgroundColor: "#0f172a", margin: "24px auto" }}></div>
 							<p style={{ fontSize: "14pt", fontWeight: "bold" }}>{teksPeriode}</p>
 							<p style={{ fontSize: "12pt", marginTop: "8px" }}>
-								{selectedClass === "SEMUA"
-									? "Semua Kelas Aktif"
-									: `Kelas: ${allClasses.find((c: any) => c.id === selectedClass)?.nama}`}
+								{selectedClasses.length === 0 || selectedClasses.length === availableClassesForExport.length
+									? (tab === "Semua Kelas" ? "Semua Kelas Aktif" : `Semua Kelas ${tab}`)
+									: `Kelas: ${availableClassesForExport.filter((c: any) => selectedClasses.includes(c.id)).map((c: any) => c.nama).join(", ")}`}
 							</p>
 							<div style={{ marginTop: "100px" }}>
 								<p style={{ fontSize: "14pt", fontWeight: "bold" }}>SMA NEGERI 2 BREBES</p>

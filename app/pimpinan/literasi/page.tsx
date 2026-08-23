@@ -8,9 +8,11 @@ import LiterasiPimpinanClient from "./ClientUI";
 const prismaEjournal = new EjournalClient();
 const prismaLino = new LinoClient();
 
-export default async function PimpinanLiterasiPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+export default async function PimpinanLiterasiPage({ searchParams }: { searchParams: Promise<{ page?: string; tab?: string; q?: string }> }) {
 	const awaitedParams = await searchParams;
 	const currentPage = Number(awaitedParams?.page) || 1;
+	const tab = awaitedParams?.tab || "Semua Kelas";
+	const q = awaitedParams?.q || "";
 	const itemsPerPage = 6;
 	const skip = (currentPage - 1) * itemsPerPage;
 
@@ -18,7 +20,18 @@ export default async function PimpinanLiterasiPage({ searchParams }: { searchPar
 	if (!ta) return <div className="p-8 font-bold">Belum ada Tahun Ajaran aktif.</div>;
 
 	// Tarik semua kelas yang punya siswa di TA aktif
-	const syaratKelasAktif = { riwayatSiswa: { some: { tahunAjaranId: ta.id } } };
+	const syaratKelasAktif: any = { riwayatSiswa: { some: { tahunAjaranId: ta.id } } };
+
+	if (q) {
+		syaratKelasAktif.nama = { contains: q };
+	}
+
+	if (tab !== "Semua Kelas") {
+		syaratKelasAktif.nama = {
+			...syaratKelasAktif.nama,
+			startsWith: `${tab}-`,
+		};
+	}
 
 	// Tarik Data Kelas (Pagination + Keseluruhan untuk PDF)
 	const [kelasPaginasi, totalKelas, semuaKelas, semuaSiswa] = await Promise.all([
@@ -97,6 +110,8 @@ export default async function PimpinanLiterasiPage({ searchParams }: { searchPar
 			allClasses={allDataForPdf}
 			currentPage={currentPage}
 			totalPages={totalPages}
+			tab={tab}
+			q={q}
 		/>
 	);
 }

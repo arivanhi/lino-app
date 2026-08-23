@@ -9,6 +9,8 @@ import { Download, ChevronLeft, ChevronRight, X } from "lucide-react";
 type StudentData = { nama: string; nis: string; litCompleted: number; litTotal: number; numAvg: number };
 type ClassData = { id: string; nama: string; literasi: number; numerasi: number; students?: StudentData[] };
 
+import ClassFilter from "../../components/ClassFilter";
+
 // ============================================================================
 // KOMPONEN KOP SURAT
 // ============================================================================
@@ -136,6 +138,8 @@ export default function RiwayatClientUI({
 	allClasses: ClassData[];
 	currentPage: number;
 	totalPages: number;
+	tab: string;
+	q: string;
 }) {
 	const router = useRouter();
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -244,6 +248,8 @@ export default function RiwayatClientUI({
 				</div>
 			</div>
 
+			<ClassFilter />
+
 			{/* KARTU KELAS WEB UI */}
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
 				{cards.map((k) => {
@@ -283,19 +289,23 @@ export default function RiwayatClientUI({
 			{totalPages > 1 && (
 				<div className="flex items-center justify-between border-t border-slate-200 pt-6 mt-8">
 					<Link
-						href={`/admin/riwayat?page=${currentPage - 1}`}
-						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold ${currentPage === 1 ? "pointer-events-none opacity-50" : "hover:bg-slate-50"}`}
+						href={`?page=${currentPage - 1}${selectedTaId ? `&taId=${selectedTaId}` : ""}${tab !== "Semua Kelas" ? `&tab=${tab}` : ""}${q ? `&q=${q}` : ""}`}
+						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold text-slate-800 transition-colors ${
+							currentPage === 1 ? "pointer-events-none opacity-50" : "hover:bg-slate-50"
+						}`}
 					>
-						<ChevronLeft className="h-4 w-4" /> Previous
+						<ChevronLeft className="h-4 w-4" /> Sebelumnya
 					</Link>
-					<span className="text-sm font-bold text-slate-900">
-						{currentPage} / {totalPages}
+					<span className="text-sm font-medium text-slate-600">
+						Halaman {currentPage} dari {totalPages}
 					</span>
 					<Link
-						href={`/admin/riwayat?page=${currentPage + 1}`}
-						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold ${currentPage === totalPages ? "pointer-events-none opacity-50" : "hover:bg-slate-50"}`}
+						href={`?page=${currentPage + 1}${selectedTaId ? `&taId=${selectedTaId}` : ""}${tab !== "Semua Kelas" ? `&tab=${tab}` : ""}${q ? `&q=${q}` : ""}`}
+						className={`flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold text-slate-800 transition-colors ${
+							currentPage === totalPages ? "pointer-events-none opacity-50" : "hover:bg-slate-50"
+						}`}
 					>
-						Next <ChevronRight className="h-4 w-4" />
+						Selanjutnya <ChevronRight className="h-4 w-4" />
 					</Link>
 				</div>
 			)}
