@@ -58,6 +58,8 @@ model PenugasanLino {
   kelasId         String?  // Jika null, berarti untuk semua kelas
   guruId          String   // Siapa yang menugaskan
   
+  fileSoalUrl     String?  @db.Text
+  
   waktuMulai      DateTime
   waktuSelesai    DateTime
   status          StatusTugas @default(DRAFT)

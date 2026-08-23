@@ -39,7 +39,7 @@ export default async function NumerasiDetailServerPage({ params }: { params: Pro
 			const sum = hasilTugasIni.reduce((acc, curr) => acc + (curr.nilaiAkhir || 0), 0);
 			avg = Math.round(sum / hasilTugasIni.length);
 		}
-		return { id: tugas.id, judul: tugas.judul, avgScore: avg };
+		return { id: tugas.id, judul: tugas.judul, avgScore: avg, fileSoalUrl: tugas.fileSoalUrl, createdAt: tugas.createdAt };
 	});
 
 	// 2. Format Data untuk Tabel Siswa (Nilai per Tugas)

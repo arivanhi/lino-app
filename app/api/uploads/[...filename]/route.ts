@@ -5,13 +5,13 @@ import path from "path";
 import fs from "fs";
 
 // Menggunakan Promise pada params karena ini standar Next.js 15 (App Router)
-export async function GET(req: NextRequest, { params }: { params: Promise<{ filename: string }> }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ filename: string[] }> }) {
 	try {
 		const resolvedParams = await params;
-		const filename = resolvedParams.filename;
+		const filename = resolvedParams.filename.join('/');
 
 		// Kita arahkan ke folder "storage/uploads" di root proyek
-		const filePath = path.join(process.cwd(), "storage", "uploads", filename);
+		const filePath = path.join(process.cwd(), "storage", "uploads", ...resolvedParams.filename);
 
 		// Cek apakah file benar-benar ada secara fisik
 		if (!fs.existsSync(filePath)) {

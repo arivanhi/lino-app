@@ -3,12 +3,12 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Upload, Plus, X, Search, FileSpreadsheet, Download, Pencil, ArrowLeft, TrendingUp } from "lucide-react";
+import { Upload, Plus, X, Search, FileSpreadsheet, Download, Pencil, ArrowLeft, TrendingUp, FileText, Printer, Eye } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 import * as XLSX from "xlsx";
-import { saveNilaiNumerasi, uploadExcelNumerasi } from "./actions";
+import { saveNilaiNumerasi, uploadExcelNumerasi, tambahTopikNumerasi } from "./actions";
 
-type TaskProps = { id: string; judul: string; avgScore: number };
+type TaskProps = { id: string; judul: string; avgScore: number; fileSoalUrl?: string | null; createdAt?: Date };
 type StudentProps = {
 	siswaId: string;
 	nama: string;
@@ -16,6 +16,103 @@ type StudentProps = {
 	scores: Record<string, number | null>;
 	average: number;
 };
+
+// ============================================================================
+// KOMPONEN KOP SURAT
+// ============================================================================
+const KopSurat = () => (
+	<div style={{ marginBottom: "20px", backgroundColor: "white", pageBreakInside: "avoid" }}>
+		<div
+			style={{
+				display: "flex",
+				alignItems: "center",
+				borderBottom: "3px solid black",
+				paddingBottom: "8px",
+				marginBottom: "2px",
+			}}
+		>
+			<img
+				src="/logo_sekolah.jpg"
+				onError={(e) => (e.currentTarget.src = "/logo.jpeg")}
+				style={{ width: "80px", height: "80px", objectFit: "contain", margin: "0 10px" }}
+			/>
+			<div style={{ flex: 1, textAlign: "center" }}>
+				<h2
+					style={{
+						fontFamily: '"Times New Roman", Times, serif',
+						fontSize: "22px",
+						fontWeight: "bold",
+						margin: "0 0 4px 0",
+						letterSpacing: "1px",
+						color: "#000",
+					}}
+				>
+					SMA NEGERI 2 BREBES
+				</h2>
+				<p style={{ fontFamily: "Arial, sans-serif", fontSize: "11pt", margin: "0 0 2px 0", color: "#000" }}>
+					Jl. Jend. A. Yani 77 Brebes 52212 Telp. (0283) 671060
+				</p>
+				<p style={{ fontFamily: "Arial, sans-serif", fontSize: "11pt", margin: 0, color: "#000" }}>
+					Website: sman2brebes.sch.id - Email: smandabes@gmail.com
+				</p>
+			</div>
+			<div style={{ width: "100px" }}></div>
+		</div>
+		<div style={{ borderBottom: "1px solid black" }}></div>
+	</div>
+);
+
+// ============================================================================
+// KOMPONEN PEMBANTU PAGINATION MANUAL (PDF)
+// ============================================================================
+const chunkArray = <T,>(arr: T[], size: number): T[][] => {
+	const chunked = [];
+	for (let i = 0; i < arr.length; i += size) {
+		chunked.push(arr.slice(i, i + size));
+	}
+	return chunked;
+};
+
+const PageContainer = ({ children }: { children: React.ReactNode }) => {
+	return (
+		<div
+			style={{
+				width: "297mm",
+				height: "209.8mm", // Sangat pas dengan A4 Landscape tanpa overflow
+				backgroundColor: "white",
+				color: "black",
+				boxSizing: "border-box",
+				padding: "10mm 15mm",
+				position: "relative",
+				display: "flex",
+				flexDirection: "column",
+				overflow: "hidden"
+			}}
+		>
+			{children}
+		</div>
+	);
+};
+
+const PageFooter = ({ current, total }: { current: number; total: number }) => (
+	<div
+		style={{
+			marginTop: "auto",
+			paddingTop: "10px",
+			borderTop: "1px solid #e2e8f0",
+			display: "flex",
+			justifyContent: "space-between",
+			alignItems: "center",
+			fontSize: "9pt",
+			color: "#64748b",
+		}}
+	>
+		<span>Dicetak dari Sistem Lino - SMA Negeri 2 Brebes</span>
+		<span>
+			Halaman {current} dari {total}
+		</span>
+	</div>
+);
 
 export default function NumerasiDetailClient({
 	kelasId,
@@ -34,13 +131,25 @@ export default function NumerasiDetailClient({
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const [search, setSearch] = useState("");
-	const [modalType, setModalType] = useState<"UPLOAD" | "ADD" | null>(null);
+	const [modalType, setModalType] = useState<"UPLOAD" | "ADD" | "ADD_TOPIK" | null>(null);
 	const [isDragging, setIsDragging] = useState(false);
 
 	const [namaTugas, setNamaTugas] = useState("");
 	const [selectedStudent, setSelectedStudent] = useState("");
 	const [inputNilai, setInputNilai] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	const [selectedFile, setSelectedFile] = useState<File | null>(null);
+	const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
+	const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+
+	const [isDownloading, setIsDownloading] = useState(false);
+	const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+
+	const showToast = (message: string, type: "success" | "error") => {
+		setToast({ message, type });
+		setTimeout(() => setToast(null), 3000);
+	};
 
 	// Filter data siswa sesuai pencarian, dan diurutkan abjad
 	const sortedStudents = [...students].sort((a, b) => a.nama.localeCompare(b.nama));
@@ -92,9 +201,31 @@ export default function NumerasiDetailClient({
 			setNamaTugas("");
 			setSelectedStudent("");
 			setInputNilai("");
+			showToast("Nilai berhasil disimpan", "success");
 			router.refresh();
 		} catch (error) {
-			alert("Terjadi kesalahan saat menyimpan nilai.");
+			showToast("Terjadi kesalahan saat menyimpan nilai.", "error");
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
+
+	const handleTambahTopik = async (e: React.FormEvent) => {
+		e.preventDefault();
+		setIsSubmitting(true);
+		try {
+			const formData = new FormData();
+			formData.append("judul", namaTugas);
+			if (selectedFile) formData.append("file", selectedFile);
+			
+			await tambahTopikNumerasi(kelasId, formData);
+			setModalType(null);
+			setNamaTugas("");
+			setSelectedFile(null);
+			showToast("Topik berhasil disimpan", "success");
+			router.refresh();
+		} catch (error: any) {
+			showToast(error.message || "Terjadi kesalahan saat menyimpan topik.", "error");
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -113,9 +244,10 @@ export default function NumerasiDetailClient({
 				await uploadExcelNumerasi(kelasId, jsonData);
 
 				setModalType(null);
+				showToast("Nilai Excel berhasil diupload", "success");
 				router.refresh();
 			} catch (error) {
-				alert("Format Excel tidak sesuai. Pastikan menggunakan template yang disediakan.");
+				showToast("Format Excel tidak sesuai. Pastikan menggunakan template yang disediakan.", "error");
 			} finally {
 				setIsSubmitting(false);
 			}
@@ -141,8 +273,59 @@ export default function NumerasiDetailClient({
 		XLSX.writeFile(workbook, `Template_Nilai_Kelas_${namaKelas}.xlsx`);
 	};
 
+	const handleDownloadDetail = async () => {
+		setIsDownloading(true);
+		setTimeout(async () => {
+			try {
+				const html2pdf = (await import("html2pdf.js")).default;
+				const element = document.getElementById("pdf-detail-report");
+				if (!element) return;
+
+				const opt = {
+					margin: 0,
+					filename: `Laporan_Numerasi_${namaKelas}.pdf`,
+					image: { type: "jpeg", quality: 1 },
+					html2canvas: { scale: 2, useCORS: true },
+					jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
+					pagebreak: { mode: ["css"] },
+				};
+
+				await html2pdf().set(opt).from(element).save();
+				showToast("Laporan berhasil diunduh", "success");
+			} catch (error) {
+				console.error("PDF Export error:", error);
+				showToast("Terjadi kesalahan saat mengekspor laporan.", "error");
+			} finally {
+				setIsDownloading(false);
+			}
+		}, 500);
+	};
+
+	const openPdf = (url: string) => {
+		setPdfUrl(url);
+		setIsPdfModalOpen(true);
+	};
+
+	// Pagination PDF variables
+	const PDF_MAX_ROWS = 10;
+	const numerasiChunks = chunkArray(sortedStudents, PDF_MAX_ROWS);
+	if (numerasiChunks.length === 0) numerasiChunks.push([]);
+	const pdfTotalPages = 1 + numerasiChunks.length;
+	let pageCounter = 1;
+
 	return (
-		<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
+		<div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6 relative">
+			{/* TOAST NOTIFICATION */}
+			{toast && (
+				<div
+					className={`fixed top-4 right-4 z-[200] px-6 py-3 rounded-xl shadow-lg border text-sm font-bold animate-in fade-in slide-in-from-top-5 duration-300 ${
+						toast.type === "success" ? "bg-teal-50 border-teal-200 text-teal-800" : "bg-red-50 border-red-200 text-red-800"
+					}`}
+				>
+					{toast.message}
+				</div>
+			)}
+
 			{/* Header View dengan Tombol Back */}
 			<div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
 				<div className="flex items-start gap-4">
@@ -163,7 +346,14 @@ export default function NumerasiDetailClient({
 					</div>
 				</div>
 
-				<div className="flex gap-3 h-fit">
+				<div className="flex gap-3 h-fit flex-wrap justify-end">
+					<button
+						onClick={handleDownloadDetail}
+						disabled={isDownloading}
+						className="px-4 py-2.5 bg-slate-100 text-slate-700 border border-slate-300 text-sm font-semibold rounded-lg shadow-sm hover:bg-slate-200 transition-colors flex items-center gap-2"
+					>
+						<Printer className="h-4 w-4" /> {isDownloading ? "Memproses..." : "Cetak PDF"}
+					</button>
 					<button
 						onClick={() => setModalType("UPLOAD")}
 						className="px-4 py-2.5 bg-white text-slate-900 border border-slate-300 text-sm font-semibold rounded-lg shadow-sm hover:bg-slate-50 transition-colors flex items-center gap-2"
@@ -180,6 +370,16 @@ export default function NumerasiDetailClient({
 						className="px-4 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-lg shadow-sm hover:bg-slate-800 transition-colors flex items-center gap-2"
 					>
 						<Plus className="h-4 w-4" /> Tambah Nilai
+					</button>
+					<button
+						onClick={() => {
+							setNamaTugas(`Numerasi ${tasks.length + 1}`);
+							setSelectedFile(null);
+							setModalType("ADD_TOPIK");
+						}}
+						className="px-4 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-lg shadow-sm hover:bg-teal-700 transition-colors flex items-center gap-2"
+					>
+						<FileText className="h-4 w-4" /> Tambah Topik
 					</button>
 				</div>
 			</div>
@@ -239,6 +439,55 @@ export default function NumerasiDetailClient({
 							/>
 						</LineChart>
 					</ResponsiveContainer>
+				</div>
+			</div>
+
+			{/* Daftar Topik Penugasan */}
+			<div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mt-8">
+				<h3 className="font-bold text-slate-900 text-lg flex items-center gap-2 mb-4">
+					<FileText className="h-5 w-5 text-indigo-600" /> Daftar Topik Tugas
+				</h3>
+				<div className="overflow-x-auto">
+					<table className="w-full text-sm text-left">
+						<thead className="bg-slate-50 text-slate-500 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+							<tr>
+								<th className="px-6 py-3 w-16 text-center">No</th>
+								<th className="px-6 py-3">Nama Topik</th>
+								<th className="px-6 py-3 w-48 text-center">Rata-Rata Kelas</th>
+								<th className="px-6 py-3 w-32 text-center">Aksi</th>
+							</tr>
+						</thead>
+						<tbody className="divide-y divide-slate-100">
+							{tasks.length === 0 ? (
+								<tr>
+									<td colSpan={4} className="py-6 text-center text-slate-500 italic">
+										Belum ada topik yang ditambahkan.
+									</td>
+								</tr>
+							) : (
+								tasks.map((task, idx) => (
+									<tr key={task.id} className="hover:bg-slate-50">
+										<td className="px-6 py-4 text-center font-medium text-slate-500">{idx + 1}</td>
+										<td className="px-6 py-4 font-bold text-slate-800">{task.judul}</td>
+										<td className="px-6 py-4 text-center font-semibold text-slate-700">{task.avgScore}</td>
+										<td className="px-6 py-4 text-center">
+											{task.fileSoalUrl ? (
+												<button
+													onClick={() => openPdf(task.fileSoalUrl!)}
+													className="p-2 text-teal-600 hover:bg-teal-50 rounded-md transition-colors tooltip flex justify-center w-full"
+													title="Lihat Soal PDF"
+												>
+													<Eye className="h-4 w-4" />
+												</button>
+											) : (
+												<span className="text-xs text-slate-400 italic">Tidak ada file</span>
+											)}
+										</td>
+									</tr>
+								))
+							)}
+						</tbody>
+					</table>
 				</div>
 			</div>
 
@@ -473,6 +722,229 @@ export default function NumerasiDetailClient({
 					</div>
 				</div>
 			)}
+
+			{/* --- MODAL TAMBAH TOPIK --- */}
+			{modalType === "ADD_TOPIK" && (
+				<div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+					<div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+						<div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+							<h2 className="text-lg font-bold text-slate-900 border-l-4 border-teal-600 pl-2">Tambah Topik Soal</h2>
+							<button onClick={() => setModalType(null)} className="text-slate-400 hover:text-slate-600">
+								<X className="h-5 w-5" />
+							</button>
+						</div>
+
+						<form onSubmit={handleTambahTopik} className="p-6 space-y-4">
+							<div>
+								<label className="block text-xs font-bold text-slate-800 mb-1">Judul Penugasan</label>
+								<input
+									type="text"
+									required
+									value={namaTugas}
+									onChange={(e) => setNamaTugas(e.target.value)}
+									placeholder="Misal: Numerasi 1"
+									className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 bg-white placeholder:text-slate-400 focus:border-teal-500 outline-none"
+								/>
+							</div>
+
+							<div>
+								<label className="block text-xs font-bold text-slate-800 mb-1">File Soal PDF (Opsional)</label>
+								<input
+									type="file"
+									ref={fileInputRef}
+									className="hidden"
+									accept=".pdf"
+									onChange={(e) => {
+										if (e.target.files && e.target.files[0]) setSelectedFile(e.target.files[0]);
+									}}
+								/>
+
+								<div
+									onDragOver={(e) => {
+										e.preventDefault();
+										setIsDragging(true);
+									}}
+									onDragLeave={() => setIsDragging(false)}
+									onDrop={(e) => {
+										e.preventDefault();
+										setIsDragging(false);
+										if (e.dataTransfer.files && e.dataTransfer.files[0]) setSelectedFile(e.dataTransfer.files[0]);
+									}}
+									onClick={() => fileInputRef.current?.click()}
+									className={`border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center transition-colors cursor-pointer group mb-2 ${isDragging ? "border-teal-500 bg-teal-50" : "border-slate-300 bg-slate-50 hover:bg-slate-100"
+										}`}
+								>
+									<FileText className="h-8 w-8 text-teal-600 mb-2 group-hover:scale-110 transition-transform" />
+									<p className="text-sm font-bold text-slate-800 text-center">
+										{selectedFile ? selectedFile.name : "Klik atau Drag & Drop file PDF"}
+									</p>
+									<p className="text-xs text-slate-500 mt-1">Maks 5MB</p>
+								</div>
+							</div>
+
+							<div className="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-6">
+								<button
+									type="button"
+									onClick={() => setModalType(null)}
+									className="px-4 py-2 border border-slate-300 text-slate-700 text-sm font-bold rounded-lg hover:bg-slate-50 transition-colors"
+								>
+									Batal
+								</button>
+								<button
+									type="submit"
+									disabled={isSubmitting}
+									className="px-4 py-2 bg-teal-600 text-white text-sm font-bold rounded-lg hover:bg-teal-700 disabled:opacity-50 transition-colors"
+								>
+									{isSubmitting ? "Menyimpan..." : "Simpan Topik"}
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			)}
+
+			{/* --- MODAL PREVIEW PDF --- */}
+			{isPdfModalOpen && pdfUrl && (
+				<div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+					<div className="bg-white rounded-2xl shadow-xl w-full max-w-4xl h-[90vh] overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+						<div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+							<h2 className="text-lg font-bold text-slate-900">Preview Dokumen</h2>
+							<button onClick={() => setIsPdfModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+								<X className="h-5 w-5" />
+							</button>
+						</div>
+						<div className="flex-1 w-full bg-slate-200">
+							<iframe src={pdfUrl} className="w-full h-full border-none" title="PDF Document" />
+						</div>
+					</div>
+				</div>
+			)}
+
+			{/* --- HIDDEN PDF TEMPLATE (LANDSCAPE MAX 10 DATA/HALAMAN) --- */}
+			<div style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }}>
+				<div id="pdf-detail-report" style={{ backgroundColor: "white", width: "297mm" }}>
+
+					{/* Cover Page */}
+					<PageContainer>
+						<div
+							style={{
+								flex: 1,
+								display: "flex",
+								flexDirection: "column",
+								alignItems: "center",
+								justifyContent: "center",
+								textAlign: "center",
+							}}
+						>
+							<img
+								src="/logo_sekolah.jpg"
+								onError={(e) => (e.currentTarget.src = "/logo.jpeg")}
+								style={{ width: "120px", height: "120px", marginBottom: "24px", objectFit: "contain" }}
+							/>
+							<h1 style={{ fontSize: "28pt", fontWeight: "bold", textTransform: "uppercase", marginBottom: "8px" }}>
+								LAPORAN DETAIL KELAS
+							</h1>
+							<h2 style={{ fontSize: "22pt", fontWeight: "bold", color: "#0f172a" }}>Kelas {namaKelas}</h2>
+							<div style={{ width: "50px", height: "4px", backgroundColor: "#0f172a", margin: "24px auto" }}></div>
+
+							<p style={{ fontSize: "14pt", fontWeight: "bold" }}>Laporan Performa Numerasi</p>
+
+							<p style={{ fontSize: "14pt", marginTop: "60px", fontWeight: "bold" }}>SMA NEGERI 2 BREBES</p>
+						</div>
+						<PageFooter current={pageCounter++} total={pdfTotalPages} />
+					</PageContainer>
+					<div className="html2pdf__page-break"></div>
+
+					{/* Content Page: Tabel Numerasi (10 Baris per Halaman) */}
+					{numerasiChunks.map((chunk, chunkIdx) => {
+						const isVeryLastPage = chunkIdx === numerasiChunks.length - 1;
+						return (
+							<div key={`num-page-${chunkIdx}`}>
+								<PageContainer>
+									<KopSurat />
+									<h3 style={{ fontSize: "14pt", fontWeight: "bold", margin: "0 0 15px 0", textAlign: "center" }}>
+										Detail Performa Numerasi Siswa {numerasiChunks.length > 1 ? `(Bag. ${chunkIdx + 1})` : ""}
+									</h3>
+									<table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
+										<thead>
+											<tr style={{ backgroundColor: "#f1f5f9" }}>
+												<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", width: "5%" }}>No</th>
+												<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "30%" }}>Nama Siswa</th>
+												<th style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "left", width: "15%" }}>NIS</th>
+												{tasks.map((h: any) => (
+													<th key={h.id} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+														{h.judul}
+													</th>
+												))}
+												<th
+													style={{
+														border: "1px solid #cbd5e1",
+														padding: "10px",
+														textAlign: "center",
+														backgroundColor: "#e2e8f0",
+													}}
+												>
+													Rata-Rata
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											{chunk.length === 0 ? (
+												<tr>
+													<td colSpan={tasks.length + 4} style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center", fontStyle: "italic" }}>
+														Tidak ada data.
+													</td>
+												</tr>
+											) : (
+												chunk.map((s: any, idx: number) => (
+													<tr key={s.siswaId} style={{ pageBreakInside: "avoid" }}>
+														<td style={{ border: "1px solid #cbd5e1", padding: "10px", textAlign: "center" }}>
+															{chunkIdx * PDF_MAX_ROWS + idx + 1}
+														</td>
+														<td style={{ border: "1px solid #cbd5e1", padding: "10px", fontWeight: "bold" }}>{s.nama}</td>
+														<td style={{ border: "1px solid #cbd5e1", padding: "10px" }}>{s.nis}</td>
+														{tasks.map((h: any) => {
+															const val = s.scores[h.id];
+															return (
+																<td
+																	key={h.id}
+																	style={{
+																		border: "1px solid #cbd5e1",
+																		padding: "10px",
+																		textAlign: "center",
+																		color: val !== null && val < 70 ? "red" : "black",
+																		fontWeight: val !== null && val < 70 ? "bold" : "normal"
+																	}}
+																>
+																	{val !== null ? val : "-"}
+																</td>
+															);
+														})}
+														<td
+															style={{
+																border: "1px solid #cbd5e1",
+																padding: "10px",
+																textAlign: "center",
+																fontWeight: "bold",
+																color: s.average > 0 && Number(s.average) < 70 ? "red" : "black",
+																backgroundColor: "#f8fafc",
+															}}
+														>
+															{s.average > 0 ? s.average : "-"}
+														</td>
+													</tr>
+												))
+											)}
+										</tbody>
+									</table>
+									<PageFooter current={pageCounter++} total={pdfTotalPages} />
+								</PageContainer>
+								{!isVeryLastPage && <div className="html2pdf__page-break"></div>}
+							</div>
+						);
+					})}
+				</div>
+			</div>
 
 			{/* Custom CSS untuk styling custom scrollbar pada Web UI */}
 			<style jsx global>{`

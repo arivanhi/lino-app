@@ -4,6 +4,8 @@
 import { PrismaClient as EjournalClient } from "../../../../prisma/generated/ejournal-client";
 import { PrismaClient as LinoClient } from "../../../../prisma/generated/lino-client";
 import { revalidatePath } from "next/cache";
+import fs from "fs";
+import path from "path";
 
 const prismaEjournal = new EjournalClient();
 const prismaLino = new LinoClient();
@@ -119,6 +121,53 @@ export async function uploadExcelNumerasi(kelasId: string, dataExcel: any[]) {
 			}
 		}
 	}
+
+	revalidatePath(`/admin/numerasi/${kelasId}`);
+	return { success: true };
+}
+
+// 3. Fungsi untuk Tambah Topik beserta File Soal PDF
+export async function tambahTopikNumerasi(kelasId: string, formData: FormData) {
+	const ta = await prismaEjournal.tahunAjaran.findFirst({ where: { isActive: true } });
+	if (!ta) throw new Error("Tahun ajaran aktif tidak ditemukan.");
+
+	const judul = formData.get("judul") as string;
+	const file = formData.get("file") as File | null;
+	if (!judul) throw new Error("Judul topik harus diisi.");
+
+	let fileSoalUrl = null;
+
+	if (file && file.size > 0) {
+		const buffer = Buffer.from(await file.arrayBuffer());
+		const ext = path.extname(file.name) || ".pdf";
+		const safeName = judul.replace(/[^a-zA-Z0-9]/g, "_").toLowerCase();
+		const filename = `${Date.now()}_${safeName}${ext}`;
+		
+		const uploadDir = path.join(process.cwd(), "storage", "uploads", "tugas_numerasi", kelasId);
+		if (!fs.existsSync(uploadDir)) {
+			fs.mkdirSync(uploadDir, { recursive: true });
+		}
+
+		const filePath = path.join(uploadDir, filename);
+		fs.writeFileSync(filePath, buffer);
+		
+		// The API route handles files in storage/uploads
+		fileSoalUrl = `/api/uploads/tugas_numerasi/${kelasId}/${filename}`;
+	}
+
+	await prismaLino.penugasanLino.create({
+		data: {
+			judul,
+			tipe: "NUMERASI",
+			tahunAjaranId: ta.id,
+			kelasId,
+			guruId: "ADMIN_TU",
+			waktuMulai: new Date(),
+			waktuSelesai: new Date(),
+			status: "SELESAI",
+			fileSoalUrl,
+		},
+	});
 
 	revalidatePath(`/admin/numerasi/${kelasId}`);
 	return { success: true };
