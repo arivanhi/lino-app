@@ -37,6 +37,18 @@ export default function ClassFilter() {
 		router.push(`${pathname}?${params.toString()}`);
 	};
 
+	// DEBOUNCE SEARCH
+	useEffect(() => {
+		// Prevent running if query hasn't changed from what's in URL
+		if (query === (searchParams.get("q") || "")) return;
+
+		const timer = setTimeout(() => {
+			updateUrl(activeTab, query);
+		}, 500);
+
+		return () => clearTimeout(timer);
+	}, [query, activeTab]); // Dependencies trigger the debounce when user types
+
 	const handleTabChange = (tab: string) => {
 		updateUrl(tab, query);
 	};

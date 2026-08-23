@@ -130,6 +130,8 @@ export default function RiwayatClientUI({
 	allClasses,
 	currentPage,
 	totalPages,
+	tab,
+	q,
 }: {
 	semesterName: string;
 	semuaSemester: { id: string; nama: string }[];

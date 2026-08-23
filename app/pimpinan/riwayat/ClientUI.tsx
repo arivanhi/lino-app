@@ -3,6 +3,7 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Download, ChevronLeft, ChevronRight, X } from "lucide-react";
 import ClassFilter from "../../components/ClassFilter";
 
@@ -128,6 +129,8 @@ export default function RiwayatClientUI({
 	allClasses,
 	currentPage,
 	totalPages,
+	tab,
+	q,
 }: {
 	semesterName: string;
 	semuaTA: { id: string; nama: string }[];
