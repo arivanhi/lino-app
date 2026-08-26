@@ -52,6 +52,7 @@ export default async function PimpinanNumerasiDetail({ params }: { params: Promi
 			}
 			numHistory.push({
 				judul: t.judul,
+				deskripsi: t.deskripsi || null,
 				nilai: val,
 				soalPdf: t.fileSoalUrl || null,
 				jawabanPdf: h?.fileJawabanPdf || null,

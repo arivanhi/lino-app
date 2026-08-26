@@ -3,7 +3,8 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Download, X, Calculator, CheckCircle, ClipboardList, Search, BookOpen, Eye } from "lucide-react";
+import { ArrowLeft, Download, X, Calculator, CheckCircle, ClipboardList, Search, BookOpen, Eye, Info } from "lucide-react";
+import Swal from "sweetalert2";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from "recharts";
 
 // ============================================================================
@@ -410,6 +411,23 @@ export default function NumerasiDetailUI({
 											</div>
 										</div>
 										<div className="flex items-center gap-2">
+											{h.deskripsi && (
+												<button
+													onClick={() =>
+														Swal.fire({
+															title: "Deskripsi Tugas",
+															text: h.deskripsi,
+															icon: "info",
+															confirmButtonText: "Tutup",
+															confirmButtonColor: "#0d9488",
+														})
+													}
+													className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-amber-50 text-amber-600 tooltip transition-colors"
+													title="Lihat Deskripsi"
+												>
+													<Info className="h-4 w-4" />
+												</button>
+											)}
 											{h.soalPdf && (
 												<button
 													onClick={() => {
