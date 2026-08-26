@@ -63,6 +63,7 @@ export default async function WaliKelasRiwayatPage({ searchParams }: { searchPar
 			if (h?.statusPengerjaan === "SELESAI") completed++;
 			if (h) history.push({ 
 				judul: t.judul, 
+				deskripsi: t.deskripsi || null,
 				status: h.statusPengerjaan, 
 				pdf: h.fileJawabanPdf || null,
 				soalPdf: t.fileSoalUrl || null
@@ -93,6 +94,7 @@ export default async function WaliKelasRiwayatPage({ searchParams }: { searchPar
 			}
 			numHistory.push({
 				judul: t.judul,
+				deskripsi: t.deskripsi || null,
 				nilai: nilai,
 				soalPdf: t.fileSoalUrl || null,
 				jawabanPdf: h?.fileJawabanPdf || null,

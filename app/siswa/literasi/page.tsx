@@ -73,6 +73,7 @@ export default async function LiterasiSiswaPage() {
 		return {
 			id: t.id,
 			judul: t.judul,
+			deskripsi: t.deskripsi || "",
 			tanggalDitugaskan: new Date(t.createdAt).toLocaleDateString("id-ID", {
 				day: "2-digit",
 				month: "short",

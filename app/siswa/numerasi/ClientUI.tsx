@@ -25,7 +25,9 @@ import {
 	AlertCircle,
 	HelpCircle,
 	RefreshCw,
+	Info,
 } from "lucide-react";
+import Swal from "sweetalert2";
 import { submitTugasNumerasi } from "./actions";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
@@ -455,8 +457,24 @@ export default function NumerasiSiswaUI({ siswaId, kelasId, studentName, kelasNa
 											<div className="flex items-center gap-2">
 												<div>
 													<p className="font-bold text-slate-800">{h.judul}</p>
-													{h.deskripsi && <p className="text-xs text-slate-500 mt-0.5">{h.deskripsi}</p>}
 												</div>
+												{h.deskripsi && (
+													<button
+														onClick={() =>
+															Swal.fire({
+																title: "Deskripsi Tugas",
+																text: h.deskripsi,
+																icon: "info",
+																confirmButtonText: "Tutup",
+																confirmButtonColor: "#0d9488",
+															})
+														}
+														className="text-teal-600 hover:text-teal-800 tooltip flex items-center justify-center p-1.5 bg-teal-50 rounded-full ml-2"
+														title="Lihat Deskripsi"
+													>
+														<Info className="h-4 w-4" />
+													</button>
+												)}
 												{h.soalPdf && (
 													<button
 														onClick={() => window.open(h.soalPdf, "_blank")}

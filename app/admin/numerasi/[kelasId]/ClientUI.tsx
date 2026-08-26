@@ -3,12 +3,13 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Upload, Plus, X, Search, FileSpreadsheet, Download, Pencil, ArrowLeft, TrendingUp, FileText, Printer, Eye } from "lucide-react";
+import { Upload, Plus, X, Search, FileSpreadsheet, Download, Pencil, ArrowLeft, TrendingUp, FileText, Printer, Eye, Info } from "lucide-react";
+import Swal from "sweetalert2";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 import * as XLSX from "xlsx";
 import { saveNilaiNumerasi, uploadExcelNumerasi, tambahTopikNumerasi } from "./actions";
 
-type TaskProps = { id: string; judul: string; avgScore: number; fileSoalUrl?: string | null; createdAt?: Date };
+type TaskProps = { id: string; judul: string; deskripsi?: string | null; avgScore: number; fileSoalUrl?: string | null; createdAt?: Date };
 type StudentProps = {
 	siswaId: string;
 	nama: string;
@@ -474,17 +475,36 @@ export default function NumerasiDetailClient({
 										<td className="px-6 py-4 font-bold text-slate-800">{task.judul}</td>
 										<td className="px-6 py-4 text-center font-semibold text-slate-700">{task.avgScore}</td>
 										<td className="px-6 py-4 text-center">
-											{task.fileSoalUrl ? (
-												<button
-													onClick={() => openPdf(task.fileSoalUrl!)}
-													className="p-2 text-teal-600 hover:bg-teal-50 rounded-md transition-colors tooltip flex justify-center w-full"
-													title="Lihat Soal PDF"
-												>
-													<Eye className="h-4 w-4" />
-												</button>
-											) : (
-												<span className="text-xs text-slate-400 italic">Tidak ada file</span>
-											)}
+											<div className="flex items-center justify-center gap-2">
+												{task.deskripsi && (
+													<button
+														onClick={() =>
+															Swal.fire({
+																title: "Deskripsi Tugas",
+																text: task.deskripsi,
+																icon: "info",
+																confirmButtonText: "Tutup",
+																confirmButtonColor: "#0d9488",
+															})
+														}
+														className="p-2 text-teal-600 hover:bg-teal-50 rounded-md transition-colors tooltip flex justify-center"
+														title="Lihat Deskripsi"
+													>
+														<Info className="h-4 w-4" />
+													</button>
+												)}
+												{task.fileSoalUrl ? (
+													<button
+														onClick={() => openPdf(task.fileSoalUrl!)}
+														className="p-2 text-teal-600 hover:bg-teal-50 rounded-md transition-colors tooltip flex justify-center w-full"
+														title="Lihat Soal PDF"
+													>
+														<Eye className="h-4 w-4" />
+													</button>
+												) : (
+													<span className="text-xs text-slate-400 italic">Tidak ada file</span>
+												)}
+											</div>
 										</td>
 									</tr>
 								))

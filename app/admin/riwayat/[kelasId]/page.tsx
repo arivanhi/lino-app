@@ -42,7 +42,7 @@ export default async function RiwayatDetailServer({ params }: { params: Promise<
 	// 4. Petakan Data Literasi per Siswa
 	const literasiSiswa = siswaData.map((riwayat) => {
 		let completed = 0;
-		const history: { judul: string; status: string; pdf: string | null; soalPdf: string | null }[] = [];
+		const history: { judul: string; deskripsi?: string | null; status: string; pdf: string | null; soalPdf: string | null }[] = [];
 
 		tugasLit.forEach((t) => {
 			const h = t.hasilKerjaSiswa.find((h) => h.siswaId === riwayat.siswaId);
@@ -50,6 +50,7 @@ export default async function RiwayatDetailServer({ params }: { params: Promise<
 			if (h) {
 				history.push({ 
 					judul: t.judul, 
+					deskripsi: t.deskripsi || null,
 					status: h.statusPengerjaan, 
 					pdf: h.fileJawabanPdf || null,
 					soalPdf: t.fileSoalUrl || null
@@ -72,7 +73,7 @@ export default async function RiwayatDetailServer({ params }: { params: Promise<
 		let countTaken = 0;
 		let sumScore = 0;
 		const scores: Record<string, number | null> = {};
-		const numHistory: { judul: string; nilai: number | null; soalPdf: string | null; jawabanPdf: string | null }[] = [];
+		const numHistory: { judul: string; deskripsi?: string | null; nilai: number | null; soalPdf: string | null; jawabanPdf: string | null }[] = [];
 
 		tugasNum.forEach((t) => {
 			const h = t.hasilKerjaSiswa.find((h) => h.siswaId === riwayat.siswaId);
@@ -84,6 +85,7 @@ export default async function RiwayatDetailServer({ params }: { params: Promise<
 			}
 			numHistory.push({
 				judul: t.judul,
+				deskripsi: t.deskripsi || null,
 				nilai: nilai,
 				soalPdf: t.fileSoalUrl || null,
 				jawabanPdf: h?.fileJawabanPdf || null,

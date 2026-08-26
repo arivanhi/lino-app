@@ -16,7 +16,9 @@ import {
 	HelpCircle,
 	RefreshCw,
 	Eye,
+	Info,
 } from "lucide-react";
+import Swal from "sweetalert2";
 import { submitTugasLiterasi } from "./actions"; // Import Server Action kita
 
 export default function LiterasiSiswaUI({ siswaId, kelasId, stats, tasks }: any) {
@@ -223,6 +225,23 @@ export default function LiterasiSiswaUI({ siswaId, kelasId, stats, tasks }: any)
 											<td className="py-4 px-6 font-bold text-slate-800">
 												<div className="flex items-center gap-2">
 													{t.judul}
+													{t.deskripsi && (
+														<button
+															onClick={() =>
+																Swal.fire({
+																	title: "Deskripsi Tugas",
+																	text: t.deskripsi,
+																	icon: "info",
+																	confirmButtonText: "Tutup",
+																	confirmButtonColor: "#0d9488",
+																})
+															}
+															className="text-teal-600 hover:text-teal-800 tooltip flex items-center justify-center p-1.5 bg-teal-50 rounded-full"
+															title="Lihat Deskripsi"
+														>
+															<Info className="h-4 w-4" />
+														</button>
+													)}
 													{t.soalPdf && (
 														<button
 															onClick={() => window.open(t.soalPdf, "_blank")}

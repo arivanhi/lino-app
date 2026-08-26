@@ -3,10 +3,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, X, Eye, TrendingUp, Book, AlertTriangle, Users, ArrowLeft, Search, CheckCircle, Clock, AlertCircle, FileText, BookOpen } from "lucide-react";
+import { Plus, X, Eye, TrendingUp, Book, AlertTriangle, Users, ArrowLeft, Search, CheckCircle, Clock, AlertCircle, FileText, BookOpen, Info } from "lucide-react";
+import Swal from "sweetalert2";
 import { createLiteracyTask } from "./actions";
 
-type TaskProps = { id: string; judul: string; waktuSelesai: Date; status: string; fileSoalUrl?: string | null };
+type TaskProps = { id: string; judul: string; deskripsi?: string | null; waktuSelesai: Date; status: string; fileSoalUrl?: string | null };
 type StudentProps = {
 	siswaId: string;
 	nama: string;
@@ -191,6 +192,23 @@ export default function LiterasiDetailClient({
 									<div className="flex justify-between items-center text-xs text-slate-500 mt-2">
 										<span>Tenggat: {new Date(task.waktuSelesai).toLocaleDateString("id-ID")}</span>
 										<div className="flex gap-2 items-center">
+											{task.deskripsi && (
+												<button
+													onClick={() =>
+														Swal.fire({
+															title: "Deskripsi Tugas",
+															text: task.deskripsi,
+															icon: "info",
+															confirmButtonText: "Tutup",
+															confirmButtonColor: "#0d9488",
+														})
+													}
+													className="p-1 text-teal-600 hover:bg-teal-50 rounded-md transition-colors tooltip flex justify-center border border-teal-200"
+													title="Lihat Deskripsi"
+												>
+													<Info className="h-3 w-3" />
+												</button>
+											)}
 											{task.fileSoalUrl && (
 												<button
 													onClick={() => {

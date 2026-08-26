@@ -3,7 +3,8 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Download, Eye, X, FileText, Calendar, User, BookOpen, Calculator, BarChart2 } from "lucide-react";
+import { ArrowLeft, Download, Eye, X, FileText, Calendar, User, BookOpen, Calculator, BarChart2, Info } from "lucide-react";
+import Swal from "sweetalert2";
 import {
 	LineChart,
 	Line,
@@ -527,6 +528,23 @@ export default function RiwayatDetailClientUI({
 											</div>
 										</div>
 										<div className="flex items-center gap-2">
+											{h.deskripsi && (
+												<button
+													onClick={() =>
+														Swal.fire({
+															title: "Deskripsi Tugas",
+															text: h.deskripsi,
+															icon: "info",
+															confirmButtonText: "Tutup",
+															confirmButtonColor: "#0d9488",
+														})
+													}
+													className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-teal-50 text-teal-600 tooltip transition-colors"
+													title="Lihat Deskripsi"
+												>
+													<Info className="h-4 w-4" />
+												</button>
+											)}
 											{h.soalPdf && (
 												<button
 													onClick={() => openPdf(h.soalPdf)}
@@ -588,6 +606,23 @@ export default function RiwayatDetailClientUI({
 											</div>
 										</div>
 										<div className="flex items-center gap-2">
+											{h.deskripsi && (
+												<button
+													onClick={() =>
+														Swal.fire({
+															title: "Deskripsi Tugas",
+															text: h.deskripsi,
+															icon: "info",
+															confirmButtonText: "Tutup",
+															confirmButtonColor: "#0d9488",
+														})
+													}
+													className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-amber-50 text-amber-600 tooltip transition-colors"
+													title="Lihat Deskripsi"
+												>
+													<Info className="h-4 w-4" />
+												</button>
+											)}
 											{h.soalPdf && (
 												<button
 													onClick={() => openPdf(h.soalPdf)}

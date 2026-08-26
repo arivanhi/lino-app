@@ -3,7 +3,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Download, Eye, X, BookOpen, AlertCircle, CheckCircle, Clock, FileText, Search } from "lucide-react";
+import { ArrowLeft, Search, CheckCircle, Clock, AlertCircle, FileText, BookOpen, Download, AlertTriangle, Users, Book, TrendingUp, X, Info } from "lucide-react";
+import Swal from "sweetalert2";
 
 // ============================================================================
 // KOMPONEN KOP SURAT
@@ -286,7 +287,24 @@ export default function LiterasiDetailUI({ kelasNama, waliKelas, semesterName, t
 													{t.status === "SELESAI" ? "Completed" : "Active"}
 												</span>
 											</td>
-											<td className="py-3 px-5 flex justify-center">
+											<td className="py-3 px-5 flex justify-center gap-2">
+												{t.deskripsi && (
+													<button
+														onClick={() =>
+															Swal.fire({
+																title: "Deskripsi Tugas",
+																text: t.deskripsi,
+																icon: "info",
+																confirmButtonText: "Tutup",
+																confirmButtonColor: "#0d9488",
+															})
+														}
+														className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-teal-50 text-teal-600 tooltip transition-colors"
+														title="Lihat Deskripsi"
+													>
+														<Info className="h-4 w-4" />
+													</button>
+												)}
 												{t.fileSoalUrl ? (
 													<button
 														onClick={() => openPdf(t.fileSoalUrl)}
