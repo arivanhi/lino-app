@@ -132,6 +132,7 @@ export async function tambahTopikNumerasi(kelasId: string, formData: FormData) {
 	if (!ta) throw new Error("Tahun ajaran aktif tidak ditemukan.");
 
 	const judul = formData.get("judul") as string;
+	const deskripsi = formData.get("deskripsi") as string | null;
 	const file = formData.get("file") as File | null;
 	if (!judul) throw new Error("Judul topik harus diisi.");
 
@@ -158,6 +159,7 @@ export async function tambahTopikNumerasi(kelasId: string, formData: FormData) {
 	await prismaLino.penugasanLino.create({
 		data: {
 			judul,
+			deskripsi,
 			tipe: "NUMERASI",
 			tahunAjaranId: ta.id,
 			kelasId,

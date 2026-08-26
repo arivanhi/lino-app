@@ -135,6 +135,7 @@ export default function NumerasiDetailClient({
 	const [isDragging, setIsDragging] = useState(false);
 
 	const [namaTugas, setNamaTugas] = useState("");
+	const [deskripsiTugas, setDeskripsiTugas] = useState("");
 	const [selectedStudent, setSelectedStudent] = useState("");
 	const [inputNilai, setInputNilai] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -216,11 +217,13 @@ export default function NumerasiDetailClient({
 		try {
 			const formData = new FormData();
 			formData.append("judul", namaTugas);
+			formData.append("deskripsi", deskripsiTugas);
 			if (selectedFile) formData.append("file", selectedFile);
 			
 			await tambahTopikNumerasi(kelasId, formData);
 			setModalType(null);
 			setNamaTugas("");
+			setDeskripsiTugas("");
 			setSelectedFile(null);
 			showToast("Topik berhasil disimpan", "success");
 			router.refresh();
@@ -744,6 +747,16 @@ export default function NumerasiDetailClient({
 									onChange={(e) => setNamaTugas(e.target.value)}
 									placeholder="Misal: Numerasi 1"
 									className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 bg-white placeholder:text-slate-400 focus:border-teal-500 outline-none"
+								/>
+							</div>
+
+							<div>
+								<label className="block text-xs font-bold text-slate-800 mb-1">Detail Tugas (Deskripsi)</label>
+								<textarea
+									value={deskripsiTugas}
+									onChange={(e) => setDeskripsiTugas(e.target.value)}
+									placeholder="Tambahkan deskripsi tugas (opsional)"
+									className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 bg-white placeholder:text-slate-400 focus:border-teal-500 outline-none min-h-[80px] resize-y"
 								/>
 							</div>
 
