@@ -36,12 +36,57 @@ export const authOptions: NextAuthOptions = {
 					throw new Error("Password salah");
 				}
 
+				// Cek apakah guru ini berhak mengakses Lino App
+				let finalRole = user.role;
+				if (finalRole === "GURU") {
+					// 1. Cek apakah menjadi Wali Kelas dari Kelas X
+					const isWaliKelasX = await prismaEjournal.kelasWali.findFirst({
+						where: {
+							guru: { userId: user.id },
+							kelas: { nama: { startsWith: "X " } }, // Asumsi format kelas "X MIPA 1" atau "X-A" (kita pakai startsWith X dan bukan XI/XII)
+						}
+					});
+
+					// Untuk memastikan tidak match "XI" atau "XII"
+					const isWaliKelasXFix = await prismaEjournal.kelasWali.findFirst({
+						where: {
+							guru: { userId: user.id },
+							kelas: {
+								AND: [
+									{ nama: { startsWith: "X" } },
+									{ nama: { not: { startsWith: "XI" } } }
+								]
+							}
+						}
+					});
+
+					if (isWaliKelasXFix) {
+						finalRole = "WALI_KELAS";
+					} else {
+						// 2. Cek apakah mengajar jam ke-1 hari Selasa(2) atau Kamis(4) di Kelas X
+						const isGuruEmbed = await prismaEjournal.jadwalPelajaran.findFirst({
+							where: {
+								guru: { userId: user.id },
+								OR: [{ hari: 2 }, { hari: 4 }],
+								waktuMulai: "1", // Slot waktu 1
+								kelas: {
+									AND: [
+										{ nama: { startsWith: "X" } },
+										{ nama: { not: { startsWith: "XI" } } }
+									]
+								}
+							}
+						});
+						if (isGuruEmbed) finalRole = "WALI_KELAS";
+					}
+				}
+
 				// 3. Kembalikan data untuk dibungkus ke dalam sesi
 				return {
 					id: user.id,
 					username: user.username,
 					nama: user.nama,
-					role: user.role,
+					role: finalRole,
 				};
 			},
 		}),

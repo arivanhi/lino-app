@@ -50,7 +50,14 @@ docker compose up -d --build
 
 Dikelola & Dikembangkan untuk SMAN 2 Brebes.
 
-## 📝 Changelog (Pembaruan Terkini) 
+## 🚀 Changelog (Pembaruan Terkini) 
+
+### v1.3.0 - Integrasi Hak Akses Pendamping Dinamis
+- **Sistem Role Dinamis & Terpadu (NextAuth):**
+  - Aplikasi LiNO kini dapat mendeteksi siapa "Tim Pendamping" untuk masing-masing kelas secara otomatis.
+  - Untuk Kelas X: Hak akses Dasbor & Laporan (sebagai wali kelas/pendamping) akan otomatis diberikan kepada Guru yang bertugas mengajar di Jam Ke-1 pada hari Selasa (Literasi) atau Kamis (Numerasi). Jika jam ke-1 kosong, akses diserahkan kembali kepada Wali Kelas.
+  - Untuk Kelas XI & XII: Wali Kelas secara otomatis menjadi penanggung jawab tunggal Literasi dan Numerasi di kelasnya masing-masing.
+  - Sidebar navigasi disederhanakan: fitur pengumpulan rapor Lino kini telah *embedded* di E-Journal, menyisakan Dasbor, Riwayat, dan Raport bagi Wali Kelas/Tim Pendamping di aplikasi LiNO.
 
 ### v1.2.0 - Pembaruan Fitur Dashboard, Siswa, Admin & Pimpinan (Kepsek)
 - **Modul Dashboard & Siswa:**

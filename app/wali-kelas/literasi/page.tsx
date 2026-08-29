@@ -21,10 +21,16 @@ export default async function WaliKelasLiterasiPage() {
 
 	const kelas = await prismaEjournal.kelas.findFirst({
 		where: {
-			waliKelas: { some: { guru: { user: { username: loggedInUsername } } } },
+			OR: [
+				{ waliKelas: { some: { guru: { user: { username: loggedInUsername } } } } },
+				{ pendamping: { user: { username: loggedInUsername } } }
+			],
 			riwayatSiswa: { some: { tahunAjaranId: ta.id } },
 		},
-		include: { waliKelas: { include: { guru: { include: { user: true } } } } },
+		include: { 
+			waliKelas: { include: { guru: { include: { user: true } } } },
+			pendamping: { include: { user: true } }
+		},
 	});
 
 	if (!kelas) {
@@ -38,7 +44,7 @@ export default async function WaliKelasLiterasiPage() {
 		);
 	}
 
-	const wali = kelas.waliKelas[0]?.guru.user.nama || "Belum Ditugaskan";
+	const wali = kelas.pendamping ? kelas.pendamping.user.nama : (kelas.waliKelas[0]?.guru.user.nama || "Belum Ditugaskan");
 	const tasks = await prismaLino.penugasanLino.findMany({
 		where: { kelasId: kelas.id, tahunAjaranId: ta.id, tipe: "LITERASI" },
 		include: { hasilKerjaSiswa: true },

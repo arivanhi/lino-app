@@ -26,7 +26,10 @@ export default async function DashboardPage() {
 
 	const kelasiYangDiampu = await prismaEjournal.kelas.findMany({
 		where: {
-			waliKelas: { some: { guru: { user: { username: loggedInUsername } } } },
+			OR: [
+				{ waliKelas: { some: { guru: { user: { username: loggedInUsername } } } } },
+				{ pendamping: { user: { username: loggedInUsername } } }
+			],
 			riwayatSiswa: { some: { tahunAjaranId: ta.id } },
 		},
 		orderBy: { nama: "asc" },

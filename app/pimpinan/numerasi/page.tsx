@@ -38,13 +38,19 @@ export default async function PimpinanNumerasiPage({ searchParams }: { searchPar
 			skip,
 			take: itemsPerPage,
 			where: syaratKelasAktif,
-			include: { waliKelas: { include: { guru: { include: { user: true } } } } },
+			include: { 
+				waliKelas: { include: { guru: { include: { user: true } } } },
+				pendamping: { include: { user: true } }
+			},
 			orderBy: { nama: "asc" },
 		}),
 		prismaEjournal.kelas.count({ where: syaratKelasAktif }),
 		prismaEjournal.kelas.findMany({
 			where: syaratKelasAktif,
-			include: { waliKelas: { include: { guru: { include: { user: true } } } } },
+			include: { 
+				waliKelas: { include: { guru: { include: { user: true } } } },
+				pendamping: { include: { user: true } }
+			},
 			orderBy: { nama: "asc" },
 		}),
 		prismaEjournal.riwayatKelasSiswa.findMany({
@@ -66,7 +72,7 @@ export default async function PimpinanNumerasiPage({ searchParams }: { searchPar
 	// Fungsi Pembentuk Data Kelas
 	const prosesDataKelas = (daftarKelas: any[]) => {
 		return daftarKelas.map((k) => {
-			const wali = k.waliKelas[0]?.guru.user.nama || "Belum Ditugaskan";
+			const wali = k.pendamping ? k.pendamping.user.nama : (k.waliKelas[0]?.guru.user.nama || "Belum Ditugaskan");
 			const tugasKelasIni = tugasNumerasi.filter((t) => t.kelasId === k.id);
 			const siswaDiKelasIni = semuaSiswa.filter((s) => s.kelasId === k.id);
 
