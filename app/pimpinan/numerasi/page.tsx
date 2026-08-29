@@ -40,7 +40,13 @@ export default async function PimpinanNumerasiPage({ searchParams }: { searchPar
 			where: syaratKelasAktif,
 			include: { 
 				waliKelas: { include: { guru: { include: { user: true } } } },
-				pendamping: { include: { user: true } }
+				jadwalPelajaran: {
+					where: {
+						OR: [{ hari: 2 }, { hari: 4 }],
+						waktuMulai: "1"
+					},
+					include: { guru: { include: { user: true } } }
+				}
 			},
 			orderBy: { nama: "asc" },
 		}),
@@ -72,7 +78,9 @@ export default async function PimpinanNumerasiPage({ searchParams }: { searchPar
 	// Fungsi Pembentuk Data Kelas
 	const prosesDataKelas = (daftarKelas: any[]) => {
 		return daftarKelas.map((k) => {
-			const wali = k.pendamping ? k.pendamping.user.nama : (k.waliKelas[0]?.guru.user.nama || "Belum Ditugaskan");
+			const isKelasX = k.nama.startsWith("X") && !k.nama.startsWith("XI");
+			const guruPendamping = k.jadwalPelajaran?.[0]?.guru?.user?.nama;
+			const wali = (isKelasX && guruPendamping) ? guruPendamping : (k.waliKelas[0]?.guru.user.nama || "Belum Ditugaskan");
 			const tugasKelasIni = tugasNumerasi.filter((t) => t.kelasId === k.id);
 			const siswaDiKelasIni = semuaSiswa.filter((s) => s.kelasId === k.id);
 

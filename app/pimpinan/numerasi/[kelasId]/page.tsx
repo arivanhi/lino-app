@@ -19,12 +19,20 @@ export default async function PimpinanNumerasiDetail({ params }: { params: Promi
 		where: { id: kelasId },
 		include: { 
 			waliKelas: { include: { guru: { include: { user: true } } } },
-			pendamping: { include: { user: true } }
+			jadwalPelajaran: {
+					where: {
+						OR: [{ hari: 2 }, { hari: 4 }],
+						waktuMulai: "1"
+					},
+					include: { guru: { include: { user: true } } }
+				}
 		},
 	});
 	if (!kelas) return notFound();
 
-	const wali = kelas.pendamping ? kelas.pendamping.user.nama : (kelas.waliKelas[0]?.guru.user.nama || "Belum Ditugaskan");
+	const isKelasX = kelas.nama.startsWith("X") && !kelas.nama.startsWith("XI");
+	const guruPendamping = kelas.jadwalPelajaran?.[0]?.guru?.user?.nama;
+	const wali = (isKelasX && guruPendamping) ? guruPendamping : (kelas.waliKelas[0]?.guru.user.nama || "Belum Ditugaskan");
 
 	const tasks = await prismaLino.penugasanLino.findMany({
 		where: { kelasId, tahunAjaranId: ta.id, tipe: "NUMERASI" },

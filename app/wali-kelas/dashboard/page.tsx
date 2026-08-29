@@ -28,7 +28,21 @@ export default async function DashboardPage() {
 		where: {
 			OR: [
 				{ waliKelas: { some: { guru: { user: { username: loggedInUsername } } } } },
-				{ pendamping: { user: { username: loggedInUsername } } }
+				{ 
+				AND: [
+					{ nama: { startsWith: "X" } },
+					{ nama: { not: { startsWith: "XI" } } },
+					{
+						jadwalPelajaran: {
+							some: {
+								guru: { user: { username: loggedInUsername } },
+								OR: [{ hari: 2 }, { hari: 4 }],
+								waktuMulai: "1"
+							}
+						}
+					}
+				]
+			}
 			],
 			riwayatSiswa: { some: { tahunAjaranId: ta.id } },
 		},

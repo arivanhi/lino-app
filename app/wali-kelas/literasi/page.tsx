@@ -23,13 +23,33 @@ export default async function WaliKelasLiterasiPage() {
 		where: {
 			OR: [
 				{ waliKelas: { some: { guru: { user: { username: loggedInUsername } } } } },
-				{ pendamping: { user: { username: loggedInUsername } } }
+				{ 
+				AND: [
+					{ nama: { startsWith: "X" } },
+					{ nama: { not: { startsWith: "XI" } } },
+					{
+						jadwalPelajaran: {
+							some: {
+								guru: { user: { username: loggedInUsername } },
+								OR: [{ hari: 2 }, { hari: 4 }],
+								waktuMulai: "1"
+							}
+						}
+					}
+				]
+			}
 			],
 			riwayatSiswa: { some: { tahunAjaranId: ta.id } },
 		},
 		include: { 
 			waliKelas: { include: { guru: { include: { user: true } } } },
-			pendamping: { include: { user: true } }
+			jadwalPelajaran: {
+					where: {
+						OR: [{ hari: 2 }, { hari: 4 }],
+						waktuMulai: "1"
+					},
+					include: { guru: { include: { user: true } } }
+				}
 		},
 	});
 
@@ -44,7 +64,9 @@ export default async function WaliKelasLiterasiPage() {
 		);
 	}
 
-	const wali = kelas.pendamping ? kelas.pendamping.user.nama : (kelas.waliKelas[0]?.guru.user.nama || "Belum Ditugaskan");
+	const isKelasX = kelas.nama.startsWith("X") && !kelas.nama.startsWith("XI");
+	const guruPendamping = kelas.jadwalPelajaran?.[0]?.guru?.user?.nama;
+	const wali = (isKelasX && guruPendamping) ? guruPendamping : (kelas.waliKelas[0]?.guru.user.nama || "Belum Ditugaskan");
 	const tasks = await prismaLino.penugasanLino.findMany({
 		where: { kelasId: kelas.id, tahunAjaranId: ta.id, tipe: "LITERASI" },
 		include: { hasilKerjaSiswa: true },

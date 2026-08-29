@@ -17,7 +17,13 @@ export default async function PimpinanRiwayatDetail({ params }: { params: Promis
 		where: { id: kelasId },
 		include: { 
 			waliKelas: { include: { guru: { include: { user: true } } } },
-			pendamping: { include: { user: true } }
+			jadwalPelajaran: {
+					where: {
+						OR: [{ hari: 2 }, { hari: 4 }],
+						waktuMulai: "1"
+					},
+					include: { guru: { include: { user: true } } }
+				}
 		},
 	});
 	if (!kelas) return notFound();
