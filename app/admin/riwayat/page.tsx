@@ -38,17 +38,19 @@ export default async function RiwayatPage({ searchParams }: { searchParams: Prom
 		);
 	}
 
-	const syaratKelasAktif: any = { riwayatSiswa: { some: { tahunAjaranId: ta.id } } };
+	const syaratKelasAktif: any = {
+		AND: [
+			{ nama: { startsWith: "X" } },
+			{ riwayatSiswa: { some: { tahunAjaranId: ta.id } } }
+		]
+	};
 
 	if (q) {
-		syaratKelasAktif.nama = { contains: q };
+		syaratKelasAktif.AND.push({ nama: { contains: q } });
 	}
 
 	if (tab !== "Semua Kelas") {
-		syaratKelasAktif.nama = {
-			...syaratKelasAktif.nama,
-			startsWith: `${tab}-`,
-		};
+		syaratKelasAktif.AND.push({ nama: { startsWith: `${tab}-` } });
 	}
 
 	// 2. Ambil Kelas Paginasi (Untuk Card) & Semua Kelas (Untuk Modal PDF)

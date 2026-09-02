@@ -36,20 +36,18 @@ export default async function NumerasiPage({ searchParams }: { searchParams: Pro
 
 	// Syarat pencarian: Kelas harus memiliki riwayat siswa pada tahun ajaran yang aktif
 	const syaratKelasAktif: any = {
-		riwayatSiswa: {
-			some: { tahunAjaranId: tahunAjaranAktif.id },
-		},
+		AND: [
+			{ nama: { startsWith: "X" } },
+			{ riwayatSiswa: { some: { tahunAjaranId: tahunAjaranAktif.id } } }
+		]
 	};
 
 	if (q) {
-		syaratKelasAktif.nama = { contains: q };
+		syaratKelasAktif.AND.push({ nama: { contains: q } });
 	}
 
 	if (tab !== "Semua Kelas") {
-		syaratKelasAktif.nama = {
-			...syaratKelasAktif.nama,
-			startsWith: `${tab}-`,
-		};
+		syaratKelasAktif.AND.push({ nama: { startsWith: `${tab}-` } });
 	}
 
 	// 2. Ambil data Kelas dengan paginasi

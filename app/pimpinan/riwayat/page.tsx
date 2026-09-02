@@ -24,17 +24,19 @@ export default async function PimpinanRiwayatPage({ searchParams }: { searchPara
 
 	if (!ta) return <div className="p-8 font-bold">Belum Ada Tahun Ajaran</div>;
 
-	const syaratKelasAktif: any = { riwayatSiswa: { some: { tahunAjaranId: ta.id } } };
+	const syaratKelasAktif: any = {
+		AND: [
+			{ nama: { startsWith: "X" } },
+			{ riwayatSiswa: { some: { tahunAjaranId: ta.id } } }
+		]
+	};
 
 	if (q) {
-		syaratKelasAktif.nama = { contains: q };
+		syaratKelasAktif.AND.push({ nama: { contains: q } });
 	}
 
 	if (tab !== "Semua Kelas") {
-		syaratKelasAktif.nama = {
-			...syaratKelasAktif.nama,
-			startsWith: `${tab}-`,
-		};
+		syaratKelasAktif.AND.push({ nama: { startsWith: `${tab}-` } });
 	}
 
 	const [kelasPaginasi, totalKelas, semuaKelas, semuaSiswa] = await Promise.all([
