@@ -5,9 +5,10 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Upload, Plus, X, Search, FileSpreadsheet, Download, Pencil, ArrowLeft, TrendingUp, FileText, Printer, Eye, Info, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
+import Select from "react-select";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 import * as XLSX from "xlsx";
-import { saveNilaiNumerasi, uploadExcelNumerasi, tambahTopikNumerasi, deleteNumeracyTask } from "./actions";
+import { saveNilaiNumerasi, uploadExcelNumerasi, tambahTopikNumerasi, deleteNumeracyTask, deleteMultipleNumeracyTasks } from "./actions";
 
 type TaskProps = { id: string; judul: string; deskripsi?: string | null; avgScore: number; fileSoalUrl?: string | null; createdAt?: Date };
 type StudentProps = {
@@ -140,6 +141,10 @@ export default function NumerasiDetailClient({
 	const [selectedStudent, setSelectedStudent] = useState("");
 	const [inputNilai, setInputNilai] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	
+	const [isMassDeleteModalOpen, setIsMassDeleteModalOpen] = useState(false);
+	const [selectedTasksForDelete, setSelectedTasksForDelete] = useState<{ value: string; label: string; fileUrl: string | null | undefined }[]>([]);
+	const [isSubmittingMassDelete, setIsSubmittingMassDelete] = useState(false);
 
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
 	const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
@@ -253,6 +258,37 @@ export default function NumerasiDetailClient({
 					router.refresh();
 				} catch (error: any) {
 					showToast(error.message || "Gagal menghapus tugas.", "error");
+				}
+			}
+		});
+	};
+
+	const handleMassDelete = async () => {
+		if (selectedTasksForDelete.length === 0) return;
+		
+		Swal.fire({
+			title: "Yakin Hapus Massal?",
+			text: `Anda akan menghapus ${selectedTasksForDelete.length} tugas beserta nilai siswanya. Lanjutkan?`,
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#ef4444",
+			cancelButtonColor: "#64748b",
+			confirmButtonText: "Ya, Hapus!",
+			cancelButtonText: "Batal",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				setIsSubmittingMassDelete(true);
+				try {
+					const taskIds = selectedTasksForDelete.map(t => t.value);
+					await deleteMultipleNumeracyTasks(taskIds, kelasId);
+					showToast(`${taskIds.length} Tugas berhasil dihapus`, "success");
+					setIsMassDeleteModalOpen(false);
+					setSelectedTasksForDelete([]);
+					router.refresh();
+				} catch (error: any) {
+					showToast(error.message || "Gagal menghapus tugas massal.", "error");
+				} finally {
+					setIsSubmittingMassDelete(false);
 				}
 			}
 		});
@@ -380,6 +416,12 @@ export default function NumerasiDetailClient({
 						className="px-4 py-2.5 bg-slate-100 text-slate-700 border border-slate-300 text-sm font-semibold rounded-lg shadow-sm hover:bg-slate-200 transition-colors flex items-center gap-2"
 					>
 						<Printer className="h-4 w-4" /> {isDownloading ? "Memproses..." : "Cetak PDF"}
+					</button>
+					<button
+						onClick={() => setIsMassDeleteModalOpen(true)}
+						className="px-4 py-2.5 bg-white border border-slate-300 text-slate-700 text-sm font-semibold rounded-lg shadow-sm hover:bg-slate-50 transition-colors flex items-center gap-2"
+					>
+						<Trash2 className="h-4 w-4 text-red-600" /> Hapus Massal
 					</button>
 					<button
 						onClick={() => setModalType("UPLOAD")}
@@ -1008,6 +1050,49 @@ export default function NumerasiDetailClient({
 					})}
 				</div>
 			</div>
+
+			{/* --- MODAL HAPUS MASSAL TUGAS --- */}
+			{isMassDeleteModalOpen && (
+				<div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+					<div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+						<div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+							<h2 className="text-lg font-bold text-slate-900">Hapus Massal Tugas</h2>
+							<button onClick={() => setIsMassDeleteModalOpen(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
+								<X className="h-5 w-5" />
+							</button>
+						</div>
+						<div className="p-6 space-y-4">
+							<div>
+								<label className="block text-sm font-semibold text-slate-700 mb-1">Pilih Tugas yang Ingin Dihapus</label>
+								<Select
+									isMulti
+									options={tasks.map(t => ({ value: t.id, label: t.judul, fileUrl: t.fileSoalUrl }))}
+									value={selectedTasksForDelete}
+									onChange={(val: any) => setSelectedTasksForDelete(val)}
+									placeholder="Pilih beberapa tugas..."
+									className="text-sm"
+								/>
+							</div>
+							<div className="flex justify-end gap-3 pt-4">
+								<button
+									type="button"
+									onClick={() => setIsMassDeleteModalOpen(false)}
+									className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+								>
+									Batal
+								</button>
+								<button
+									onClick={handleMassDelete}
+									disabled={isSubmittingMassDelete || selectedTasksForDelete.length === 0}
+									className="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg shadow-sm hover:bg-red-700 transition-colors disabled:opacity-50 flex items-center gap-2"
+								>
+									{isSubmittingMassDelete ? "Menghapus..." : "Hapus Terpilih"}
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
 
 			{/* Custom CSS untuk styling custom scrollbar pada Web UI */}
 			<style jsx global>{`

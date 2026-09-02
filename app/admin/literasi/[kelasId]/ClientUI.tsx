@@ -5,7 +5,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, X, Eye, TrendingUp, Book, AlertTriangle, Users, ArrowLeft, Search, CheckCircle, Clock, AlertCircle, FileText, BookOpen, Info, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
-import { createLiteracyTask, deleteLiteracyTask } from "./actions";
+import Select from "react-select";
+import { createLiteracyTask, deleteLiteracyTask, deleteMultipleLiteracyTasks } from "./actions";
 
 type TaskProps = { id: string; judul: string; deskripsi?: string | null; waktuSelesai: Date; status: string; fileSoalUrl?: string | null };
 type StudentProps = {
@@ -31,6 +32,10 @@ export default function LiterasiDetailClient({
 }) {
 	const router = useRouter();
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	
+	const [isMassDeleteModalOpen, setIsMassDeleteModalOpen] = useState(false);
+	const [selectedTasksForDelete, setSelectedTasksForDelete] = useState<{ value: string; label: string; fileUrl: string | null | undefined }[]>([]);
+	const [isSubmittingMassDelete, setIsSubmittingMassDelete] = useState(false);
 
 	// State untuk Modal Riwayat Tugas per Siswa
 	const [selectedStudent, setSelectedStudent] = useState<StudentProps | null>(null);
@@ -115,6 +120,37 @@ export default function LiterasiDetailClient({
 		});
 	};
 
+	const handleMassDelete = async () => {
+		if (selectedTasksForDelete.length === 0) return;
+		
+		Swal.fire({
+			title: "Yakin Hapus Massal?",
+			text: `Anda akan menghapus ${selectedTasksForDelete.length} tugas beserta nilai siswanya. Lanjutkan?`,
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#ef4444",
+			cancelButtonColor: "#64748b",
+			confirmButtonText: "Ya, Hapus!",
+			cancelButtonText: "Batal",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				setIsSubmittingMassDelete(true);
+				try {
+					const taskIds = selectedTasksForDelete.map(t => t.value);
+					await deleteMultipleLiteracyTasks(taskIds, kelasId);
+					showToast(`${taskIds.length} Tugas berhasil dihapus`, "success");
+					setIsMassDeleteModalOpen(false);
+					setSelectedTasksForDelete([]);
+					router.refresh();
+				} catch (error: any) {
+					showToast(error.message || "Gagal menghapus tugas massal.", "error");
+				} finally {
+					setIsSubmittingMassDelete(false);
+				}
+			}
+		});
+	};
+
 	const handleViewPdf = (base64Data: string) => {
 		const pdfWindow = window.open("");
 		if (pdfWindow) {
@@ -160,12 +196,20 @@ export default function LiterasiDetailClient({
 					</div>
 				</div>
 
-				<button
-					onClick={() => setIsModalOpen(true)}
-					className="px-4 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-lg shadow-sm hover:bg-slate-800 transition-colors flex items-center gap-2 h-fit"
-				>
-					<Plus className="h-4 w-4" /> Tambah Topik Baru
-				</button>
+				<div className="flex gap-2">
+					<button
+						onClick={() => setIsMassDeleteModalOpen(true)}
+						className="px-4 py-2.5 bg-white border border-slate-300 text-slate-700 text-sm font-semibold rounded-lg shadow-sm hover:bg-slate-50 transition-colors flex items-center gap-2 h-fit"
+					>
+						<Trash2 className="h-4 w-4 text-red-600" /> Hapus Massal
+					</button>
+					<button
+						onClick={() => setIsModalOpen(true)}
+						className="px-4 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-lg shadow-sm hover:bg-slate-800 transition-colors flex items-center gap-2 h-fit"
+					>
+						<Plus className="h-4 w-4" /> Tambah Topik Baru
+					</button>
+				</div>
 			</div>
 
 			{/* Card Statistik */}
@@ -540,6 +584,49 @@ export default function LiterasiDetailClient({
 						</div>
 						<div className="flex-1 w-full bg-slate-200">
 							<iframe src={pdfUrl} className="w-full h-full border-none" title="PDF Document" />
+						</div>
+					</div>
+				</div>
+			)}
+
+			{/* --- MODAL HAPUS MASSAL TUGAS --- */}
+			{isMassDeleteModalOpen && (
+				<div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+					<div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+						<div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+							<h2 className="text-lg font-bold text-slate-900">Hapus Massal Tugas</h2>
+							<button onClick={() => setIsMassDeleteModalOpen(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
+								<X className="h-5 w-5" />
+							</button>
+						</div>
+						<div className="p-6 space-y-4">
+							<div>
+								<label className="block text-sm font-semibold text-slate-700 mb-1">Pilih Tugas yang Ingin Dihapus</label>
+								<Select
+									isMulti
+									options={tasks.map(t => ({ value: t.id, label: t.judul, fileUrl: t.fileSoalUrl }))}
+									value={selectedTasksForDelete}
+									onChange={(val: any) => setSelectedTasksForDelete(val)}
+									placeholder="Pilih beberapa tugas..."
+									className="text-sm"
+								/>
+							</div>
+							<div className="flex justify-end gap-3 pt-4">
+								<button
+									type="button"
+									onClick={() => setIsMassDeleteModalOpen(false)}
+									className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+								>
+									Batal
+								</button>
+								<button
+									onClick={handleMassDelete}
+									disabled={isSubmittingMassDelete || selectedTasksForDelete.length === 0}
+									className="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg shadow-sm hover:bg-red-700 transition-colors disabled:opacity-50 flex items-center gap-2"
+								>
+									{isSubmittingMassDelete ? "Menghapus..." : "Hapus Terpilih"}
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>

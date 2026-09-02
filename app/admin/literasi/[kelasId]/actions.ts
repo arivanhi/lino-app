@@ -86,3 +86,35 @@ export async function deleteLiteracyTask(taskId: string, fileUrl: string | null 
 		throw new Error(error.message || "Terjadi kesalahan saat menghapus tugas.");
 	}
 }
+
+export async function deleteMultipleLiteracyTasks(taskIds: string[], kelasId: string) {
+	try {
+		// 1. Ambil data tugas untuk mendapatkan fileUrl sebelum dihapus
+		const tasks = await prismaLino.penugasanLino.findMany({
+			where: { id: { in: taskIds } },
+			select: { fileSoalUrl: true }
+		});
+
+		// 2. Hapus dari database
+		await prismaLino.penugasanLino.deleteMany({
+			where: { id: { in: taskIds } },
+		});
+
+		// 3. Hapus file fisik jika ada
+		tasks.forEach((task) => {
+			if (task.fileSoalUrl) {
+				const filename = path.basename(task.fileSoalUrl);
+				const filePath = path.join(process.cwd(), "storage", "uploads", "tugas_literasi", kelasId, filename);
+				if (fs.existsSync(filePath)) {
+					fs.unlinkSync(filePath);
+				}
+			}
+		});
+
+		// 4. Refresh halaman
+		revalidatePath(`/admin/literasi/${kelasId}`);
+		return { success: true };
+	} catch (error: any) {
+		throw new Error(error.message || "Terjadi kesalahan saat menghapus tugas massal.");
+	}
+}
