@@ -62,3 +62,27 @@ export async function createLiteracyTask(kelasId: string, formData: FormData) {
 	revalidatePath(`/admin/literasi/${kelasId}`);
 	return { success: true };
 }
+
+export async function deleteLiteracyTask(taskId: string, fileUrl: string | null | undefined, kelasId: string) {
+	try {
+		// 1. Hapus dari database (HasilKerjaSiswa akan otomatis terhapus karena onDelete: Cascade)
+		await prismaLino.penugasanLino.delete({
+			where: { id: taskId },
+		});
+
+		// 2. Hapus file fisik jika ada
+		if (fileUrl) {
+			const filename = path.basename(fileUrl);
+			const filePath = path.join(process.cwd(), "storage", "uploads", "tugas_literasi", kelasId, filename);
+			if (fs.existsSync(filePath)) {
+				fs.unlinkSync(filePath);
+			}
+		}
+
+		// 3. Refresh halaman
+		revalidatePath(`/admin/literasi/${kelasId}`);
+		return { success: true };
+	} catch (error: any) {
+		throw new Error(error.message || "Terjadi kesalahan saat menghapus tugas.");
+	}
+}

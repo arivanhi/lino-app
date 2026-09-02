@@ -3,11 +3,11 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Upload, Plus, X, Search, FileSpreadsheet, Download, Pencil, ArrowLeft, TrendingUp, FileText, Printer, Eye, Info } from "lucide-react";
+import { Upload, Plus, X, Search, FileSpreadsheet, Download, Pencil, ArrowLeft, TrendingUp, FileText, Printer, Eye, Info, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 import * as XLSX from "xlsx";
-import { saveNilaiNumerasi, uploadExcelNumerasi, tambahTopikNumerasi } from "./actions";
+import { saveNilaiNumerasi, uploadExcelNumerasi, tambahTopikNumerasi, deleteNumeracyTask } from "./actions";
 
 type TaskProps = { id: string; judul: string; deskripsi?: string | null; avgScore: number; fileSoalUrl?: string | null; createdAt?: Date };
 type StudentProps = {
@@ -233,6 +233,29 @@ export default function NumerasiDetailClient({
 		} finally {
 			setIsSubmitting(false);
 		}
+	};
+
+	const handleDeleteTask = async (taskId: string, fileUrl: string | null | undefined) => {
+		Swal.fire({
+			title: "Hapus Tugas?",
+			text: "Semua nilai dan progres siswa untuk tugas ini akan ikut terhapus. Lanjutkan?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#ef4444",
+			cancelButtonColor: "#64748b",
+			confirmButtonText: "Ya, Hapus!",
+			cancelButtonText: "Batal",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				try {
+					await deleteNumeracyTask(taskId, fileUrl, kelasId);
+					showToast("Tugas berhasil dihapus", "success");
+					router.refresh();
+				} catch (error: any) {
+					showToast(error.message || "Gagal menghapus tugas.", "error");
+				}
+			}
+		});
 	};
 
 	const processExcelFile = (file: File) => {
@@ -504,6 +527,13 @@ export default function NumerasiDetailClient({
 												) : (
 													<span className="text-xs text-slate-400 italic">Tidak ada file</span>
 												)}
+												<button
+													onClick={() => handleDeleteTask(task.id, task.fileSoalUrl)}
+													className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors tooltip flex justify-center w-full"
+													title="Hapus Tugas"
+												>
+													<Trash2 className="h-4 w-4" />
+												</button>
 											</div>
 										</td>
 									</tr>

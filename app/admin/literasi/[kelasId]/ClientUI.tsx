@@ -3,9 +3,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, X, Eye, TrendingUp, Book, AlertTriangle, Users, ArrowLeft, Search, CheckCircle, Clock, AlertCircle, FileText, BookOpen, Info } from "lucide-react";
+import { Plus, X, Eye, TrendingUp, Book, AlertTriangle, Users, ArrowLeft, Search, CheckCircle, Clock, AlertCircle, FileText, BookOpen, Info, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
-import { createLiteracyTask } from "./actions";
+import { createLiteracyTask, deleteLiteracyTask } from "./actions";
 
 type TaskProps = { id: string; judul: string; deskripsi?: string | null; waktuSelesai: Date; status: string; fileSoalUrl?: string | null };
 type StudentProps = {
@@ -90,6 +90,29 @@ export default function LiterasiDetailClient({
 		} finally {
 			setIsSubmitting(false);
 		}
+	};
+
+	const handleDeleteTask = async (taskId: string, fileUrl: string | null | undefined) => {
+		Swal.fire({
+			title: "Hapus Tugas?",
+			text: "Semua nilai dan progres siswa untuk tugas ini akan ikut terhapus. Lanjutkan?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#ef4444",
+			cancelButtonColor: "#64748b",
+			confirmButtonText: "Ya, Hapus!",
+			cancelButtonText: "Batal",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				try {
+					await deleteLiteracyTask(taskId, fileUrl, kelasId);
+					showToast("Tugas berhasil dihapus", "success");
+					router.refresh();
+				} catch (error: any) {
+					showToast(error.message || "Gagal menghapus tugas.", "error");
+				}
+			}
+		});
 	};
 
 	const handleViewPdf = (base64Data: string) => {
@@ -224,6 +247,13 @@ export default function LiterasiDetailClient({
 											<span className={task.status === "SELESAI" ? "bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full font-bold" : "bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold"}>
 												{task.status === "SELESAI" ? "Selesai" : "Aktif"}
 											</span>
+											<button
+												onClick={() => handleDeleteTask(task.id, task.fileSoalUrl)}
+												className="p-1 text-red-600 hover:bg-red-50 rounded-md transition-colors tooltip flex justify-center border border-red-200 ml-1"
+												title="Hapus Tugas"
+											>
+												<Trash2 className="h-3 w-3" />
+											</button>
 										</div>
 									</div>
 								</div>
