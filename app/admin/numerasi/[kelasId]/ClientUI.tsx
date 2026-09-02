@@ -1070,7 +1070,12 @@ export default function NumerasiDetailClient({
 									value={selectedTasksForDelete}
 									onChange={(val: any) => setSelectedTasksForDelete(val)}
 									placeholder="Pilih beberapa tugas..."
-									className="text-sm"
+									className="text-sm text-slate-900"
+									styles={{
+										option: (base) => ({ ...base, color: '#0f172a' }),
+										multiValueLabel: (base) => ({ ...base, color: '#0f172a' }),
+										input: (base) => ({ ...base, color: '#0f172a' }),
+									}}
 								/>
 							</div>
 							<div className="flex justify-end gap-3 pt-4">
