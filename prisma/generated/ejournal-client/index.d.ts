@@ -29,6 +29,31 @@ export type TahunAjaran = $Result.DefaultSelection<Prisma.$TahunAjaranPayload>
  */
 export type Kelas = $Result.DefaultSelection<Prisma.$KelasPayload>
 /**
+ * Model MataPelajaran
+ * 
+ */
+export type MataPelajaran = $Result.DefaultSelection<Prisma.$MataPelajaranPayload>
+/**
+ * Model PengaturanSekolah
+ * 
+ */
+export type PengaturanSekolah = $Result.DefaultSelection<Prisma.$PengaturanSekolahPayload>
+/**
+ * Model LaporanPdca
+ * 
+ */
+export type LaporanPdca = $Result.DefaultSelection<Prisma.$LaporanPdcaPayload>
+/**
+ * Model RekapBulanan
+ * 
+ */
+export type RekapBulanan = $Result.DefaultSelection<Prisma.$RekapBulananPayload>
+/**
+ * Model TimFasilitatorTka
+ * 
+ */
+export type TimFasilitatorTka = $Result.DefaultSelection<Prisma.$TimFasilitatorTkaPayload>
+/**
  * Model Guru
  * 
  */
@@ -48,6 +73,26 @@ export type Siswa = $Result.DefaultSelection<Prisma.$SiswaPayload>
  * 
  */
 export type RiwayatKelasSiswa = $Result.DefaultSelection<Prisma.$RiwayatKelasSiswaPayload>
+/**
+ * Model JadwalPelajaran
+ * 
+ */
+export type JadwalPelajaran = $Result.DefaultSelection<Prisma.$JadwalPelajaranPayload>
+/**
+ * Model JurnalMengajar
+ * 
+ */
+export type JurnalMengajar = $Result.DefaultSelection<Prisma.$JurnalMengajarPayload>
+/**
+ * Model PresensiSiswa
+ * 
+ */
+export type PresensiSiswa = $Result.DefaultSelection<Prisma.$PresensiSiswaPayload>
+/**
+ * Model RatingGuru
+ * 
+ */
+export type RatingGuru = $Result.DefaultSelection<Prisma.$RatingGuruPayload>
 
 /**
  * Enums
@@ -57,6 +102,7 @@ export namespace $Enums {
   ADMIN_TU: 'ADMIN_TU',
   WAKA: 'WAKA',
   KEPSEK: 'KEPSEK',
+  KOORDINATOR: 'KOORDINATOR',
   WALI_KELAS: 'WALI_KELAS',
   GURU: 'GURU',
   SISWA: 'SISWA'
@@ -64,11 +110,37 @@ export namespace $Enums {
 
 export type Role = (typeof Role)[keyof typeof Role]
 
+
+export const StatusHadir: {
+  H: 'H',
+  S: 'S',
+  I: 'I',
+  A: 'A'
+};
+
+export type StatusHadir = (typeof StatusHadir)[keyof typeof StatusHadir]
+
+
+export const JurnalStatus: {
+  DRAFT: 'DRAFT',
+  SUBMITTED: 'SUBMITTED'
+};
+
+export type JurnalStatus = (typeof JurnalStatus)[keyof typeof JurnalStatus]
+
 }
 
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type StatusHadir = $Enums.StatusHadir
+
+export const StatusHadir: typeof $Enums.StatusHadir
+
+export type JurnalStatus = $Enums.JurnalStatus
+
+export const JurnalStatus: typeof $Enums.JurnalStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -219,6 +291,56 @@ export class PrismaClient<
   get kelas(): Prisma.KelasDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.mataPelajaran`: Exposes CRUD operations for the **MataPelajaran** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MataPelajarans
+    * const mataPelajarans = await prisma.mataPelajaran.findMany()
+    * ```
+    */
+  get mataPelajaran(): Prisma.MataPelajaranDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.pengaturanSekolah`: Exposes CRUD operations for the **PengaturanSekolah** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PengaturanSekolahs
+    * const pengaturanSekolahs = await prisma.pengaturanSekolah.findMany()
+    * ```
+    */
+  get pengaturanSekolah(): Prisma.PengaturanSekolahDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.laporanPdca`: Exposes CRUD operations for the **LaporanPdca** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LaporanPdcas
+    * const laporanPdcas = await prisma.laporanPdca.findMany()
+    * ```
+    */
+  get laporanPdca(): Prisma.LaporanPdcaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.rekapBulanan`: Exposes CRUD operations for the **RekapBulanan** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RekapBulanans
+    * const rekapBulanans = await prisma.rekapBulanan.findMany()
+    * ```
+    */
+  get rekapBulanan(): Prisma.RekapBulananDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.timFasilitatorTka`: Exposes CRUD operations for the **TimFasilitatorTka** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TimFasilitatorTkas
+    * const timFasilitatorTkas = await prisma.timFasilitatorTka.findMany()
+    * ```
+    */
+  get timFasilitatorTka(): Prisma.TimFasilitatorTkaDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.guru`: Exposes CRUD operations for the **Guru** model.
     * Example usage:
     * ```ts
@@ -257,6 +379,46 @@ export class PrismaClient<
     * ```
     */
   get riwayatKelasSiswa(): Prisma.RiwayatKelasSiswaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.jadwalPelajaran`: Exposes CRUD operations for the **JadwalPelajaran** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more JadwalPelajarans
+    * const jadwalPelajarans = await prisma.jadwalPelajaran.findMany()
+    * ```
+    */
+  get jadwalPelajaran(): Prisma.JadwalPelajaranDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.jurnalMengajar`: Exposes CRUD operations for the **JurnalMengajar** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more JurnalMengajars
+    * const jurnalMengajars = await prisma.jurnalMengajar.findMany()
+    * ```
+    */
+  get jurnalMengajar(): Prisma.JurnalMengajarDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.presensiSiswa`: Exposes CRUD operations for the **PresensiSiswa** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PresensiSiswas
+    * const presensiSiswas = await prisma.presensiSiswa.findMany()
+    * ```
+    */
+  get presensiSiswa(): Prisma.PresensiSiswaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ratingGuru`: Exposes CRUD operations for the **RatingGuru** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RatingGurus
+    * const ratingGurus = await prisma.ratingGuru.findMany()
+    * ```
+    */
+  get ratingGuru(): Prisma.RatingGuruDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -701,10 +863,19 @@ export namespace Prisma {
     User: 'User',
     TahunAjaran: 'TahunAjaran',
     Kelas: 'Kelas',
+    MataPelajaran: 'MataPelajaran',
+    PengaturanSekolah: 'PengaturanSekolah',
+    LaporanPdca: 'LaporanPdca',
+    RekapBulanan: 'RekapBulanan',
+    TimFasilitatorTka: 'TimFasilitatorTka',
     Guru: 'Guru',
     KelasWali: 'KelasWali',
     Siswa: 'Siswa',
-    RiwayatKelasSiswa: 'RiwayatKelasSiswa'
+    RiwayatKelasSiswa: 'RiwayatKelasSiswa',
+    JadwalPelajaran: 'JadwalPelajaran',
+    JurnalMengajar: 'JurnalMengajar',
+    PresensiSiswa: 'PresensiSiswa',
+    RatingGuru: 'RatingGuru'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -723,7 +894,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "tahunAjaran" | "kelas" | "guru" | "kelasWali" | "siswa" | "riwayatKelasSiswa"
+      modelProps: "user" | "tahunAjaran" | "kelas" | "mataPelajaran" | "pengaturanSekolah" | "laporanPdca" | "rekapBulanan" | "timFasilitatorTka" | "guru" | "kelasWali" | "siswa" | "riwayatKelasSiswa" | "jadwalPelajaran" | "jurnalMengajar" | "presensiSiswa" | "ratingGuru"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -922,6 +1093,336 @@ export namespace Prisma {
           count: {
             args: Prisma.KelasCountArgs<ExtArgs>
             result: $Utils.Optional<KelasCountAggregateOutputType> | number
+          }
+        }
+      }
+      MataPelajaran: {
+        payload: Prisma.$MataPelajaranPayload<ExtArgs>
+        fields: Prisma.MataPelajaranFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MataPelajaranFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MataPelajaranPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MataPelajaranFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MataPelajaranPayload>
+          }
+          findFirst: {
+            args: Prisma.MataPelajaranFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MataPelajaranPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MataPelajaranFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MataPelajaranPayload>
+          }
+          findMany: {
+            args: Prisma.MataPelajaranFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MataPelajaranPayload>[]
+          }
+          create: {
+            args: Prisma.MataPelajaranCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MataPelajaranPayload>
+          }
+          createMany: {
+            args: Prisma.MataPelajaranCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.MataPelajaranDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MataPelajaranPayload>
+          }
+          update: {
+            args: Prisma.MataPelajaranUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MataPelajaranPayload>
+          }
+          deleteMany: {
+            args: Prisma.MataPelajaranDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MataPelajaranUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.MataPelajaranUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MataPelajaranPayload>
+          }
+          aggregate: {
+            args: Prisma.MataPelajaranAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMataPelajaran>
+          }
+          groupBy: {
+            args: Prisma.MataPelajaranGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MataPelajaranGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MataPelajaranCountArgs<ExtArgs>
+            result: $Utils.Optional<MataPelajaranCountAggregateOutputType> | number
+          }
+        }
+      }
+      PengaturanSekolah: {
+        payload: Prisma.$PengaturanSekolahPayload<ExtArgs>
+        fields: Prisma.PengaturanSekolahFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PengaturanSekolahFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PengaturanSekolahPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PengaturanSekolahFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PengaturanSekolahPayload>
+          }
+          findFirst: {
+            args: Prisma.PengaturanSekolahFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PengaturanSekolahPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PengaturanSekolahFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PengaturanSekolahPayload>
+          }
+          findMany: {
+            args: Prisma.PengaturanSekolahFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PengaturanSekolahPayload>[]
+          }
+          create: {
+            args: Prisma.PengaturanSekolahCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PengaturanSekolahPayload>
+          }
+          createMany: {
+            args: Prisma.PengaturanSekolahCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.PengaturanSekolahDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PengaturanSekolahPayload>
+          }
+          update: {
+            args: Prisma.PengaturanSekolahUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PengaturanSekolahPayload>
+          }
+          deleteMany: {
+            args: Prisma.PengaturanSekolahDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PengaturanSekolahUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PengaturanSekolahUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PengaturanSekolahPayload>
+          }
+          aggregate: {
+            args: Prisma.PengaturanSekolahAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePengaturanSekolah>
+          }
+          groupBy: {
+            args: Prisma.PengaturanSekolahGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PengaturanSekolahGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PengaturanSekolahCountArgs<ExtArgs>
+            result: $Utils.Optional<PengaturanSekolahCountAggregateOutputType> | number
+          }
+        }
+      }
+      LaporanPdca: {
+        payload: Prisma.$LaporanPdcaPayload<ExtArgs>
+        fields: Prisma.LaporanPdcaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LaporanPdcaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LaporanPdcaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LaporanPdcaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LaporanPdcaPayload>
+          }
+          findFirst: {
+            args: Prisma.LaporanPdcaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LaporanPdcaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LaporanPdcaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LaporanPdcaPayload>
+          }
+          findMany: {
+            args: Prisma.LaporanPdcaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LaporanPdcaPayload>[]
+          }
+          create: {
+            args: Prisma.LaporanPdcaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LaporanPdcaPayload>
+          }
+          createMany: {
+            args: Prisma.LaporanPdcaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.LaporanPdcaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LaporanPdcaPayload>
+          }
+          update: {
+            args: Prisma.LaporanPdcaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LaporanPdcaPayload>
+          }
+          deleteMany: {
+            args: Prisma.LaporanPdcaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LaporanPdcaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.LaporanPdcaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LaporanPdcaPayload>
+          }
+          aggregate: {
+            args: Prisma.LaporanPdcaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLaporanPdca>
+          }
+          groupBy: {
+            args: Prisma.LaporanPdcaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LaporanPdcaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LaporanPdcaCountArgs<ExtArgs>
+            result: $Utils.Optional<LaporanPdcaCountAggregateOutputType> | number
+          }
+        }
+      }
+      RekapBulanan: {
+        payload: Prisma.$RekapBulananPayload<ExtArgs>
+        fields: Prisma.RekapBulananFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RekapBulananFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RekapBulananPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RekapBulananFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RekapBulananPayload>
+          }
+          findFirst: {
+            args: Prisma.RekapBulananFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RekapBulananPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RekapBulananFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RekapBulananPayload>
+          }
+          findMany: {
+            args: Prisma.RekapBulananFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RekapBulananPayload>[]
+          }
+          create: {
+            args: Prisma.RekapBulananCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RekapBulananPayload>
+          }
+          createMany: {
+            args: Prisma.RekapBulananCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.RekapBulananDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RekapBulananPayload>
+          }
+          update: {
+            args: Prisma.RekapBulananUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RekapBulananPayload>
+          }
+          deleteMany: {
+            args: Prisma.RekapBulananDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RekapBulananUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RekapBulananUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RekapBulananPayload>
+          }
+          aggregate: {
+            args: Prisma.RekapBulananAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRekapBulanan>
+          }
+          groupBy: {
+            args: Prisma.RekapBulananGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RekapBulananGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RekapBulananCountArgs<ExtArgs>
+            result: $Utils.Optional<RekapBulananCountAggregateOutputType> | number
+          }
+        }
+      }
+      TimFasilitatorTka: {
+        payload: Prisma.$TimFasilitatorTkaPayload<ExtArgs>
+        fields: Prisma.TimFasilitatorTkaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TimFasilitatorTkaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimFasilitatorTkaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TimFasilitatorTkaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimFasilitatorTkaPayload>
+          }
+          findFirst: {
+            args: Prisma.TimFasilitatorTkaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimFasilitatorTkaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TimFasilitatorTkaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimFasilitatorTkaPayload>
+          }
+          findMany: {
+            args: Prisma.TimFasilitatorTkaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimFasilitatorTkaPayload>[]
+          }
+          create: {
+            args: Prisma.TimFasilitatorTkaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimFasilitatorTkaPayload>
+          }
+          createMany: {
+            args: Prisma.TimFasilitatorTkaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.TimFasilitatorTkaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimFasilitatorTkaPayload>
+          }
+          update: {
+            args: Prisma.TimFasilitatorTkaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimFasilitatorTkaPayload>
+          }
+          deleteMany: {
+            args: Prisma.TimFasilitatorTkaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TimFasilitatorTkaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.TimFasilitatorTkaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimFasilitatorTkaPayload>
+          }
+          aggregate: {
+            args: Prisma.TimFasilitatorTkaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTimFasilitatorTka>
+          }
+          groupBy: {
+            args: Prisma.TimFasilitatorTkaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TimFasilitatorTkaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TimFasilitatorTkaCountArgs<ExtArgs>
+            result: $Utils.Optional<TimFasilitatorTkaCountAggregateOutputType> | number
           }
         }
       }
@@ -1189,6 +1690,270 @@ export namespace Prisma {
           }
         }
       }
+      JadwalPelajaran: {
+        payload: Prisma.$JadwalPelajaranPayload<ExtArgs>
+        fields: Prisma.JadwalPelajaranFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.JadwalPelajaranFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JadwalPelajaranPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.JadwalPelajaranFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JadwalPelajaranPayload>
+          }
+          findFirst: {
+            args: Prisma.JadwalPelajaranFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JadwalPelajaranPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.JadwalPelajaranFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JadwalPelajaranPayload>
+          }
+          findMany: {
+            args: Prisma.JadwalPelajaranFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JadwalPelajaranPayload>[]
+          }
+          create: {
+            args: Prisma.JadwalPelajaranCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JadwalPelajaranPayload>
+          }
+          createMany: {
+            args: Prisma.JadwalPelajaranCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.JadwalPelajaranDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JadwalPelajaranPayload>
+          }
+          update: {
+            args: Prisma.JadwalPelajaranUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JadwalPelajaranPayload>
+          }
+          deleteMany: {
+            args: Prisma.JadwalPelajaranDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.JadwalPelajaranUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.JadwalPelajaranUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JadwalPelajaranPayload>
+          }
+          aggregate: {
+            args: Prisma.JadwalPelajaranAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateJadwalPelajaran>
+          }
+          groupBy: {
+            args: Prisma.JadwalPelajaranGroupByArgs<ExtArgs>
+            result: $Utils.Optional<JadwalPelajaranGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.JadwalPelajaranCountArgs<ExtArgs>
+            result: $Utils.Optional<JadwalPelajaranCountAggregateOutputType> | number
+          }
+        }
+      }
+      JurnalMengajar: {
+        payload: Prisma.$JurnalMengajarPayload<ExtArgs>
+        fields: Prisma.JurnalMengajarFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.JurnalMengajarFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JurnalMengajarPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.JurnalMengajarFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JurnalMengajarPayload>
+          }
+          findFirst: {
+            args: Prisma.JurnalMengajarFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JurnalMengajarPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.JurnalMengajarFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JurnalMengajarPayload>
+          }
+          findMany: {
+            args: Prisma.JurnalMengajarFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JurnalMengajarPayload>[]
+          }
+          create: {
+            args: Prisma.JurnalMengajarCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JurnalMengajarPayload>
+          }
+          createMany: {
+            args: Prisma.JurnalMengajarCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.JurnalMengajarDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JurnalMengajarPayload>
+          }
+          update: {
+            args: Prisma.JurnalMengajarUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JurnalMengajarPayload>
+          }
+          deleteMany: {
+            args: Prisma.JurnalMengajarDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.JurnalMengajarUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.JurnalMengajarUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JurnalMengajarPayload>
+          }
+          aggregate: {
+            args: Prisma.JurnalMengajarAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateJurnalMengajar>
+          }
+          groupBy: {
+            args: Prisma.JurnalMengajarGroupByArgs<ExtArgs>
+            result: $Utils.Optional<JurnalMengajarGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.JurnalMengajarCountArgs<ExtArgs>
+            result: $Utils.Optional<JurnalMengajarCountAggregateOutputType> | number
+          }
+        }
+      }
+      PresensiSiswa: {
+        payload: Prisma.$PresensiSiswaPayload<ExtArgs>
+        fields: Prisma.PresensiSiswaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PresensiSiswaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresensiSiswaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PresensiSiswaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresensiSiswaPayload>
+          }
+          findFirst: {
+            args: Prisma.PresensiSiswaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresensiSiswaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PresensiSiswaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresensiSiswaPayload>
+          }
+          findMany: {
+            args: Prisma.PresensiSiswaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresensiSiswaPayload>[]
+          }
+          create: {
+            args: Prisma.PresensiSiswaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresensiSiswaPayload>
+          }
+          createMany: {
+            args: Prisma.PresensiSiswaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.PresensiSiswaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresensiSiswaPayload>
+          }
+          update: {
+            args: Prisma.PresensiSiswaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresensiSiswaPayload>
+          }
+          deleteMany: {
+            args: Prisma.PresensiSiswaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PresensiSiswaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PresensiSiswaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresensiSiswaPayload>
+          }
+          aggregate: {
+            args: Prisma.PresensiSiswaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePresensiSiswa>
+          }
+          groupBy: {
+            args: Prisma.PresensiSiswaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PresensiSiswaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PresensiSiswaCountArgs<ExtArgs>
+            result: $Utils.Optional<PresensiSiswaCountAggregateOutputType> | number
+          }
+        }
+      }
+      RatingGuru: {
+        payload: Prisma.$RatingGuruPayload<ExtArgs>
+        fields: Prisma.RatingGuruFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RatingGuruFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingGuruPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RatingGuruFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingGuruPayload>
+          }
+          findFirst: {
+            args: Prisma.RatingGuruFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingGuruPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RatingGuruFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingGuruPayload>
+          }
+          findMany: {
+            args: Prisma.RatingGuruFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingGuruPayload>[]
+          }
+          create: {
+            args: Prisma.RatingGuruCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingGuruPayload>
+          }
+          createMany: {
+            args: Prisma.RatingGuruCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.RatingGuruDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingGuruPayload>
+          }
+          update: {
+            args: Prisma.RatingGuruUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingGuruPayload>
+          }
+          deleteMany: {
+            args: Prisma.RatingGuruDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RatingGuruUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RatingGuruUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingGuruPayload>
+          }
+          aggregate: {
+            args: Prisma.RatingGuruAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRatingGuru>
+          }
+          groupBy: {
+            args: Prisma.RatingGuruGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RatingGuruGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RatingGuruCountArgs<ExtArgs>
+            result: $Utils.Optional<RatingGuruCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1288,10 +2053,19 @@ export namespace Prisma {
     user?: UserOmit
     tahunAjaran?: TahunAjaranOmit
     kelas?: KelasOmit
+    mataPelajaran?: MataPelajaranOmit
+    pengaturanSekolah?: PengaturanSekolahOmit
+    laporanPdca?: LaporanPdcaOmit
+    rekapBulanan?: RekapBulananOmit
+    timFasilitatorTka?: TimFasilitatorTkaOmit
     guru?: GuruOmit
     kelasWali?: KelasWaliOmit
     siswa?: SiswaOmit
     riwayatKelasSiswa?: RiwayatKelasSiswaOmit
+    jadwalPelajaran?: JadwalPelajaranOmit
+    jurnalMengajar?: JurnalMengajarOmit
+    presensiSiswa?: PresensiSiswaOmit
+    ratingGuru?: RatingGuruOmit
   }
 
   /* Types for Logging */
@@ -1368,15 +2142,56 @@ export namespace Prisma {
 
 
   /**
+   * Count Type UserCountOutputType
+   */
+
+  export type UserCountOutputType = {
+    laporanPdca: number
+  }
+
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    laporanPdca?: boolean | UserCountOutputTypeCountLaporanPdcaArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountLaporanPdcaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LaporanPdcaWhereInput
+  }
+
+
+  /**
    * Count Type TahunAjaranCountOutputType
    */
 
   export type TahunAjaranCountOutputType = {
     riwayatSiswa: number
+    jadwalPelajaran: number
+    mataPelajaran: number
+    laporanPdca: number
+    ratingGuru: number
+    timFasilitatorTka: number
   }
 
   export type TahunAjaranCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     riwayatSiswa?: boolean | TahunAjaranCountOutputTypeCountRiwayatSiswaArgs
+    jadwalPelajaran?: boolean | TahunAjaranCountOutputTypeCountJadwalPelajaranArgs
+    mataPelajaran?: boolean | TahunAjaranCountOutputTypeCountMataPelajaranArgs
+    laporanPdca?: boolean | TahunAjaranCountOutputTypeCountLaporanPdcaArgs
+    ratingGuru?: boolean | TahunAjaranCountOutputTypeCountRatingGuruArgs
+    timFasilitatorTka?: boolean | TahunAjaranCountOutputTypeCountTimFasilitatorTkaArgs
   }
 
   // Custom InputTypes
@@ -1397,6 +2212,41 @@ export namespace Prisma {
     where?: RiwayatKelasSiswaWhereInput
   }
 
+  /**
+   * TahunAjaranCountOutputType without action
+   */
+  export type TahunAjaranCountOutputTypeCountJadwalPelajaranArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JadwalPelajaranWhereInput
+  }
+
+  /**
+   * TahunAjaranCountOutputType without action
+   */
+  export type TahunAjaranCountOutputTypeCountMataPelajaranArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MataPelajaranWhereInput
+  }
+
+  /**
+   * TahunAjaranCountOutputType without action
+   */
+  export type TahunAjaranCountOutputTypeCountLaporanPdcaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LaporanPdcaWhereInput
+  }
+
+  /**
+   * TahunAjaranCountOutputType without action
+   */
+  export type TahunAjaranCountOutputTypeCountRatingGuruArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingGuruWhereInput
+  }
+
+  /**
+   * TahunAjaranCountOutputType without action
+   */
+  export type TahunAjaranCountOutputTypeCountTimFasilitatorTkaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimFasilitatorTkaWhereInput
+  }
+
 
   /**
    * Count Type KelasCountOutputType
@@ -1404,11 +2254,13 @@ export namespace Prisma {
 
   export type KelasCountOutputType = {
     riwayatSiswa: number
+    jadwalPelajaran: number
     waliKelas: number
   }
 
   export type KelasCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     riwayatSiswa?: boolean | KelasCountOutputTypeCountRiwayatSiswaArgs
+    jadwalPelajaran?: boolean | KelasCountOutputTypeCountJadwalPelajaranArgs
     waliKelas?: boolean | KelasCountOutputTypeCountWaliKelasArgs
   }
 
@@ -1433,8 +2285,73 @@ export namespace Prisma {
   /**
    * KelasCountOutputType without action
    */
+  export type KelasCountOutputTypeCountJadwalPelajaranArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JadwalPelajaranWhereInput
+  }
+
+  /**
+   * KelasCountOutputType without action
+   */
   export type KelasCountOutputTypeCountWaliKelasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: KelasWaliWhereInput
+  }
+
+
+  /**
+   * Count Type MataPelajaranCountOutputType
+   */
+
+  export type MataPelajaranCountOutputType = {
+    jadwalPelajaran: number
+    tahunAjaran: number
+    ratingGuru: number
+    timFasilitatorTka: number
+  }
+
+  export type MataPelajaranCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    jadwalPelajaran?: boolean | MataPelajaranCountOutputTypeCountJadwalPelajaranArgs
+    tahunAjaran?: boolean | MataPelajaranCountOutputTypeCountTahunAjaranArgs
+    ratingGuru?: boolean | MataPelajaranCountOutputTypeCountRatingGuruArgs
+    timFasilitatorTka?: boolean | MataPelajaranCountOutputTypeCountTimFasilitatorTkaArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * MataPelajaranCountOutputType without action
+   */
+  export type MataPelajaranCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MataPelajaranCountOutputType
+     */
+    select?: MataPelajaranCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MataPelajaranCountOutputType without action
+   */
+  export type MataPelajaranCountOutputTypeCountJadwalPelajaranArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JadwalPelajaranWhereInput
+  }
+
+  /**
+   * MataPelajaranCountOutputType without action
+   */
+  export type MataPelajaranCountOutputTypeCountTahunAjaranArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TahunAjaranWhereInput
+  }
+
+  /**
+   * MataPelajaranCountOutputType without action
+   */
+  export type MataPelajaranCountOutputTypeCountRatingGuruArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingGuruWhereInput
+  }
+
+  /**
+   * MataPelajaranCountOutputType without action
+   */
+  export type MataPelajaranCountOutputTypeCountTimFasilitatorTkaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimFasilitatorTkaWhereInput
   }
 
 
@@ -1443,11 +2360,17 @@ export namespace Prisma {
    */
 
   export type GuruCountOutputType = {
+    jadwalPelajaran: number
     waliKelasDi: number
+    ratingGuru: number
+    timFasilitatorTka: number
   }
 
   export type GuruCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    jadwalPelajaran?: boolean | GuruCountOutputTypeCountJadwalPelajaranArgs
     waliKelasDi?: boolean | GuruCountOutputTypeCountWaliKelasDiArgs
+    ratingGuru?: boolean | GuruCountOutputTypeCountRatingGuruArgs
+    timFasilitatorTka?: boolean | GuruCountOutputTypeCountTimFasilitatorTkaArgs
   }
 
   // Custom InputTypes
@@ -1464,8 +2387,29 @@ export namespace Prisma {
   /**
    * GuruCountOutputType without action
    */
+  export type GuruCountOutputTypeCountJadwalPelajaranArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JadwalPelajaranWhereInput
+  }
+
+  /**
+   * GuruCountOutputType without action
+   */
   export type GuruCountOutputTypeCountWaliKelasDiArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: KelasWaliWhereInput
+  }
+
+  /**
+   * GuruCountOutputType without action
+   */
+  export type GuruCountOutputTypeCountRatingGuruArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingGuruWhereInput
+  }
+
+  /**
+   * GuruCountOutputType without action
+   */
+  export type GuruCountOutputTypeCountTimFasilitatorTkaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimFasilitatorTkaWhereInput
   }
 
 
@@ -1475,10 +2419,14 @@ export namespace Prisma {
 
   export type SiswaCountOutputType = {
     riwayatKelas: number
+    presensi: number
+    ratingGuru: number
   }
 
   export type SiswaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     riwayatKelas?: boolean | SiswaCountOutputTypeCountRiwayatKelasArgs
+    presensi?: boolean | SiswaCountOutputTypeCountPresensiArgs
+    ratingGuru?: boolean | SiswaCountOutputTypeCountRatingGuruArgs
   }
 
   // Custom InputTypes
@@ -1497,6 +2445,82 @@ export namespace Prisma {
    */
   export type SiswaCountOutputTypeCountRiwayatKelasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RiwayatKelasSiswaWhereInput
+  }
+
+  /**
+   * SiswaCountOutputType without action
+   */
+  export type SiswaCountOutputTypeCountPresensiArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PresensiSiswaWhereInput
+  }
+
+  /**
+   * SiswaCountOutputType without action
+   */
+  export type SiswaCountOutputTypeCountRatingGuruArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingGuruWhereInput
+  }
+
+
+  /**
+   * Count Type JadwalPelajaranCountOutputType
+   */
+
+  export type JadwalPelajaranCountOutputType = {
+    jurnal: number
+  }
+
+  export type JadwalPelajaranCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    jurnal?: boolean | JadwalPelajaranCountOutputTypeCountJurnalArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * JadwalPelajaranCountOutputType without action
+   */
+  export type JadwalPelajaranCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaranCountOutputType
+     */
+    select?: JadwalPelajaranCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * JadwalPelajaranCountOutputType without action
+   */
+  export type JadwalPelajaranCountOutputTypeCountJurnalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JurnalMengajarWhereInput
+  }
+
+
+  /**
+   * Count Type JurnalMengajarCountOutputType
+   */
+
+  export type JurnalMengajarCountOutputType = {
+    presensi: number
+  }
+
+  export type JurnalMengajarCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    presensi?: boolean | JurnalMengajarCountOutputTypeCountPresensiArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * JurnalMengajarCountOutputType without action
+   */
+  export type JurnalMengajarCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JurnalMengajarCountOutputType
+     */
+    select?: JurnalMengajarCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * JurnalMengajarCountOutputType without action
+   */
+  export type JurnalMengajarCountOutputTypeCountPresensiArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PresensiSiswaWhereInput
   }
 
 
@@ -1686,6 +2710,8 @@ export namespace Prisma {
     updatedAt?: boolean
     guru?: boolean | User$guruArgs<ExtArgs>
     siswa?: boolean | User$siswaArgs<ExtArgs>
+    laporanPdca?: boolean | User$laporanPdcaArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
 
@@ -1704,6 +2730,8 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     guru?: boolean | User$guruArgs<ExtArgs>
     siswa?: boolean | User$siswaArgs<ExtArgs>
+    laporanPdca?: boolean | User$laporanPdcaArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1711,6 +2739,7 @@ export namespace Prisma {
     objects: {
       guru: Prisma.$GuruPayload<ExtArgs> | null
       siswa: Prisma.$SiswaPayload<ExtArgs> | null
+      laporanPdca: Prisma.$LaporanPdcaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2062,6 +3091,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     guru<T extends User$guruArgs<ExtArgs> = {}>(args?: Subset<T, User$guruArgs<ExtArgs>>): Prisma__GuruClient<$Result.GetResult<Prisma.$GuruPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     siswa<T extends User$siswaArgs<ExtArgs> = {}>(args?: Subset<T, User$siswaArgs<ExtArgs>>): Prisma__SiswaClient<$Result.GetResult<Prisma.$SiswaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    laporanPdca<T extends User$laporanPdcaArgs<ExtArgs> = {}>(args?: Subset<T, User$laporanPdcaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LaporanPdcaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2479,6 +3509,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.laporanPdca
+   */
+  export type User$laporanPdcaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LaporanPdca
+     */
+    select?: LaporanPdcaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LaporanPdca
+     */
+    omit?: LaporanPdcaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LaporanPdcaInclude<ExtArgs> | null
+    where?: LaporanPdcaWhereInput
+    orderBy?: LaporanPdcaOrderByWithRelationInput | LaporanPdcaOrderByWithRelationInput[]
+    cursor?: LaporanPdcaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LaporanPdcaScalarFieldEnum | LaporanPdcaScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2511,18 +3565,21 @@ export namespace Prisma {
     id: string | null
     nama: string | null
     isActive: boolean | null
+    isRatingActive: boolean | null
   }
 
   export type TahunAjaranMaxAggregateOutputType = {
     id: string | null
     nama: string | null
     isActive: boolean | null
+    isRatingActive: boolean | null
   }
 
   export type TahunAjaranCountAggregateOutputType = {
     id: number
     nama: number
     isActive: number
+    isRatingActive: number
     _all: number
   }
 
@@ -2531,18 +3588,21 @@ export namespace Prisma {
     id?: true
     nama?: true
     isActive?: true
+    isRatingActive?: true
   }
 
   export type TahunAjaranMaxAggregateInputType = {
     id?: true
     nama?: true
     isActive?: true
+    isRatingActive?: true
   }
 
   export type TahunAjaranCountAggregateInputType = {
     id?: true
     nama?: true
     isActive?: true
+    isRatingActive?: true
     _all?: true
   }
 
@@ -2622,6 +3682,7 @@ export namespace Prisma {
     id: string
     nama: string
     isActive: boolean
+    isRatingActive: boolean
     _count: TahunAjaranCountAggregateOutputType | null
     _min: TahunAjaranMinAggregateOutputType | null
     _max: TahunAjaranMaxAggregateOutputType | null
@@ -2645,7 +3706,13 @@ export namespace Prisma {
     id?: boolean
     nama?: boolean
     isActive?: boolean
+    isRatingActive?: boolean
     riwayatSiswa?: boolean | TahunAjaran$riwayatSiswaArgs<ExtArgs>
+    jadwalPelajaran?: boolean | TahunAjaran$jadwalPelajaranArgs<ExtArgs>
+    mataPelajaran?: boolean | TahunAjaran$mataPelajaranArgs<ExtArgs>
+    laporanPdca?: boolean | TahunAjaran$laporanPdcaArgs<ExtArgs>
+    ratingGuru?: boolean | TahunAjaran$ratingGuruArgs<ExtArgs>
+    timFasilitatorTka?: boolean | TahunAjaran$timFasilitatorTkaArgs<ExtArgs>
     _count?: boolean | TahunAjaranCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tahunAjaran"]>
 
@@ -2655,11 +3722,17 @@ export namespace Prisma {
     id?: boolean
     nama?: boolean
     isActive?: boolean
+    isRatingActive?: boolean
   }
 
-  export type TahunAjaranOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama" | "isActive", ExtArgs["result"]["tahunAjaran"]>
+  export type TahunAjaranOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama" | "isActive" | "isRatingActive", ExtArgs["result"]["tahunAjaran"]>
   export type TahunAjaranInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     riwayatSiswa?: boolean | TahunAjaran$riwayatSiswaArgs<ExtArgs>
+    jadwalPelajaran?: boolean | TahunAjaran$jadwalPelajaranArgs<ExtArgs>
+    mataPelajaran?: boolean | TahunAjaran$mataPelajaranArgs<ExtArgs>
+    laporanPdca?: boolean | TahunAjaran$laporanPdcaArgs<ExtArgs>
+    ratingGuru?: boolean | TahunAjaran$ratingGuruArgs<ExtArgs>
+    timFasilitatorTka?: boolean | TahunAjaran$timFasilitatorTkaArgs<ExtArgs>
     _count?: boolean | TahunAjaranCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -2667,11 +3740,17 @@ export namespace Prisma {
     name: "TahunAjaran"
     objects: {
       riwayatSiswa: Prisma.$RiwayatKelasSiswaPayload<ExtArgs>[]
+      jadwalPelajaran: Prisma.$JadwalPelajaranPayload<ExtArgs>[]
+      mataPelajaran: Prisma.$MataPelajaranPayload<ExtArgs>[]
+      laporanPdca: Prisma.$LaporanPdcaPayload<ExtArgs>[]
+      ratingGuru: Prisma.$RatingGuruPayload<ExtArgs>[]
+      timFasilitatorTka: Prisma.$TimFasilitatorTkaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       nama: string
       isActive: boolean
+      isRatingActive: boolean
     }, ExtArgs["result"]["tahunAjaran"]>
     composites: {}
   }
@@ -3013,6 +4092,11 @@ export namespace Prisma {
   export interface Prisma__TahunAjaranClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     riwayatSiswa<T extends TahunAjaran$riwayatSiswaArgs<ExtArgs> = {}>(args?: Subset<T, TahunAjaran$riwayatSiswaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiwayatKelasSiswaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    jadwalPelajaran<T extends TahunAjaran$jadwalPelajaranArgs<ExtArgs> = {}>(args?: Subset<T, TahunAjaran$jadwalPelajaranArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JadwalPelajaranPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mataPelajaran<T extends TahunAjaran$mataPelajaranArgs<ExtArgs> = {}>(args?: Subset<T, TahunAjaran$mataPelajaranArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MataPelajaranPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    laporanPdca<T extends TahunAjaran$laporanPdcaArgs<ExtArgs> = {}>(args?: Subset<T, TahunAjaran$laporanPdcaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LaporanPdcaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ratingGuru<T extends TahunAjaran$ratingGuruArgs<ExtArgs> = {}>(args?: Subset<T, TahunAjaran$ratingGuruArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingGuruPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    timFasilitatorTka<T extends TahunAjaran$timFasilitatorTkaArgs<ExtArgs> = {}>(args?: Subset<T, TahunAjaran$timFasilitatorTkaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimFasilitatorTkaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3045,6 +4129,7 @@ export namespace Prisma {
     readonly id: FieldRef<"TahunAjaran", 'String'>
     readonly nama: FieldRef<"TahunAjaran", 'String'>
     readonly isActive: FieldRef<"TahunAjaran", 'Boolean'>
+    readonly isRatingActive: FieldRef<"TahunAjaran", 'Boolean'>
   }
     
 
@@ -3412,6 +4497,126 @@ export namespace Prisma {
   }
 
   /**
+   * TahunAjaran.jadwalPelajaran
+   */
+  export type TahunAjaran$jadwalPelajaranArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaran
+     */
+    select?: JadwalPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JadwalPelajaran
+     */
+    omit?: JadwalPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JadwalPelajaranInclude<ExtArgs> | null
+    where?: JadwalPelajaranWhereInput
+    orderBy?: JadwalPelajaranOrderByWithRelationInput | JadwalPelajaranOrderByWithRelationInput[]
+    cursor?: JadwalPelajaranWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JadwalPelajaranScalarFieldEnum | JadwalPelajaranScalarFieldEnum[]
+  }
+
+  /**
+   * TahunAjaran.mataPelajaran
+   */
+  export type TahunAjaran$mataPelajaranArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MataPelajaran
+     */
+    select?: MataPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MataPelajaran
+     */
+    omit?: MataPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MataPelajaranInclude<ExtArgs> | null
+    where?: MataPelajaranWhereInput
+    orderBy?: MataPelajaranOrderByWithRelationInput | MataPelajaranOrderByWithRelationInput[]
+    cursor?: MataPelajaranWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MataPelajaranScalarFieldEnum | MataPelajaranScalarFieldEnum[]
+  }
+
+  /**
+   * TahunAjaran.laporanPdca
+   */
+  export type TahunAjaran$laporanPdcaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LaporanPdca
+     */
+    select?: LaporanPdcaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LaporanPdca
+     */
+    omit?: LaporanPdcaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LaporanPdcaInclude<ExtArgs> | null
+    where?: LaporanPdcaWhereInput
+    orderBy?: LaporanPdcaOrderByWithRelationInput | LaporanPdcaOrderByWithRelationInput[]
+    cursor?: LaporanPdcaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LaporanPdcaScalarFieldEnum | LaporanPdcaScalarFieldEnum[]
+  }
+
+  /**
+   * TahunAjaran.ratingGuru
+   */
+  export type TahunAjaran$ratingGuruArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingGuru
+     */
+    select?: RatingGuruSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingGuru
+     */
+    omit?: RatingGuruOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingGuruInclude<ExtArgs> | null
+    where?: RatingGuruWhereInput
+    orderBy?: RatingGuruOrderByWithRelationInput | RatingGuruOrderByWithRelationInput[]
+    cursor?: RatingGuruWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RatingGuruScalarFieldEnum | RatingGuruScalarFieldEnum[]
+  }
+
+  /**
+   * TahunAjaran.timFasilitatorTka
+   */
+  export type TahunAjaran$timFasilitatorTkaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimFasilitatorTka
+     */
+    select?: TimFasilitatorTkaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimFasilitatorTka
+     */
+    omit?: TimFasilitatorTkaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimFasilitatorTkaInclude<ExtArgs> | null
+    where?: TimFasilitatorTkaWhereInput
+    orderBy?: TimFasilitatorTkaOrderByWithRelationInput | TimFasilitatorTkaOrderByWithRelationInput[]
+    cursor?: TimFasilitatorTkaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TimFasilitatorTkaScalarFieldEnum | TimFasilitatorTkaScalarFieldEnum[]
+  }
+
+  /**
    * TahunAjaran without action
    */
   export type TahunAjaranDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3443,16 +4648,22 @@ export namespace Prisma {
   export type KelasMinAggregateOutputType = {
     id: string | null
     nama: string | null
+    isTka: boolean | null
+    tempat: string | null
   }
 
   export type KelasMaxAggregateOutputType = {
     id: string | null
     nama: string | null
+    isTka: boolean | null
+    tempat: string | null
   }
 
   export type KelasCountAggregateOutputType = {
     id: number
     nama: number
+    isTka: number
+    tempat: number
     _all: number
   }
 
@@ -3460,16 +4671,22 @@ export namespace Prisma {
   export type KelasMinAggregateInputType = {
     id?: true
     nama?: true
+    isTka?: true
+    tempat?: true
   }
 
   export type KelasMaxAggregateInputType = {
     id?: true
     nama?: true
+    isTka?: true
+    tempat?: true
   }
 
   export type KelasCountAggregateInputType = {
     id?: true
     nama?: true
+    isTka?: true
+    tempat?: true
     _all?: true
   }
 
@@ -3548,6 +4765,8 @@ export namespace Prisma {
   export type KelasGroupByOutputType = {
     id: string
     nama: string
+    isTka: boolean
+    tempat: string | null
     _count: KelasCountAggregateOutputType | null
     _min: KelasMinAggregateOutputType | null
     _max: KelasMaxAggregateOutputType | null
@@ -3570,7 +4789,10 @@ export namespace Prisma {
   export type KelasSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nama?: boolean
+    isTka?: boolean
+    tempat?: boolean
     riwayatSiswa?: boolean | Kelas$riwayatSiswaArgs<ExtArgs>
+    jadwalPelajaran?: boolean | Kelas$jadwalPelajaranArgs<ExtArgs>
     waliKelas?: boolean | Kelas$waliKelasArgs<ExtArgs>
     _count?: boolean | KelasCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["kelas"]>
@@ -3580,11 +4802,14 @@ export namespace Prisma {
   export type KelasSelectScalar = {
     id?: boolean
     nama?: boolean
+    isTka?: boolean
+    tempat?: boolean
   }
 
-  export type KelasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama", ExtArgs["result"]["kelas"]>
+  export type KelasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nama" | "isTka" | "tempat", ExtArgs["result"]["kelas"]>
   export type KelasInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     riwayatSiswa?: boolean | Kelas$riwayatSiswaArgs<ExtArgs>
+    jadwalPelajaran?: boolean | Kelas$jadwalPelajaranArgs<ExtArgs>
     waliKelas?: boolean | Kelas$waliKelasArgs<ExtArgs>
     _count?: boolean | KelasCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -3593,11 +4818,14 @@ export namespace Prisma {
     name: "Kelas"
     objects: {
       riwayatSiswa: Prisma.$RiwayatKelasSiswaPayload<ExtArgs>[]
+      jadwalPelajaran: Prisma.$JadwalPelajaranPayload<ExtArgs>[]
       waliKelas: Prisma.$KelasWaliPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       nama: string
+      isTka: boolean
+      tempat: string | null
     }, ExtArgs["result"]["kelas"]>
     composites: {}
   }
@@ -3939,6 +5167,7 @@ export namespace Prisma {
   export interface Prisma__KelasClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     riwayatSiswa<T extends Kelas$riwayatSiswaArgs<ExtArgs> = {}>(args?: Subset<T, Kelas$riwayatSiswaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiwayatKelasSiswaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    jadwalPelajaran<T extends Kelas$jadwalPelajaranArgs<ExtArgs> = {}>(args?: Subset<T, Kelas$jadwalPelajaranArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JadwalPelajaranPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     waliKelas<T extends Kelas$waliKelasArgs<ExtArgs> = {}>(args?: Subset<T, Kelas$waliKelasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelasWaliPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3971,6 +5200,8 @@ export namespace Prisma {
   interface KelasFieldRefs {
     readonly id: FieldRef<"Kelas", 'String'>
     readonly nama: FieldRef<"Kelas", 'String'>
+    readonly isTka: FieldRef<"Kelas", 'Boolean'>
+    readonly tempat: FieldRef<"Kelas", 'String'>
   }
     
 
@@ -4338,6 +5569,30 @@ export namespace Prisma {
   }
 
   /**
+   * Kelas.jadwalPelajaran
+   */
+  export type Kelas$jadwalPelajaranArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaran
+     */
+    select?: JadwalPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JadwalPelajaran
+     */
+    omit?: JadwalPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JadwalPelajaranInclude<ExtArgs> | null
+    where?: JadwalPelajaranWhereInput
+    orderBy?: JadwalPelajaranOrderByWithRelationInput | JadwalPelajaranOrderByWithRelationInput[]
+    cursor?: JadwalPelajaranWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JadwalPelajaranScalarFieldEnum | JadwalPelajaranScalarFieldEnum[]
+  }
+
+  /**
    * Kelas.waliKelas
    */
   export type Kelas$waliKelasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4377,6 +5632,4847 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: KelasInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MataPelajaran
+   */
+
+  export type AggregateMataPelajaran = {
+    _count: MataPelajaranCountAggregateOutputType | null
+    _min: MataPelajaranMinAggregateOutputType | null
+    _max: MataPelajaranMaxAggregateOutputType | null
+  }
+
+  export type MataPelajaranMinAggregateOutputType = {
+    id: string | null
+    kode: string | null
+    nama: string | null
+    isTka: boolean | null
+  }
+
+  export type MataPelajaranMaxAggregateOutputType = {
+    id: string | null
+    kode: string | null
+    nama: string | null
+    isTka: boolean | null
+  }
+
+  export type MataPelajaranCountAggregateOutputType = {
+    id: number
+    kode: number
+    nama: number
+    isTka: number
+    _all: number
+  }
+
+
+  export type MataPelajaranMinAggregateInputType = {
+    id?: true
+    kode?: true
+    nama?: true
+    isTka?: true
+  }
+
+  export type MataPelajaranMaxAggregateInputType = {
+    id?: true
+    kode?: true
+    nama?: true
+    isTka?: true
+  }
+
+  export type MataPelajaranCountAggregateInputType = {
+    id?: true
+    kode?: true
+    nama?: true
+    isTka?: true
+    _all?: true
+  }
+
+  export type MataPelajaranAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MataPelajaran to aggregate.
+     */
+    where?: MataPelajaranWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MataPelajarans to fetch.
+     */
+    orderBy?: MataPelajaranOrderByWithRelationInput | MataPelajaranOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MataPelajaranWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MataPelajarans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MataPelajarans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MataPelajarans
+    **/
+    _count?: true | MataPelajaranCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MataPelajaranMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MataPelajaranMaxAggregateInputType
+  }
+
+  export type GetMataPelajaranAggregateType<T extends MataPelajaranAggregateArgs> = {
+        [P in keyof T & keyof AggregateMataPelajaran]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMataPelajaran[P]>
+      : GetScalarType<T[P], AggregateMataPelajaran[P]>
+  }
+
+
+
+
+  export type MataPelajaranGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MataPelajaranWhereInput
+    orderBy?: MataPelajaranOrderByWithAggregationInput | MataPelajaranOrderByWithAggregationInput[]
+    by: MataPelajaranScalarFieldEnum[] | MataPelajaranScalarFieldEnum
+    having?: MataPelajaranScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MataPelajaranCountAggregateInputType | true
+    _min?: MataPelajaranMinAggregateInputType
+    _max?: MataPelajaranMaxAggregateInputType
+  }
+
+  export type MataPelajaranGroupByOutputType = {
+    id: string
+    kode: string
+    nama: string
+    isTka: boolean
+    _count: MataPelajaranCountAggregateOutputType | null
+    _min: MataPelajaranMinAggregateOutputType | null
+    _max: MataPelajaranMaxAggregateOutputType | null
+  }
+
+  type GetMataPelajaranGroupByPayload<T extends MataPelajaranGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MataPelajaranGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MataPelajaranGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MataPelajaranGroupByOutputType[P]>
+            : GetScalarType<T[P], MataPelajaranGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MataPelajaranSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    kode?: boolean
+    nama?: boolean
+    isTka?: boolean
+    jadwalPelajaran?: boolean | MataPelajaran$jadwalPelajaranArgs<ExtArgs>
+    tahunAjaran?: boolean | MataPelajaran$tahunAjaranArgs<ExtArgs>
+    ratingGuru?: boolean | MataPelajaran$ratingGuruArgs<ExtArgs>
+    timFasilitatorTka?: boolean | MataPelajaran$timFasilitatorTkaArgs<ExtArgs>
+    _count?: boolean | MataPelajaranCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mataPelajaran"]>
+
+
+
+  export type MataPelajaranSelectScalar = {
+    id?: boolean
+    kode?: boolean
+    nama?: boolean
+    isTka?: boolean
+  }
+
+  export type MataPelajaranOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "kode" | "nama" | "isTka", ExtArgs["result"]["mataPelajaran"]>
+  export type MataPelajaranInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    jadwalPelajaran?: boolean | MataPelajaran$jadwalPelajaranArgs<ExtArgs>
+    tahunAjaran?: boolean | MataPelajaran$tahunAjaranArgs<ExtArgs>
+    ratingGuru?: boolean | MataPelajaran$ratingGuruArgs<ExtArgs>
+    timFasilitatorTka?: boolean | MataPelajaran$timFasilitatorTkaArgs<ExtArgs>
+    _count?: boolean | MataPelajaranCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $MataPelajaranPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MataPelajaran"
+    objects: {
+      jadwalPelajaran: Prisma.$JadwalPelajaranPayload<ExtArgs>[]
+      tahunAjaran: Prisma.$TahunAjaranPayload<ExtArgs>[]
+      ratingGuru: Prisma.$RatingGuruPayload<ExtArgs>[]
+      timFasilitatorTka: Prisma.$TimFasilitatorTkaPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      kode: string
+      nama: string
+      isTka: boolean
+    }, ExtArgs["result"]["mataPelajaran"]>
+    composites: {}
+  }
+
+  type MataPelajaranGetPayload<S extends boolean | null | undefined | MataPelajaranDefaultArgs> = $Result.GetResult<Prisma.$MataPelajaranPayload, S>
+
+  type MataPelajaranCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MataPelajaranFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MataPelajaranCountAggregateInputType | true
+    }
+
+  export interface MataPelajaranDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MataPelajaran'], meta: { name: 'MataPelajaran' } }
+    /**
+     * Find zero or one MataPelajaran that matches the filter.
+     * @param {MataPelajaranFindUniqueArgs} args - Arguments to find a MataPelajaran
+     * @example
+     * // Get one MataPelajaran
+     * const mataPelajaran = await prisma.mataPelajaran.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MataPelajaranFindUniqueArgs>(args: SelectSubset<T, MataPelajaranFindUniqueArgs<ExtArgs>>): Prisma__MataPelajaranClient<$Result.GetResult<Prisma.$MataPelajaranPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MataPelajaran that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MataPelajaranFindUniqueOrThrowArgs} args - Arguments to find a MataPelajaran
+     * @example
+     * // Get one MataPelajaran
+     * const mataPelajaran = await prisma.mataPelajaran.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MataPelajaranFindUniqueOrThrowArgs>(args: SelectSubset<T, MataPelajaranFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MataPelajaranClient<$Result.GetResult<Prisma.$MataPelajaranPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MataPelajaran that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MataPelajaranFindFirstArgs} args - Arguments to find a MataPelajaran
+     * @example
+     * // Get one MataPelajaran
+     * const mataPelajaran = await prisma.mataPelajaran.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MataPelajaranFindFirstArgs>(args?: SelectSubset<T, MataPelajaranFindFirstArgs<ExtArgs>>): Prisma__MataPelajaranClient<$Result.GetResult<Prisma.$MataPelajaranPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MataPelajaran that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MataPelajaranFindFirstOrThrowArgs} args - Arguments to find a MataPelajaran
+     * @example
+     * // Get one MataPelajaran
+     * const mataPelajaran = await prisma.mataPelajaran.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MataPelajaranFindFirstOrThrowArgs>(args?: SelectSubset<T, MataPelajaranFindFirstOrThrowArgs<ExtArgs>>): Prisma__MataPelajaranClient<$Result.GetResult<Prisma.$MataPelajaranPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MataPelajarans that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MataPelajaranFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MataPelajarans
+     * const mataPelajarans = await prisma.mataPelajaran.findMany()
+     * 
+     * // Get first 10 MataPelajarans
+     * const mataPelajarans = await prisma.mataPelajaran.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const mataPelajaranWithIdOnly = await prisma.mataPelajaran.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MataPelajaranFindManyArgs>(args?: SelectSubset<T, MataPelajaranFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MataPelajaranPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MataPelajaran.
+     * @param {MataPelajaranCreateArgs} args - Arguments to create a MataPelajaran.
+     * @example
+     * // Create one MataPelajaran
+     * const MataPelajaran = await prisma.mataPelajaran.create({
+     *   data: {
+     *     // ... data to create a MataPelajaran
+     *   }
+     * })
+     * 
+     */
+    create<T extends MataPelajaranCreateArgs>(args: SelectSubset<T, MataPelajaranCreateArgs<ExtArgs>>): Prisma__MataPelajaranClient<$Result.GetResult<Prisma.$MataPelajaranPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MataPelajarans.
+     * @param {MataPelajaranCreateManyArgs} args - Arguments to create many MataPelajarans.
+     * @example
+     * // Create many MataPelajarans
+     * const mataPelajaran = await prisma.mataPelajaran.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MataPelajaranCreateManyArgs>(args?: SelectSubset<T, MataPelajaranCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a MataPelajaran.
+     * @param {MataPelajaranDeleteArgs} args - Arguments to delete one MataPelajaran.
+     * @example
+     * // Delete one MataPelajaran
+     * const MataPelajaran = await prisma.mataPelajaran.delete({
+     *   where: {
+     *     // ... filter to delete one MataPelajaran
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MataPelajaranDeleteArgs>(args: SelectSubset<T, MataPelajaranDeleteArgs<ExtArgs>>): Prisma__MataPelajaranClient<$Result.GetResult<Prisma.$MataPelajaranPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MataPelajaran.
+     * @param {MataPelajaranUpdateArgs} args - Arguments to update one MataPelajaran.
+     * @example
+     * // Update one MataPelajaran
+     * const mataPelajaran = await prisma.mataPelajaran.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MataPelajaranUpdateArgs>(args: SelectSubset<T, MataPelajaranUpdateArgs<ExtArgs>>): Prisma__MataPelajaranClient<$Result.GetResult<Prisma.$MataPelajaranPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MataPelajarans.
+     * @param {MataPelajaranDeleteManyArgs} args - Arguments to filter MataPelajarans to delete.
+     * @example
+     * // Delete a few MataPelajarans
+     * const { count } = await prisma.mataPelajaran.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MataPelajaranDeleteManyArgs>(args?: SelectSubset<T, MataPelajaranDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MataPelajarans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MataPelajaranUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MataPelajarans
+     * const mataPelajaran = await prisma.mataPelajaran.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MataPelajaranUpdateManyArgs>(args: SelectSubset<T, MataPelajaranUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one MataPelajaran.
+     * @param {MataPelajaranUpsertArgs} args - Arguments to update or create a MataPelajaran.
+     * @example
+     * // Update or create a MataPelajaran
+     * const mataPelajaran = await prisma.mataPelajaran.upsert({
+     *   create: {
+     *     // ... data to create a MataPelajaran
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MataPelajaran we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MataPelajaranUpsertArgs>(args: SelectSubset<T, MataPelajaranUpsertArgs<ExtArgs>>): Prisma__MataPelajaranClient<$Result.GetResult<Prisma.$MataPelajaranPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MataPelajarans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MataPelajaranCountArgs} args - Arguments to filter MataPelajarans to count.
+     * @example
+     * // Count the number of MataPelajarans
+     * const count = await prisma.mataPelajaran.count({
+     *   where: {
+     *     // ... the filter for the MataPelajarans we want to count
+     *   }
+     * })
+    **/
+    count<T extends MataPelajaranCountArgs>(
+      args?: Subset<T, MataPelajaranCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MataPelajaranCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MataPelajaran.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MataPelajaranAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MataPelajaranAggregateArgs>(args: Subset<T, MataPelajaranAggregateArgs>): Prisma.PrismaPromise<GetMataPelajaranAggregateType<T>>
+
+    /**
+     * Group by MataPelajaran.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MataPelajaranGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MataPelajaranGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MataPelajaranGroupByArgs['orderBy'] }
+        : { orderBy?: MataPelajaranGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MataPelajaranGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMataPelajaranGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MataPelajaran model
+   */
+  readonly fields: MataPelajaranFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MataPelajaran.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MataPelajaranClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    jadwalPelajaran<T extends MataPelajaran$jadwalPelajaranArgs<ExtArgs> = {}>(args?: Subset<T, MataPelajaran$jadwalPelajaranArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JadwalPelajaranPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tahunAjaran<T extends MataPelajaran$tahunAjaranArgs<ExtArgs> = {}>(args?: Subset<T, MataPelajaran$tahunAjaranArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TahunAjaranPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ratingGuru<T extends MataPelajaran$ratingGuruArgs<ExtArgs> = {}>(args?: Subset<T, MataPelajaran$ratingGuruArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingGuruPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    timFasilitatorTka<T extends MataPelajaran$timFasilitatorTkaArgs<ExtArgs> = {}>(args?: Subset<T, MataPelajaran$timFasilitatorTkaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimFasilitatorTkaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MataPelajaran model
+   */
+  interface MataPelajaranFieldRefs {
+    readonly id: FieldRef<"MataPelajaran", 'String'>
+    readonly kode: FieldRef<"MataPelajaran", 'String'>
+    readonly nama: FieldRef<"MataPelajaran", 'String'>
+    readonly isTka: FieldRef<"MataPelajaran", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MataPelajaran findUnique
+   */
+  export type MataPelajaranFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MataPelajaran
+     */
+    select?: MataPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MataPelajaran
+     */
+    omit?: MataPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MataPelajaranInclude<ExtArgs> | null
+    /**
+     * Filter, which MataPelajaran to fetch.
+     */
+    where: MataPelajaranWhereUniqueInput
+  }
+
+  /**
+   * MataPelajaran findUniqueOrThrow
+   */
+  export type MataPelajaranFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MataPelajaran
+     */
+    select?: MataPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MataPelajaran
+     */
+    omit?: MataPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MataPelajaranInclude<ExtArgs> | null
+    /**
+     * Filter, which MataPelajaran to fetch.
+     */
+    where: MataPelajaranWhereUniqueInput
+  }
+
+  /**
+   * MataPelajaran findFirst
+   */
+  export type MataPelajaranFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MataPelajaran
+     */
+    select?: MataPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MataPelajaran
+     */
+    omit?: MataPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MataPelajaranInclude<ExtArgs> | null
+    /**
+     * Filter, which MataPelajaran to fetch.
+     */
+    where?: MataPelajaranWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MataPelajarans to fetch.
+     */
+    orderBy?: MataPelajaranOrderByWithRelationInput | MataPelajaranOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MataPelajarans.
+     */
+    cursor?: MataPelajaranWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MataPelajarans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MataPelajarans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MataPelajarans.
+     */
+    distinct?: MataPelajaranScalarFieldEnum | MataPelajaranScalarFieldEnum[]
+  }
+
+  /**
+   * MataPelajaran findFirstOrThrow
+   */
+  export type MataPelajaranFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MataPelajaran
+     */
+    select?: MataPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MataPelajaran
+     */
+    omit?: MataPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MataPelajaranInclude<ExtArgs> | null
+    /**
+     * Filter, which MataPelajaran to fetch.
+     */
+    where?: MataPelajaranWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MataPelajarans to fetch.
+     */
+    orderBy?: MataPelajaranOrderByWithRelationInput | MataPelajaranOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MataPelajarans.
+     */
+    cursor?: MataPelajaranWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MataPelajarans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MataPelajarans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MataPelajarans.
+     */
+    distinct?: MataPelajaranScalarFieldEnum | MataPelajaranScalarFieldEnum[]
+  }
+
+  /**
+   * MataPelajaran findMany
+   */
+  export type MataPelajaranFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MataPelajaran
+     */
+    select?: MataPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MataPelajaran
+     */
+    omit?: MataPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MataPelajaranInclude<ExtArgs> | null
+    /**
+     * Filter, which MataPelajarans to fetch.
+     */
+    where?: MataPelajaranWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MataPelajarans to fetch.
+     */
+    orderBy?: MataPelajaranOrderByWithRelationInput | MataPelajaranOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MataPelajarans.
+     */
+    cursor?: MataPelajaranWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MataPelajarans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MataPelajarans.
+     */
+    skip?: number
+    distinct?: MataPelajaranScalarFieldEnum | MataPelajaranScalarFieldEnum[]
+  }
+
+  /**
+   * MataPelajaran create
+   */
+  export type MataPelajaranCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MataPelajaran
+     */
+    select?: MataPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MataPelajaran
+     */
+    omit?: MataPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MataPelajaranInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MataPelajaran.
+     */
+    data: XOR<MataPelajaranCreateInput, MataPelajaranUncheckedCreateInput>
+  }
+
+  /**
+   * MataPelajaran createMany
+   */
+  export type MataPelajaranCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MataPelajarans.
+     */
+    data: MataPelajaranCreateManyInput | MataPelajaranCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MataPelajaran update
+   */
+  export type MataPelajaranUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MataPelajaran
+     */
+    select?: MataPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MataPelajaran
+     */
+    omit?: MataPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MataPelajaranInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MataPelajaran.
+     */
+    data: XOR<MataPelajaranUpdateInput, MataPelajaranUncheckedUpdateInput>
+    /**
+     * Choose, which MataPelajaran to update.
+     */
+    where: MataPelajaranWhereUniqueInput
+  }
+
+  /**
+   * MataPelajaran updateMany
+   */
+  export type MataPelajaranUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MataPelajarans.
+     */
+    data: XOR<MataPelajaranUpdateManyMutationInput, MataPelajaranUncheckedUpdateManyInput>
+    /**
+     * Filter which MataPelajarans to update
+     */
+    where?: MataPelajaranWhereInput
+    /**
+     * Limit how many MataPelajarans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MataPelajaran upsert
+   */
+  export type MataPelajaranUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MataPelajaran
+     */
+    select?: MataPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MataPelajaran
+     */
+    omit?: MataPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MataPelajaranInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MataPelajaran to update in case it exists.
+     */
+    where: MataPelajaranWhereUniqueInput
+    /**
+     * In case the MataPelajaran found by the `where` argument doesn't exist, create a new MataPelajaran with this data.
+     */
+    create: XOR<MataPelajaranCreateInput, MataPelajaranUncheckedCreateInput>
+    /**
+     * In case the MataPelajaran was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MataPelajaranUpdateInput, MataPelajaranUncheckedUpdateInput>
+  }
+
+  /**
+   * MataPelajaran delete
+   */
+  export type MataPelajaranDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MataPelajaran
+     */
+    select?: MataPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MataPelajaran
+     */
+    omit?: MataPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MataPelajaranInclude<ExtArgs> | null
+    /**
+     * Filter which MataPelajaran to delete.
+     */
+    where: MataPelajaranWhereUniqueInput
+  }
+
+  /**
+   * MataPelajaran deleteMany
+   */
+  export type MataPelajaranDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MataPelajarans to delete
+     */
+    where?: MataPelajaranWhereInput
+    /**
+     * Limit how many MataPelajarans to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MataPelajaran.jadwalPelajaran
+   */
+  export type MataPelajaran$jadwalPelajaranArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaran
+     */
+    select?: JadwalPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JadwalPelajaran
+     */
+    omit?: JadwalPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JadwalPelajaranInclude<ExtArgs> | null
+    where?: JadwalPelajaranWhereInput
+    orderBy?: JadwalPelajaranOrderByWithRelationInput | JadwalPelajaranOrderByWithRelationInput[]
+    cursor?: JadwalPelajaranWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JadwalPelajaranScalarFieldEnum | JadwalPelajaranScalarFieldEnum[]
+  }
+
+  /**
+   * MataPelajaran.tahunAjaran
+   */
+  export type MataPelajaran$tahunAjaranArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TahunAjaran
+     */
+    select?: TahunAjaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TahunAjaran
+     */
+    omit?: TahunAjaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TahunAjaranInclude<ExtArgs> | null
+    where?: TahunAjaranWhereInput
+    orderBy?: TahunAjaranOrderByWithRelationInput | TahunAjaranOrderByWithRelationInput[]
+    cursor?: TahunAjaranWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TahunAjaranScalarFieldEnum | TahunAjaranScalarFieldEnum[]
+  }
+
+  /**
+   * MataPelajaran.ratingGuru
+   */
+  export type MataPelajaran$ratingGuruArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingGuru
+     */
+    select?: RatingGuruSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingGuru
+     */
+    omit?: RatingGuruOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingGuruInclude<ExtArgs> | null
+    where?: RatingGuruWhereInput
+    orderBy?: RatingGuruOrderByWithRelationInput | RatingGuruOrderByWithRelationInput[]
+    cursor?: RatingGuruWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RatingGuruScalarFieldEnum | RatingGuruScalarFieldEnum[]
+  }
+
+  /**
+   * MataPelajaran.timFasilitatorTka
+   */
+  export type MataPelajaran$timFasilitatorTkaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimFasilitatorTka
+     */
+    select?: TimFasilitatorTkaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimFasilitatorTka
+     */
+    omit?: TimFasilitatorTkaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimFasilitatorTkaInclude<ExtArgs> | null
+    where?: TimFasilitatorTkaWhereInput
+    orderBy?: TimFasilitatorTkaOrderByWithRelationInput | TimFasilitatorTkaOrderByWithRelationInput[]
+    cursor?: TimFasilitatorTkaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TimFasilitatorTkaScalarFieldEnum | TimFasilitatorTkaScalarFieldEnum[]
+  }
+
+  /**
+   * MataPelajaran without action
+   */
+  export type MataPelajaranDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MataPelajaran
+     */
+    select?: MataPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MataPelajaran
+     */
+    omit?: MataPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MataPelajaranInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PengaturanSekolah
+   */
+
+  export type AggregatePengaturanSekolah = {
+    _count: PengaturanSekolahCountAggregateOutputType | null
+    _avg: PengaturanSekolahAvgAggregateOutputType | null
+    _sum: PengaturanSekolahSumAggregateOutputType | null
+    _min: PengaturanSekolahMinAggregateOutputType | null
+    _max: PengaturanSekolahMaxAggregateOutputType | null
+  }
+
+  export type PengaturanSekolahAvgAggregateOutputType = {
+    latitude: number | null
+    longitude: number | null
+    radiusToleransi: number | null
+    qrExpirySec: number | null
+  }
+
+  export type PengaturanSekolahSumAggregateOutputType = {
+    latitude: number | null
+    longitude: number | null
+    radiusToleransi: number | null
+    qrExpirySec: number | null
+  }
+
+  export type PengaturanSekolahMinAggregateOutputType = {
+    id: string | null
+    schoolName: string | null
+    latitude: number | null
+    longitude: number | null
+    radiusToleransi: number | null
+    qrExpirySec: number | null
+  }
+
+  export type PengaturanSekolahMaxAggregateOutputType = {
+    id: string | null
+    schoolName: string | null
+    latitude: number | null
+    longitude: number | null
+    radiusToleransi: number | null
+    qrExpirySec: number | null
+  }
+
+  export type PengaturanSekolahCountAggregateOutputType = {
+    id: number
+    schoolName: number
+    latitude: number
+    longitude: number
+    radiusToleransi: number
+    qrExpirySec: number
+    _all: number
+  }
+
+
+  export type PengaturanSekolahAvgAggregateInputType = {
+    latitude?: true
+    longitude?: true
+    radiusToleransi?: true
+    qrExpirySec?: true
+  }
+
+  export type PengaturanSekolahSumAggregateInputType = {
+    latitude?: true
+    longitude?: true
+    radiusToleransi?: true
+    qrExpirySec?: true
+  }
+
+  export type PengaturanSekolahMinAggregateInputType = {
+    id?: true
+    schoolName?: true
+    latitude?: true
+    longitude?: true
+    radiusToleransi?: true
+    qrExpirySec?: true
+  }
+
+  export type PengaturanSekolahMaxAggregateInputType = {
+    id?: true
+    schoolName?: true
+    latitude?: true
+    longitude?: true
+    radiusToleransi?: true
+    qrExpirySec?: true
+  }
+
+  export type PengaturanSekolahCountAggregateInputType = {
+    id?: true
+    schoolName?: true
+    latitude?: true
+    longitude?: true
+    radiusToleransi?: true
+    qrExpirySec?: true
+    _all?: true
+  }
+
+  export type PengaturanSekolahAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PengaturanSekolah to aggregate.
+     */
+    where?: PengaturanSekolahWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PengaturanSekolahs to fetch.
+     */
+    orderBy?: PengaturanSekolahOrderByWithRelationInput | PengaturanSekolahOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PengaturanSekolahWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PengaturanSekolahs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PengaturanSekolahs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PengaturanSekolahs
+    **/
+    _count?: true | PengaturanSekolahCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PengaturanSekolahAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PengaturanSekolahSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PengaturanSekolahMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PengaturanSekolahMaxAggregateInputType
+  }
+
+  export type GetPengaturanSekolahAggregateType<T extends PengaturanSekolahAggregateArgs> = {
+        [P in keyof T & keyof AggregatePengaturanSekolah]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePengaturanSekolah[P]>
+      : GetScalarType<T[P], AggregatePengaturanSekolah[P]>
+  }
+
+
+
+
+  export type PengaturanSekolahGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PengaturanSekolahWhereInput
+    orderBy?: PengaturanSekolahOrderByWithAggregationInput | PengaturanSekolahOrderByWithAggregationInput[]
+    by: PengaturanSekolahScalarFieldEnum[] | PengaturanSekolahScalarFieldEnum
+    having?: PengaturanSekolahScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PengaturanSekolahCountAggregateInputType | true
+    _avg?: PengaturanSekolahAvgAggregateInputType
+    _sum?: PengaturanSekolahSumAggregateInputType
+    _min?: PengaturanSekolahMinAggregateInputType
+    _max?: PengaturanSekolahMaxAggregateInputType
+  }
+
+  export type PengaturanSekolahGroupByOutputType = {
+    id: string
+    schoolName: string
+    latitude: number
+    longitude: number
+    radiusToleransi: number
+    qrExpirySec: number
+    _count: PengaturanSekolahCountAggregateOutputType | null
+    _avg: PengaturanSekolahAvgAggregateOutputType | null
+    _sum: PengaturanSekolahSumAggregateOutputType | null
+    _min: PengaturanSekolahMinAggregateOutputType | null
+    _max: PengaturanSekolahMaxAggregateOutputType | null
+  }
+
+  type GetPengaturanSekolahGroupByPayload<T extends PengaturanSekolahGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PengaturanSekolahGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PengaturanSekolahGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PengaturanSekolahGroupByOutputType[P]>
+            : GetScalarType<T[P], PengaturanSekolahGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PengaturanSekolahSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    schoolName?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    radiusToleransi?: boolean
+    qrExpirySec?: boolean
+  }, ExtArgs["result"]["pengaturanSekolah"]>
+
+
+
+  export type PengaturanSekolahSelectScalar = {
+    id?: boolean
+    schoolName?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    radiusToleransi?: boolean
+    qrExpirySec?: boolean
+  }
+
+  export type PengaturanSekolahOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "schoolName" | "latitude" | "longitude" | "radiusToleransi" | "qrExpirySec", ExtArgs["result"]["pengaturanSekolah"]>
+
+  export type $PengaturanSekolahPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PengaturanSekolah"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      schoolName: string
+      latitude: number
+      longitude: number
+      radiusToleransi: number
+      qrExpirySec: number
+    }, ExtArgs["result"]["pengaturanSekolah"]>
+    composites: {}
+  }
+
+  type PengaturanSekolahGetPayload<S extends boolean | null | undefined | PengaturanSekolahDefaultArgs> = $Result.GetResult<Prisma.$PengaturanSekolahPayload, S>
+
+  type PengaturanSekolahCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PengaturanSekolahFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PengaturanSekolahCountAggregateInputType | true
+    }
+
+  export interface PengaturanSekolahDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PengaturanSekolah'], meta: { name: 'PengaturanSekolah' } }
+    /**
+     * Find zero or one PengaturanSekolah that matches the filter.
+     * @param {PengaturanSekolahFindUniqueArgs} args - Arguments to find a PengaturanSekolah
+     * @example
+     * // Get one PengaturanSekolah
+     * const pengaturanSekolah = await prisma.pengaturanSekolah.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PengaturanSekolahFindUniqueArgs>(args: SelectSubset<T, PengaturanSekolahFindUniqueArgs<ExtArgs>>): Prisma__PengaturanSekolahClient<$Result.GetResult<Prisma.$PengaturanSekolahPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PengaturanSekolah that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PengaturanSekolahFindUniqueOrThrowArgs} args - Arguments to find a PengaturanSekolah
+     * @example
+     * // Get one PengaturanSekolah
+     * const pengaturanSekolah = await prisma.pengaturanSekolah.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PengaturanSekolahFindUniqueOrThrowArgs>(args: SelectSubset<T, PengaturanSekolahFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PengaturanSekolahClient<$Result.GetResult<Prisma.$PengaturanSekolahPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PengaturanSekolah that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PengaturanSekolahFindFirstArgs} args - Arguments to find a PengaturanSekolah
+     * @example
+     * // Get one PengaturanSekolah
+     * const pengaturanSekolah = await prisma.pengaturanSekolah.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PengaturanSekolahFindFirstArgs>(args?: SelectSubset<T, PengaturanSekolahFindFirstArgs<ExtArgs>>): Prisma__PengaturanSekolahClient<$Result.GetResult<Prisma.$PengaturanSekolahPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PengaturanSekolah that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PengaturanSekolahFindFirstOrThrowArgs} args - Arguments to find a PengaturanSekolah
+     * @example
+     * // Get one PengaturanSekolah
+     * const pengaturanSekolah = await prisma.pengaturanSekolah.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PengaturanSekolahFindFirstOrThrowArgs>(args?: SelectSubset<T, PengaturanSekolahFindFirstOrThrowArgs<ExtArgs>>): Prisma__PengaturanSekolahClient<$Result.GetResult<Prisma.$PengaturanSekolahPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PengaturanSekolahs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PengaturanSekolahFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PengaturanSekolahs
+     * const pengaturanSekolahs = await prisma.pengaturanSekolah.findMany()
+     * 
+     * // Get first 10 PengaturanSekolahs
+     * const pengaturanSekolahs = await prisma.pengaturanSekolah.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pengaturanSekolahWithIdOnly = await prisma.pengaturanSekolah.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PengaturanSekolahFindManyArgs>(args?: SelectSubset<T, PengaturanSekolahFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PengaturanSekolahPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PengaturanSekolah.
+     * @param {PengaturanSekolahCreateArgs} args - Arguments to create a PengaturanSekolah.
+     * @example
+     * // Create one PengaturanSekolah
+     * const PengaturanSekolah = await prisma.pengaturanSekolah.create({
+     *   data: {
+     *     // ... data to create a PengaturanSekolah
+     *   }
+     * })
+     * 
+     */
+    create<T extends PengaturanSekolahCreateArgs>(args: SelectSubset<T, PengaturanSekolahCreateArgs<ExtArgs>>): Prisma__PengaturanSekolahClient<$Result.GetResult<Prisma.$PengaturanSekolahPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PengaturanSekolahs.
+     * @param {PengaturanSekolahCreateManyArgs} args - Arguments to create many PengaturanSekolahs.
+     * @example
+     * // Create many PengaturanSekolahs
+     * const pengaturanSekolah = await prisma.pengaturanSekolah.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PengaturanSekolahCreateManyArgs>(args?: SelectSubset<T, PengaturanSekolahCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a PengaturanSekolah.
+     * @param {PengaturanSekolahDeleteArgs} args - Arguments to delete one PengaturanSekolah.
+     * @example
+     * // Delete one PengaturanSekolah
+     * const PengaturanSekolah = await prisma.pengaturanSekolah.delete({
+     *   where: {
+     *     // ... filter to delete one PengaturanSekolah
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PengaturanSekolahDeleteArgs>(args: SelectSubset<T, PengaturanSekolahDeleteArgs<ExtArgs>>): Prisma__PengaturanSekolahClient<$Result.GetResult<Prisma.$PengaturanSekolahPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PengaturanSekolah.
+     * @param {PengaturanSekolahUpdateArgs} args - Arguments to update one PengaturanSekolah.
+     * @example
+     * // Update one PengaturanSekolah
+     * const pengaturanSekolah = await prisma.pengaturanSekolah.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PengaturanSekolahUpdateArgs>(args: SelectSubset<T, PengaturanSekolahUpdateArgs<ExtArgs>>): Prisma__PengaturanSekolahClient<$Result.GetResult<Prisma.$PengaturanSekolahPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PengaturanSekolahs.
+     * @param {PengaturanSekolahDeleteManyArgs} args - Arguments to filter PengaturanSekolahs to delete.
+     * @example
+     * // Delete a few PengaturanSekolahs
+     * const { count } = await prisma.pengaturanSekolah.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PengaturanSekolahDeleteManyArgs>(args?: SelectSubset<T, PengaturanSekolahDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PengaturanSekolahs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PengaturanSekolahUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PengaturanSekolahs
+     * const pengaturanSekolah = await prisma.pengaturanSekolah.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PengaturanSekolahUpdateManyArgs>(args: SelectSubset<T, PengaturanSekolahUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PengaturanSekolah.
+     * @param {PengaturanSekolahUpsertArgs} args - Arguments to update or create a PengaturanSekolah.
+     * @example
+     * // Update or create a PengaturanSekolah
+     * const pengaturanSekolah = await prisma.pengaturanSekolah.upsert({
+     *   create: {
+     *     // ... data to create a PengaturanSekolah
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PengaturanSekolah we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PengaturanSekolahUpsertArgs>(args: SelectSubset<T, PengaturanSekolahUpsertArgs<ExtArgs>>): Prisma__PengaturanSekolahClient<$Result.GetResult<Prisma.$PengaturanSekolahPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PengaturanSekolahs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PengaturanSekolahCountArgs} args - Arguments to filter PengaturanSekolahs to count.
+     * @example
+     * // Count the number of PengaturanSekolahs
+     * const count = await prisma.pengaturanSekolah.count({
+     *   where: {
+     *     // ... the filter for the PengaturanSekolahs we want to count
+     *   }
+     * })
+    **/
+    count<T extends PengaturanSekolahCountArgs>(
+      args?: Subset<T, PengaturanSekolahCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PengaturanSekolahCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PengaturanSekolah.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PengaturanSekolahAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PengaturanSekolahAggregateArgs>(args: Subset<T, PengaturanSekolahAggregateArgs>): Prisma.PrismaPromise<GetPengaturanSekolahAggregateType<T>>
+
+    /**
+     * Group by PengaturanSekolah.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PengaturanSekolahGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PengaturanSekolahGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PengaturanSekolahGroupByArgs['orderBy'] }
+        : { orderBy?: PengaturanSekolahGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PengaturanSekolahGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPengaturanSekolahGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PengaturanSekolah model
+   */
+  readonly fields: PengaturanSekolahFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PengaturanSekolah.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PengaturanSekolahClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PengaturanSekolah model
+   */
+  interface PengaturanSekolahFieldRefs {
+    readonly id: FieldRef<"PengaturanSekolah", 'String'>
+    readonly schoolName: FieldRef<"PengaturanSekolah", 'String'>
+    readonly latitude: FieldRef<"PengaturanSekolah", 'Float'>
+    readonly longitude: FieldRef<"PengaturanSekolah", 'Float'>
+    readonly radiusToleransi: FieldRef<"PengaturanSekolah", 'Float'>
+    readonly qrExpirySec: FieldRef<"PengaturanSekolah", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PengaturanSekolah findUnique
+   */
+  export type PengaturanSekolahFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PengaturanSekolah
+     */
+    select?: PengaturanSekolahSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PengaturanSekolah
+     */
+    omit?: PengaturanSekolahOmit<ExtArgs> | null
+    /**
+     * Filter, which PengaturanSekolah to fetch.
+     */
+    where: PengaturanSekolahWhereUniqueInput
+  }
+
+  /**
+   * PengaturanSekolah findUniqueOrThrow
+   */
+  export type PengaturanSekolahFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PengaturanSekolah
+     */
+    select?: PengaturanSekolahSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PengaturanSekolah
+     */
+    omit?: PengaturanSekolahOmit<ExtArgs> | null
+    /**
+     * Filter, which PengaturanSekolah to fetch.
+     */
+    where: PengaturanSekolahWhereUniqueInput
+  }
+
+  /**
+   * PengaturanSekolah findFirst
+   */
+  export type PengaturanSekolahFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PengaturanSekolah
+     */
+    select?: PengaturanSekolahSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PengaturanSekolah
+     */
+    omit?: PengaturanSekolahOmit<ExtArgs> | null
+    /**
+     * Filter, which PengaturanSekolah to fetch.
+     */
+    where?: PengaturanSekolahWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PengaturanSekolahs to fetch.
+     */
+    orderBy?: PengaturanSekolahOrderByWithRelationInput | PengaturanSekolahOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PengaturanSekolahs.
+     */
+    cursor?: PengaturanSekolahWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PengaturanSekolahs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PengaturanSekolahs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PengaturanSekolahs.
+     */
+    distinct?: PengaturanSekolahScalarFieldEnum | PengaturanSekolahScalarFieldEnum[]
+  }
+
+  /**
+   * PengaturanSekolah findFirstOrThrow
+   */
+  export type PengaturanSekolahFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PengaturanSekolah
+     */
+    select?: PengaturanSekolahSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PengaturanSekolah
+     */
+    omit?: PengaturanSekolahOmit<ExtArgs> | null
+    /**
+     * Filter, which PengaturanSekolah to fetch.
+     */
+    where?: PengaturanSekolahWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PengaturanSekolahs to fetch.
+     */
+    orderBy?: PengaturanSekolahOrderByWithRelationInput | PengaturanSekolahOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PengaturanSekolahs.
+     */
+    cursor?: PengaturanSekolahWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PengaturanSekolahs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PengaturanSekolahs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PengaturanSekolahs.
+     */
+    distinct?: PengaturanSekolahScalarFieldEnum | PengaturanSekolahScalarFieldEnum[]
+  }
+
+  /**
+   * PengaturanSekolah findMany
+   */
+  export type PengaturanSekolahFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PengaturanSekolah
+     */
+    select?: PengaturanSekolahSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PengaturanSekolah
+     */
+    omit?: PengaturanSekolahOmit<ExtArgs> | null
+    /**
+     * Filter, which PengaturanSekolahs to fetch.
+     */
+    where?: PengaturanSekolahWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PengaturanSekolahs to fetch.
+     */
+    orderBy?: PengaturanSekolahOrderByWithRelationInput | PengaturanSekolahOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PengaturanSekolahs.
+     */
+    cursor?: PengaturanSekolahWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PengaturanSekolahs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PengaturanSekolahs.
+     */
+    skip?: number
+    distinct?: PengaturanSekolahScalarFieldEnum | PengaturanSekolahScalarFieldEnum[]
+  }
+
+  /**
+   * PengaturanSekolah create
+   */
+  export type PengaturanSekolahCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PengaturanSekolah
+     */
+    select?: PengaturanSekolahSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PengaturanSekolah
+     */
+    omit?: PengaturanSekolahOmit<ExtArgs> | null
+    /**
+     * The data needed to create a PengaturanSekolah.
+     */
+    data: XOR<PengaturanSekolahCreateInput, PengaturanSekolahUncheckedCreateInput>
+  }
+
+  /**
+   * PengaturanSekolah createMany
+   */
+  export type PengaturanSekolahCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PengaturanSekolahs.
+     */
+    data: PengaturanSekolahCreateManyInput | PengaturanSekolahCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PengaturanSekolah update
+   */
+  export type PengaturanSekolahUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PengaturanSekolah
+     */
+    select?: PengaturanSekolahSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PengaturanSekolah
+     */
+    omit?: PengaturanSekolahOmit<ExtArgs> | null
+    /**
+     * The data needed to update a PengaturanSekolah.
+     */
+    data: XOR<PengaturanSekolahUpdateInput, PengaturanSekolahUncheckedUpdateInput>
+    /**
+     * Choose, which PengaturanSekolah to update.
+     */
+    where: PengaturanSekolahWhereUniqueInput
+  }
+
+  /**
+   * PengaturanSekolah updateMany
+   */
+  export type PengaturanSekolahUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PengaturanSekolahs.
+     */
+    data: XOR<PengaturanSekolahUpdateManyMutationInput, PengaturanSekolahUncheckedUpdateManyInput>
+    /**
+     * Filter which PengaturanSekolahs to update
+     */
+    where?: PengaturanSekolahWhereInput
+    /**
+     * Limit how many PengaturanSekolahs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PengaturanSekolah upsert
+   */
+  export type PengaturanSekolahUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PengaturanSekolah
+     */
+    select?: PengaturanSekolahSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PengaturanSekolah
+     */
+    omit?: PengaturanSekolahOmit<ExtArgs> | null
+    /**
+     * The filter to search for the PengaturanSekolah to update in case it exists.
+     */
+    where: PengaturanSekolahWhereUniqueInput
+    /**
+     * In case the PengaturanSekolah found by the `where` argument doesn't exist, create a new PengaturanSekolah with this data.
+     */
+    create: XOR<PengaturanSekolahCreateInput, PengaturanSekolahUncheckedCreateInput>
+    /**
+     * In case the PengaturanSekolah was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PengaturanSekolahUpdateInput, PengaturanSekolahUncheckedUpdateInput>
+  }
+
+  /**
+   * PengaturanSekolah delete
+   */
+  export type PengaturanSekolahDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PengaturanSekolah
+     */
+    select?: PengaturanSekolahSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PengaturanSekolah
+     */
+    omit?: PengaturanSekolahOmit<ExtArgs> | null
+    /**
+     * Filter which PengaturanSekolah to delete.
+     */
+    where: PengaturanSekolahWhereUniqueInput
+  }
+
+  /**
+   * PengaturanSekolah deleteMany
+   */
+  export type PengaturanSekolahDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PengaturanSekolahs to delete
+     */
+    where?: PengaturanSekolahWhereInput
+    /**
+     * Limit how many PengaturanSekolahs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PengaturanSekolah without action
+   */
+  export type PengaturanSekolahDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PengaturanSekolah
+     */
+    select?: PengaturanSekolahSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PengaturanSekolah
+     */
+    omit?: PengaturanSekolahOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LaporanPdca
+   */
+
+  export type AggregateLaporanPdca = {
+    _count: LaporanPdcaCountAggregateOutputType | null
+    _min: LaporanPdcaMinAggregateOutputType | null
+    _max: LaporanPdcaMaxAggregateOutputType | null
+  }
+
+  export type LaporanPdcaMinAggregateOutputType = {
+    id: string | null
+    judul: string | null
+    tahunAjaranId: string | null
+    pembuatId: string | null
+    tanggalLaporan: Date | null
+    status: string | null
+    planProblem: string | null
+    planRootCause: string | null
+    checkFakta: string | null
+    checkGap: string | null
+    actRekomendasi: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LaporanPdcaMaxAggregateOutputType = {
+    id: string | null
+    judul: string | null
+    tahunAjaranId: string | null
+    pembuatId: string | null
+    tanggalLaporan: Date | null
+    status: string | null
+    planProblem: string | null
+    planRootCause: string | null
+    checkFakta: string | null
+    checkGap: string | null
+    actRekomendasi: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LaporanPdcaCountAggregateOutputType = {
+    id: number
+    judul: number
+    tahunAjaranId: number
+    pembuatId: number
+    tanggalLaporan: number
+    status: number
+    planProblem: number
+    planRootCause: number
+    doImplementasi: number
+    checkFakta: number
+    checkGap: number
+    actRekomendasi: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LaporanPdcaMinAggregateInputType = {
+    id?: true
+    judul?: true
+    tahunAjaranId?: true
+    pembuatId?: true
+    tanggalLaporan?: true
+    status?: true
+    planProblem?: true
+    planRootCause?: true
+    checkFakta?: true
+    checkGap?: true
+    actRekomendasi?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LaporanPdcaMaxAggregateInputType = {
+    id?: true
+    judul?: true
+    tahunAjaranId?: true
+    pembuatId?: true
+    tanggalLaporan?: true
+    status?: true
+    planProblem?: true
+    planRootCause?: true
+    checkFakta?: true
+    checkGap?: true
+    actRekomendasi?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LaporanPdcaCountAggregateInputType = {
+    id?: true
+    judul?: true
+    tahunAjaranId?: true
+    pembuatId?: true
+    tanggalLaporan?: true
+    status?: true
+    planProblem?: true
+    planRootCause?: true
+    doImplementasi?: true
+    checkFakta?: true
+    checkGap?: true
+    actRekomendasi?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LaporanPdcaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LaporanPdca to aggregate.
+     */
+    where?: LaporanPdcaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LaporanPdcas to fetch.
+     */
+    orderBy?: LaporanPdcaOrderByWithRelationInput | LaporanPdcaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LaporanPdcaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LaporanPdcas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LaporanPdcas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LaporanPdcas
+    **/
+    _count?: true | LaporanPdcaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LaporanPdcaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LaporanPdcaMaxAggregateInputType
+  }
+
+  export type GetLaporanPdcaAggregateType<T extends LaporanPdcaAggregateArgs> = {
+        [P in keyof T & keyof AggregateLaporanPdca]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLaporanPdca[P]>
+      : GetScalarType<T[P], AggregateLaporanPdca[P]>
+  }
+
+
+
+
+  export type LaporanPdcaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LaporanPdcaWhereInput
+    orderBy?: LaporanPdcaOrderByWithAggregationInput | LaporanPdcaOrderByWithAggregationInput[]
+    by: LaporanPdcaScalarFieldEnum[] | LaporanPdcaScalarFieldEnum
+    having?: LaporanPdcaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LaporanPdcaCountAggregateInputType | true
+    _min?: LaporanPdcaMinAggregateInputType
+    _max?: LaporanPdcaMaxAggregateInputType
+  }
+
+  export type LaporanPdcaGroupByOutputType = {
+    id: string
+    judul: string
+    tahunAjaranId: string
+    pembuatId: string
+    tanggalLaporan: Date
+    status: string
+    planProblem: string
+    planRootCause: string
+    doImplementasi: JsonValue | null
+    checkFakta: string
+    checkGap: string
+    actRekomendasi: string
+    createdAt: Date
+    updatedAt: Date
+    _count: LaporanPdcaCountAggregateOutputType | null
+    _min: LaporanPdcaMinAggregateOutputType | null
+    _max: LaporanPdcaMaxAggregateOutputType | null
+  }
+
+  type GetLaporanPdcaGroupByPayload<T extends LaporanPdcaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LaporanPdcaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LaporanPdcaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LaporanPdcaGroupByOutputType[P]>
+            : GetScalarType<T[P], LaporanPdcaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LaporanPdcaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    judul?: boolean
+    tahunAjaranId?: boolean
+    pembuatId?: boolean
+    tanggalLaporan?: boolean
+    status?: boolean
+    planProblem?: boolean
+    planRootCause?: boolean
+    doImplementasi?: boolean
+    checkFakta?: boolean
+    checkGap?: boolean
+    actRekomendasi?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tahunAjaran?: boolean | TahunAjaranDefaultArgs<ExtArgs>
+    pembuat?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["laporanPdca"]>
+
+
+
+  export type LaporanPdcaSelectScalar = {
+    id?: boolean
+    judul?: boolean
+    tahunAjaranId?: boolean
+    pembuatId?: boolean
+    tanggalLaporan?: boolean
+    status?: boolean
+    planProblem?: boolean
+    planRootCause?: boolean
+    doImplementasi?: boolean
+    checkFakta?: boolean
+    checkGap?: boolean
+    actRekomendasi?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LaporanPdcaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "judul" | "tahunAjaranId" | "pembuatId" | "tanggalLaporan" | "status" | "planProblem" | "planRootCause" | "doImplementasi" | "checkFakta" | "checkGap" | "actRekomendasi" | "createdAt" | "updatedAt", ExtArgs["result"]["laporanPdca"]>
+  export type LaporanPdcaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tahunAjaran?: boolean | TahunAjaranDefaultArgs<ExtArgs>
+    pembuat?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $LaporanPdcaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LaporanPdca"
+    objects: {
+      tahunAjaran: Prisma.$TahunAjaranPayload<ExtArgs>
+      pembuat: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      judul: string
+      tahunAjaranId: string
+      pembuatId: string
+      tanggalLaporan: Date
+      status: string
+      planProblem: string
+      planRootCause: string
+      doImplementasi: Prisma.JsonValue | null
+      checkFakta: string
+      checkGap: string
+      actRekomendasi: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["laporanPdca"]>
+    composites: {}
+  }
+
+  type LaporanPdcaGetPayload<S extends boolean | null | undefined | LaporanPdcaDefaultArgs> = $Result.GetResult<Prisma.$LaporanPdcaPayload, S>
+
+  type LaporanPdcaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LaporanPdcaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LaporanPdcaCountAggregateInputType | true
+    }
+
+  export interface LaporanPdcaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LaporanPdca'], meta: { name: 'LaporanPdca' } }
+    /**
+     * Find zero or one LaporanPdca that matches the filter.
+     * @param {LaporanPdcaFindUniqueArgs} args - Arguments to find a LaporanPdca
+     * @example
+     * // Get one LaporanPdca
+     * const laporanPdca = await prisma.laporanPdca.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LaporanPdcaFindUniqueArgs>(args: SelectSubset<T, LaporanPdcaFindUniqueArgs<ExtArgs>>): Prisma__LaporanPdcaClient<$Result.GetResult<Prisma.$LaporanPdcaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LaporanPdca that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LaporanPdcaFindUniqueOrThrowArgs} args - Arguments to find a LaporanPdca
+     * @example
+     * // Get one LaporanPdca
+     * const laporanPdca = await prisma.laporanPdca.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LaporanPdcaFindUniqueOrThrowArgs>(args: SelectSubset<T, LaporanPdcaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LaporanPdcaClient<$Result.GetResult<Prisma.$LaporanPdcaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LaporanPdca that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LaporanPdcaFindFirstArgs} args - Arguments to find a LaporanPdca
+     * @example
+     * // Get one LaporanPdca
+     * const laporanPdca = await prisma.laporanPdca.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LaporanPdcaFindFirstArgs>(args?: SelectSubset<T, LaporanPdcaFindFirstArgs<ExtArgs>>): Prisma__LaporanPdcaClient<$Result.GetResult<Prisma.$LaporanPdcaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LaporanPdca that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LaporanPdcaFindFirstOrThrowArgs} args - Arguments to find a LaporanPdca
+     * @example
+     * // Get one LaporanPdca
+     * const laporanPdca = await prisma.laporanPdca.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LaporanPdcaFindFirstOrThrowArgs>(args?: SelectSubset<T, LaporanPdcaFindFirstOrThrowArgs<ExtArgs>>): Prisma__LaporanPdcaClient<$Result.GetResult<Prisma.$LaporanPdcaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LaporanPdcas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LaporanPdcaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LaporanPdcas
+     * const laporanPdcas = await prisma.laporanPdca.findMany()
+     * 
+     * // Get first 10 LaporanPdcas
+     * const laporanPdcas = await prisma.laporanPdca.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const laporanPdcaWithIdOnly = await prisma.laporanPdca.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LaporanPdcaFindManyArgs>(args?: SelectSubset<T, LaporanPdcaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LaporanPdcaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LaporanPdca.
+     * @param {LaporanPdcaCreateArgs} args - Arguments to create a LaporanPdca.
+     * @example
+     * // Create one LaporanPdca
+     * const LaporanPdca = await prisma.laporanPdca.create({
+     *   data: {
+     *     // ... data to create a LaporanPdca
+     *   }
+     * })
+     * 
+     */
+    create<T extends LaporanPdcaCreateArgs>(args: SelectSubset<T, LaporanPdcaCreateArgs<ExtArgs>>): Prisma__LaporanPdcaClient<$Result.GetResult<Prisma.$LaporanPdcaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LaporanPdcas.
+     * @param {LaporanPdcaCreateManyArgs} args - Arguments to create many LaporanPdcas.
+     * @example
+     * // Create many LaporanPdcas
+     * const laporanPdca = await prisma.laporanPdca.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LaporanPdcaCreateManyArgs>(args?: SelectSubset<T, LaporanPdcaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a LaporanPdca.
+     * @param {LaporanPdcaDeleteArgs} args - Arguments to delete one LaporanPdca.
+     * @example
+     * // Delete one LaporanPdca
+     * const LaporanPdca = await prisma.laporanPdca.delete({
+     *   where: {
+     *     // ... filter to delete one LaporanPdca
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LaporanPdcaDeleteArgs>(args: SelectSubset<T, LaporanPdcaDeleteArgs<ExtArgs>>): Prisma__LaporanPdcaClient<$Result.GetResult<Prisma.$LaporanPdcaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LaporanPdca.
+     * @param {LaporanPdcaUpdateArgs} args - Arguments to update one LaporanPdca.
+     * @example
+     * // Update one LaporanPdca
+     * const laporanPdca = await prisma.laporanPdca.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LaporanPdcaUpdateArgs>(args: SelectSubset<T, LaporanPdcaUpdateArgs<ExtArgs>>): Prisma__LaporanPdcaClient<$Result.GetResult<Prisma.$LaporanPdcaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LaporanPdcas.
+     * @param {LaporanPdcaDeleteManyArgs} args - Arguments to filter LaporanPdcas to delete.
+     * @example
+     * // Delete a few LaporanPdcas
+     * const { count } = await prisma.laporanPdca.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LaporanPdcaDeleteManyArgs>(args?: SelectSubset<T, LaporanPdcaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LaporanPdcas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LaporanPdcaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LaporanPdcas
+     * const laporanPdca = await prisma.laporanPdca.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LaporanPdcaUpdateManyArgs>(args: SelectSubset<T, LaporanPdcaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one LaporanPdca.
+     * @param {LaporanPdcaUpsertArgs} args - Arguments to update or create a LaporanPdca.
+     * @example
+     * // Update or create a LaporanPdca
+     * const laporanPdca = await prisma.laporanPdca.upsert({
+     *   create: {
+     *     // ... data to create a LaporanPdca
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LaporanPdca we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LaporanPdcaUpsertArgs>(args: SelectSubset<T, LaporanPdcaUpsertArgs<ExtArgs>>): Prisma__LaporanPdcaClient<$Result.GetResult<Prisma.$LaporanPdcaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LaporanPdcas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LaporanPdcaCountArgs} args - Arguments to filter LaporanPdcas to count.
+     * @example
+     * // Count the number of LaporanPdcas
+     * const count = await prisma.laporanPdca.count({
+     *   where: {
+     *     // ... the filter for the LaporanPdcas we want to count
+     *   }
+     * })
+    **/
+    count<T extends LaporanPdcaCountArgs>(
+      args?: Subset<T, LaporanPdcaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LaporanPdcaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LaporanPdca.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LaporanPdcaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LaporanPdcaAggregateArgs>(args: Subset<T, LaporanPdcaAggregateArgs>): Prisma.PrismaPromise<GetLaporanPdcaAggregateType<T>>
+
+    /**
+     * Group by LaporanPdca.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LaporanPdcaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LaporanPdcaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LaporanPdcaGroupByArgs['orderBy'] }
+        : { orderBy?: LaporanPdcaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LaporanPdcaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLaporanPdcaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LaporanPdca model
+   */
+  readonly fields: LaporanPdcaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LaporanPdca.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LaporanPdcaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tahunAjaran<T extends TahunAjaranDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TahunAjaranDefaultArgs<ExtArgs>>): Prisma__TahunAjaranClient<$Result.GetResult<Prisma.$TahunAjaranPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    pembuat<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LaporanPdca model
+   */
+  interface LaporanPdcaFieldRefs {
+    readonly id: FieldRef<"LaporanPdca", 'String'>
+    readonly judul: FieldRef<"LaporanPdca", 'String'>
+    readonly tahunAjaranId: FieldRef<"LaporanPdca", 'String'>
+    readonly pembuatId: FieldRef<"LaporanPdca", 'String'>
+    readonly tanggalLaporan: FieldRef<"LaporanPdca", 'DateTime'>
+    readonly status: FieldRef<"LaporanPdca", 'String'>
+    readonly planProblem: FieldRef<"LaporanPdca", 'String'>
+    readonly planRootCause: FieldRef<"LaporanPdca", 'String'>
+    readonly doImplementasi: FieldRef<"LaporanPdca", 'Json'>
+    readonly checkFakta: FieldRef<"LaporanPdca", 'String'>
+    readonly checkGap: FieldRef<"LaporanPdca", 'String'>
+    readonly actRekomendasi: FieldRef<"LaporanPdca", 'String'>
+    readonly createdAt: FieldRef<"LaporanPdca", 'DateTime'>
+    readonly updatedAt: FieldRef<"LaporanPdca", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LaporanPdca findUnique
+   */
+  export type LaporanPdcaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LaporanPdca
+     */
+    select?: LaporanPdcaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LaporanPdca
+     */
+    omit?: LaporanPdcaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LaporanPdcaInclude<ExtArgs> | null
+    /**
+     * Filter, which LaporanPdca to fetch.
+     */
+    where: LaporanPdcaWhereUniqueInput
+  }
+
+  /**
+   * LaporanPdca findUniqueOrThrow
+   */
+  export type LaporanPdcaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LaporanPdca
+     */
+    select?: LaporanPdcaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LaporanPdca
+     */
+    omit?: LaporanPdcaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LaporanPdcaInclude<ExtArgs> | null
+    /**
+     * Filter, which LaporanPdca to fetch.
+     */
+    where: LaporanPdcaWhereUniqueInput
+  }
+
+  /**
+   * LaporanPdca findFirst
+   */
+  export type LaporanPdcaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LaporanPdca
+     */
+    select?: LaporanPdcaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LaporanPdca
+     */
+    omit?: LaporanPdcaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LaporanPdcaInclude<ExtArgs> | null
+    /**
+     * Filter, which LaporanPdca to fetch.
+     */
+    where?: LaporanPdcaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LaporanPdcas to fetch.
+     */
+    orderBy?: LaporanPdcaOrderByWithRelationInput | LaporanPdcaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LaporanPdcas.
+     */
+    cursor?: LaporanPdcaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LaporanPdcas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LaporanPdcas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LaporanPdcas.
+     */
+    distinct?: LaporanPdcaScalarFieldEnum | LaporanPdcaScalarFieldEnum[]
+  }
+
+  /**
+   * LaporanPdca findFirstOrThrow
+   */
+  export type LaporanPdcaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LaporanPdca
+     */
+    select?: LaporanPdcaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LaporanPdca
+     */
+    omit?: LaporanPdcaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LaporanPdcaInclude<ExtArgs> | null
+    /**
+     * Filter, which LaporanPdca to fetch.
+     */
+    where?: LaporanPdcaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LaporanPdcas to fetch.
+     */
+    orderBy?: LaporanPdcaOrderByWithRelationInput | LaporanPdcaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LaporanPdcas.
+     */
+    cursor?: LaporanPdcaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LaporanPdcas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LaporanPdcas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LaporanPdcas.
+     */
+    distinct?: LaporanPdcaScalarFieldEnum | LaporanPdcaScalarFieldEnum[]
+  }
+
+  /**
+   * LaporanPdca findMany
+   */
+  export type LaporanPdcaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LaporanPdca
+     */
+    select?: LaporanPdcaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LaporanPdca
+     */
+    omit?: LaporanPdcaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LaporanPdcaInclude<ExtArgs> | null
+    /**
+     * Filter, which LaporanPdcas to fetch.
+     */
+    where?: LaporanPdcaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LaporanPdcas to fetch.
+     */
+    orderBy?: LaporanPdcaOrderByWithRelationInput | LaporanPdcaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LaporanPdcas.
+     */
+    cursor?: LaporanPdcaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LaporanPdcas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LaporanPdcas.
+     */
+    skip?: number
+    distinct?: LaporanPdcaScalarFieldEnum | LaporanPdcaScalarFieldEnum[]
+  }
+
+  /**
+   * LaporanPdca create
+   */
+  export type LaporanPdcaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LaporanPdca
+     */
+    select?: LaporanPdcaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LaporanPdca
+     */
+    omit?: LaporanPdcaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LaporanPdcaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LaporanPdca.
+     */
+    data: XOR<LaporanPdcaCreateInput, LaporanPdcaUncheckedCreateInput>
+  }
+
+  /**
+   * LaporanPdca createMany
+   */
+  export type LaporanPdcaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LaporanPdcas.
+     */
+    data: LaporanPdcaCreateManyInput | LaporanPdcaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LaporanPdca update
+   */
+  export type LaporanPdcaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LaporanPdca
+     */
+    select?: LaporanPdcaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LaporanPdca
+     */
+    omit?: LaporanPdcaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LaporanPdcaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LaporanPdca.
+     */
+    data: XOR<LaporanPdcaUpdateInput, LaporanPdcaUncheckedUpdateInput>
+    /**
+     * Choose, which LaporanPdca to update.
+     */
+    where: LaporanPdcaWhereUniqueInput
+  }
+
+  /**
+   * LaporanPdca updateMany
+   */
+  export type LaporanPdcaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LaporanPdcas.
+     */
+    data: XOR<LaporanPdcaUpdateManyMutationInput, LaporanPdcaUncheckedUpdateManyInput>
+    /**
+     * Filter which LaporanPdcas to update
+     */
+    where?: LaporanPdcaWhereInput
+    /**
+     * Limit how many LaporanPdcas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LaporanPdca upsert
+   */
+  export type LaporanPdcaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LaporanPdca
+     */
+    select?: LaporanPdcaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LaporanPdca
+     */
+    omit?: LaporanPdcaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LaporanPdcaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LaporanPdca to update in case it exists.
+     */
+    where: LaporanPdcaWhereUniqueInput
+    /**
+     * In case the LaporanPdca found by the `where` argument doesn't exist, create a new LaporanPdca with this data.
+     */
+    create: XOR<LaporanPdcaCreateInput, LaporanPdcaUncheckedCreateInput>
+    /**
+     * In case the LaporanPdca was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LaporanPdcaUpdateInput, LaporanPdcaUncheckedUpdateInput>
+  }
+
+  /**
+   * LaporanPdca delete
+   */
+  export type LaporanPdcaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LaporanPdca
+     */
+    select?: LaporanPdcaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LaporanPdca
+     */
+    omit?: LaporanPdcaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LaporanPdcaInclude<ExtArgs> | null
+    /**
+     * Filter which LaporanPdca to delete.
+     */
+    where: LaporanPdcaWhereUniqueInput
+  }
+
+  /**
+   * LaporanPdca deleteMany
+   */
+  export type LaporanPdcaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LaporanPdcas to delete
+     */
+    where?: LaporanPdcaWhereInput
+    /**
+     * Limit how many LaporanPdcas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LaporanPdca without action
+   */
+  export type LaporanPdcaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LaporanPdca
+     */
+    select?: LaporanPdcaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LaporanPdca
+     */
+    omit?: LaporanPdcaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LaporanPdcaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RekapBulanan
+   */
+
+  export type AggregateRekapBulanan = {
+    _count: RekapBulananCountAggregateOutputType | null
+    _avg: RekapBulananAvgAggregateOutputType | null
+    _sum: RekapBulananSumAggregateOutputType | null
+    _min: RekapBulananMinAggregateOutputType | null
+    _max: RekapBulananMaxAggregateOutputType | null
+  }
+
+  export type RekapBulananAvgAggregateOutputType = {
+    bulan: number | null
+    jumlah: number | null
+  }
+
+  export type RekapBulananSumAggregateOutputType = {
+    bulan: number | null
+    jumlah: number | null
+  }
+
+  export type RekapBulananMinAggregateOutputType = {
+    id: string | null
+    tahunAjaranId: string | null
+    bulan: number | null
+    jenisAktivitas: string | null
+    jumlah: number | null
+  }
+
+  export type RekapBulananMaxAggregateOutputType = {
+    id: string | null
+    tahunAjaranId: string | null
+    bulan: number | null
+    jenisAktivitas: string | null
+    jumlah: number | null
+  }
+
+  export type RekapBulananCountAggregateOutputType = {
+    id: number
+    tahunAjaranId: number
+    bulan: number
+    jenisAktivitas: number
+    jumlah: number
+    _all: number
+  }
+
+
+  export type RekapBulananAvgAggregateInputType = {
+    bulan?: true
+    jumlah?: true
+  }
+
+  export type RekapBulananSumAggregateInputType = {
+    bulan?: true
+    jumlah?: true
+  }
+
+  export type RekapBulananMinAggregateInputType = {
+    id?: true
+    tahunAjaranId?: true
+    bulan?: true
+    jenisAktivitas?: true
+    jumlah?: true
+  }
+
+  export type RekapBulananMaxAggregateInputType = {
+    id?: true
+    tahunAjaranId?: true
+    bulan?: true
+    jenisAktivitas?: true
+    jumlah?: true
+  }
+
+  export type RekapBulananCountAggregateInputType = {
+    id?: true
+    tahunAjaranId?: true
+    bulan?: true
+    jenisAktivitas?: true
+    jumlah?: true
+    _all?: true
+  }
+
+  export type RekapBulananAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RekapBulanan to aggregate.
+     */
+    where?: RekapBulananWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RekapBulanans to fetch.
+     */
+    orderBy?: RekapBulananOrderByWithRelationInput | RekapBulananOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RekapBulananWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RekapBulanans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RekapBulanans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RekapBulanans
+    **/
+    _count?: true | RekapBulananCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RekapBulananAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RekapBulananSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RekapBulananMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RekapBulananMaxAggregateInputType
+  }
+
+  export type GetRekapBulananAggregateType<T extends RekapBulananAggregateArgs> = {
+        [P in keyof T & keyof AggregateRekapBulanan]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRekapBulanan[P]>
+      : GetScalarType<T[P], AggregateRekapBulanan[P]>
+  }
+
+
+
+
+  export type RekapBulananGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RekapBulananWhereInput
+    orderBy?: RekapBulananOrderByWithAggregationInput | RekapBulananOrderByWithAggregationInput[]
+    by: RekapBulananScalarFieldEnum[] | RekapBulananScalarFieldEnum
+    having?: RekapBulananScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RekapBulananCountAggregateInputType | true
+    _avg?: RekapBulananAvgAggregateInputType
+    _sum?: RekapBulananSumAggregateInputType
+    _min?: RekapBulananMinAggregateInputType
+    _max?: RekapBulananMaxAggregateInputType
+  }
+
+  export type RekapBulananGroupByOutputType = {
+    id: string
+    tahunAjaranId: string
+    bulan: number
+    jenisAktivitas: string
+    jumlah: number
+    _count: RekapBulananCountAggregateOutputType | null
+    _avg: RekapBulananAvgAggregateOutputType | null
+    _sum: RekapBulananSumAggregateOutputType | null
+    _min: RekapBulananMinAggregateOutputType | null
+    _max: RekapBulananMaxAggregateOutputType | null
+  }
+
+  type GetRekapBulananGroupByPayload<T extends RekapBulananGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RekapBulananGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RekapBulananGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RekapBulananGroupByOutputType[P]>
+            : GetScalarType<T[P], RekapBulananGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RekapBulananSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tahunAjaranId?: boolean
+    bulan?: boolean
+    jenisAktivitas?: boolean
+    jumlah?: boolean
+  }, ExtArgs["result"]["rekapBulanan"]>
+
+
+
+  export type RekapBulananSelectScalar = {
+    id?: boolean
+    tahunAjaranId?: boolean
+    bulan?: boolean
+    jenisAktivitas?: boolean
+    jumlah?: boolean
+  }
+
+  export type RekapBulananOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tahunAjaranId" | "bulan" | "jenisAktivitas" | "jumlah", ExtArgs["result"]["rekapBulanan"]>
+
+  export type $RekapBulananPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RekapBulanan"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tahunAjaranId: string
+      bulan: number
+      jenisAktivitas: string
+      jumlah: number
+    }, ExtArgs["result"]["rekapBulanan"]>
+    composites: {}
+  }
+
+  type RekapBulananGetPayload<S extends boolean | null | undefined | RekapBulananDefaultArgs> = $Result.GetResult<Prisma.$RekapBulananPayload, S>
+
+  type RekapBulananCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RekapBulananFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RekapBulananCountAggregateInputType | true
+    }
+
+  export interface RekapBulananDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RekapBulanan'], meta: { name: 'RekapBulanan' } }
+    /**
+     * Find zero or one RekapBulanan that matches the filter.
+     * @param {RekapBulananFindUniqueArgs} args - Arguments to find a RekapBulanan
+     * @example
+     * // Get one RekapBulanan
+     * const rekapBulanan = await prisma.rekapBulanan.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RekapBulananFindUniqueArgs>(args: SelectSubset<T, RekapBulananFindUniqueArgs<ExtArgs>>): Prisma__RekapBulananClient<$Result.GetResult<Prisma.$RekapBulananPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RekapBulanan that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RekapBulananFindUniqueOrThrowArgs} args - Arguments to find a RekapBulanan
+     * @example
+     * // Get one RekapBulanan
+     * const rekapBulanan = await prisma.rekapBulanan.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RekapBulananFindUniqueOrThrowArgs>(args: SelectSubset<T, RekapBulananFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RekapBulananClient<$Result.GetResult<Prisma.$RekapBulananPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RekapBulanan that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RekapBulananFindFirstArgs} args - Arguments to find a RekapBulanan
+     * @example
+     * // Get one RekapBulanan
+     * const rekapBulanan = await prisma.rekapBulanan.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RekapBulananFindFirstArgs>(args?: SelectSubset<T, RekapBulananFindFirstArgs<ExtArgs>>): Prisma__RekapBulananClient<$Result.GetResult<Prisma.$RekapBulananPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RekapBulanan that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RekapBulananFindFirstOrThrowArgs} args - Arguments to find a RekapBulanan
+     * @example
+     * // Get one RekapBulanan
+     * const rekapBulanan = await prisma.rekapBulanan.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RekapBulananFindFirstOrThrowArgs>(args?: SelectSubset<T, RekapBulananFindFirstOrThrowArgs<ExtArgs>>): Prisma__RekapBulananClient<$Result.GetResult<Prisma.$RekapBulananPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RekapBulanans that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RekapBulananFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RekapBulanans
+     * const rekapBulanans = await prisma.rekapBulanan.findMany()
+     * 
+     * // Get first 10 RekapBulanans
+     * const rekapBulanans = await prisma.rekapBulanan.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const rekapBulananWithIdOnly = await prisma.rekapBulanan.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RekapBulananFindManyArgs>(args?: SelectSubset<T, RekapBulananFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RekapBulananPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RekapBulanan.
+     * @param {RekapBulananCreateArgs} args - Arguments to create a RekapBulanan.
+     * @example
+     * // Create one RekapBulanan
+     * const RekapBulanan = await prisma.rekapBulanan.create({
+     *   data: {
+     *     // ... data to create a RekapBulanan
+     *   }
+     * })
+     * 
+     */
+    create<T extends RekapBulananCreateArgs>(args: SelectSubset<T, RekapBulananCreateArgs<ExtArgs>>): Prisma__RekapBulananClient<$Result.GetResult<Prisma.$RekapBulananPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RekapBulanans.
+     * @param {RekapBulananCreateManyArgs} args - Arguments to create many RekapBulanans.
+     * @example
+     * // Create many RekapBulanans
+     * const rekapBulanan = await prisma.rekapBulanan.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RekapBulananCreateManyArgs>(args?: SelectSubset<T, RekapBulananCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a RekapBulanan.
+     * @param {RekapBulananDeleteArgs} args - Arguments to delete one RekapBulanan.
+     * @example
+     * // Delete one RekapBulanan
+     * const RekapBulanan = await prisma.rekapBulanan.delete({
+     *   where: {
+     *     // ... filter to delete one RekapBulanan
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RekapBulananDeleteArgs>(args: SelectSubset<T, RekapBulananDeleteArgs<ExtArgs>>): Prisma__RekapBulananClient<$Result.GetResult<Prisma.$RekapBulananPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RekapBulanan.
+     * @param {RekapBulananUpdateArgs} args - Arguments to update one RekapBulanan.
+     * @example
+     * // Update one RekapBulanan
+     * const rekapBulanan = await prisma.rekapBulanan.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RekapBulananUpdateArgs>(args: SelectSubset<T, RekapBulananUpdateArgs<ExtArgs>>): Prisma__RekapBulananClient<$Result.GetResult<Prisma.$RekapBulananPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RekapBulanans.
+     * @param {RekapBulananDeleteManyArgs} args - Arguments to filter RekapBulanans to delete.
+     * @example
+     * // Delete a few RekapBulanans
+     * const { count } = await prisma.rekapBulanan.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RekapBulananDeleteManyArgs>(args?: SelectSubset<T, RekapBulananDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RekapBulanans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RekapBulananUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RekapBulanans
+     * const rekapBulanan = await prisma.rekapBulanan.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RekapBulananUpdateManyArgs>(args: SelectSubset<T, RekapBulananUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RekapBulanan.
+     * @param {RekapBulananUpsertArgs} args - Arguments to update or create a RekapBulanan.
+     * @example
+     * // Update or create a RekapBulanan
+     * const rekapBulanan = await prisma.rekapBulanan.upsert({
+     *   create: {
+     *     // ... data to create a RekapBulanan
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RekapBulanan we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RekapBulananUpsertArgs>(args: SelectSubset<T, RekapBulananUpsertArgs<ExtArgs>>): Prisma__RekapBulananClient<$Result.GetResult<Prisma.$RekapBulananPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RekapBulanans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RekapBulananCountArgs} args - Arguments to filter RekapBulanans to count.
+     * @example
+     * // Count the number of RekapBulanans
+     * const count = await prisma.rekapBulanan.count({
+     *   where: {
+     *     // ... the filter for the RekapBulanans we want to count
+     *   }
+     * })
+    **/
+    count<T extends RekapBulananCountArgs>(
+      args?: Subset<T, RekapBulananCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RekapBulananCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RekapBulanan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RekapBulananAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RekapBulananAggregateArgs>(args: Subset<T, RekapBulananAggregateArgs>): Prisma.PrismaPromise<GetRekapBulananAggregateType<T>>
+
+    /**
+     * Group by RekapBulanan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RekapBulananGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RekapBulananGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RekapBulananGroupByArgs['orderBy'] }
+        : { orderBy?: RekapBulananGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RekapBulananGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRekapBulananGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RekapBulanan model
+   */
+  readonly fields: RekapBulananFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RekapBulanan.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RekapBulananClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RekapBulanan model
+   */
+  interface RekapBulananFieldRefs {
+    readonly id: FieldRef<"RekapBulanan", 'String'>
+    readonly tahunAjaranId: FieldRef<"RekapBulanan", 'String'>
+    readonly bulan: FieldRef<"RekapBulanan", 'Int'>
+    readonly jenisAktivitas: FieldRef<"RekapBulanan", 'String'>
+    readonly jumlah: FieldRef<"RekapBulanan", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RekapBulanan findUnique
+   */
+  export type RekapBulananFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RekapBulanan
+     */
+    select?: RekapBulananSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RekapBulanan
+     */
+    omit?: RekapBulananOmit<ExtArgs> | null
+    /**
+     * Filter, which RekapBulanan to fetch.
+     */
+    where: RekapBulananWhereUniqueInput
+  }
+
+  /**
+   * RekapBulanan findUniqueOrThrow
+   */
+  export type RekapBulananFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RekapBulanan
+     */
+    select?: RekapBulananSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RekapBulanan
+     */
+    omit?: RekapBulananOmit<ExtArgs> | null
+    /**
+     * Filter, which RekapBulanan to fetch.
+     */
+    where: RekapBulananWhereUniqueInput
+  }
+
+  /**
+   * RekapBulanan findFirst
+   */
+  export type RekapBulananFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RekapBulanan
+     */
+    select?: RekapBulananSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RekapBulanan
+     */
+    omit?: RekapBulananOmit<ExtArgs> | null
+    /**
+     * Filter, which RekapBulanan to fetch.
+     */
+    where?: RekapBulananWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RekapBulanans to fetch.
+     */
+    orderBy?: RekapBulananOrderByWithRelationInput | RekapBulananOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RekapBulanans.
+     */
+    cursor?: RekapBulananWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RekapBulanans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RekapBulanans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RekapBulanans.
+     */
+    distinct?: RekapBulananScalarFieldEnum | RekapBulananScalarFieldEnum[]
+  }
+
+  /**
+   * RekapBulanan findFirstOrThrow
+   */
+  export type RekapBulananFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RekapBulanan
+     */
+    select?: RekapBulananSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RekapBulanan
+     */
+    omit?: RekapBulananOmit<ExtArgs> | null
+    /**
+     * Filter, which RekapBulanan to fetch.
+     */
+    where?: RekapBulananWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RekapBulanans to fetch.
+     */
+    orderBy?: RekapBulananOrderByWithRelationInput | RekapBulananOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RekapBulanans.
+     */
+    cursor?: RekapBulananWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RekapBulanans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RekapBulanans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RekapBulanans.
+     */
+    distinct?: RekapBulananScalarFieldEnum | RekapBulananScalarFieldEnum[]
+  }
+
+  /**
+   * RekapBulanan findMany
+   */
+  export type RekapBulananFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RekapBulanan
+     */
+    select?: RekapBulananSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RekapBulanan
+     */
+    omit?: RekapBulananOmit<ExtArgs> | null
+    /**
+     * Filter, which RekapBulanans to fetch.
+     */
+    where?: RekapBulananWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RekapBulanans to fetch.
+     */
+    orderBy?: RekapBulananOrderByWithRelationInput | RekapBulananOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RekapBulanans.
+     */
+    cursor?: RekapBulananWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RekapBulanans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RekapBulanans.
+     */
+    skip?: number
+    distinct?: RekapBulananScalarFieldEnum | RekapBulananScalarFieldEnum[]
+  }
+
+  /**
+   * RekapBulanan create
+   */
+  export type RekapBulananCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RekapBulanan
+     */
+    select?: RekapBulananSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RekapBulanan
+     */
+    omit?: RekapBulananOmit<ExtArgs> | null
+    /**
+     * The data needed to create a RekapBulanan.
+     */
+    data: XOR<RekapBulananCreateInput, RekapBulananUncheckedCreateInput>
+  }
+
+  /**
+   * RekapBulanan createMany
+   */
+  export type RekapBulananCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RekapBulanans.
+     */
+    data: RekapBulananCreateManyInput | RekapBulananCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RekapBulanan update
+   */
+  export type RekapBulananUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RekapBulanan
+     */
+    select?: RekapBulananSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RekapBulanan
+     */
+    omit?: RekapBulananOmit<ExtArgs> | null
+    /**
+     * The data needed to update a RekapBulanan.
+     */
+    data: XOR<RekapBulananUpdateInput, RekapBulananUncheckedUpdateInput>
+    /**
+     * Choose, which RekapBulanan to update.
+     */
+    where: RekapBulananWhereUniqueInput
+  }
+
+  /**
+   * RekapBulanan updateMany
+   */
+  export type RekapBulananUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RekapBulanans.
+     */
+    data: XOR<RekapBulananUpdateManyMutationInput, RekapBulananUncheckedUpdateManyInput>
+    /**
+     * Filter which RekapBulanans to update
+     */
+    where?: RekapBulananWhereInput
+    /**
+     * Limit how many RekapBulanans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RekapBulanan upsert
+   */
+  export type RekapBulananUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RekapBulanan
+     */
+    select?: RekapBulananSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RekapBulanan
+     */
+    omit?: RekapBulananOmit<ExtArgs> | null
+    /**
+     * The filter to search for the RekapBulanan to update in case it exists.
+     */
+    where: RekapBulananWhereUniqueInput
+    /**
+     * In case the RekapBulanan found by the `where` argument doesn't exist, create a new RekapBulanan with this data.
+     */
+    create: XOR<RekapBulananCreateInput, RekapBulananUncheckedCreateInput>
+    /**
+     * In case the RekapBulanan was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RekapBulananUpdateInput, RekapBulananUncheckedUpdateInput>
+  }
+
+  /**
+   * RekapBulanan delete
+   */
+  export type RekapBulananDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RekapBulanan
+     */
+    select?: RekapBulananSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RekapBulanan
+     */
+    omit?: RekapBulananOmit<ExtArgs> | null
+    /**
+     * Filter which RekapBulanan to delete.
+     */
+    where: RekapBulananWhereUniqueInput
+  }
+
+  /**
+   * RekapBulanan deleteMany
+   */
+  export type RekapBulananDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RekapBulanans to delete
+     */
+    where?: RekapBulananWhereInput
+    /**
+     * Limit how many RekapBulanans to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RekapBulanan without action
+   */
+  export type RekapBulananDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RekapBulanan
+     */
+    select?: RekapBulananSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RekapBulanan
+     */
+    omit?: RekapBulananOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TimFasilitatorTka
+   */
+
+  export type AggregateTimFasilitatorTka = {
+    _count: TimFasilitatorTkaCountAggregateOutputType | null
+    _min: TimFasilitatorTkaMinAggregateOutputType | null
+    _max: TimFasilitatorTkaMaxAggregateOutputType | null
+  }
+
+  export type TimFasilitatorTkaMinAggregateOutputType = {
+    id: string | null
+    mapelId: string | null
+    guruId: string | null
+    tahunAjaranId: string | null
+  }
+
+  export type TimFasilitatorTkaMaxAggregateOutputType = {
+    id: string | null
+    mapelId: string | null
+    guruId: string | null
+    tahunAjaranId: string | null
+  }
+
+  export type TimFasilitatorTkaCountAggregateOutputType = {
+    id: number
+    mapelId: number
+    guruId: number
+    tahunAjaranId: number
+    _all: number
+  }
+
+
+  export type TimFasilitatorTkaMinAggregateInputType = {
+    id?: true
+    mapelId?: true
+    guruId?: true
+    tahunAjaranId?: true
+  }
+
+  export type TimFasilitatorTkaMaxAggregateInputType = {
+    id?: true
+    mapelId?: true
+    guruId?: true
+    tahunAjaranId?: true
+  }
+
+  export type TimFasilitatorTkaCountAggregateInputType = {
+    id?: true
+    mapelId?: true
+    guruId?: true
+    tahunAjaranId?: true
+    _all?: true
+  }
+
+  export type TimFasilitatorTkaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TimFasilitatorTka to aggregate.
+     */
+    where?: TimFasilitatorTkaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimFasilitatorTkas to fetch.
+     */
+    orderBy?: TimFasilitatorTkaOrderByWithRelationInput | TimFasilitatorTkaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TimFasilitatorTkaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimFasilitatorTkas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimFasilitatorTkas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TimFasilitatorTkas
+    **/
+    _count?: true | TimFasilitatorTkaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TimFasilitatorTkaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TimFasilitatorTkaMaxAggregateInputType
+  }
+
+  export type GetTimFasilitatorTkaAggregateType<T extends TimFasilitatorTkaAggregateArgs> = {
+        [P in keyof T & keyof AggregateTimFasilitatorTka]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTimFasilitatorTka[P]>
+      : GetScalarType<T[P], AggregateTimFasilitatorTka[P]>
+  }
+
+
+
+
+  export type TimFasilitatorTkaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimFasilitatorTkaWhereInput
+    orderBy?: TimFasilitatorTkaOrderByWithAggregationInput | TimFasilitatorTkaOrderByWithAggregationInput[]
+    by: TimFasilitatorTkaScalarFieldEnum[] | TimFasilitatorTkaScalarFieldEnum
+    having?: TimFasilitatorTkaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TimFasilitatorTkaCountAggregateInputType | true
+    _min?: TimFasilitatorTkaMinAggregateInputType
+    _max?: TimFasilitatorTkaMaxAggregateInputType
+  }
+
+  export type TimFasilitatorTkaGroupByOutputType = {
+    id: string
+    mapelId: string
+    guruId: string
+    tahunAjaranId: string
+    _count: TimFasilitatorTkaCountAggregateOutputType | null
+    _min: TimFasilitatorTkaMinAggregateOutputType | null
+    _max: TimFasilitatorTkaMaxAggregateOutputType | null
+  }
+
+  type GetTimFasilitatorTkaGroupByPayload<T extends TimFasilitatorTkaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TimFasilitatorTkaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TimFasilitatorTkaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TimFasilitatorTkaGroupByOutputType[P]>
+            : GetScalarType<T[P], TimFasilitatorTkaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TimFasilitatorTkaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    mapelId?: boolean
+    guruId?: boolean
+    tahunAjaranId?: boolean
+    mapel?: boolean | MataPelajaranDefaultArgs<ExtArgs>
+    guru?: boolean | GuruDefaultArgs<ExtArgs>
+    tahunAjaran?: boolean | TahunAjaranDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["timFasilitatorTka"]>
+
+
+
+  export type TimFasilitatorTkaSelectScalar = {
+    id?: boolean
+    mapelId?: boolean
+    guruId?: boolean
+    tahunAjaranId?: boolean
+  }
+
+  export type TimFasilitatorTkaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "mapelId" | "guruId" | "tahunAjaranId", ExtArgs["result"]["timFasilitatorTka"]>
+  export type TimFasilitatorTkaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    mapel?: boolean | MataPelajaranDefaultArgs<ExtArgs>
+    guru?: boolean | GuruDefaultArgs<ExtArgs>
+    tahunAjaran?: boolean | TahunAjaranDefaultArgs<ExtArgs>
+  }
+
+  export type $TimFasilitatorTkaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TimFasilitatorTka"
+    objects: {
+      mapel: Prisma.$MataPelajaranPayload<ExtArgs>
+      guru: Prisma.$GuruPayload<ExtArgs>
+      tahunAjaran: Prisma.$TahunAjaranPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      mapelId: string
+      guruId: string
+      tahunAjaranId: string
+    }, ExtArgs["result"]["timFasilitatorTka"]>
+    composites: {}
+  }
+
+  type TimFasilitatorTkaGetPayload<S extends boolean | null | undefined | TimFasilitatorTkaDefaultArgs> = $Result.GetResult<Prisma.$TimFasilitatorTkaPayload, S>
+
+  type TimFasilitatorTkaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TimFasilitatorTkaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TimFasilitatorTkaCountAggregateInputType | true
+    }
+
+  export interface TimFasilitatorTkaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TimFasilitatorTka'], meta: { name: 'TimFasilitatorTka' } }
+    /**
+     * Find zero or one TimFasilitatorTka that matches the filter.
+     * @param {TimFasilitatorTkaFindUniqueArgs} args - Arguments to find a TimFasilitatorTka
+     * @example
+     * // Get one TimFasilitatorTka
+     * const timFasilitatorTka = await prisma.timFasilitatorTka.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TimFasilitatorTkaFindUniqueArgs>(args: SelectSubset<T, TimFasilitatorTkaFindUniqueArgs<ExtArgs>>): Prisma__TimFasilitatorTkaClient<$Result.GetResult<Prisma.$TimFasilitatorTkaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TimFasilitatorTka that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TimFasilitatorTkaFindUniqueOrThrowArgs} args - Arguments to find a TimFasilitatorTka
+     * @example
+     * // Get one TimFasilitatorTka
+     * const timFasilitatorTka = await prisma.timFasilitatorTka.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TimFasilitatorTkaFindUniqueOrThrowArgs>(args: SelectSubset<T, TimFasilitatorTkaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TimFasilitatorTkaClient<$Result.GetResult<Prisma.$TimFasilitatorTkaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TimFasilitatorTka that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimFasilitatorTkaFindFirstArgs} args - Arguments to find a TimFasilitatorTka
+     * @example
+     * // Get one TimFasilitatorTka
+     * const timFasilitatorTka = await prisma.timFasilitatorTka.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TimFasilitatorTkaFindFirstArgs>(args?: SelectSubset<T, TimFasilitatorTkaFindFirstArgs<ExtArgs>>): Prisma__TimFasilitatorTkaClient<$Result.GetResult<Prisma.$TimFasilitatorTkaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TimFasilitatorTka that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimFasilitatorTkaFindFirstOrThrowArgs} args - Arguments to find a TimFasilitatorTka
+     * @example
+     * // Get one TimFasilitatorTka
+     * const timFasilitatorTka = await prisma.timFasilitatorTka.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TimFasilitatorTkaFindFirstOrThrowArgs>(args?: SelectSubset<T, TimFasilitatorTkaFindFirstOrThrowArgs<ExtArgs>>): Prisma__TimFasilitatorTkaClient<$Result.GetResult<Prisma.$TimFasilitatorTkaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TimFasilitatorTkas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimFasilitatorTkaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TimFasilitatorTkas
+     * const timFasilitatorTkas = await prisma.timFasilitatorTka.findMany()
+     * 
+     * // Get first 10 TimFasilitatorTkas
+     * const timFasilitatorTkas = await prisma.timFasilitatorTka.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const timFasilitatorTkaWithIdOnly = await prisma.timFasilitatorTka.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TimFasilitatorTkaFindManyArgs>(args?: SelectSubset<T, TimFasilitatorTkaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimFasilitatorTkaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TimFasilitatorTka.
+     * @param {TimFasilitatorTkaCreateArgs} args - Arguments to create a TimFasilitatorTka.
+     * @example
+     * // Create one TimFasilitatorTka
+     * const TimFasilitatorTka = await prisma.timFasilitatorTka.create({
+     *   data: {
+     *     // ... data to create a TimFasilitatorTka
+     *   }
+     * })
+     * 
+     */
+    create<T extends TimFasilitatorTkaCreateArgs>(args: SelectSubset<T, TimFasilitatorTkaCreateArgs<ExtArgs>>): Prisma__TimFasilitatorTkaClient<$Result.GetResult<Prisma.$TimFasilitatorTkaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TimFasilitatorTkas.
+     * @param {TimFasilitatorTkaCreateManyArgs} args - Arguments to create many TimFasilitatorTkas.
+     * @example
+     * // Create many TimFasilitatorTkas
+     * const timFasilitatorTka = await prisma.timFasilitatorTka.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TimFasilitatorTkaCreateManyArgs>(args?: SelectSubset<T, TimFasilitatorTkaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a TimFasilitatorTka.
+     * @param {TimFasilitatorTkaDeleteArgs} args - Arguments to delete one TimFasilitatorTka.
+     * @example
+     * // Delete one TimFasilitatorTka
+     * const TimFasilitatorTka = await prisma.timFasilitatorTka.delete({
+     *   where: {
+     *     // ... filter to delete one TimFasilitatorTka
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TimFasilitatorTkaDeleteArgs>(args: SelectSubset<T, TimFasilitatorTkaDeleteArgs<ExtArgs>>): Prisma__TimFasilitatorTkaClient<$Result.GetResult<Prisma.$TimFasilitatorTkaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TimFasilitatorTka.
+     * @param {TimFasilitatorTkaUpdateArgs} args - Arguments to update one TimFasilitatorTka.
+     * @example
+     * // Update one TimFasilitatorTka
+     * const timFasilitatorTka = await prisma.timFasilitatorTka.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TimFasilitatorTkaUpdateArgs>(args: SelectSubset<T, TimFasilitatorTkaUpdateArgs<ExtArgs>>): Prisma__TimFasilitatorTkaClient<$Result.GetResult<Prisma.$TimFasilitatorTkaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TimFasilitatorTkas.
+     * @param {TimFasilitatorTkaDeleteManyArgs} args - Arguments to filter TimFasilitatorTkas to delete.
+     * @example
+     * // Delete a few TimFasilitatorTkas
+     * const { count } = await prisma.timFasilitatorTka.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TimFasilitatorTkaDeleteManyArgs>(args?: SelectSubset<T, TimFasilitatorTkaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TimFasilitatorTkas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimFasilitatorTkaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TimFasilitatorTkas
+     * const timFasilitatorTka = await prisma.timFasilitatorTka.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TimFasilitatorTkaUpdateManyArgs>(args: SelectSubset<T, TimFasilitatorTkaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one TimFasilitatorTka.
+     * @param {TimFasilitatorTkaUpsertArgs} args - Arguments to update or create a TimFasilitatorTka.
+     * @example
+     * // Update or create a TimFasilitatorTka
+     * const timFasilitatorTka = await prisma.timFasilitatorTka.upsert({
+     *   create: {
+     *     // ... data to create a TimFasilitatorTka
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TimFasilitatorTka we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TimFasilitatorTkaUpsertArgs>(args: SelectSubset<T, TimFasilitatorTkaUpsertArgs<ExtArgs>>): Prisma__TimFasilitatorTkaClient<$Result.GetResult<Prisma.$TimFasilitatorTkaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TimFasilitatorTkas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimFasilitatorTkaCountArgs} args - Arguments to filter TimFasilitatorTkas to count.
+     * @example
+     * // Count the number of TimFasilitatorTkas
+     * const count = await prisma.timFasilitatorTka.count({
+     *   where: {
+     *     // ... the filter for the TimFasilitatorTkas we want to count
+     *   }
+     * })
+    **/
+    count<T extends TimFasilitatorTkaCountArgs>(
+      args?: Subset<T, TimFasilitatorTkaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TimFasilitatorTkaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TimFasilitatorTka.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimFasilitatorTkaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TimFasilitatorTkaAggregateArgs>(args: Subset<T, TimFasilitatorTkaAggregateArgs>): Prisma.PrismaPromise<GetTimFasilitatorTkaAggregateType<T>>
+
+    /**
+     * Group by TimFasilitatorTka.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimFasilitatorTkaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TimFasilitatorTkaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TimFasilitatorTkaGroupByArgs['orderBy'] }
+        : { orderBy?: TimFasilitatorTkaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TimFasilitatorTkaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTimFasilitatorTkaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TimFasilitatorTka model
+   */
+  readonly fields: TimFasilitatorTkaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TimFasilitatorTka.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TimFasilitatorTkaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    mapel<T extends MataPelajaranDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MataPelajaranDefaultArgs<ExtArgs>>): Prisma__MataPelajaranClient<$Result.GetResult<Prisma.$MataPelajaranPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    guru<T extends GuruDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GuruDefaultArgs<ExtArgs>>): Prisma__GuruClient<$Result.GetResult<Prisma.$GuruPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tahunAjaran<T extends TahunAjaranDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TahunAjaranDefaultArgs<ExtArgs>>): Prisma__TahunAjaranClient<$Result.GetResult<Prisma.$TahunAjaranPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TimFasilitatorTka model
+   */
+  interface TimFasilitatorTkaFieldRefs {
+    readonly id: FieldRef<"TimFasilitatorTka", 'String'>
+    readonly mapelId: FieldRef<"TimFasilitatorTka", 'String'>
+    readonly guruId: FieldRef<"TimFasilitatorTka", 'String'>
+    readonly tahunAjaranId: FieldRef<"TimFasilitatorTka", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TimFasilitatorTka findUnique
+   */
+  export type TimFasilitatorTkaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimFasilitatorTka
+     */
+    select?: TimFasilitatorTkaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimFasilitatorTka
+     */
+    omit?: TimFasilitatorTkaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimFasilitatorTkaInclude<ExtArgs> | null
+    /**
+     * Filter, which TimFasilitatorTka to fetch.
+     */
+    where: TimFasilitatorTkaWhereUniqueInput
+  }
+
+  /**
+   * TimFasilitatorTka findUniqueOrThrow
+   */
+  export type TimFasilitatorTkaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimFasilitatorTka
+     */
+    select?: TimFasilitatorTkaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimFasilitatorTka
+     */
+    omit?: TimFasilitatorTkaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimFasilitatorTkaInclude<ExtArgs> | null
+    /**
+     * Filter, which TimFasilitatorTka to fetch.
+     */
+    where: TimFasilitatorTkaWhereUniqueInput
+  }
+
+  /**
+   * TimFasilitatorTka findFirst
+   */
+  export type TimFasilitatorTkaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimFasilitatorTka
+     */
+    select?: TimFasilitatorTkaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimFasilitatorTka
+     */
+    omit?: TimFasilitatorTkaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimFasilitatorTkaInclude<ExtArgs> | null
+    /**
+     * Filter, which TimFasilitatorTka to fetch.
+     */
+    where?: TimFasilitatorTkaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimFasilitatorTkas to fetch.
+     */
+    orderBy?: TimFasilitatorTkaOrderByWithRelationInput | TimFasilitatorTkaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TimFasilitatorTkas.
+     */
+    cursor?: TimFasilitatorTkaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimFasilitatorTkas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimFasilitatorTkas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TimFasilitatorTkas.
+     */
+    distinct?: TimFasilitatorTkaScalarFieldEnum | TimFasilitatorTkaScalarFieldEnum[]
+  }
+
+  /**
+   * TimFasilitatorTka findFirstOrThrow
+   */
+  export type TimFasilitatorTkaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimFasilitatorTka
+     */
+    select?: TimFasilitatorTkaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimFasilitatorTka
+     */
+    omit?: TimFasilitatorTkaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimFasilitatorTkaInclude<ExtArgs> | null
+    /**
+     * Filter, which TimFasilitatorTka to fetch.
+     */
+    where?: TimFasilitatorTkaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimFasilitatorTkas to fetch.
+     */
+    orderBy?: TimFasilitatorTkaOrderByWithRelationInput | TimFasilitatorTkaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TimFasilitatorTkas.
+     */
+    cursor?: TimFasilitatorTkaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimFasilitatorTkas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimFasilitatorTkas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TimFasilitatorTkas.
+     */
+    distinct?: TimFasilitatorTkaScalarFieldEnum | TimFasilitatorTkaScalarFieldEnum[]
+  }
+
+  /**
+   * TimFasilitatorTka findMany
+   */
+  export type TimFasilitatorTkaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimFasilitatorTka
+     */
+    select?: TimFasilitatorTkaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimFasilitatorTka
+     */
+    omit?: TimFasilitatorTkaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimFasilitatorTkaInclude<ExtArgs> | null
+    /**
+     * Filter, which TimFasilitatorTkas to fetch.
+     */
+    where?: TimFasilitatorTkaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimFasilitatorTkas to fetch.
+     */
+    orderBy?: TimFasilitatorTkaOrderByWithRelationInput | TimFasilitatorTkaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TimFasilitatorTkas.
+     */
+    cursor?: TimFasilitatorTkaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimFasilitatorTkas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimFasilitatorTkas.
+     */
+    skip?: number
+    distinct?: TimFasilitatorTkaScalarFieldEnum | TimFasilitatorTkaScalarFieldEnum[]
+  }
+
+  /**
+   * TimFasilitatorTka create
+   */
+  export type TimFasilitatorTkaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimFasilitatorTka
+     */
+    select?: TimFasilitatorTkaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimFasilitatorTka
+     */
+    omit?: TimFasilitatorTkaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimFasilitatorTkaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TimFasilitatorTka.
+     */
+    data: XOR<TimFasilitatorTkaCreateInput, TimFasilitatorTkaUncheckedCreateInput>
+  }
+
+  /**
+   * TimFasilitatorTka createMany
+   */
+  export type TimFasilitatorTkaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TimFasilitatorTkas.
+     */
+    data: TimFasilitatorTkaCreateManyInput | TimFasilitatorTkaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TimFasilitatorTka update
+   */
+  export type TimFasilitatorTkaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimFasilitatorTka
+     */
+    select?: TimFasilitatorTkaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimFasilitatorTka
+     */
+    omit?: TimFasilitatorTkaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimFasilitatorTkaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TimFasilitatorTka.
+     */
+    data: XOR<TimFasilitatorTkaUpdateInput, TimFasilitatorTkaUncheckedUpdateInput>
+    /**
+     * Choose, which TimFasilitatorTka to update.
+     */
+    where: TimFasilitatorTkaWhereUniqueInput
+  }
+
+  /**
+   * TimFasilitatorTka updateMany
+   */
+  export type TimFasilitatorTkaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TimFasilitatorTkas.
+     */
+    data: XOR<TimFasilitatorTkaUpdateManyMutationInput, TimFasilitatorTkaUncheckedUpdateManyInput>
+    /**
+     * Filter which TimFasilitatorTkas to update
+     */
+    where?: TimFasilitatorTkaWhereInput
+    /**
+     * Limit how many TimFasilitatorTkas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TimFasilitatorTka upsert
+   */
+  export type TimFasilitatorTkaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimFasilitatorTka
+     */
+    select?: TimFasilitatorTkaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimFasilitatorTka
+     */
+    omit?: TimFasilitatorTkaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimFasilitatorTkaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TimFasilitatorTka to update in case it exists.
+     */
+    where: TimFasilitatorTkaWhereUniqueInput
+    /**
+     * In case the TimFasilitatorTka found by the `where` argument doesn't exist, create a new TimFasilitatorTka with this data.
+     */
+    create: XOR<TimFasilitatorTkaCreateInput, TimFasilitatorTkaUncheckedCreateInput>
+    /**
+     * In case the TimFasilitatorTka was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TimFasilitatorTkaUpdateInput, TimFasilitatorTkaUncheckedUpdateInput>
+  }
+
+  /**
+   * TimFasilitatorTka delete
+   */
+  export type TimFasilitatorTkaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimFasilitatorTka
+     */
+    select?: TimFasilitatorTkaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimFasilitatorTka
+     */
+    omit?: TimFasilitatorTkaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimFasilitatorTkaInclude<ExtArgs> | null
+    /**
+     * Filter which TimFasilitatorTka to delete.
+     */
+    where: TimFasilitatorTkaWhereUniqueInput
+  }
+
+  /**
+   * TimFasilitatorTka deleteMany
+   */
+  export type TimFasilitatorTkaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TimFasilitatorTkas to delete
+     */
+    where?: TimFasilitatorTkaWhereInput
+    /**
+     * Limit how many TimFasilitatorTkas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TimFasilitatorTka without action
+   */
+  export type TimFasilitatorTkaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimFasilitatorTka
+     */
+    select?: TimFasilitatorTkaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimFasilitatorTka
+     */
+    omit?: TimFasilitatorTkaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimFasilitatorTkaInclude<ExtArgs> | null
   }
 
 
@@ -4545,7 +10641,10 @@ export namespace Prisma {
     status?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    jadwalPelajaran?: boolean | Guru$jadwalPelajaranArgs<ExtArgs>
     waliKelasDi?: boolean | Guru$waliKelasDiArgs<ExtArgs>
+    ratingGuru?: boolean | Guru$ratingGuruArgs<ExtArgs>
+    timFasilitatorTka?: boolean | Guru$timFasilitatorTkaArgs<ExtArgs>
     _count?: boolean | GuruCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["guru"]>
 
@@ -4562,7 +10661,10 @@ export namespace Prisma {
   export type GuruOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "npp" | "jenisKelamin" | "status" | "userId", ExtArgs["result"]["guru"]>
   export type GuruInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    jadwalPelajaran?: boolean | Guru$jadwalPelajaranArgs<ExtArgs>
     waliKelasDi?: boolean | Guru$waliKelasDiArgs<ExtArgs>
+    ratingGuru?: boolean | Guru$ratingGuruArgs<ExtArgs>
+    timFasilitatorTka?: boolean | Guru$timFasilitatorTkaArgs<ExtArgs>
     _count?: boolean | GuruCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -4570,7 +10672,10 @@ export namespace Prisma {
     name: "Guru"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      jadwalPelajaran: Prisma.$JadwalPelajaranPayload<ExtArgs>[]
       waliKelasDi: Prisma.$KelasWaliPayload<ExtArgs>[]
+      ratingGuru: Prisma.$RatingGuruPayload<ExtArgs>[]
+      timFasilitatorTka: Prisma.$TimFasilitatorTkaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4919,7 +11024,10 @@ export namespace Prisma {
   export interface Prisma__GuruClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    jadwalPelajaran<T extends Guru$jadwalPelajaranArgs<ExtArgs> = {}>(args?: Subset<T, Guru$jadwalPelajaranArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JadwalPelajaranPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     waliKelasDi<T extends Guru$waliKelasDiArgs<ExtArgs> = {}>(args?: Subset<T, Guru$waliKelasDiArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KelasWaliPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ratingGuru<T extends Guru$ratingGuruArgs<ExtArgs> = {}>(args?: Subset<T, Guru$ratingGuruArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingGuruPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    timFasilitatorTka<T extends Guru$timFasilitatorTkaArgs<ExtArgs> = {}>(args?: Subset<T, Guru$timFasilitatorTkaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimFasilitatorTkaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5297,6 +11405,30 @@ export namespace Prisma {
   }
 
   /**
+   * Guru.jadwalPelajaran
+   */
+  export type Guru$jadwalPelajaranArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaran
+     */
+    select?: JadwalPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JadwalPelajaran
+     */
+    omit?: JadwalPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JadwalPelajaranInclude<ExtArgs> | null
+    where?: JadwalPelajaranWhereInput
+    orderBy?: JadwalPelajaranOrderByWithRelationInput | JadwalPelajaranOrderByWithRelationInput[]
+    cursor?: JadwalPelajaranWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JadwalPelajaranScalarFieldEnum | JadwalPelajaranScalarFieldEnum[]
+  }
+
+  /**
    * Guru.waliKelasDi
    */
   export type Guru$waliKelasDiArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5318,6 +11450,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: KelasWaliScalarFieldEnum | KelasWaliScalarFieldEnum[]
+  }
+
+  /**
+   * Guru.ratingGuru
+   */
+  export type Guru$ratingGuruArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingGuru
+     */
+    select?: RatingGuruSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingGuru
+     */
+    omit?: RatingGuruOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingGuruInclude<ExtArgs> | null
+    where?: RatingGuruWhereInput
+    orderBy?: RatingGuruOrderByWithRelationInput | RatingGuruOrderByWithRelationInput[]
+    cursor?: RatingGuruWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RatingGuruScalarFieldEnum | RatingGuruScalarFieldEnum[]
+  }
+
+  /**
+   * Guru.timFasilitatorTka
+   */
+  export type Guru$timFasilitatorTkaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimFasilitatorTka
+     */
+    select?: TimFasilitatorTkaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimFasilitatorTka
+     */
+    omit?: TimFasilitatorTkaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimFasilitatorTkaInclude<ExtArgs> | null
+    where?: TimFasilitatorTkaWhereInput
+    orderBy?: TimFasilitatorTkaOrderByWithRelationInput | TimFasilitatorTkaOrderByWithRelationInput[]
+    cursor?: TimFasilitatorTkaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TimFasilitatorTkaScalarFieldEnum | TimFasilitatorTkaScalarFieldEnum[]
   }
 
   /**
@@ -6427,6 +12607,8 @@ export namespace Prisma {
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     riwayatKelas?: boolean | Siswa$riwayatKelasArgs<ExtArgs>
+    presensi?: boolean | Siswa$presensiArgs<ExtArgs>
+    ratingGuru?: boolean | Siswa$ratingGuruArgs<ExtArgs>
     _count?: boolean | SiswaCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["siswa"]>
 
@@ -6444,6 +12626,8 @@ export namespace Prisma {
   export type SiswaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     riwayatKelas?: boolean | Siswa$riwayatKelasArgs<ExtArgs>
+    presensi?: boolean | Siswa$presensiArgs<ExtArgs>
+    ratingGuru?: boolean | Siswa$ratingGuruArgs<ExtArgs>
     _count?: boolean | SiswaCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -6452,6 +12636,8 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       riwayatKelas: Prisma.$RiwayatKelasSiswaPayload<ExtArgs>[]
+      presensi: Prisma.$PresensiSiswaPayload<ExtArgs>[]
+      ratingGuru: Prisma.$RatingGuruPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6801,6 +12987,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     riwayatKelas<T extends Siswa$riwayatKelasArgs<ExtArgs> = {}>(args?: Subset<T, Siswa$riwayatKelasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiwayatKelasSiswaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    presensi<T extends Siswa$presensiArgs<ExtArgs> = {}>(args?: Subset<T, Siswa$presensiArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PresensiSiswaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ratingGuru<T extends Siswa$ratingGuruArgs<ExtArgs> = {}>(args?: Subset<T, Siswa$ratingGuruArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingGuruPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7202,6 +13390,54 @@ export namespace Prisma {
   }
 
   /**
+   * Siswa.presensi
+   */
+  export type Siswa$presensiArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresensiSiswa
+     */
+    select?: PresensiSiswaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresensiSiswa
+     */
+    omit?: PresensiSiswaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresensiSiswaInclude<ExtArgs> | null
+    where?: PresensiSiswaWhereInput
+    orderBy?: PresensiSiswaOrderByWithRelationInput | PresensiSiswaOrderByWithRelationInput[]
+    cursor?: PresensiSiswaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PresensiSiswaScalarFieldEnum | PresensiSiswaScalarFieldEnum[]
+  }
+
+  /**
+   * Siswa.ratingGuru
+   */
+  export type Siswa$ratingGuruArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingGuru
+     */
+    select?: RatingGuruSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingGuru
+     */
+    omit?: RatingGuruOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingGuruInclude<ExtArgs> | null
+    where?: RatingGuruWhereInput
+    orderBy?: RatingGuruOrderByWithRelationInput | RatingGuruOrderByWithRelationInput[]
+    cursor?: RatingGuruWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RatingGuruScalarFieldEnum | RatingGuruScalarFieldEnum[]
+  }
+
+  /**
    * Siswa without action
    */
   export type SiswaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7235,6 +13471,7 @@ export namespace Prisma {
     siswaId: string | null
     kelasId: string | null
     tahunAjaranId: string | null
+    isTka: boolean | null
   }
 
   export type RiwayatKelasSiswaMaxAggregateOutputType = {
@@ -7242,6 +13479,7 @@ export namespace Prisma {
     siswaId: string | null
     kelasId: string | null
     tahunAjaranId: string | null
+    isTka: boolean | null
   }
 
   export type RiwayatKelasSiswaCountAggregateOutputType = {
@@ -7249,6 +13487,7 @@ export namespace Prisma {
     siswaId: number
     kelasId: number
     tahunAjaranId: number
+    isTka: number
     _all: number
   }
 
@@ -7258,6 +13497,7 @@ export namespace Prisma {
     siswaId?: true
     kelasId?: true
     tahunAjaranId?: true
+    isTka?: true
   }
 
   export type RiwayatKelasSiswaMaxAggregateInputType = {
@@ -7265,6 +13505,7 @@ export namespace Prisma {
     siswaId?: true
     kelasId?: true
     tahunAjaranId?: true
+    isTka?: true
   }
 
   export type RiwayatKelasSiswaCountAggregateInputType = {
@@ -7272,6 +13513,7 @@ export namespace Prisma {
     siswaId?: true
     kelasId?: true
     tahunAjaranId?: true
+    isTka?: true
     _all?: true
   }
 
@@ -7352,6 +13594,7 @@ export namespace Prisma {
     siswaId: string
     kelasId: string
     tahunAjaranId: string
+    isTka: boolean
     _count: RiwayatKelasSiswaCountAggregateOutputType | null
     _min: RiwayatKelasSiswaMinAggregateOutputType | null
     _max: RiwayatKelasSiswaMaxAggregateOutputType | null
@@ -7376,6 +13619,7 @@ export namespace Prisma {
     siswaId?: boolean
     kelasId?: boolean
     tahunAjaranId?: boolean
+    isTka?: boolean
     siswa?: boolean | SiswaDefaultArgs<ExtArgs>
     kelas?: boolean | KelasDefaultArgs<ExtArgs>
     tahunAjaran?: boolean | TahunAjaranDefaultArgs<ExtArgs>
@@ -7388,9 +13632,10 @@ export namespace Prisma {
     siswaId?: boolean
     kelasId?: boolean
     tahunAjaranId?: boolean
+    isTka?: boolean
   }
 
-  export type RiwayatKelasSiswaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siswaId" | "kelasId" | "tahunAjaranId", ExtArgs["result"]["riwayatKelasSiswa"]>
+  export type RiwayatKelasSiswaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siswaId" | "kelasId" | "tahunAjaranId" | "isTka", ExtArgs["result"]["riwayatKelasSiswa"]>
   export type RiwayatKelasSiswaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     siswa?: boolean | SiswaDefaultArgs<ExtArgs>
     kelas?: boolean | KelasDefaultArgs<ExtArgs>
@@ -7409,6 +13654,7 @@ export namespace Prisma {
       siswaId: string
       kelasId: string
       tahunAjaranId: string
+      isTka: boolean
     }, ExtArgs["result"]["riwayatKelasSiswa"]>
     composites: {}
   }
@@ -7785,6 +14031,7 @@ export namespace Prisma {
     readonly siswaId: FieldRef<"RiwayatKelasSiswa", 'String'>
     readonly kelasId: FieldRef<"RiwayatKelasSiswa", 'String'>
     readonly tahunAjaranId: FieldRef<"RiwayatKelasSiswa", 'String'>
+    readonly isTka: FieldRef<"RiwayatKelasSiswa", 'Boolean'>
   }
     
 
@@ -8147,6 +14394,4181 @@ export namespace Prisma {
 
 
   /**
+   * Model JadwalPelajaran
+   */
+
+  export type AggregateJadwalPelajaran = {
+    _count: JadwalPelajaranCountAggregateOutputType | null
+    _avg: JadwalPelajaranAvgAggregateOutputType | null
+    _sum: JadwalPelajaranSumAggregateOutputType | null
+    _min: JadwalPelajaranMinAggregateOutputType | null
+    _max: JadwalPelajaranMaxAggregateOutputType | null
+  }
+
+  export type JadwalPelajaranAvgAggregateOutputType = {
+    hari: number | null
+  }
+
+  export type JadwalPelajaranSumAggregateOutputType = {
+    hari: number | null
+  }
+
+  export type JadwalPelajaranMinAggregateOutputType = {
+    id: string | null
+    guruId: string | null
+    mapelId: string | null
+    kelasId: string | null
+    tahunAjaranId: string | null
+    hari: number | null
+    waktuMulai: string | null
+    waktuSelesai: string | null
+    ruang: string | null
+  }
+
+  export type JadwalPelajaranMaxAggregateOutputType = {
+    id: string | null
+    guruId: string | null
+    mapelId: string | null
+    kelasId: string | null
+    tahunAjaranId: string | null
+    hari: number | null
+    waktuMulai: string | null
+    waktuSelesai: string | null
+    ruang: string | null
+  }
+
+  export type JadwalPelajaranCountAggregateOutputType = {
+    id: number
+    guruId: number
+    mapelId: number
+    kelasId: number
+    tahunAjaranId: number
+    hari: number
+    waktuMulai: number
+    waktuSelesai: number
+    ruang: number
+    _all: number
+  }
+
+
+  export type JadwalPelajaranAvgAggregateInputType = {
+    hari?: true
+  }
+
+  export type JadwalPelajaranSumAggregateInputType = {
+    hari?: true
+  }
+
+  export type JadwalPelajaranMinAggregateInputType = {
+    id?: true
+    guruId?: true
+    mapelId?: true
+    kelasId?: true
+    tahunAjaranId?: true
+    hari?: true
+    waktuMulai?: true
+    waktuSelesai?: true
+    ruang?: true
+  }
+
+  export type JadwalPelajaranMaxAggregateInputType = {
+    id?: true
+    guruId?: true
+    mapelId?: true
+    kelasId?: true
+    tahunAjaranId?: true
+    hari?: true
+    waktuMulai?: true
+    waktuSelesai?: true
+    ruang?: true
+  }
+
+  export type JadwalPelajaranCountAggregateInputType = {
+    id?: true
+    guruId?: true
+    mapelId?: true
+    kelasId?: true
+    tahunAjaranId?: true
+    hari?: true
+    waktuMulai?: true
+    waktuSelesai?: true
+    ruang?: true
+    _all?: true
+  }
+
+  export type JadwalPelajaranAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which JadwalPelajaran to aggregate.
+     */
+    where?: JadwalPelajaranWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JadwalPelajarans to fetch.
+     */
+    orderBy?: JadwalPelajaranOrderByWithRelationInput | JadwalPelajaranOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: JadwalPelajaranWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JadwalPelajarans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JadwalPelajarans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned JadwalPelajarans
+    **/
+    _count?: true | JadwalPelajaranCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: JadwalPelajaranAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: JadwalPelajaranSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: JadwalPelajaranMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: JadwalPelajaranMaxAggregateInputType
+  }
+
+  export type GetJadwalPelajaranAggregateType<T extends JadwalPelajaranAggregateArgs> = {
+        [P in keyof T & keyof AggregateJadwalPelajaran]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateJadwalPelajaran[P]>
+      : GetScalarType<T[P], AggregateJadwalPelajaran[P]>
+  }
+
+
+
+
+  export type JadwalPelajaranGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JadwalPelajaranWhereInput
+    orderBy?: JadwalPelajaranOrderByWithAggregationInput | JadwalPelajaranOrderByWithAggregationInput[]
+    by: JadwalPelajaranScalarFieldEnum[] | JadwalPelajaranScalarFieldEnum
+    having?: JadwalPelajaranScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: JadwalPelajaranCountAggregateInputType | true
+    _avg?: JadwalPelajaranAvgAggregateInputType
+    _sum?: JadwalPelajaranSumAggregateInputType
+    _min?: JadwalPelajaranMinAggregateInputType
+    _max?: JadwalPelajaranMaxAggregateInputType
+  }
+
+  export type JadwalPelajaranGroupByOutputType = {
+    id: string
+    guruId: string
+    mapelId: string
+    kelasId: string
+    tahunAjaranId: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang: string | null
+    _count: JadwalPelajaranCountAggregateOutputType | null
+    _avg: JadwalPelajaranAvgAggregateOutputType | null
+    _sum: JadwalPelajaranSumAggregateOutputType | null
+    _min: JadwalPelajaranMinAggregateOutputType | null
+    _max: JadwalPelajaranMaxAggregateOutputType | null
+  }
+
+  type GetJadwalPelajaranGroupByPayload<T extends JadwalPelajaranGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<JadwalPelajaranGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof JadwalPelajaranGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], JadwalPelajaranGroupByOutputType[P]>
+            : GetScalarType<T[P], JadwalPelajaranGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type JadwalPelajaranSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    guruId?: boolean
+    mapelId?: boolean
+    kelasId?: boolean
+    tahunAjaranId?: boolean
+    hari?: boolean
+    waktuMulai?: boolean
+    waktuSelesai?: boolean
+    ruang?: boolean
+    guru?: boolean | GuruDefaultArgs<ExtArgs>
+    mapel?: boolean | MataPelajaranDefaultArgs<ExtArgs>
+    kelas?: boolean | KelasDefaultArgs<ExtArgs>
+    tahunAjaran?: boolean | TahunAjaranDefaultArgs<ExtArgs>
+    jurnal?: boolean | JadwalPelajaran$jurnalArgs<ExtArgs>
+    _count?: boolean | JadwalPelajaranCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["jadwalPelajaran"]>
+
+
+
+  export type JadwalPelajaranSelectScalar = {
+    id?: boolean
+    guruId?: boolean
+    mapelId?: boolean
+    kelasId?: boolean
+    tahunAjaranId?: boolean
+    hari?: boolean
+    waktuMulai?: boolean
+    waktuSelesai?: boolean
+    ruang?: boolean
+  }
+
+  export type JadwalPelajaranOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "guruId" | "mapelId" | "kelasId" | "tahunAjaranId" | "hari" | "waktuMulai" | "waktuSelesai" | "ruang", ExtArgs["result"]["jadwalPelajaran"]>
+  export type JadwalPelajaranInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    guru?: boolean | GuruDefaultArgs<ExtArgs>
+    mapel?: boolean | MataPelajaranDefaultArgs<ExtArgs>
+    kelas?: boolean | KelasDefaultArgs<ExtArgs>
+    tahunAjaran?: boolean | TahunAjaranDefaultArgs<ExtArgs>
+    jurnal?: boolean | JadwalPelajaran$jurnalArgs<ExtArgs>
+    _count?: boolean | JadwalPelajaranCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $JadwalPelajaranPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "JadwalPelajaran"
+    objects: {
+      guru: Prisma.$GuruPayload<ExtArgs>
+      mapel: Prisma.$MataPelajaranPayload<ExtArgs>
+      kelas: Prisma.$KelasPayload<ExtArgs>
+      tahunAjaran: Prisma.$TahunAjaranPayload<ExtArgs>
+      jurnal: Prisma.$JurnalMengajarPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      guruId: string
+      mapelId: string
+      kelasId: string
+      tahunAjaranId: string
+      hari: number
+      waktuMulai: string
+      waktuSelesai: string
+      ruang: string | null
+    }, ExtArgs["result"]["jadwalPelajaran"]>
+    composites: {}
+  }
+
+  type JadwalPelajaranGetPayload<S extends boolean | null | undefined | JadwalPelajaranDefaultArgs> = $Result.GetResult<Prisma.$JadwalPelajaranPayload, S>
+
+  type JadwalPelajaranCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<JadwalPelajaranFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: JadwalPelajaranCountAggregateInputType | true
+    }
+
+  export interface JadwalPelajaranDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['JadwalPelajaran'], meta: { name: 'JadwalPelajaran' } }
+    /**
+     * Find zero or one JadwalPelajaran that matches the filter.
+     * @param {JadwalPelajaranFindUniqueArgs} args - Arguments to find a JadwalPelajaran
+     * @example
+     * // Get one JadwalPelajaran
+     * const jadwalPelajaran = await prisma.jadwalPelajaran.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends JadwalPelajaranFindUniqueArgs>(args: SelectSubset<T, JadwalPelajaranFindUniqueArgs<ExtArgs>>): Prisma__JadwalPelajaranClient<$Result.GetResult<Prisma.$JadwalPelajaranPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one JadwalPelajaran that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {JadwalPelajaranFindUniqueOrThrowArgs} args - Arguments to find a JadwalPelajaran
+     * @example
+     * // Get one JadwalPelajaran
+     * const jadwalPelajaran = await prisma.jadwalPelajaran.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends JadwalPelajaranFindUniqueOrThrowArgs>(args: SelectSubset<T, JadwalPelajaranFindUniqueOrThrowArgs<ExtArgs>>): Prisma__JadwalPelajaranClient<$Result.GetResult<Prisma.$JadwalPelajaranPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first JadwalPelajaran that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JadwalPelajaranFindFirstArgs} args - Arguments to find a JadwalPelajaran
+     * @example
+     * // Get one JadwalPelajaran
+     * const jadwalPelajaran = await prisma.jadwalPelajaran.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends JadwalPelajaranFindFirstArgs>(args?: SelectSubset<T, JadwalPelajaranFindFirstArgs<ExtArgs>>): Prisma__JadwalPelajaranClient<$Result.GetResult<Prisma.$JadwalPelajaranPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first JadwalPelajaran that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JadwalPelajaranFindFirstOrThrowArgs} args - Arguments to find a JadwalPelajaran
+     * @example
+     * // Get one JadwalPelajaran
+     * const jadwalPelajaran = await prisma.jadwalPelajaran.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends JadwalPelajaranFindFirstOrThrowArgs>(args?: SelectSubset<T, JadwalPelajaranFindFirstOrThrowArgs<ExtArgs>>): Prisma__JadwalPelajaranClient<$Result.GetResult<Prisma.$JadwalPelajaranPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more JadwalPelajarans that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JadwalPelajaranFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all JadwalPelajarans
+     * const jadwalPelajarans = await prisma.jadwalPelajaran.findMany()
+     * 
+     * // Get first 10 JadwalPelajarans
+     * const jadwalPelajarans = await prisma.jadwalPelajaran.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const jadwalPelajaranWithIdOnly = await prisma.jadwalPelajaran.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends JadwalPelajaranFindManyArgs>(args?: SelectSubset<T, JadwalPelajaranFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JadwalPelajaranPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a JadwalPelajaran.
+     * @param {JadwalPelajaranCreateArgs} args - Arguments to create a JadwalPelajaran.
+     * @example
+     * // Create one JadwalPelajaran
+     * const JadwalPelajaran = await prisma.jadwalPelajaran.create({
+     *   data: {
+     *     // ... data to create a JadwalPelajaran
+     *   }
+     * })
+     * 
+     */
+    create<T extends JadwalPelajaranCreateArgs>(args: SelectSubset<T, JadwalPelajaranCreateArgs<ExtArgs>>): Prisma__JadwalPelajaranClient<$Result.GetResult<Prisma.$JadwalPelajaranPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many JadwalPelajarans.
+     * @param {JadwalPelajaranCreateManyArgs} args - Arguments to create many JadwalPelajarans.
+     * @example
+     * // Create many JadwalPelajarans
+     * const jadwalPelajaran = await prisma.jadwalPelajaran.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends JadwalPelajaranCreateManyArgs>(args?: SelectSubset<T, JadwalPelajaranCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a JadwalPelajaran.
+     * @param {JadwalPelajaranDeleteArgs} args - Arguments to delete one JadwalPelajaran.
+     * @example
+     * // Delete one JadwalPelajaran
+     * const JadwalPelajaran = await prisma.jadwalPelajaran.delete({
+     *   where: {
+     *     // ... filter to delete one JadwalPelajaran
+     *   }
+     * })
+     * 
+     */
+    delete<T extends JadwalPelajaranDeleteArgs>(args: SelectSubset<T, JadwalPelajaranDeleteArgs<ExtArgs>>): Prisma__JadwalPelajaranClient<$Result.GetResult<Prisma.$JadwalPelajaranPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one JadwalPelajaran.
+     * @param {JadwalPelajaranUpdateArgs} args - Arguments to update one JadwalPelajaran.
+     * @example
+     * // Update one JadwalPelajaran
+     * const jadwalPelajaran = await prisma.jadwalPelajaran.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends JadwalPelajaranUpdateArgs>(args: SelectSubset<T, JadwalPelajaranUpdateArgs<ExtArgs>>): Prisma__JadwalPelajaranClient<$Result.GetResult<Prisma.$JadwalPelajaranPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more JadwalPelajarans.
+     * @param {JadwalPelajaranDeleteManyArgs} args - Arguments to filter JadwalPelajarans to delete.
+     * @example
+     * // Delete a few JadwalPelajarans
+     * const { count } = await prisma.jadwalPelajaran.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends JadwalPelajaranDeleteManyArgs>(args?: SelectSubset<T, JadwalPelajaranDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more JadwalPelajarans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JadwalPelajaranUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many JadwalPelajarans
+     * const jadwalPelajaran = await prisma.jadwalPelajaran.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends JadwalPelajaranUpdateManyArgs>(args: SelectSubset<T, JadwalPelajaranUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one JadwalPelajaran.
+     * @param {JadwalPelajaranUpsertArgs} args - Arguments to update or create a JadwalPelajaran.
+     * @example
+     * // Update or create a JadwalPelajaran
+     * const jadwalPelajaran = await prisma.jadwalPelajaran.upsert({
+     *   create: {
+     *     // ... data to create a JadwalPelajaran
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the JadwalPelajaran we want to update
+     *   }
+     * })
+     */
+    upsert<T extends JadwalPelajaranUpsertArgs>(args: SelectSubset<T, JadwalPelajaranUpsertArgs<ExtArgs>>): Prisma__JadwalPelajaranClient<$Result.GetResult<Prisma.$JadwalPelajaranPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of JadwalPelajarans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JadwalPelajaranCountArgs} args - Arguments to filter JadwalPelajarans to count.
+     * @example
+     * // Count the number of JadwalPelajarans
+     * const count = await prisma.jadwalPelajaran.count({
+     *   where: {
+     *     // ... the filter for the JadwalPelajarans we want to count
+     *   }
+     * })
+    **/
+    count<T extends JadwalPelajaranCountArgs>(
+      args?: Subset<T, JadwalPelajaranCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], JadwalPelajaranCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a JadwalPelajaran.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JadwalPelajaranAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends JadwalPelajaranAggregateArgs>(args: Subset<T, JadwalPelajaranAggregateArgs>): Prisma.PrismaPromise<GetJadwalPelajaranAggregateType<T>>
+
+    /**
+     * Group by JadwalPelajaran.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JadwalPelajaranGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends JadwalPelajaranGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: JadwalPelajaranGroupByArgs['orderBy'] }
+        : { orderBy?: JadwalPelajaranGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, JadwalPelajaranGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetJadwalPelajaranGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the JadwalPelajaran model
+   */
+  readonly fields: JadwalPelajaranFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for JadwalPelajaran.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__JadwalPelajaranClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    guru<T extends GuruDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GuruDefaultArgs<ExtArgs>>): Prisma__GuruClient<$Result.GetResult<Prisma.$GuruPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    mapel<T extends MataPelajaranDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MataPelajaranDefaultArgs<ExtArgs>>): Prisma__MataPelajaranClient<$Result.GetResult<Prisma.$MataPelajaranPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    kelas<T extends KelasDefaultArgs<ExtArgs> = {}>(args?: Subset<T, KelasDefaultArgs<ExtArgs>>): Prisma__KelasClient<$Result.GetResult<Prisma.$KelasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tahunAjaran<T extends TahunAjaranDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TahunAjaranDefaultArgs<ExtArgs>>): Prisma__TahunAjaranClient<$Result.GetResult<Prisma.$TahunAjaranPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    jurnal<T extends JadwalPelajaran$jurnalArgs<ExtArgs> = {}>(args?: Subset<T, JadwalPelajaran$jurnalArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JurnalMengajarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the JadwalPelajaran model
+   */
+  interface JadwalPelajaranFieldRefs {
+    readonly id: FieldRef<"JadwalPelajaran", 'String'>
+    readonly guruId: FieldRef<"JadwalPelajaran", 'String'>
+    readonly mapelId: FieldRef<"JadwalPelajaran", 'String'>
+    readonly kelasId: FieldRef<"JadwalPelajaran", 'String'>
+    readonly tahunAjaranId: FieldRef<"JadwalPelajaran", 'String'>
+    readonly hari: FieldRef<"JadwalPelajaran", 'Int'>
+    readonly waktuMulai: FieldRef<"JadwalPelajaran", 'String'>
+    readonly waktuSelesai: FieldRef<"JadwalPelajaran", 'String'>
+    readonly ruang: FieldRef<"JadwalPelajaran", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * JadwalPelajaran findUnique
+   */
+  export type JadwalPelajaranFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaran
+     */
+    select?: JadwalPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JadwalPelajaran
+     */
+    omit?: JadwalPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JadwalPelajaranInclude<ExtArgs> | null
+    /**
+     * Filter, which JadwalPelajaran to fetch.
+     */
+    where: JadwalPelajaranWhereUniqueInput
+  }
+
+  /**
+   * JadwalPelajaran findUniqueOrThrow
+   */
+  export type JadwalPelajaranFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaran
+     */
+    select?: JadwalPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JadwalPelajaran
+     */
+    omit?: JadwalPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JadwalPelajaranInclude<ExtArgs> | null
+    /**
+     * Filter, which JadwalPelajaran to fetch.
+     */
+    where: JadwalPelajaranWhereUniqueInput
+  }
+
+  /**
+   * JadwalPelajaran findFirst
+   */
+  export type JadwalPelajaranFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaran
+     */
+    select?: JadwalPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JadwalPelajaran
+     */
+    omit?: JadwalPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JadwalPelajaranInclude<ExtArgs> | null
+    /**
+     * Filter, which JadwalPelajaran to fetch.
+     */
+    where?: JadwalPelajaranWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JadwalPelajarans to fetch.
+     */
+    orderBy?: JadwalPelajaranOrderByWithRelationInput | JadwalPelajaranOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for JadwalPelajarans.
+     */
+    cursor?: JadwalPelajaranWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JadwalPelajarans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JadwalPelajarans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of JadwalPelajarans.
+     */
+    distinct?: JadwalPelajaranScalarFieldEnum | JadwalPelajaranScalarFieldEnum[]
+  }
+
+  /**
+   * JadwalPelajaran findFirstOrThrow
+   */
+  export type JadwalPelajaranFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaran
+     */
+    select?: JadwalPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JadwalPelajaran
+     */
+    omit?: JadwalPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JadwalPelajaranInclude<ExtArgs> | null
+    /**
+     * Filter, which JadwalPelajaran to fetch.
+     */
+    where?: JadwalPelajaranWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JadwalPelajarans to fetch.
+     */
+    orderBy?: JadwalPelajaranOrderByWithRelationInput | JadwalPelajaranOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for JadwalPelajarans.
+     */
+    cursor?: JadwalPelajaranWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JadwalPelajarans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JadwalPelajarans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of JadwalPelajarans.
+     */
+    distinct?: JadwalPelajaranScalarFieldEnum | JadwalPelajaranScalarFieldEnum[]
+  }
+
+  /**
+   * JadwalPelajaran findMany
+   */
+  export type JadwalPelajaranFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaran
+     */
+    select?: JadwalPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JadwalPelajaran
+     */
+    omit?: JadwalPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JadwalPelajaranInclude<ExtArgs> | null
+    /**
+     * Filter, which JadwalPelajarans to fetch.
+     */
+    where?: JadwalPelajaranWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JadwalPelajarans to fetch.
+     */
+    orderBy?: JadwalPelajaranOrderByWithRelationInput | JadwalPelajaranOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing JadwalPelajarans.
+     */
+    cursor?: JadwalPelajaranWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JadwalPelajarans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JadwalPelajarans.
+     */
+    skip?: number
+    distinct?: JadwalPelajaranScalarFieldEnum | JadwalPelajaranScalarFieldEnum[]
+  }
+
+  /**
+   * JadwalPelajaran create
+   */
+  export type JadwalPelajaranCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaran
+     */
+    select?: JadwalPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JadwalPelajaran
+     */
+    omit?: JadwalPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JadwalPelajaranInclude<ExtArgs> | null
+    /**
+     * The data needed to create a JadwalPelajaran.
+     */
+    data: XOR<JadwalPelajaranCreateInput, JadwalPelajaranUncheckedCreateInput>
+  }
+
+  /**
+   * JadwalPelajaran createMany
+   */
+  export type JadwalPelajaranCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many JadwalPelajarans.
+     */
+    data: JadwalPelajaranCreateManyInput | JadwalPelajaranCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * JadwalPelajaran update
+   */
+  export type JadwalPelajaranUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaran
+     */
+    select?: JadwalPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JadwalPelajaran
+     */
+    omit?: JadwalPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JadwalPelajaranInclude<ExtArgs> | null
+    /**
+     * The data needed to update a JadwalPelajaran.
+     */
+    data: XOR<JadwalPelajaranUpdateInput, JadwalPelajaranUncheckedUpdateInput>
+    /**
+     * Choose, which JadwalPelajaran to update.
+     */
+    where: JadwalPelajaranWhereUniqueInput
+  }
+
+  /**
+   * JadwalPelajaran updateMany
+   */
+  export type JadwalPelajaranUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update JadwalPelajarans.
+     */
+    data: XOR<JadwalPelajaranUpdateManyMutationInput, JadwalPelajaranUncheckedUpdateManyInput>
+    /**
+     * Filter which JadwalPelajarans to update
+     */
+    where?: JadwalPelajaranWhereInput
+    /**
+     * Limit how many JadwalPelajarans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * JadwalPelajaran upsert
+   */
+  export type JadwalPelajaranUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaran
+     */
+    select?: JadwalPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JadwalPelajaran
+     */
+    omit?: JadwalPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JadwalPelajaranInclude<ExtArgs> | null
+    /**
+     * The filter to search for the JadwalPelajaran to update in case it exists.
+     */
+    where: JadwalPelajaranWhereUniqueInput
+    /**
+     * In case the JadwalPelajaran found by the `where` argument doesn't exist, create a new JadwalPelajaran with this data.
+     */
+    create: XOR<JadwalPelajaranCreateInput, JadwalPelajaranUncheckedCreateInput>
+    /**
+     * In case the JadwalPelajaran was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<JadwalPelajaranUpdateInput, JadwalPelajaranUncheckedUpdateInput>
+  }
+
+  /**
+   * JadwalPelajaran delete
+   */
+  export type JadwalPelajaranDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaran
+     */
+    select?: JadwalPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JadwalPelajaran
+     */
+    omit?: JadwalPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JadwalPelajaranInclude<ExtArgs> | null
+    /**
+     * Filter which JadwalPelajaran to delete.
+     */
+    where: JadwalPelajaranWhereUniqueInput
+  }
+
+  /**
+   * JadwalPelajaran deleteMany
+   */
+  export type JadwalPelajaranDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which JadwalPelajarans to delete
+     */
+    where?: JadwalPelajaranWhereInput
+    /**
+     * Limit how many JadwalPelajarans to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * JadwalPelajaran.jurnal
+   */
+  export type JadwalPelajaran$jurnalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JurnalMengajar
+     */
+    select?: JurnalMengajarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JurnalMengajar
+     */
+    omit?: JurnalMengajarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JurnalMengajarInclude<ExtArgs> | null
+    where?: JurnalMengajarWhereInput
+    orderBy?: JurnalMengajarOrderByWithRelationInput | JurnalMengajarOrderByWithRelationInput[]
+    cursor?: JurnalMengajarWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JurnalMengajarScalarFieldEnum | JurnalMengajarScalarFieldEnum[]
+  }
+
+  /**
+   * JadwalPelajaran without action
+   */
+  export type JadwalPelajaranDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JadwalPelajaran
+     */
+    select?: JadwalPelajaranSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JadwalPelajaran
+     */
+    omit?: JadwalPelajaranOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JadwalPelajaranInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model JurnalMengajar
+   */
+
+  export type AggregateJurnalMengajar = {
+    _count: JurnalMengajarCountAggregateOutputType | null
+    _avg: JurnalMengajarAvgAggregateOutputType | null
+    _sum: JurnalMengajarSumAggregateOutputType | null
+    _min: JurnalMengajarMinAggregateOutputType | null
+    _max: JurnalMengajarMaxAggregateOutputType | null
+  }
+
+  export type JurnalMengajarAvgAggregateOutputType = {
+    latAbsen: number | null
+    longAbsen: number | null
+  }
+
+  export type JurnalMengajarSumAggregateOutputType = {
+    latAbsen: number | null
+    longAbsen: number | null
+  }
+
+  export type JurnalMengajarMinAggregateOutputType = {
+    id: string | null
+    jadwalId: string | null
+    tanggal: Date | null
+    materiBab: string | null
+    catatan: string | null
+    tugas: string | null
+    status: $Enums.JurnalStatus | null
+    waktuMulai: string | null
+    waktuSelesai: string | null
+    latAbsen: number | null
+    longAbsen: number | null
+    qrToken: string | null
+  }
+
+  export type JurnalMengajarMaxAggregateOutputType = {
+    id: string | null
+    jadwalId: string | null
+    tanggal: Date | null
+    materiBab: string | null
+    catatan: string | null
+    tugas: string | null
+    status: $Enums.JurnalStatus | null
+    waktuMulai: string | null
+    waktuSelesai: string | null
+    latAbsen: number | null
+    longAbsen: number | null
+    qrToken: string | null
+  }
+
+  export type JurnalMengajarCountAggregateOutputType = {
+    id: number
+    jadwalId: number
+    tanggal: number
+    materiBab: number
+    catatan: number
+    tugas: number
+    status: number
+    waktuMulai: number
+    waktuSelesai: number
+    latAbsen: number
+    longAbsen: number
+    qrToken: number
+    _all: number
+  }
+
+
+  export type JurnalMengajarAvgAggregateInputType = {
+    latAbsen?: true
+    longAbsen?: true
+  }
+
+  export type JurnalMengajarSumAggregateInputType = {
+    latAbsen?: true
+    longAbsen?: true
+  }
+
+  export type JurnalMengajarMinAggregateInputType = {
+    id?: true
+    jadwalId?: true
+    tanggal?: true
+    materiBab?: true
+    catatan?: true
+    tugas?: true
+    status?: true
+    waktuMulai?: true
+    waktuSelesai?: true
+    latAbsen?: true
+    longAbsen?: true
+    qrToken?: true
+  }
+
+  export type JurnalMengajarMaxAggregateInputType = {
+    id?: true
+    jadwalId?: true
+    tanggal?: true
+    materiBab?: true
+    catatan?: true
+    tugas?: true
+    status?: true
+    waktuMulai?: true
+    waktuSelesai?: true
+    latAbsen?: true
+    longAbsen?: true
+    qrToken?: true
+  }
+
+  export type JurnalMengajarCountAggregateInputType = {
+    id?: true
+    jadwalId?: true
+    tanggal?: true
+    materiBab?: true
+    catatan?: true
+    tugas?: true
+    status?: true
+    waktuMulai?: true
+    waktuSelesai?: true
+    latAbsen?: true
+    longAbsen?: true
+    qrToken?: true
+    _all?: true
+  }
+
+  export type JurnalMengajarAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which JurnalMengajar to aggregate.
+     */
+    where?: JurnalMengajarWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JurnalMengajars to fetch.
+     */
+    orderBy?: JurnalMengajarOrderByWithRelationInput | JurnalMengajarOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: JurnalMengajarWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JurnalMengajars from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JurnalMengajars.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned JurnalMengajars
+    **/
+    _count?: true | JurnalMengajarCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: JurnalMengajarAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: JurnalMengajarSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: JurnalMengajarMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: JurnalMengajarMaxAggregateInputType
+  }
+
+  export type GetJurnalMengajarAggregateType<T extends JurnalMengajarAggregateArgs> = {
+        [P in keyof T & keyof AggregateJurnalMengajar]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateJurnalMengajar[P]>
+      : GetScalarType<T[P], AggregateJurnalMengajar[P]>
+  }
+
+
+
+
+  export type JurnalMengajarGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JurnalMengajarWhereInput
+    orderBy?: JurnalMengajarOrderByWithAggregationInput | JurnalMengajarOrderByWithAggregationInput[]
+    by: JurnalMengajarScalarFieldEnum[] | JurnalMengajarScalarFieldEnum
+    having?: JurnalMengajarScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: JurnalMengajarCountAggregateInputType | true
+    _avg?: JurnalMengajarAvgAggregateInputType
+    _sum?: JurnalMengajarSumAggregateInputType
+    _min?: JurnalMengajarMinAggregateInputType
+    _max?: JurnalMengajarMaxAggregateInputType
+  }
+
+  export type JurnalMengajarGroupByOutputType = {
+    id: string
+    jadwalId: string
+    tanggal: Date
+    materiBab: string | null
+    catatan: string | null
+    tugas: string | null
+    status: $Enums.JurnalStatus
+    waktuMulai: string | null
+    waktuSelesai: string | null
+    latAbsen: number | null
+    longAbsen: number | null
+    qrToken: string | null
+    _count: JurnalMengajarCountAggregateOutputType | null
+    _avg: JurnalMengajarAvgAggregateOutputType | null
+    _sum: JurnalMengajarSumAggregateOutputType | null
+    _min: JurnalMengajarMinAggregateOutputType | null
+    _max: JurnalMengajarMaxAggregateOutputType | null
+  }
+
+  type GetJurnalMengajarGroupByPayload<T extends JurnalMengajarGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<JurnalMengajarGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof JurnalMengajarGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], JurnalMengajarGroupByOutputType[P]>
+            : GetScalarType<T[P], JurnalMengajarGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type JurnalMengajarSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    jadwalId?: boolean
+    tanggal?: boolean
+    materiBab?: boolean
+    catatan?: boolean
+    tugas?: boolean
+    status?: boolean
+    waktuMulai?: boolean
+    waktuSelesai?: boolean
+    latAbsen?: boolean
+    longAbsen?: boolean
+    qrToken?: boolean
+    jadwal?: boolean | JadwalPelajaranDefaultArgs<ExtArgs>
+    presensi?: boolean | JurnalMengajar$presensiArgs<ExtArgs>
+    _count?: boolean | JurnalMengajarCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["jurnalMengajar"]>
+
+
+
+  export type JurnalMengajarSelectScalar = {
+    id?: boolean
+    jadwalId?: boolean
+    tanggal?: boolean
+    materiBab?: boolean
+    catatan?: boolean
+    tugas?: boolean
+    status?: boolean
+    waktuMulai?: boolean
+    waktuSelesai?: boolean
+    latAbsen?: boolean
+    longAbsen?: boolean
+    qrToken?: boolean
+  }
+
+  export type JurnalMengajarOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "jadwalId" | "tanggal" | "materiBab" | "catatan" | "tugas" | "status" | "waktuMulai" | "waktuSelesai" | "latAbsen" | "longAbsen" | "qrToken", ExtArgs["result"]["jurnalMengajar"]>
+  export type JurnalMengajarInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    jadwal?: boolean | JadwalPelajaranDefaultArgs<ExtArgs>
+    presensi?: boolean | JurnalMengajar$presensiArgs<ExtArgs>
+    _count?: boolean | JurnalMengajarCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $JurnalMengajarPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "JurnalMengajar"
+    objects: {
+      jadwal: Prisma.$JadwalPelajaranPayload<ExtArgs>
+      presensi: Prisma.$PresensiSiswaPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      jadwalId: string
+      tanggal: Date
+      materiBab: string | null
+      catatan: string | null
+      tugas: string | null
+      status: $Enums.JurnalStatus
+      waktuMulai: string | null
+      waktuSelesai: string | null
+      latAbsen: number | null
+      longAbsen: number | null
+      qrToken: string | null
+    }, ExtArgs["result"]["jurnalMengajar"]>
+    composites: {}
+  }
+
+  type JurnalMengajarGetPayload<S extends boolean | null | undefined | JurnalMengajarDefaultArgs> = $Result.GetResult<Prisma.$JurnalMengajarPayload, S>
+
+  type JurnalMengajarCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<JurnalMengajarFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: JurnalMengajarCountAggregateInputType | true
+    }
+
+  export interface JurnalMengajarDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['JurnalMengajar'], meta: { name: 'JurnalMengajar' } }
+    /**
+     * Find zero or one JurnalMengajar that matches the filter.
+     * @param {JurnalMengajarFindUniqueArgs} args - Arguments to find a JurnalMengajar
+     * @example
+     * // Get one JurnalMengajar
+     * const jurnalMengajar = await prisma.jurnalMengajar.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends JurnalMengajarFindUniqueArgs>(args: SelectSubset<T, JurnalMengajarFindUniqueArgs<ExtArgs>>): Prisma__JurnalMengajarClient<$Result.GetResult<Prisma.$JurnalMengajarPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one JurnalMengajar that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {JurnalMengajarFindUniqueOrThrowArgs} args - Arguments to find a JurnalMengajar
+     * @example
+     * // Get one JurnalMengajar
+     * const jurnalMengajar = await prisma.jurnalMengajar.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends JurnalMengajarFindUniqueOrThrowArgs>(args: SelectSubset<T, JurnalMengajarFindUniqueOrThrowArgs<ExtArgs>>): Prisma__JurnalMengajarClient<$Result.GetResult<Prisma.$JurnalMengajarPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first JurnalMengajar that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JurnalMengajarFindFirstArgs} args - Arguments to find a JurnalMengajar
+     * @example
+     * // Get one JurnalMengajar
+     * const jurnalMengajar = await prisma.jurnalMengajar.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends JurnalMengajarFindFirstArgs>(args?: SelectSubset<T, JurnalMengajarFindFirstArgs<ExtArgs>>): Prisma__JurnalMengajarClient<$Result.GetResult<Prisma.$JurnalMengajarPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first JurnalMengajar that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JurnalMengajarFindFirstOrThrowArgs} args - Arguments to find a JurnalMengajar
+     * @example
+     * // Get one JurnalMengajar
+     * const jurnalMengajar = await prisma.jurnalMengajar.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends JurnalMengajarFindFirstOrThrowArgs>(args?: SelectSubset<T, JurnalMengajarFindFirstOrThrowArgs<ExtArgs>>): Prisma__JurnalMengajarClient<$Result.GetResult<Prisma.$JurnalMengajarPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more JurnalMengajars that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JurnalMengajarFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all JurnalMengajars
+     * const jurnalMengajars = await prisma.jurnalMengajar.findMany()
+     * 
+     * // Get first 10 JurnalMengajars
+     * const jurnalMengajars = await prisma.jurnalMengajar.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const jurnalMengajarWithIdOnly = await prisma.jurnalMengajar.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends JurnalMengajarFindManyArgs>(args?: SelectSubset<T, JurnalMengajarFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JurnalMengajarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a JurnalMengajar.
+     * @param {JurnalMengajarCreateArgs} args - Arguments to create a JurnalMengajar.
+     * @example
+     * // Create one JurnalMengajar
+     * const JurnalMengajar = await prisma.jurnalMengajar.create({
+     *   data: {
+     *     // ... data to create a JurnalMengajar
+     *   }
+     * })
+     * 
+     */
+    create<T extends JurnalMengajarCreateArgs>(args: SelectSubset<T, JurnalMengajarCreateArgs<ExtArgs>>): Prisma__JurnalMengajarClient<$Result.GetResult<Prisma.$JurnalMengajarPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many JurnalMengajars.
+     * @param {JurnalMengajarCreateManyArgs} args - Arguments to create many JurnalMengajars.
+     * @example
+     * // Create many JurnalMengajars
+     * const jurnalMengajar = await prisma.jurnalMengajar.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends JurnalMengajarCreateManyArgs>(args?: SelectSubset<T, JurnalMengajarCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a JurnalMengajar.
+     * @param {JurnalMengajarDeleteArgs} args - Arguments to delete one JurnalMengajar.
+     * @example
+     * // Delete one JurnalMengajar
+     * const JurnalMengajar = await prisma.jurnalMengajar.delete({
+     *   where: {
+     *     // ... filter to delete one JurnalMengajar
+     *   }
+     * })
+     * 
+     */
+    delete<T extends JurnalMengajarDeleteArgs>(args: SelectSubset<T, JurnalMengajarDeleteArgs<ExtArgs>>): Prisma__JurnalMengajarClient<$Result.GetResult<Prisma.$JurnalMengajarPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one JurnalMengajar.
+     * @param {JurnalMengajarUpdateArgs} args - Arguments to update one JurnalMengajar.
+     * @example
+     * // Update one JurnalMengajar
+     * const jurnalMengajar = await prisma.jurnalMengajar.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends JurnalMengajarUpdateArgs>(args: SelectSubset<T, JurnalMengajarUpdateArgs<ExtArgs>>): Prisma__JurnalMengajarClient<$Result.GetResult<Prisma.$JurnalMengajarPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more JurnalMengajars.
+     * @param {JurnalMengajarDeleteManyArgs} args - Arguments to filter JurnalMengajars to delete.
+     * @example
+     * // Delete a few JurnalMengajars
+     * const { count } = await prisma.jurnalMengajar.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends JurnalMengajarDeleteManyArgs>(args?: SelectSubset<T, JurnalMengajarDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more JurnalMengajars.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JurnalMengajarUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many JurnalMengajars
+     * const jurnalMengajar = await prisma.jurnalMengajar.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends JurnalMengajarUpdateManyArgs>(args: SelectSubset<T, JurnalMengajarUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one JurnalMengajar.
+     * @param {JurnalMengajarUpsertArgs} args - Arguments to update or create a JurnalMengajar.
+     * @example
+     * // Update or create a JurnalMengajar
+     * const jurnalMengajar = await prisma.jurnalMengajar.upsert({
+     *   create: {
+     *     // ... data to create a JurnalMengajar
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the JurnalMengajar we want to update
+     *   }
+     * })
+     */
+    upsert<T extends JurnalMengajarUpsertArgs>(args: SelectSubset<T, JurnalMengajarUpsertArgs<ExtArgs>>): Prisma__JurnalMengajarClient<$Result.GetResult<Prisma.$JurnalMengajarPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of JurnalMengajars.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JurnalMengajarCountArgs} args - Arguments to filter JurnalMengajars to count.
+     * @example
+     * // Count the number of JurnalMengajars
+     * const count = await prisma.jurnalMengajar.count({
+     *   where: {
+     *     // ... the filter for the JurnalMengajars we want to count
+     *   }
+     * })
+    **/
+    count<T extends JurnalMengajarCountArgs>(
+      args?: Subset<T, JurnalMengajarCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], JurnalMengajarCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a JurnalMengajar.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JurnalMengajarAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends JurnalMengajarAggregateArgs>(args: Subset<T, JurnalMengajarAggregateArgs>): Prisma.PrismaPromise<GetJurnalMengajarAggregateType<T>>
+
+    /**
+     * Group by JurnalMengajar.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JurnalMengajarGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends JurnalMengajarGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: JurnalMengajarGroupByArgs['orderBy'] }
+        : { orderBy?: JurnalMengajarGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, JurnalMengajarGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetJurnalMengajarGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the JurnalMengajar model
+   */
+  readonly fields: JurnalMengajarFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for JurnalMengajar.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__JurnalMengajarClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    jadwal<T extends JadwalPelajaranDefaultArgs<ExtArgs> = {}>(args?: Subset<T, JadwalPelajaranDefaultArgs<ExtArgs>>): Prisma__JadwalPelajaranClient<$Result.GetResult<Prisma.$JadwalPelajaranPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    presensi<T extends JurnalMengajar$presensiArgs<ExtArgs> = {}>(args?: Subset<T, JurnalMengajar$presensiArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PresensiSiswaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the JurnalMengajar model
+   */
+  interface JurnalMengajarFieldRefs {
+    readonly id: FieldRef<"JurnalMengajar", 'String'>
+    readonly jadwalId: FieldRef<"JurnalMengajar", 'String'>
+    readonly tanggal: FieldRef<"JurnalMengajar", 'DateTime'>
+    readonly materiBab: FieldRef<"JurnalMengajar", 'String'>
+    readonly catatan: FieldRef<"JurnalMengajar", 'String'>
+    readonly tugas: FieldRef<"JurnalMengajar", 'String'>
+    readonly status: FieldRef<"JurnalMengajar", 'JurnalStatus'>
+    readonly waktuMulai: FieldRef<"JurnalMengajar", 'String'>
+    readonly waktuSelesai: FieldRef<"JurnalMengajar", 'String'>
+    readonly latAbsen: FieldRef<"JurnalMengajar", 'Float'>
+    readonly longAbsen: FieldRef<"JurnalMengajar", 'Float'>
+    readonly qrToken: FieldRef<"JurnalMengajar", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * JurnalMengajar findUnique
+   */
+  export type JurnalMengajarFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JurnalMengajar
+     */
+    select?: JurnalMengajarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JurnalMengajar
+     */
+    omit?: JurnalMengajarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JurnalMengajarInclude<ExtArgs> | null
+    /**
+     * Filter, which JurnalMengajar to fetch.
+     */
+    where: JurnalMengajarWhereUniqueInput
+  }
+
+  /**
+   * JurnalMengajar findUniqueOrThrow
+   */
+  export type JurnalMengajarFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JurnalMengajar
+     */
+    select?: JurnalMengajarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JurnalMengajar
+     */
+    omit?: JurnalMengajarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JurnalMengajarInclude<ExtArgs> | null
+    /**
+     * Filter, which JurnalMengajar to fetch.
+     */
+    where: JurnalMengajarWhereUniqueInput
+  }
+
+  /**
+   * JurnalMengajar findFirst
+   */
+  export type JurnalMengajarFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JurnalMengajar
+     */
+    select?: JurnalMengajarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JurnalMengajar
+     */
+    omit?: JurnalMengajarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JurnalMengajarInclude<ExtArgs> | null
+    /**
+     * Filter, which JurnalMengajar to fetch.
+     */
+    where?: JurnalMengajarWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JurnalMengajars to fetch.
+     */
+    orderBy?: JurnalMengajarOrderByWithRelationInput | JurnalMengajarOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for JurnalMengajars.
+     */
+    cursor?: JurnalMengajarWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JurnalMengajars from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JurnalMengajars.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of JurnalMengajars.
+     */
+    distinct?: JurnalMengajarScalarFieldEnum | JurnalMengajarScalarFieldEnum[]
+  }
+
+  /**
+   * JurnalMengajar findFirstOrThrow
+   */
+  export type JurnalMengajarFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JurnalMengajar
+     */
+    select?: JurnalMengajarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JurnalMengajar
+     */
+    omit?: JurnalMengajarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JurnalMengajarInclude<ExtArgs> | null
+    /**
+     * Filter, which JurnalMengajar to fetch.
+     */
+    where?: JurnalMengajarWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JurnalMengajars to fetch.
+     */
+    orderBy?: JurnalMengajarOrderByWithRelationInput | JurnalMengajarOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for JurnalMengajars.
+     */
+    cursor?: JurnalMengajarWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JurnalMengajars from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JurnalMengajars.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of JurnalMengajars.
+     */
+    distinct?: JurnalMengajarScalarFieldEnum | JurnalMengajarScalarFieldEnum[]
+  }
+
+  /**
+   * JurnalMengajar findMany
+   */
+  export type JurnalMengajarFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JurnalMengajar
+     */
+    select?: JurnalMengajarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JurnalMengajar
+     */
+    omit?: JurnalMengajarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JurnalMengajarInclude<ExtArgs> | null
+    /**
+     * Filter, which JurnalMengajars to fetch.
+     */
+    where?: JurnalMengajarWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JurnalMengajars to fetch.
+     */
+    orderBy?: JurnalMengajarOrderByWithRelationInput | JurnalMengajarOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing JurnalMengajars.
+     */
+    cursor?: JurnalMengajarWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JurnalMengajars from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JurnalMengajars.
+     */
+    skip?: number
+    distinct?: JurnalMengajarScalarFieldEnum | JurnalMengajarScalarFieldEnum[]
+  }
+
+  /**
+   * JurnalMengajar create
+   */
+  export type JurnalMengajarCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JurnalMengajar
+     */
+    select?: JurnalMengajarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JurnalMengajar
+     */
+    omit?: JurnalMengajarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JurnalMengajarInclude<ExtArgs> | null
+    /**
+     * The data needed to create a JurnalMengajar.
+     */
+    data: XOR<JurnalMengajarCreateInput, JurnalMengajarUncheckedCreateInput>
+  }
+
+  /**
+   * JurnalMengajar createMany
+   */
+  export type JurnalMengajarCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many JurnalMengajars.
+     */
+    data: JurnalMengajarCreateManyInput | JurnalMengajarCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * JurnalMengajar update
+   */
+  export type JurnalMengajarUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JurnalMengajar
+     */
+    select?: JurnalMengajarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JurnalMengajar
+     */
+    omit?: JurnalMengajarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JurnalMengajarInclude<ExtArgs> | null
+    /**
+     * The data needed to update a JurnalMengajar.
+     */
+    data: XOR<JurnalMengajarUpdateInput, JurnalMengajarUncheckedUpdateInput>
+    /**
+     * Choose, which JurnalMengajar to update.
+     */
+    where: JurnalMengajarWhereUniqueInput
+  }
+
+  /**
+   * JurnalMengajar updateMany
+   */
+  export type JurnalMengajarUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update JurnalMengajars.
+     */
+    data: XOR<JurnalMengajarUpdateManyMutationInput, JurnalMengajarUncheckedUpdateManyInput>
+    /**
+     * Filter which JurnalMengajars to update
+     */
+    where?: JurnalMengajarWhereInput
+    /**
+     * Limit how many JurnalMengajars to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * JurnalMengajar upsert
+   */
+  export type JurnalMengajarUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JurnalMengajar
+     */
+    select?: JurnalMengajarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JurnalMengajar
+     */
+    omit?: JurnalMengajarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JurnalMengajarInclude<ExtArgs> | null
+    /**
+     * The filter to search for the JurnalMengajar to update in case it exists.
+     */
+    where: JurnalMengajarWhereUniqueInput
+    /**
+     * In case the JurnalMengajar found by the `where` argument doesn't exist, create a new JurnalMengajar with this data.
+     */
+    create: XOR<JurnalMengajarCreateInput, JurnalMengajarUncheckedCreateInput>
+    /**
+     * In case the JurnalMengajar was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<JurnalMengajarUpdateInput, JurnalMengajarUncheckedUpdateInput>
+  }
+
+  /**
+   * JurnalMengajar delete
+   */
+  export type JurnalMengajarDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JurnalMengajar
+     */
+    select?: JurnalMengajarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JurnalMengajar
+     */
+    omit?: JurnalMengajarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JurnalMengajarInclude<ExtArgs> | null
+    /**
+     * Filter which JurnalMengajar to delete.
+     */
+    where: JurnalMengajarWhereUniqueInput
+  }
+
+  /**
+   * JurnalMengajar deleteMany
+   */
+  export type JurnalMengajarDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which JurnalMengajars to delete
+     */
+    where?: JurnalMengajarWhereInput
+    /**
+     * Limit how many JurnalMengajars to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * JurnalMengajar.presensi
+   */
+  export type JurnalMengajar$presensiArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresensiSiswa
+     */
+    select?: PresensiSiswaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresensiSiswa
+     */
+    omit?: PresensiSiswaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresensiSiswaInclude<ExtArgs> | null
+    where?: PresensiSiswaWhereInput
+    orderBy?: PresensiSiswaOrderByWithRelationInput | PresensiSiswaOrderByWithRelationInput[]
+    cursor?: PresensiSiswaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PresensiSiswaScalarFieldEnum | PresensiSiswaScalarFieldEnum[]
+  }
+
+  /**
+   * JurnalMengajar without action
+   */
+  export type JurnalMengajarDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JurnalMengajar
+     */
+    select?: JurnalMengajarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JurnalMengajar
+     */
+    omit?: JurnalMengajarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JurnalMengajarInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PresensiSiswa
+   */
+
+  export type AggregatePresensiSiswa = {
+    _count: PresensiSiswaCountAggregateOutputType | null
+    _avg: PresensiSiswaAvgAggregateOutputType | null
+    _sum: PresensiSiswaSumAggregateOutputType | null
+    _min: PresensiSiswaMinAggregateOutputType | null
+    _max: PresensiSiswaMaxAggregateOutputType | null
+  }
+
+  export type PresensiSiswaAvgAggregateOutputType = {
+    nilaiTugas: number | null
+  }
+
+  export type PresensiSiswaSumAggregateOutputType = {
+    nilaiTugas: number | null
+  }
+
+  export type PresensiSiswaMinAggregateOutputType = {
+    id: string | null
+    jurnalId: string | null
+    siswaId: string | null
+    status: $Enums.StatusHadir | null
+    waktuScan: Date | null
+    nilaiTugas: number | null
+    alasanIzin: string | null
+    isDispensasi: boolean | null
+    isTerlambat: boolean | null
+    alasanTerlambat: string | null
+    alasan: string | null
+    fileBukti: string | null
+  }
+
+  export type PresensiSiswaMaxAggregateOutputType = {
+    id: string | null
+    jurnalId: string | null
+    siswaId: string | null
+    status: $Enums.StatusHadir | null
+    waktuScan: Date | null
+    nilaiTugas: number | null
+    alasanIzin: string | null
+    isDispensasi: boolean | null
+    isTerlambat: boolean | null
+    alasanTerlambat: string | null
+    alasan: string | null
+    fileBukti: string | null
+  }
+
+  export type PresensiSiswaCountAggregateOutputType = {
+    id: number
+    jurnalId: number
+    siswaId: number
+    status: number
+    waktuScan: number
+    nilaiTugas: number
+    alasanIzin: number
+    isDispensasi: number
+    isTerlambat: number
+    alasanTerlambat: number
+    alasan: number
+    fileBukti: number
+    _all: number
+  }
+
+
+  export type PresensiSiswaAvgAggregateInputType = {
+    nilaiTugas?: true
+  }
+
+  export type PresensiSiswaSumAggregateInputType = {
+    nilaiTugas?: true
+  }
+
+  export type PresensiSiswaMinAggregateInputType = {
+    id?: true
+    jurnalId?: true
+    siswaId?: true
+    status?: true
+    waktuScan?: true
+    nilaiTugas?: true
+    alasanIzin?: true
+    isDispensasi?: true
+    isTerlambat?: true
+    alasanTerlambat?: true
+    alasan?: true
+    fileBukti?: true
+  }
+
+  export type PresensiSiswaMaxAggregateInputType = {
+    id?: true
+    jurnalId?: true
+    siswaId?: true
+    status?: true
+    waktuScan?: true
+    nilaiTugas?: true
+    alasanIzin?: true
+    isDispensasi?: true
+    isTerlambat?: true
+    alasanTerlambat?: true
+    alasan?: true
+    fileBukti?: true
+  }
+
+  export type PresensiSiswaCountAggregateInputType = {
+    id?: true
+    jurnalId?: true
+    siswaId?: true
+    status?: true
+    waktuScan?: true
+    nilaiTugas?: true
+    alasanIzin?: true
+    isDispensasi?: true
+    isTerlambat?: true
+    alasanTerlambat?: true
+    alasan?: true
+    fileBukti?: true
+    _all?: true
+  }
+
+  export type PresensiSiswaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PresensiSiswa to aggregate.
+     */
+    where?: PresensiSiswaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PresensiSiswas to fetch.
+     */
+    orderBy?: PresensiSiswaOrderByWithRelationInput | PresensiSiswaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PresensiSiswaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PresensiSiswas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PresensiSiswas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PresensiSiswas
+    **/
+    _count?: true | PresensiSiswaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PresensiSiswaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PresensiSiswaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PresensiSiswaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PresensiSiswaMaxAggregateInputType
+  }
+
+  export type GetPresensiSiswaAggregateType<T extends PresensiSiswaAggregateArgs> = {
+        [P in keyof T & keyof AggregatePresensiSiswa]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePresensiSiswa[P]>
+      : GetScalarType<T[P], AggregatePresensiSiswa[P]>
+  }
+
+
+
+
+  export type PresensiSiswaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PresensiSiswaWhereInput
+    orderBy?: PresensiSiswaOrderByWithAggregationInput | PresensiSiswaOrderByWithAggregationInput[]
+    by: PresensiSiswaScalarFieldEnum[] | PresensiSiswaScalarFieldEnum
+    having?: PresensiSiswaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PresensiSiswaCountAggregateInputType | true
+    _avg?: PresensiSiswaAvgAggregateInputType
+    _sum?: PresensiSiswaSumAggregateInputType
+    _min?: PresensiSiswaMinAggregateInputType
+    _max?: PresensiSiswaMaxAggregateInputType
+  }
+
+  export type PresensiSiswaGroupByOutputType = {
+    id: string
+    jurnalId: string
+    siswaId: string
+    status: $Enums.StatusHadir
+    waktuScan: Date | null
+    nilaiTugas: number | null
+    alasanIzin: string | null
+    isDispensasi: boolean
+    isTerlambat: boolean
+    alasanTerlambat: string | null
+    alasan: string | null
+    fileBukti: string | null
+    _count: PresensiSiswaCountAggregateOutputType | null
+    _avg: PresensiSiswaAvgAggregateOutputType | null
+    _sum: PresensiSiswaSumAggregateOutputType | null
+    _min: PresensiSiswaMinAggregateOutputType | null
+    _max: PresensiSiswaMaxAggregateOutputType | null
+  }
+
+  type GetPresensiSiswaGroupByPayload<T extends PresensiSiswaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PresensiSiswaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PresensiSiswaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PresensiSiswaGroupByOutputType[P]>
+            : GetScalarType<T[P], PresensiSiswaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PresensiSiswaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    jurnalId?: boolean
+    siswaId?: boolean
+    status?: boolean
+    waktuScan?: boolean
+    nilaiTugas?: boolean
+    alasanIzin?: boolean
+    isDispensasi?: boolean
+    isTerlambat?: boolean
+    alasanTerlambat?: boolean
+    alasan?: boolean
+    fileBukti?: boolean
+    jurnal?: boolean | JurnalMengajarDefaultArgs<ExtArgs>
+    siswa?: boolean | SiswaDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["presensiSiswa"]>
+
+
+
+  export type PresensiSiswaSelectScalar = {
+    id?: boolean
+    jurnalId?: boolean
+    siswaId?: boolean
+    status?: boolean
+    waktuScan?: boolean
+    nilaiTugas?: boolean
+    alasanIzin?: boolean
+    isDispensasi?: boolean
+    isTerlambat?: boolean
+    alasanTerlambat?: boolean
+    alasan?: boolean
+    fileBukti?: boolean
+  }
+
+  export type PresensiSiswaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "jurnalId" | "siswaId" | "status" | "waktuScan" | "nilaiTugas" | "alasanIzin" | "isDispensasi" | "isTerlambat" | "alasanTerlambat" | "alasan" | "fileBukti", ExtArgs["result"]["presensiSiswa"]>
+  export type PresensiSiswaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    jurnal?: boolean | JurnalMengajarDefaultArgs<ExtArgs>
+    siswa?: boolean | SiswaDefaultArgs<ExtArgs>
+  }
+
+  export type $PresensiSiswaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PresensiSiswa"
+    objects: {
+      jurnal: Prisma.$JurnalMengajarPayload<ExtArgs>
+      siswa: Prisma.$SiswaPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      jurnalId: string
+      siswaId: string
+      status: $Enums.StatusHadir
+      waktuScan: Date | null
+      nilaiTugas: number | null
+      alasanIzin: string | null
+      isDispensasi: boolean
+      isTerlambat: boolean
+      alasanTerlambat: string | null
+      alasan: string | null
+      fileBukti: string | null
+    }, ExtArgs["result"]["presensiSiswa"]>
+    composites: {}
+  }
+
+  type PresensiSiswaGetPayload<S extends boolean | null | undefined | PresensiSiswaDefaultArgs> = $Result.GetResult<Prisma.$PresensiSiswaPayload, S>
+
+  type PresensiSiswaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PresensiSiswaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PresensiSiswaCountAggregateInputType | true
+    }
+
+  export interface PresensiSiswaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PresensiSiswa'], meta: { name: 'PresensiSiswa' } }
+    /**
+     * Find zero or one PresensiSiswa that matches the filter.
+     * @param {PresensiSiswaFindUniqueArgs} args - Arguments to find a PresensiSiswa
+     * @example
+     * // Get one PresensiSiswa
+     * const presensiSiswa = await prisma.presensiSiswa.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PresensiSiswaFindUniqueArgs>(args: SelectSubset<T, PresensiSiswaFindUniqueArgs<ExtArgs>>): Prisma__PresensiSiswaClient<$Result.GetResult<Prisma.$PresensiSiswaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PresensiSiswa that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PresensiSiswaFindUniqueOrThrowArgs} args - Arguments to find a PresensiSiswa
+     * @example
+     * // Get one PresensiSiswa
+     * const presensiSiswa = await prisma.presensiSiswa.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PresensiSiswaFindUniqueOrThrowArgs>(args: SelectSubset<T, PresensiSiswaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PresensiSiswaClient<$Result.GetResult<Prisma.$PresensiSiswaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PresensiSiswa that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresensiSiswaFindFirstArgs} args - Arguments to find a PresensiSiswa
+     * @example
+     * // Get one PresensiSiswa
+     * const presensiSiswa = await prisma.presensiSiswa.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PresensiSiswaFindFirstArgs>(args?: SelectSubset<T, PresensiSiswaFindFirstArgs<ExtArgs>>): Prisma__PresensiSiswaClient<$Result.GetResult<Prisma.$PresensiSiswaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PresensiSiswa that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresensiSiswaFindFirstOrThrowArgs} args - Arguments to find a PresensiSiswa
+     * @example
+     * // Get one PresensiSiswa
+     * const presensiSiswa = await prisma.presensiSiswa.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PresensiSiswaFindFirstOrThrowArgs>(args?: SelectSubset<T, PresensiSiswaFindFirstOrThrowArgs<ExtArgs>>): Prisma__PresensiSiswaClient<$Result.GetResult<Prisma.$PresensiSiswaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PresensiSiswas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresensiSiswaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PresensiSiswas
+     * const presensiSiswas = await prisma.presensiSiswa.findMany()
+     * 
+     * // Get first 10 PresensiSiswas
+     * const presensiSiswas = await prisma.presensiSiswa.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const presensiSiswaWithIdOnly = await prisma.presensiSiswa.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PresensiSiswaFindManyArgs>(args?: SelectSubset<T, PresensiSiswaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PresensiSiswaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PresensiSiswa.
+     * @param {PresensiSiswaCreateArgs} args - Arguments to create a PresensiSiswa.
+     * @example
+     * // Create one PresensiSiswa
+     * const PresensiSiswa = await prisma.presensiSiswa.create({
+     *   data: {
+     *     // ... data to create a PresensiSiswa
+     *   }
+     * })
+     * 
+     */
+    create<T extends PresensiSiswaCreateArgs>(args: SelectSubset<T, PresensiSiswaCreateArgs<ExtArgs>>): Prisma__PresensiSiswaClient<$Result.GetResult<Prisma.$PresensiSiswaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PresensiSiswas.
+     * @param {PresensiSiswaCreateManyArgs} args - Arguments to create many PresensiSiswas.
+     * @example
+     * // Create many PresensiSiswas
+     * const presensiSiswa = await prisma.presensiSiswa.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PresensiSiswaCreateManyArgs>(args?: SelectSubset<T, PresensiSiswaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a PresensiSiswa.
+     * @param {PresensiSiswaDeleteArgs} args - Arguments to delete one PresensiSiswa.
+     * @example
+     * // Delete one PresensiSiswa
+     * const PresensiSiswa = await prisma.presensiSiswa.delete({
+     *   where: {
+     *     // ... filter to delete one PresensiSiswa
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PresensiSiswaDeleteArgs>(args: SelectSubset<T, PresensiSiswaDeleteArgs<ExtArgs>>): Prisma__PresensiSiswaClient<$Result.GetResult<Prisma.$PresensiSiswaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PresensiSiswa.
+     * @param {PresensiSiswaUpdateArgs} args - Arguments to update one PresensiSiswa.
+     * @example
+     * // Update one PresensiSiswa
+     * const presensiSiswa = await prisma.presensiSiswa.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PresensiSiswaUpdateArgs>(args: SelectSubset<T, PresensiSiswaUpdateArgs<ExtArgs>>): Prisma__PresensiSiswaClient<$Result.GetResult<Prisma.$PresensiSiswaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PresensiSiswas.
+     * @param {PresensiSiswaDeleteManyArgs} args - Arguments to filter PresensiSiswas to delete.
+     * @example
+     * // Delete a few PresensiSiswas
+     * const { count } = await prisma.presensiSiswa.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PresensiSiswaDeleteManyArgs>(args?: SelectSubset<T, PresensiSiswaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PresensiSiswas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresensiSiswaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PresensiSiswas
+     * const presensiSiswa = await prisma.presensiSiswa.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PresensiSiswaUpdateManyArgs>(args: SelectSubset<T, PresensiSiswaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PresensiSiswa.
+     * @param {PresensiSiswaUpsertArgs} args - Arguments to update or create a PresensiSiswa.
+     * @example
+     * // Update or create a PresensiSiswa
+     * const presensiSiswa = await prisma.presensiSiswa.upsert({
+     *   create: {
+     *     // ... data to create a PresensiSiswa
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PresensiSiswa we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PresensiSiswaUpsertArgs>(args: SelectSubset<T, PresensiSiswaUpsertArgs<ExtArgs>>): Prisma__PresensiSiswaClient<$Result.GetResult<Prisma.$PresensiSiswaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PresensiSiswas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresensiSiswaCountArgs} args - Arguments to filter PresensiSiswas to count.
+     * @example
+     * // Count the number of PresensiSiswas
+     * const count = await prisma.presensiSiswa.count({
+     *   where: {
+     *     // ... the filter for the PresensiSiswas we want to count
+     *   }
+     * })
+    **/
+    count<T extends PresensiSiswaCountArgs>(
+      args?: Subset<T, PresensiSiswaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PresensiSiswaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PresensiSiswa.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresensiSiswaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PresensiSiswaAggregateArgs>(args: Subset<T, PresensiSiswaAggregateArgs>): Prisma.PrismaPromise<GetPresensiSiswaAggregateType<T>>
+
+    /**
+     * Group by PresensiSiswa.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresensiSiswaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PresensiSiswaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PresensiSiswaGroupByArgs['orderBy'] }
+        : { orderBy?: PresensiSiswaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PresensiSiswaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPresensiSiswaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PresensiSiswa model
+   */
+  readonly fields: PresensiSiswaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PresensiSiswa.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PresensiSiswaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    jurnal<T extends JurnalMengajarDefaultArgs<ExtArgs> = {}>(args?: Subset<T, JurnalMengajarDefaultArgs<ExtArgs>>): Prisma__JurnalMengajarClient<$Result.GetResult<Prisma.$JurnalMengajarPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    siswa<T extends SiswaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SiswaDefaultArgs<ExtArgs>>): Prisma__SiswaClient<$Result.GetResult<Prisma.$SiswaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PresensiSiswa model
+   */
+  interface PresensiSiswaFieldRefs {
+    readonly id: FieldRef<"PresensiSiswa", 'String'>
+    readonly jurnalId: FieldRef<"PresensiSiswa", 'String'>
+    readonly siswaId: FieldRef<"PresensiSiswa", 'String'>
+    readonly status: FieldRef<"PresensiSiswa", 'StatusHadir'>
+    readonly waktuScan: FieldRef<"PresensiSiswa", 'DateTime'>
+    readonly nilaiTugas: FieldRef<"PresensiSiswa", 'Int'>
+    readonly alasanIzin: FieldRef<"PresensiSiswa", 'String'>
+    readonly isDispensasi: FieldRef<"PresensiSiswa", 'Boolean'>
+    readonly isTerlambat: FieldRef<"PresensiSiswa", 'Boolean'>
+    readonly alasanTerlambat: FieldRef<"PresensiSiswa", 'String'>
+    readonly alasan: FieldRef<"PresensiSiswa", 'String'>
+    readonly fileBukti: FieldRef<"PresensiSiswa", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PresensiSiswa findUnique
+   */
+  export type PresensiSiswaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresensiSiswa
+     */
+    select?: PresensiSiswaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresensiSiswa
+     */
+    omit?: PresensiSiswaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresensiSiswaInclude<ExtArgs> | null
+    /**
+     * Filter, which PresensiSiswa to fetch.
+     */
+    where: PresensiSiswaWhereUniqueInput
+  }
+
+  /**
+   * PresensiSiswa findUniqueOrThrow
+   */
+  export type PresensiSiswaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresensiSiswa
+     */
+    select?: PresensiSiswaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresensiSiswa
+     */
+    omit?: PresensiSiswaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresensiSiswaInclude<ExtArgs> | null
+    /**
+     * Filter, which PresensiSiswa to fetch.
+     */
+    where: PresensiSiswaWhereUniqueInput
+  }
+
+  /**
+   * PresensiSiswa findFirst
+   */
+  export type PresensiSiswaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresensiSiswa
+     */
+    select?: PresensiSiswaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresensiSiswa
+     */
+    omit?: PresensiSiswaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresensiSiswaInclude<ExtArgs> | null
+    /**
+     * Filter, which PresensiSiswa to fetch.
+     */
+    where?: PresensiSiswaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PresensiSiswas to fetch.
+     */
+    orderBy?: PresensiSiswaOrderByWithRelationInput | PresensiSiswaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PresensiSiswas.
+     */
+    cursor?: PresensiSiswaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PresensiSiswas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PresensiSiswas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PresensiSiswas.
+     */
+    distinct?: PresensiSiswaScalarFieldEnum | PresensiSiswaScalarFieldEnum[]
+  }
+
+  /**
+   * PresensiSiswa findFirstOrThrow
+   */
+  export type PresensiSiswaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresensiSiswa
+     */
+    select?: PresensiSiswaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresensiSiswa
+     */
+    omit?: PresensiSiswaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresensiSiswaInclude<ExtArgs> | null
+    /**
+     * Filter, which PresensiSiswa to fetch.
+     */
+    where?: PresensiSiswaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PresensiSiswas to fetch.
+     */
+    orderBy?: PresensiSiswaOrderByWithRelationInput | PresensiSiswaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PresensiSiswas.
+     */
+    cursor?: PresensiSiswaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PresensiSiswas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PresensiSiswas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PresensiSiswas.
+     */
+    distinct?: PresensiSiswaScalarFieldEnum | PresensiSiswaScalarFieldEnum[]
+  }
+
+  /**
+   * PresensiSiswa findMany
+   */
+  export type PresensiSiswaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresensiSiswa
+     */
+    select?: PresensiSiswaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresensiSiswa
+     */
+    omit?: PresensiSiswaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresensiSiswaInclude<ExtArgs> | null
+    /**
+     * Filter, which PresensiSiswas to fetch.
+     */
+    where?: PresensiSiswaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PresensiSiswas to fetch.
+     */
+    orderBy?: PresensiSiswaOrderByWithRelationInput | PresensiSiswaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PresensiSiswas.
+     */
+    cursor?: PresensiSiswaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PresensiSiswas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PresensiSiswas.
+     */
+    skip?: number
+    distinct?: PresensiSiswaScalarFieldEnum | PresensiSiswaScalarFieldEnum[]
+  }
+
+  /**
+   * PresensiSiswa create
+   */
+  export type PresensiSiswaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresensiSiswa
+     */
+    select?: PresensiSiswaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresensiSiswa
+     */
+    omit?: PresensiSiswaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresensiSiswaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PresensiSiswa.
+     */
+    data: XOR<PresensiSiswaCreateInput, PresensiSiswaUncheckedCreateInput>
+  }
+
+  /**
+   * PresensiSiswa createMany
+   */
+  export type PresensiSiswaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PresensiSiswas.
+     */
+    data: PresensiSiswaCreateManyInput | PresensiSiswaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PresensiSiswa update
+   */
+  export type PresensiSiswaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresensiSiswa
+     */
+    select?: PresensiSiswaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresensiSiswa
+     */
+    omit?: PresensiSiswaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresensiSiswaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PresensiSiswa.
+     */
+    data: XOR<PresensiSiswaUpdateInput, PresensiSiswaUncheckedUpdateInput>
+    /**
+     * Choose, which PresensiSiswa to update.
+     */
+    where: PresensiSiswaWhereUniqueInput
+  }
+
+  /**
+   * PresensiSiswa updateMany
+   */
+  export type PresensiSiswaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PresensiSiswas.
+     */
+    data: XOR<PresensiSiswaUpdateManyMutationInput, PresensiSiswaUncheckedUpdateManyInput>
+    /**
+     * Filter which PresensiSiswas to update
+     */
+    where?: PresensiSiswaWhereInput
+    /**
+     * Limit how many PresensiSiswas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PresensiSiswa upsert
+   */
+  export type PresensiSiswaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresensiSiswa
+     */
+    select?: PresensiSiswaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresensiSiswa
+     */
+    omit?: PresensiSiswaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresensiSiswaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PresensiSiswa to update in case it exists.
+     */
+    where: PresensiSiswaWhereUniqueInput
+    /**
+     * In case the PresensiSiswa found by the `where` argument doesn't exist, create a new PresensiSiswa with this data.
+     */
+    create: XOR<PresensiSiswaCreateInput, PresensiSiswaUncheckedCreateInput>
+    /**
+     * In case the PresensiSiswa was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PresensiSiswaUpdateInput, PresensiSiswaUncheckedUpdateInput>
+  }
+
+  /**
+   * PresensiSiswa delete
+   */
+  export type PresensiSiswaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresensiSiswa
+     */
+    select?: PresensiSiswaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresensiSiswa
+     */
+    omit?: PresensiSiswaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresensiSiswaInclude<ExtArgs> | null
+    /**
+     * Filter which PresensiSiswa to delete.
+     */
+    where: PresensiSiswaWhereUniqueInput
+  }
+
+  /**
+   * PresensiSiswa deleteMany
+   */
+  export type PresensiSiswaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PresensiSiswas to delete
+     */
+    where?: PresensiSiswaWhereInput
+    /**
+     * Limit how many PresensiSiswas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PresensiSiswa without action
+   */
+  export type PresensiSiswaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresensiSiswa
+     */
+    select?: PresensiSiswaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresensiSiswa
+     */
+    omit?: PresensiSiswaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresensiSiswaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RatingGuru
+   */
+
+  export type AggregateRatingGuru = {
+    _count: RatingGuruCountAggregateOutputType | null
+    _avg: RatingGuruAvgAggregateOutputType | null
+    _sum: RatingGuruSumAggregateOutputType | null
+    _min: RatingGuruMinAggregateOutputType | null
+    _max: RatingGuruMaxAggregateOutputType | null
+  }
+
+  export type RatingGuruAvgAggregateOutputType = {
+    rating: number | null
+  }
+
+  export type RatingGuruSumAggregateOutputType = {
+    rating: number | null
+  }
+
+  export type RatingGuruMinAggregateOutputType = {
+    id: string | null
+    guruId: string | null
+    siswaId: string | null
+    mapelId: string | null
+    tahunAjaranId: string | null
+    rating: number | null
+    komentar: string | null
+    createdAt: Date | null
+  }
+
+  export type RatingGuruMaxAggregateOutputType = {
+    id: string | null
+    guruId: string | null
+    siswaId: string | null
+    mapelId: string | null
+    tahunAjaranId: string | null
+    rating: number | null
+    komentar: string | null
+    createdAt: Date | null
+  }
+
+  export type RatingGuruCountAggregateOutputType = {
+    id: number
+    guruId: number
+    siswaId: number
+    mapelId: number
+    tahunAjaranId: number
+    rating: number
+    komentar: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RatingGuruAvgAggregateInputType = {
+    rating?: true
+  }
+
+  export type RatingGuruSumAggregateInputType = {
+    rating?: true
+  }
+
+  export type RatingGuruMinAggregateInputType = {
+    id?: true
+    guruId?: true
+    siswaId?: true
+    mapelId?: true
+    tahunAjaranId?: true
+    rating?: true
+    komentar?: true
+    createdAt?: true
+  }
+
+  export type RatingGuruMaxAggregateInputType = {
+    id?: true
+    guruId?: true
+    siswaId?: true
+    mapelId?: true
+    tahunAjaranId?: true
+    rating?: true
+    komentar?: true
+    createdAt?: true
+  }
+
+  export type RatingGuruCountAggregateInputType = {
+    id?: true
+    guruId?: true
+    siswaId?: true
+    mapelId?: true
+    tahunAjaranId?: true
+    rating?: true
+    komentar?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RatingGuruAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RatingGuru to aggregate.
+     */
+    where?: RatingGuruWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RatingGurus to fetch.
+     */
+    orderBy?: RatingGuruOrderByWithRelationInput | RatingGuruOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RatingGuruWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RatingGurus from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RatingGurus.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RatingGurus
+    **/
+    _count?: true | RatingGuruCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RatingGuruAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RatingGuruSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RatingGuruMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RatingGuruMaxAggregateInputType
+  }
+
+  export type GetRatingGuruAggregateType<T extends RatingGuruAggregateArgs> = {
+        [P in keyof T & keyof AggregateRatingGuru]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRatingGuru[P]>
+      : GetScalarType<T[P], AggregateRatingGuru[P]>
+  }
+
+
+
+
+  export type RatingGuruGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingGuruWhereInput
+    orderBy?: RatingGuruOrderByWithAggregationInput | RatingGuruOrderByWithAggregationInput[]
+    by: RatingGuruScalarFieldEnum[] | RatingGuruScalarFieldEnum
+    having?: RatingGuruScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RatingGuruCountAggregateInputType | true
+    _avg?: RatingGuruAvgAggregateInputType
+    _sum?: RatingGuruSumAggregateInputType
+    _min?: RatingGuruMinAggregateInputType
+    _max?: RatingGuruMaxAggregateInputType
+  }
+
+  export type RatingGuruGroupByOutputType = {
+    id: string
+    guruId: string
+    siswaId: string
+    mapelId: string
+    tahunAjaranId: string
+    rating: number
+    komentar: string | null
+    createdAt: Date
+    _count: RatingGuruCountAggregateOutputType | null
+    _avg: RatingGuruAvgAggregateOutputType | null
+    _sum: RatingGuruSumAggregateOutputType | null
+    _min: RatingGuruMinAggregateOutputType | null
+    _max: RatingGuruMaxAggregateOutputType | null
+  }
+
+  type GetRatingGuruGroupByPayload<T extends RatingGuruGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RatingGuruGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RatingGuruGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RatingGuruGroupByOutputType[P]>
+            : GetScalarType<T[P], RatingGuruGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RatingGuruSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    guruId?: boolean
+    siswaId?: boolean
+    mapelId?: boolean
+    tahunAjaranId?: boolean
+    rating?: boolean
+    komentar?: boolean
+    createdAt?: boolean
+    guru?: boolean | GuruDefaultArgs<ExtArgs>
+    siswa?: boolean | SiswaDefaultArgs<ExtArgs>
+    mapel?: boolean | MataPelajaranDefaultArgs<ExtArgs>
+    tahunAjaran?: boolean | TahunAjaranDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ratingGuru"]>
+
+
+
+  export type RatingGuruSelectScalar = {
+    id?: boolean
+    guruId?: boolean
+    siswaId?: boolean
+    mapelId?: boolean
+    tahunAjaranId?: boolean
+    rating?: boolean
+    komentar?: boolean
+    createdAt?: boolean
+  }
+
+  export type RatingGuruOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "guruId" | "siswaId" | "mapelId" | "tahunAjaranId" | "rating" | "komentar" | "createdAt", ExtArgs["result"]["ratingGuru"]>
+  export type RatingGuruInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    guru?: boolean | GuruDefaultArgs<ExtArgs>
+    siswa?: boolean | SiswaDefaultArgs<ExtArgs>
+    mapel?: boolean | MataPelajaranDefaultArgs<ExtArgs>
+    tahunAjaran?: boolean | TahunAjaranDefaultArgs<ExtArgs>
+  }
+
+  export type $RatingGuruPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RatingGuru"
+    objects: {
+      guru: Prisma.$GuruPayload<ExtArgs>
+      siswa: Prisma.$SiswaPayload<ExtArgs>
+      mapel: Prisma.$MataPelajaranPayload<ExtArgs>
+      tahunAjaran: Prisma.$TahunAjaranPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      guruId: string
+      siswaId: string
+      mapelId: string
+      tahunAjaranId: string
+      rating: number
+      komentar: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["ratingGuru"]>
+    composites: {}
+  }
+
+  type RatingGuruGetPayload<S extends boolean | null | undefined | RatingGuruDefaultArgs> = $Result.GetResult<Prisma.$RatingGuruPayload, S>
+
+  type RatingGuruCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RatingGuruFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RatingGuruCountAggregateInputType | true
+    }
+
+  export interface RatingGuruDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RatingGuru'], meta: { name: 'RatingGuru' } }
+    /**
+     * Find zero or one RatingGuru that matches the filter.
+     * @param {RatingGuruFindUniqueArgs} args - Arguments to find a RatingGuru
+     * @example
+     * // Get one RatingGuru
+     * const ratingGuru = await prisma.ratingGuru.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RatingGuruFindUniqueArgs>(args: SelectSubset<T, RatingGuruFindUniqueArgs<ExtArgs>>): Prisma__RatingGuruClient<$Result.GetResult<Prisma.$RatingGuruPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RatingGuru that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RatingGuruFindUniqueOrThrowArgs} args - Arguments to find a RatingGuru
+     * @example
+     * // Get one RatingGuru
+     * const ratingGuru = await prisma.ratingGuru.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RatingGuruFindUniqueOrThrowArgs>(args: SelectSubset<T, RatingGuruFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RatingGuruClient<$Result.GetResult<Prisma.$RatingGuruPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RatingGuru that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingGuruFindFirstArgs} args - Arguments to find a RatingGuru
+     * @example
+     * // Get one RatingGuru
+     * const ratingGuru = await prisma.ratingGuru.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RatingGuruFindFirstArgs>(args?: SelectSubset<T, RatingGuruFindFirstArgs<ExtArgs>>): Prisma__RatingGuruClient<$Result.GetResult<Prisma.$RatingGuruPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RatingGuru that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingGuruFindFirstOrThrowArgs} args - Arguments to find a RatingGuru
+     * @example
+     * // Get one RatingGuru
+     * const ratingGuru = await prisma.ratingGuru.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RatingGuruFindFirstOrThrowArgs>(args?: SelectSubset<T, RatingGuruFindFirstOrThrowArgs<ExtArgs>>): Prisma__RatingGuruClient<$Result.GetResult<Prisma.$RatingGuruPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RatingGurus that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingGuruFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RatingGurus
+     * const ratingGurus = await prisma.ratingGuru.findMany()
+     * 
+     * // Get first 10 RatingGurus
+     * const ratingGurus = await prisma.ratingGuru.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ratingGuruWithIdOnly = await prisma.ratingGuru.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RatingGuruFindManyArgs>(args?: SelectSubset<T, RatingGuruFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingGuruPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RatingGuru.
+     * @param {RatingGuruCreateArgs} args - Arguments to create a RatingGuru.
+     * @example
+     * // Create one RatingGuru
+     * const RatingGuru = await prisma.ratingGuru.create({
+     *   data: {
+     *     // ... data to create a RatingGuru
+     *   }
+     * })
+     * 
+     */
+    create<T extends RatingGuruCreateArgs>(args: SelectSubset<T, RatingGuruCreateArgs<ExtArgs>>): Prisma__RatingGuruClient<$Result.GetResult<Prisma.$RatingGuruPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RatingGurus.
+     * @param {RatingGuruCreateManyArgs} args - Arguments to create many RatingGurus.
+     * @example
+     * // Create many RatingGurus
+     * const ratingGuru = await prisma.ratingGuru.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RatingGuruCreateManyArgs>(args?: SelectSubset<T, RatingGuruCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a RatingGuru.
+     * @param {RatingGuruDeleteArgs} args - Arguments to delete one RatingGuru.
+     * @example
+     * // Delete one RatingGuru
+     * const RatingGuru = await prisma.ratingGuru.delete({
+     *   where: {
+     *     // ... filter to delete one RatingGuru
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RatingGuruDeleteArgs>(args: SelectSubset<T, RatingGuruDeleteArgs<ExtArgs>>): Prisma__RatingGuruClient<$Result.GetResult<Prisma.$RatingGuruPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RatingGuru.
+     * @param {RatingGuruUpdateArgs} args - Arguments to update one RatingGuru.
+     * @example
+     * // Update one RatingGuru
+     * const ratingGuru = await prisma.ratingGuru.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RatingGuruUpdateArgs>(args: SelectSubset<T, RatingGuruUpdateArgs<ExtArgs>>): Prisma__RatingGuruClient<$Result.GetResult<Prisma.$RatingGuruPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RatingGurus.
+     * @param {RatingGuruDeleteManyArgs} args - Arguments to filter RatingGurus to delete.
+     * @example
+     * // Delete a few RatingGurus
+     * const { count } = await prisma.ratingGuru.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RatingGuruDeleteManyArgs>(args?: SelectSubset<T, RatingGuruDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RatingGurus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingGuruUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RatingGurus
+     * const ratingGuru = await prisma.ratingGuru.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RatingGuruUpdateManyArgs>(args: SelectSubset<T, RatingGuruUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RatingGuru.
+     * @param {RatingGuruUpsertArgs} args - Arguments to update or create a RatingGuru.
+     * @example
+     * // Update or create a RatingGuru
+     * const ratingGuru = await prisma.ratingGuru.upsert({
+     *   create: {
+     *     // ... data to create a RatingGuru
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RatingGuru we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RatingGuruUpsertArgs>(args: SelectSubset<T, RatingGuruUpsertArgs<ExtArgs>>): Prisma__RatingGuruClient<$Result.GetResult<Prisma.$RatingGuruPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RatingGurus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingGuruCountArgs} args - Arguments to filter RatingGurus to count.
+     * @example
+     * // Count the number of RatingGurus
+     * const count = await prisma.ratingGuru.count({
+     *   where: {
+     *     // ... the filter for the RatingGurus we want to count
+     *   }
+     * })
+    **/
+    count<T extends RatingGuruCountArgs>(
+      args?: Subset<T, RatingGuruCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RatingGuruCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RatingGuru.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingGuruAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RatingGuruAggregateArgs>(args: Subset<T, RatingGuruAggregateArgs>): Prisma.PrismaPromise<GetRatingGuruAggregateType<T>>
+
+    /**
+     * Group by RatingGuru.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingGuruGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RatingGuruGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RatingGuruGroupByArgs['orderBy'] }
+        : { orderBy?: RatingGuruGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RatingGuruGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRatingGuruGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RatingGuru model
+   */
+  readonly fields: RatingGuruFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RatingGuru.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RatingGuruClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    guru<T extends GuruDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GuruDefaultArgs<ExtArgs>>): Prisma__GuruClient<$Result.GetResult<Prisma.$GuruPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    siswa<T extends SiswaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SiswaDefaultArgs<ExtArgs>>): Prisma__SiswaClient<$Result.GetResult<Prisma.$SiswaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    mapel<T extends MataPelajaranDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MataPelajaranDefaultArgs<ExtArgs>>): Prisma__MataPelajaranClient<$Result.GetResult<Prisma.$MataPelajaranPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tahunAjaran<T extends TahunAjaranDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TahunAjaranDefaultArgs<ExtArgs>>): Prisma__TahunAjaranClient<$Result.GetResult<Prisma.$TahunAjaranPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RatingGuru model
+   */
+  interface RatingGuruFieldRefs {
+    readonly id: FieldRef<"RatingGuru", 'String'>
+    readonly guruId: FieldRef<"RatingGuru", 'String'>
+    readonly siswaId: FieldRef<"RatingGuru", 'String'>
+    readonly mapelId: FieldRef<"RatingGuru", 'String'>
+    readonly tahunAjaranId: FieldRef<"RatingGuru", 'String'>
+    readonly rating: FieldRef<"RatingGuru", 'Int'>
+    readonly komentar: FieldRef<"RatingGuru", 'String'>
+    readonly createdAt: FieldRef<"RatingGuru", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RatingGuru findUnique
+   */
+  export type RatingGuruFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingGuru
+     */
+    select?: RatingGuruSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingGuru
+     */
+    omit?: RatingGuruOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingGuruInclude<ExtArgs> | null
+    /**
+     * Filter, which RatingGuru to fetch.
+     */
+    where: RatingGuruWhereUniqueInput
+  }
+
+  /**
+   * RatingGuru findUniqueOrThrow
+   */
+  export type RatingGuruFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingGuru
+     */
+    select?: RatingGuruSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingGuru
+     */
+    omit?: RatingGuruOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingGuruInclude<ExtArgs> | null
+    /**
+     * Filter, which RatingGuru to fetch.
+     */
+    where: RatingGuruWhereUniqueInput
+  }
+
+  /**
+   * RatingGuru findFirst
+   */
+  export type RatingGuruFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingGuru
+     */
+    select?: RatingGuruSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingGuru
+     */
+    omit?: RatingGuruOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingGuruInclude<ExtArgs> | null
+    /**
+     * Filter, which RatingGuru to fetch.
+     */
+    where?: RatingGuruWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RatingGurus to fetch.
+     */
+    orderBy?: RatingGuruOrderByWithRelationInput | RatingGuruOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RatingGurus.
+     */
+    cursor?: RatingGuruWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RatingGurus from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RatingGurus.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RatingGurus.
+     */
+    distinct?: RatingGuruScalarFieldEnum | RatingGuruScalarFieldEnum[]
+  }
+
+  /**
+   * RatingGuru findFirstOrThrow
+   */
+  export type RatingGuruFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingGuru
+     */
+    select?: RatingGuruSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingGuru
+     */
+    omit?: RatingGuruOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingGuruInclude<ExtArgs> | null
+    /**
+     * Filter, which RatingGuru to fetch.
+     */
+    where?: RatingGuruWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RatingGurus to fetch.
+     */
+    orderBy?: RatingGuruOrderByWithRelationInput | RatingGuruOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RatingGurus.
+     */
+    cursor?: RatingGuruWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RatingGurus from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RatingGurus.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RatingGurus.
+     */
+    distinct?: RatingGuruScalarFieldEnum | RatingGuruScalarFieldEnum[]
+  }
+
+  /**
+   * RatingGuru findMany
+   */
+  export type RatingGuruFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingGuru
+     */
+    select?: RatingGuruSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingGuru
+     */
+    omit?: RatingGuruOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingGuruInclude<ExtArgs> | null
+    /**
+     * Filter, which RatingGurus to fetch.
+     */
+    where?: RatingGuruWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RatingGurus to fetch.
+     */
+    orderBy?: RatingGuruOrderByWithRelationInput | RatingGuruOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RatingGurus.
+     */
+    cursor?: RatingGuruWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RatingGurus from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RatingGurus.
+     */
+    skip?: number
+    distinct?: RatingGuruScalarFieldEnum | RatingGuruScalarFieldEnum[]
+  }
+
+  /**
+   * RatingGuru create
+   */
+  export type RatingGuruCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingGuru
+     */
+    select?: RatingGuruSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingGuru
+     */
+    omit?: RatingGuruOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingGuruInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RatingGuru.
+     */
+    data: XOR<RatingGuruCreateInput, RatingGuruUncheckedCreateInput>
+  }
+
+  /**
+   * RatingGuru createMany
+   */
+  export type RatingGuruCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RatingGurus.
+     */
+    data: RatingGuruCreateManyInput | RatingGuruCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RatingGuru update
+   */
+  export type RatingGuruUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingGuru
+     */
+    select?: RatingGuruSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingGuru
+     */
+    omit?: RatingGuruOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingGuruInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RatingGuru.
+     */
+    data: XOR<RatingGuruUpdateInput, RatingGuruUncheckedUpdateInput>
+    /**
+     * Choose, which RatingGuru to update.
+     */
+    where: RatingGuruWhereUniqueInput
+  }
+
+  /**
+   * RatingGuru updateMany
+   */
+  export type RatingGuruUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RatingGurus.
+     */
+    data: XOR<RatingGuruUpdateManyMutationInput, RatingGuruUncheckedUpdateManyInput>
+    /**
+     * Filter which RatingGurus to update
+     */
+    where?: RatingGuruWhereInput
+    /**
+     * Limit how many RatingGurus to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RatingGuru upsert
+   */
+  export type RatingGuruUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingGuru
+     */
+    select?: RatingGuruSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingGuru
+     */
+    omit?: RatingGuruOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingGuruInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RatingGuru to update in case it exists.
+     */
+    where: RatingGuruWhereUniqueInput
+    /**
+     * In case the RatingGuru found by the `where` argument doesn't exist, create a new RatingGuru with this data.
+     */
+    create: XOR<RatingGuruCreateInput, RatingGuruUncheckedCreateInput>
+    /**
+     * In case the RatingGuru was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RatingGuruUpdateInput, RatingGuruUncheckedUpdateInput>
+  }
+
+  /**
+   * RatingGuru delete
+   */
+  export type RatingGuruDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingGuru
+     */
+    select?: RatingGuruSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingGuru
+     */
+    omit?: RatingGuruOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingGuruInclude<ExtArgs> | null
+    /**
+     * Filter which RatingGuru to delete.
+     */
+    where: RatingGuruWhereUniqueInput
+  }
+
+  /**
+   * RatingGuru deleteMany
+   */
+  export type RatingGuruDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RatingGurus to delete
+     */
+    where?: RatingGuruWhereInput
+    /**
+     * Limit how many RatingGurus to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RatingGuru without action
+   */
+  export type RatingGuruDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingGuru
+     */
+    select?: RatingGuruSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingGuru
+     */
+    omit?: RatingGuruOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingGuruInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8176,7 +18598,8 @@ export namespace Prisma {
   export const TahunAjaranScalarFieldEnum: {
     id: 'id',
     nama: 'nama',
-    isActive: 'isActive'
+    isActive: 'isActive',
+    isRatingActive: 'isRatingActive'
   };
 
   export type TahunAjaranScalarFieldEnum = (typeof TahunAjaranScalarFieldEnum)[keyof typeof TahunAjaranScalarFieldEnum]
@@ -8184,10 +18607,75 @@ export namespace Prisma {
 
   export const KelasScalarFieldEnum: {
     id: 'id',
-    nama: 'nama'
+    nama: 'nama',
+    isTka: 'isTka',
+    tempat: 'tempat'
   };
 
   export type KelasScalarFieldEnum = (typeof KelasScalarFieldEnum)[keyof typeof KelasScalarFieldEnum]
+
+
+  export const MataPelajaranScalarFieldEnum: {
+    id: 'id',
+    kode: 'kode',
+    nama: 'nama',
+    isTka: 'isTka'
+  };
+
+  export type MataPelajaranScalarFieldEnum = (typeof MataPelajaranScalarFieldEnum)[keyof typeof MataPelajaranScalarFieldEnum]
+
+
+  export const PengaturanSekolahScalarFieldEnum: {
+    id: 'id',
+    schoolName: 'schoolName',
+    latitude: 'latitude',
+    longitude: 'longitude',
+    radiusToleransi: 'radiusToleransi',
+    qrExpirySec: 'qrExpirySec'
+  };
+
+  export type PengaturanSekolahScalarFieldEnum = (typeof PengaturanSekolahScalarFieldEnum)[keyof typeof PengaturanSekolahScalarFieldEnum]
+
+
+  export const LaporanPdcaScalarFieldEnum: {
+    id: 'id',
+    judul: 'judul',
+    tahunAjaranId: 'tahunAjaranId',
+    pembuatId: 'pembuatId',
+    tanggalLaporan: 'tanggalLaporan',
+    status: 'status',
+    planProblem: 'planProblem',
+    planRootCause: 'planRootCause',
+    doImplementasi: 'doImplementasi',
+    checkFakta: 'checkFakta',
+    checkGap: 'checkGap',
+    actRekomendasi: 'actRekomendasi',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LaporanPdcaScalarFieldEnum = (typeof LaporanPdcaScalarFieldEnum)[keyof typeof LaporanPdcaScalarFieldEnum]
+
+
+  export const RekapBulananScalarFieldEnum: {
+    id: 'id',
+    tahunAjaranId: 'tahunAjaranId',
+    bulan: 'bulan',
+    jenisAktivitas: 'jenisAktivitas',
+    jumlah: 'jumlah'
+  };
+
+  export type RekapBulananScalarFieldEnum = (typeof RekapBulananScalarFieldEnum)[keyof typeof RekapBulananScalarFieldEnum]
+
+
+  export const TimFasilitatorTkaScalarFieldEnum: {
+    id: 'id',
+    mapelId: 'mapelId',
+    guruId: 'guruId',
+    tahunAjaranId: 'tahunAjaranId'
+  };
+
+  export type TimFasilitatorTkaScalarFieldEnum = (typeof TimFasilitatorTkaScalarFieldEnum)[keyof typeof TimFasilitatorTkaScalarFieldEnum]
 
 
   export const GuruScalarFieldEnum: {
@@ -8226,10 +18714,76 @@ export namespace Prisma {
     id: 'id',
     siswaId: 'siswaId',
     kelasId: 'kelasId',
-    tahunAjaranId: 'tahunAjaranId'
+    tahunAjaranId: 'tahunAjaranId',
+    isTka: 'isTka'
   };
 
   export type RiwayatKelasSiswaScalarFieldEnum = (typeof RiwayatKelasSiswaScalarFieldEnum)[keyof typeof RiwayatKelasSiswaScalarFieldEnum]
+
+
+  export const JadwalPelajaranScalarFieldEnum: {
+    id: 'id',
+    guruId: 'guruId',
+    mapelId: 'mapelId',
+    kelasId: 'kelasId',
+    tahunAjaranId: 'tahunAjaranId',
+    hari: 'hari',
+    waktuMulai: 'waktuMulai',
+    waktuSelesai: 'waktuSelesai',
+    ruang: 'ruang'
+  };
+
+  export type JadwalPelajaranScalarFieldEnum = (typeof JadwalPelajaranScalarFieldEnum)[keyof typeof JadwalPelajaranScalarFieldEnum]
+
+
+  export const JurnalMengajarScalarFieldEnum: {
+    id: 'id',
+    jadwalId: 'jadwalId',
+    tanggal: 'tanggal',
+    materiBab: 'materiBab',
+    catatan: 'catatan',
+    tugas: 'tugas',
+    status: 'status',
+    waktuMulai: 'waktuMulai',
+    waktuSelesai: 'waktuSelesai',
+    latAbsen: 'latAbsen',
+    longAbsen: 'longAbsen',
+    qrToken: 'qrToken'
+  };
+
+  export type JurnalMengajarScalarFieldEnum = (typeof JurnalMengajarScalarFieldEnum)[keyof typeof JurnalMengajarScalarFieldEnum]
+
+
+  export const PresensiSiswaScalarFieldEnum: {
+    id: 'id',
+    jurnalId: 'jurnalId',
+    siswaId: 'siswaId',
+    status: 'status',
+    waktuScan: 'waktuScan',
+    nilaiTugas: 'nilaiTugas',
+    alasanIzin: 'alasanIzin',
+    isDispensasi: 'isDispensasi',
+    isTerlambat: 'isTerlambat',
+    alasanTerlambat: 'alasanTerlambat',
+    alasan: 'alasan',
+    fileBukti: 'fileBukti'
+  };
+
+  export type PresensiSiswaScalarFieldEnum = (typeof PresensiSiswaScalarFieldEnum)[keyof typeof PresensiSiswaScalarFieldEnum]
+
+
+  export const RatingGuruScalarFieldEnum: {
+    id: 'id',
+    guruId: 'guruId',
+    siswaId: 'siswaId',
+    mapelId: 'mapelId',
+    tahunAjaranId: 'tahunAjaranId',
+    rating: 'rating',
+    komentar: 'komentar',
+    createdAt: 'createdAt'
+  };
+
+  export type RatingGuruScalarFieldEnum = (typeof RatingGuruScalarFieldEnum)[keyof typeof RatingGuruScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -8238,6 +18792,14 @@ export namespace Prisma {
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const UserOrderByRelevanceFieldEnum: {
@@ -8258,12 +18820,90 @@ export namespace Prisma {
   export type TahunAjaranOrderByRelevanceFieldEnum = (typeof TahunAjaranOrderByRelevanceFieldEnum)[keyof typeof TahunAjaranOrderByRelevanceFieldEnum]
 
 
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
   export const KelasOrderByRelevanceFieldEnum: {
     id: 'id',
-    nama: 'nama'
+    nama: 'nama',
+    tempat: 'tempat'
   };
 
   export type KelasOrderByRelevanceFieldEnum = (typeof KelasOrderByRelevanceFieldEnum)[keyof typeof KelasOrderByRelevanceFieldEnum]
+
+
+  export const MataPelajaranOrderByRelevanceFieldEnum: {
+    id: 'id',
+    kode: 'kode',
+    nama: 'nama'
+  };
+
+  export type MataPelajaranOrderByRelevanceFieldEnum = (typeof MataPelajaranOrderByRelevanceFieldEnum)[keyof typeof MataPelajaranOrderByRelevanceFieldEnum]
+
+
+  export const PengaturanSekolahOrderByRelevanceFieldEnum: {
+    id: 'id',
+    schoolName: 'schoolName'
+  };
+
+  export type PengaturanSekolahOrderByRelevanceFieldEnum = (typeof PengaturanSekolahOrderByRelevanceFieldEnum)[keyof typeof PengaturanSekolahOrderByRelevanceFieldEnum]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const QueryMode: {
+    default: 'default',
+    insensitive: 'insensitive'
+  };
+
+  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const LaporanPdcaOrderByRelevanceFieldEnum: {
+    id: 'id',
+    judul: 'judul',
+    tahunAjaranId: 'tahunAjaranId',
+    pembuatId: 'pembuatId',
+    status: 'status',
+    planProblem: 'planProblem',
+    planRootCause: 'planRootCause',
+    checkFakta: 'checkFakta',
+    checkGap: 'checkGap',
+    actRekomendasi: 'actRekomendasi'
+  };
+
+  export type LaporanPdcaOrderByRelevanceFieldEnum = (typeof LaporanPdcaOrderByRelevanceFieldEnum)[keyof typeof LaporanPdcaOrderByRelevanceFieldEnum]
+
+
+  export const RekapBulananOrderByRelevanceFieldEnum: {
+    id: 'id',
+    tahunAjaranId: 'tahunAjaranId',
+    jenisAktivitas: 'jenisAktivitas'
+  };
+
+  export type RekapBulananOrderByRelevanceFieldEnum = (typeof RekapBulananOrderByRelevanceFieldEnum)[keyof typeof RekapBulananOrderByRelevanceFieldEnum]
+
+
+  export const TimFasilitatorTkaOrderByRelevanceFieldEnum: {
+    id: 'id',
+    mapelId: 'mapelId',
+    guruId: 'guruId',
+    tahunAjaranId: 'tahunAjaranId'
+  };
+
+  export type TimFasilitatorTkaOrderByRelevanceFieldEnum = (typeof TimFasilitatorTkaOrderByRelevanceFieldEnum)[keyof typeof TimFasilitatorTkaOrderByRelevanceFieldEnum]
 
 
   export const GuruOrderByRelevanceFieldEnum: {
@@ -8306,6 +18946,59 @@ export namespace Prisma {
   export type RiwayatKelasSiswaOrderByRelevanceFieldEnum = (typeof RiwayatKelasSiswaOrderByRelevanceFieldEnum)[keyof typeof RiwayatKelasSiswaOrderByRelevanceFieldEnum]
 
 
+  export const JadwalPelajaranOrderByRelevanceFieldEnum: {
+    id: 'id',
+    guruId: 'guruId',
+    mapelId: 'mapelId',
+    kelasId: 'kelasId',
+    tahunAjaranId: 'tahunAjaranId',
+    waktuMulai: 'waktuMulai',
+    waktuSelesai: 'waktuSelesai',
+    ruang: 'ruang'
+  };
+
+  export type JadwalPelajaranOrderByRelevanceFieldEnum = (typeof JadwalPelajaranOrderByRelevanceFieldEnum)[keyof typeof JadwalPelajaranOrderByRelevanceFieldEnum]
+
+
+  export const JurnalMengajarOrderByRelevanceFieldEnum: {
+    id: 'id',
+    jadwalId: 'jadwalId',
+    materiBab: 'materiBab',
+    catatan: 'catatan',
+    tugas: 'tugas',
+    waktuMulai: 'waktuMulai',
+    waktuSelesai: 'waktuSelesai',
+    qrToken: 'qrToken'
+  };
+
+  export type JurnalMengajarOrderByRelevanceFieldEnum = (typeof JurnalMengajarOrderByRelevanceFieldEnum)[keyof typeof JurnalMengajarOrderByRelevanceFieldEnum]
+
+
+  export const PresensiSiswaOrderByRelevanceFieldEnum: {
+    id: 'id',
+    jurnalId: 'jurnalId',
+    siswaId: 'siswaId',
+    alasanIzin: 'alasanIzin',
+    alasanTerlambat: 'alasanTerlambat',
+    alasan: 'alasan',
+    fileBukti: 'fileBukti'
+  };
+
+  export type PresensiSiswaOrderByRelevanceFieldEnum = (typeof PresensiSiswaOrderByRelevanceFieldEnum)[keyof typeof PresensiSiswaOrderByRelevanceFieldEnum]
+
+
+  export const RatingGuruOrderByRelevanceFieldEnum: {
+    id: 'id',
+    guruId: 'guruId',
+    siswaId: 'siswaId',
+    mapelId: 'mapelId',
+    tahunAjaranId: 'tahunAjaranId',
+    komentar: 'komentar'
+  };
+
+  export type RatingGuruOrderByRelevanceFieldEnum = (typeof RatingGuruOrderByRelevanceFieldEnum)[keyof typeof RatingGuruOrderByRelevanceFieldEnum]
+
+
   /**
    * Field references
    */
@@ -8340,9 +19033,44 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'JurnalStatus'
+   */
+  export type EnumJurnalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JurnalStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'StatusHadir'
+   */
+  export type EnumStatusHadirFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusHadir'>
     
   /**
    * Deep Input Types
@@ -8362,6 +19090,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     guru?: XOR<GuruNullableScalarRelationFilter, GuruWhereInput> | null
     siswa?: XOR<SiswaNullableScalarRelationFilter, SiswaWhereInput> | null
+    laporanPdca?: LaporanPdcaListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -8374,6 +19103,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     guru?: GuruOrderByWithRelationInput
     siswa?: SiswaOrderByWithRelationInput
+    laporanPdca?: LaporanPdcaOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -8390,6 +19120,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     guru?: XOR<GuruNullableScalarRelationFilter, GuruWhereInput> | null
     siswa?: XOR<SiswaNullableScalarRelationFilter, SiswaWhereInput> | null
+    laporanPdca?: LaporanPdcaListRelationFilter
   }, "id" | "username">
 
   export type UserOrderByWithAggregationInput = {
@@ -8425,14 +19156,26 @@ export namespace Prisma {
     id?: StringFilter<"TahunAjaran"> | string
     nama?: StringFilter<"TahunAjaran"> | string
     isActive?: BoolFilter<"TahunAjaran"> | boolean
+    isRatingActive?: BoolFilter<"TahunAjaran"> | boolean
     riwayatSiswa?: RiwayatKelasSiswaListRelationFilter
+    jadwalPelajaran?: JadwalPelajaranListRelationFilter
+    mataPelajaran?: MataPelajaranListRelationFilter
+    laporanPdca?: LaporanPdcaListRelationFilter
+    ratingGuru?: RatingGuruListRelationFilter
+    timFasilitatorTka?: TimFasilitatorTkaListRelationFilter
   }
 
   export type TahunAjaranOrderByWithRelationInput = {
     id?: SortOrder
     nama?: SortOrder
     isActive?: SortOrder
+    isRatingActive?: SortOrder
     riwayatSiswa?: RiwayatKelasSiswaOrderByRelationAggregateInput
+    jadwalPelajaran?: JadwalPelajaranOrderByRelationAggregateInput
+    mataPelajaran?: MataPelajaranOrderByRelationAggregateInput
+    laporanPdca?: LaporanPdcaOrderByRelationAggregateInput
+    ratingGuru?: RatingGuruOrderByRelationAggregateInput
+    timFasilitatorTka?: TimFasilitatorTkaOrderByRelationAggregateInput
     _relevance?: TahunAjaranOrderByRelevanceInput
   }
 
@@ -8443,13 +19186,20 @@ export namespace Prisma {
     OR?: TahunAjaranWhereInput[]
     NOT?: TahunAjaranWhereInput | TahunAjaranWhereInput[]
     isActive?: BoolFilter<"TahunAjaran"> | boolean
+    isRatingActive?: BoolFilter<"TahunAjaran"> | boolean
     riwayatSiswa?: RiwayatKelasSiswaListRelationFilter
+    jadwalPelajaran?: JadwalPelajaranListRelationFilter
+    mataPelajaran?: MataPelajaranListRelationFilter
+    laporanPdca?: LaporanPdcaListRelationFilter
+    ratingGuru?: RatingGuruListRelationFilter
+    timFasilitatorTka?: TimFasilitatorTkaListRelationFilter
   }, "id" | "nama">
 
   export type TahunAjaranOrderByWithAggregationInput = {
     id?: SortOrder
     nama?: SortOrder
     isActive?: SortOrder
+    isRatingActive?: SortOrder
     _count?: TahunAjaranCountOrderByAggregateInput
     _max?: TahunAjaranMaxOrderByAggregateInput
     _min?: TahunAjaranMinOrderByAggregateInput
@@ -8462,6 +19212,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"TahunAjaran"> | string
     nama?: StringWithAggregatesFilter<"TahunAjaran"> | string
     isActive?: BoolWithAggregatesFilter<"TahunAjaran"> | boolean
+    isRatingActive?: BoolWithAggregatesFilter<"TahunAjaran"> | boolean
   }
 
   export type KelasWhereInput = {
@@ -8470,14 +19221,20 @@ export namespace Prisma {
     NOT?: KelasWhereInput | KelasWhereInput[]
     id?: StringFilter<"Kelas"> | string
     nama?: StringFilter<"Kelas"> | string
+    isTka?: BoolFilter<"Kelas"> | boolean
+    tempat?: StringNullableFilter<"Kelas"> | string | null
     riwayatSiswa?: RiwayatKelasSiswaListRelationFilter
+    jadwalPelajaran?: JadwalPelajaranListRelationFilter
     waliKelas?: KelasWaliListRelationFilter
   }
 
   export type KelasOrderByWithRelationInput = {
     id?: SortOrder
     nama?: SortOrder
+    isTka?: SortOrder
+    tempat?: SortOrderInput | SortOrder
     riwayatSiswa?: RiwayatKelasSiswaOrderByRelationAggregateInput
+    jadwalPelajaran?: JadwalPelajaranOrderByRelationAggregateInput
     waliKelas?: KelasWaliOrderByRelationAggregateInput
     _relevance?: KelasOrderByRelevanceInput
   }
@@ -8488,13 +19245,18 @@ export namespace Prisma {
     AND?: KelasWhereInput | KelasWhereInput[]
     OR?: KelasWhereInput[]
     NOT?: KelasWhereInput | KelasWhereInput[]
+    isTka?: BoolFilter<"Kelas"> | boolean
+    tempat?: StringNullableFilter<"Kelas"> | string | null
     riwayatSiswa?: RiwayatKelasSiswaListRelationFilter
+    jadwalPelajaran?: JadwalPelajaranListRelationFilter
     waliKelas?: KelasWaliListRelationFilter
   }, "id" | "nama">
 
   export type KelasOrderByWithAggregationInput = {
     id?: SortOrder
     nama?: SortOrder
+    isTka?: SortOrder
+    tempat?: SortOrderInput | SortOrder
     _count?: KelasCountOrderByAggregateInput
     _max?: KelasMaxOrderByAggregateInput
     _min?: KelasMinOrderByAggregateInput
@@ -8506,6 +19268,345 @@ export namespace Prisma {
     NOT?: KelasScalarWhereWithAggregatesInput | KelasScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Kelas"> | string
     nama?: StringWithAggregatesFilter<"Kelas"> | string
+    isTka?: BoolWithAggregatesFilter<"Kelas"> | boolean
+    tempat?: StringNullableWithAggregatesFilter<"Kelas"> | string | null
+  }
+
+  export type MataPelajaranWhereInput = {
+    AND?: MataPelajaranWhereInput | MataPelajaranWhereInput[]
+    OR?: MataPelajaranWhereInput[]
+    NOT?: MataPelajaranWhereInput | MataPelajaranWhereInput[]
+    id?: StringFilter<"MataPelajaran"> | string
+    kode?: StringFilter<"MataPelajaran"> | string
+    nama?: StringFilter<"MataPelajaran"> | string
+    isTka?: BoolFilter<"MataPelajaran"> | boolean
+    jadwalPelajaran?: JadwalPelajaranListRelationFilter
+    tahunAjaran?: TahunAjaranListRelationFilter
+    ratingGuru?: RatingGuruListRelationFilter
+    timFasilitatorTka?: TimFasilitatorTkaListRelationFilter
+  }
+
+  export type MataPelajaranOrderByWithRelationInput = {
+    id?: SortOrder
+    kode?: SortOrder
+    nama?: SortOrder
+    isTka?: SortOrder
+    jadwalPelajaran?: JadwalPelajaranOrderByRelationAggregateInput
+    tahunAjaran?: TahunAjaranOrderByRelationAggregateInput
+    ratingGuru?: RatingGuruOrderByRelationAggregateInput
+    timFasilitatorTka?: TimFasilitatorTkaOrderByRelationAggregateInput
+    _relevance?: MataPelajaranOrderByRelevanceInput
+  }
+
+  export type MataPelajaranWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    kode?: string
+    AND?: MataPelajaranWhereInput | MataPelajaranWhereInput[]
+    OR?: MataPelajaranWhereInput[]
+    NOT?: MataPelajaranWhereInput | MataPelajaranWhereInput[]
+    nama?: StringFilter<"MataPelajaran"> | string
+    isTka?: BoolFilter<"MataPelajaran"> | boolean
+    jadwalPelajaran?: JadwalPelajaranListRelationFilter
+    tahunAjaran?: TahunAjaranListRelationFilter
+    ratingGuru?: RatingGuruListRelationFilter
+    timFasilitatorTka?: TimFasilitatorTkaListRelationFilter
+  }, "id" | "kode">
+
+  export type MataPelajaranOrderByWithAggregationInput = {
+    id?: SortOrder
+    kode?: SortOrder
+    nama?: SortOrder
+    isTka?: SortOrder
+    _count?: MataPelajaranCountOrderByAggregateInput
+    _max?: MataPelajaranMaxOrderByAggregateInput
+    _min?: MataPelajaranMinOrderByAggregateInput
+  }
+
+  export type MataPelajaranScalarWhereWithAggregatesInput = {
+    AND?: MataPelajaranScalarWhereWithAggregatesInput | MataPelajaranScalarWhereWithAggregatesInput[]
+    OR?: MataPelajaranScalarWhereWithAggregatesInput[]
+    NOT?: MataPelajaranScalarWhereWithAggregatesInput | MataPelajaranScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MataPelajaran"> | string
+    kode?: StringWithAggregatesFilter<"MataPelajaran"> | string
+    nama?: StringWithAggregatesFilter<"MataPelajaran"> | string
+    isTka?: BoolWithAggregatesFilter<"MataPelajaran"> | boolean
+  }
+
+  export type PengaturanSekolahWhereInput = {
+    AND?: PengaturanSekolahWhereInput | PengaturanSekolahWhereInput[]
+    OR?: PengaturanSekolahWhereInput[]
+    NOT?: PengaturanSekolahWhereInput | PengaturanSekolahWhereInput[]
+    id?: StringFilter<"PengaturanSekolah"> | string
+    schoolName?: StringFilter<"PengaturanSekolah"> | string
+    latitude?: FloatFilter<"PengaturanSekolah"> | number
+    longitude?: FloatFilter<"PengaturanSekolah"> | number
+    radiusToleransi?: FloatFilter<"PengaturanSekolah"> | number
+    qrExpirySec?: IntFilter<"PengaturanSekolah"> | number
+  }
+
+  export type PengaturanSekolahOrderByWithRelationInput = {
+    id?: SortOrder
+    schoolName?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    radiusToleransi?: SortOrder
+    qrExpirySec?: SortOrder
+    _relevance?: PengaturanSekolahOrderByRelevanceInput
+  }
+
+  export type PengaturanSekolahWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PengaturanSekolahWhereInput | PengaturanSekolahWhereInput[]
+    OR?: PengaturanSekolahWhereInput[]
+    NOT?: PengaturanSekolahWhereInput | PengaturanSekolahWhereInput[]
+    schoolName?: StringFilter<"PengaturanSekolah"> | string
+    latitude?: FloatFilter<"PengaturanSekolah"> | number
+    longitude?: FloatFilter<"PengaturanSekolah"> | number
+    radiusToleransi?: FloatFilter<"PengaturanSekolah"> | number
+    qrExpirySec?: IntFilter<"PengaturanSekolah"> | number
+  }, "id">
+
+  export type PengaturanSekolahOrderByWithAggregationInput = {
+    id?: SortOrder
+    schoolName?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    radiusToleransi?: SortOrder
+    qrExpirySec?: SortOrder
+    _count?: PengaturanSekolahCountOrderByAggregateInput
+    _avg?: PengaturanSekolahAvgOrderByAggregateInput
+    _max?: PengaturanSekolahMaxOrderByAggregateInput
+    _min?: PengaturanSekolahMinOrderByAggregateInput
+    _sum?: PengaturanSekolahSumOrderByAggregateInput
+  }
+
+  export type PengaturanSekolahScalarWhereWithAggregatesInput = {
+    AND?: PengaturanSekolahScalarWhereWithAggregatesInput | PengaturanSekolahScalarWhereWithAggregatesInput[]
+    OR?: PengaturanSekolahScalarWhereWithAggregatesInput[]
+    NOT?: PengaturanSekolahScalarWhereWithAggregatesInput | PengaturanSekolahScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PengaturanSekolah"> | string
+    schoolName?: StringWithAggregatesFilter<"PengaturanSekolah"> | string
+    latitude?: FloatWithAggregatesFilter<"PengaturanSekolah"> | number
+    longitude?: FloatWithAggregatesFilter<"PengaturanSekolah"> | number
+    radiusToleransi?: FloatWithAggregatesFilter<"PengaturanSekolah"> | number
+    qrExpirySec?: IntWithAggregatesFilter<"PengaturanSekolah"> | number
+  }
+
+  export type LaporanPdcaWhereInput = {
+    AND?: LaporanPdcaWhereInput | LaporanPdcaWhereInput[]
+    OR?: LaporanPdcaWhereInput[]
+    NOT?: LaporanPdcaWhereInput | LaporanPdcaWhereInput[]
+    id?: StringFilter<"LaporanPdca"> | string
+    judul?: StringFilter<"LaporanPdca"> | string
+    tahunAjaranId?: StringFilter<"LaporanPdca"> | string
+    pembuatId?: StringFilter<"LaporanPdca"> | string
+    tanggalLaporan?: DateTimeFilter<"LaporanPdca"> | Date | string
+    status?: StringFilter<"LaporanPdca"> | string
+    planProblem?: StringFilter<"LaporanPdca"> | string
+    planRootCause?: StringFilter<"LaporanPdca"> | string
+    doImplementasi?: JsonNullableFilter<"LaporanPdca">
+    checkFakta?: StringFilter<"LaporanPdca"> | string
+    checkGap?: StringFilter<"LaporanPdca"> | string
+    actRekomendasi?: StringFilter<"LaporanPdca"> | string
+    createdAt?: DateTimeFilter<"LaporanPdca"> | Date | string
+    updatedAt?: DateTimeFilter<"LaporanPdca"> | Date | string
+    tahunAjaran?: XOR<TahunAjaranScalarRelationFilter, TahunAjaranWhereInput>
+    pembuat?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type LaporanPdcaOrderByWithRelationInput = {
+    id?: SortOrder
+    judul?: SortOrder
+    tahunAjaranId?: SortOrder
+    pembuatId?: SortOrder
+    tanggalLaporan?: SortOrder
+    status?: SortOrder
+    planProblem?: SortOrder
+    planRootCause?: SortOrder
+    doImplementasi?: SortOrderInput | SortOrder
+    checkFakta?: SortOrder
+    checkGap?: SortOrder
+    actRekomendasi?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tahunAjaran?: TahunAjaranOrderByWithRelationInput
+    pembuat?: UserOrderByWithRelationInput
+    _relevance?: LaporanPdcaOrderByRelevanceInput
+  }
+
+  export type LaporanPdcaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LaporanPdcaWhereInput | LaporanPdcaWhereInput[]
+    OR?: LaporanPdcaWhereInput[]
+    NOT?: LaporanPdcaWhereInput | LaporanPdcaWhereInput[]
+    judul?: StringFilter<"LaporanPdca"> | string
+    tahunAjaranId?: StringFilter<"LaporanPdca"> | string
+    pembuatId?: StringFilter<"LaporanPdca"> | string
+    tanggalLaporan?: DateTimeFilter<"LaporanPdca"> | Date | string
+    status?: StringFilter<"LaporanPdca"> | string
+    planProblem?: StringFilter<"LaporanPdca"> | string
+    planRootCause?: StringFilter<"LaporanPdca"> | string
+    doImplementasi?: JsonNullableFilter<"LaporanPdca">
+    checkFakta?: StringFilter<"LaporanPdca"> | string
+    checkGap?: StringFilter<"LaporanPdca"> | string
+    actRekomendasi?: StringFilter<"LaporanPdca"> | string
+    createdAt?: DateTimeFilter<"LaporanPdca"> | Date | string
+    updatedAt?: DateTimeFilter<"LaporanPdca"> | Date | string
+    tahunAjaran?: XOR<TahunAjaranScalarRelationFilter, TahunAjaranWhereInput>
+    pembuat?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type LaporanPdcaOrderByWithAggregationInput = {
+    id?: SortOrder
+    judul?: SortOrder
+    tahunAjaranId?: SortOrder
+    pembuatId?: SortOrder
+    tanggalLaporan?: SortOrder
+    status?: SortOrder
+    planProblem?: SortOrder
+    planRootCause?: SortOrder
+    doImplementasi?: SortOrderInput | SortOrder
+    checkFakta?: SortOrder
+    checkGap?: SortOrder
+    actRekomendasi?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LaporanPdcaCountOrderByAggregateInput
+    _max?: LaporanPdcaMaxOrderByAggregateInput
+    _min?: LaporanPdcaMinOrderByAggregateInput
+  }
+
+  export type LaporanPdcaScalarWhereWithAggregatesInput = {
+    AND?: LaporanPdcaScalarWhereWithAggregatesInput | LaporanPdcaScalarWhereWithAggregatesInput[]
+    OR?: LaporanPdcaScalarWhereWithAggregatesInput[]
+    NOT?: LaporanPdcaScalarWhereWithAggregatesInput | LaporanPdcaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LaporanPdca"> | string
+    judul?: StringWithAggregatesFilter<"LaporanPdca"> | string
+    tahunAjaranId?: StringWithAggregatesFilter<"LaporanPdca"> | string
+    pembuatId?: StringWithAggregatesFilter<"LaporanPdca"> | string
+    tanggalLaporan?: DateTimeWithAggregatesFilter<"LaporanPdca"> | Date | string
+    status?: StringWithAggregatesFilter<"LaporanPdca"> | string
+    planProblem?: StringWithAggregatesFilter<"LaporanPdca"> | string
+    planRootCause?: StringWithAggregatesFilter<"LaporanPdca"> | string
+    doImplementasi?: JsonNullableWithAggregatesFilter<"LaporanPdca">
+    checkFakta?: StringWithAggregatesFilter<"LaporanPdca"> | string
+    checkGap?: StringWithAggregatesFilter<"LaporanPdca"> | string
+    actRekomendasi?: StringWithAggregatesFilter<"LaporanPdca"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"LaporanPdca"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LaporanPdca"> | Date | string
+  }
+
+  export type RekapBulananWhereInput = {
+    AND?: RekapBulananWhereInput | RekapBulananWhereInput[]
+    OR?: RekapBulananWhereInput[]
+    NOT?: RekapBulananWhereInput | RekapBulananWhereInput[]
+    id?: StringFilter<"RekapBulanan"> | string
+    tahunAjaranId?: StringFilter<"RekapBulanan"> | string
+    bulan?: IntFilter<"RekapBulanan"> | number
+    jenisAktivitas?: StringFilter<"RekapBulanan"> | string
+    jumlah?: IntFilter<"RekapBulanan"> | number
+  }
+
+  export type RekapBulananOrderByWithRelationInput = {
+    id?: SortOrder
+    tahunAjaranId?: SortOrder
+    bulan?: SortOrder
+    jenisAktivitas?: SortOrder
+    jumlah?: SortOrder
+    _relevance?: RekapBulananOrderByRelevanceInput
+  }
+
+  export type RekapBulananWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RekapBulananWhereInput | RekapBulananWhereInput[]
+    OR?: RekapBulananWhereInput[]
+    NOT?: RekapBulananWhereInput | RekapBulananWhereInput[]
+    tahunAjaranId?: StringFilter<"RekapBulanan"> | string
+    bulan?: IntFilter<"RekapBulanan"> | number
+    jenisAktivitas?: StringFilter<"RekapBulanan"> | string
+    jumlah?: IntFilter<"RekapBulanan"> | number
+  }, "id">
+
+  export type RekapBulananOrderByWithAggregationInput = {
+    id?: SortOrder
+    tahunAjaranId?: SortOrder
+    bulan?: SortOrder
+    jenisAktivitas?: SortOrder
+    jumlah?: SortOrder
+    _count?: RekapBulananCountOrderByAggregateInput
+    _avg?: RekapBulananAvgOrderByAggregateInput
+    _max?: RekapBulananMaxOrderByAggregateInput
+    _min?: RekapBulananMinOrderByAggregateInput
+    _sum?: RekapBulananSumOrderByAggregateInput
+  }
+
+  export type RekapBulananScalarWhereWithAggregatesInput = {
+    AND?: RekapBulananScalarWhereWithAggregatesInput | RekapBulananScalarWhereWithAggregatesInput[]
+    OR?: RekapBulananScalarWhereWithAggregatesInput[]
+    NOT?: RekapBulananScalarWhereWithAggregatesInput | RekapBulananScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RekapBulanan"> | string
+    tahunAjaranId?: StringWithAggregatesFilter<"RekapBulanan"> | string
+    bulan?: IntWithAggregatesFilter<"RekapBulanan"> | number
+    jenisAktivitas?: StringWithAggregatesFilter<"RekapBulanan"> | string
+    jumlah?: IntWithAggregatesFilter<"RekapBulanan"> | number
+  }
+
+  export type TimFasilitatorTkaWhereInput = {
+    AND?: TimFasilitatorTkaWhereInput | TimFasilitatorTkaWhereInput[]
+    OR?: TimFasilitatorTkaWhereInput[]
+    NOT?: TimFasilitatorTkaWhereInput | TimFasilitatorTkaWhereInput[]
+    id?: StringFilter<"TimFasilitatorTka"> | string
+    mapelId?: StringFilter<"TimFasilitatorTka"> | string
+    guruId?: StringFilter<"TimFasilitatorTka"> | string
+    tahunAjaranId?: StringFilter<"TimFasilitatorTka"> | string
+    mapel?: XOR<MataPelajaranScalarRelationFilter, MataPelajaranWhereInput>
+    guru?: XOR<GuruScalarRelationFilter, GuruWhereInput>
+    tahunAjaran?: XOR<TahunAjaranScalarRelationFilter, TahunAjaranWhereInput>
+  }
+
+  export type TimFasilitatorTkaOrderByWithRelationInput = {
+    id?: SortOrder
+    mapelId?: SortOrder
+    guruId?: SortOrder
+    tahunAjaranId?: SortOrder
+    mapel?: MataPelajaranOrderByWithRelationInput
+    guru?: GuruOrderByWithRelationInput
+    tahunAjaran?: TahunAjaranOrderByWithRelationInput
+    _relevance?: TimFasilitatorTkaOrderByRelevanceInput
+  }
+
+  export type TimFasilitatorTkaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    mapelId_guruId_tahunAjaranId?: TimFasilitatorTkaMapelIdGuruIdTahunAjaranIdCompoundUniqueInput
+    AND?: TimFasilitatorTkaWhereInput | TimFasilitatorTkaWhereInput[]
+    OR?: TimFasilitatorTkaWhereInput[]
+    NOT?: TimFasilitatorTkaWhereInput | TimFasilitatorTkaWhereInput[]
+    mapelId?: StringFilter<"TimFasilitatorTka"> | string
+    guruId?: StringFilter<"TimFasilitatorTka"> | string
+    tahunAjaranId?: StringFilter<"TimFasilitatorTka"> | string
+    mapel?: XOR<MataPelajaranScalarRelationFilter, MataPelajaranWhereInput>
+    guru?: XOR<GuruScalarRelationFilter, GuruWhereInput>
+    tahunAjaran?: XOR<TahunAjaranScalarRelationFilter, TahunAjaranWhereInput>
+  }, "id" | "mapelId_guruId_tahunAjaranId">
+
+  export type TimFasilitatorTkaOrderByWithAggregationInput = {
+    id?: SortOrder
+    mapelId?: SortOrder
+    guruId?: SortOrder
+    tahunAjaranId?: SortOrder
+    _count?: TimFasilitatorTkaCountOrderByAggregateInput
+    _max?: TimFasilitatorTkaMaxOrderByAggregateInput
+    _min?: TimFasilitatorTkaMinOrderByAggregateInput
+  }
+
+  export type TimFasilitatorTkaScalarWhereWithAggregatesInput = {
+    AND?: TimFasilitatorTkaScalarWhereWithAggregatesInput | TimFasilitatorTkaScalarWhereWithAggregatesInput[]
+    OR?: TimFasilitatorTkaScalarWhereWithAggregatesInput[]
+    NOT?: TimFasilitatorTkaScalarWhereWithAggregatesInput | TimFasilitatorTkaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TimFasilitatorTka"> | string
+    mapelId?: StringWithAggregatesFilter<"TimFasilitatorTka"> | string
+    guruId?: StringWithAggregatesFilter<"TimFasilitatorTka"> | string
+    tahunAjaranId?: StringWithAggregatesFilter<"TimFasilitatorTka"> | string
   }
 
   export type GuruWhereInput = {
@@ -8518,7 +19619,10 @@ export namespace Prisma {
     status?: BoolFilter<"Guru"> | boolean
     userId?: StringFilter<"Guru"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    jadwalPelajaran?: JadwalPelajaranListRelationFilter
     waliKelasDi?: KelasWaliListRelationFilter
+    ratingGuru?: RatingGuruListRelationFilter
+    timFasilitatorTka?: TimFasilitatorTkaListRelationFilter
   }
 
   export type GuruOrderByWithRelationInput = {
@@ -8528,7 +19632,10 @@ export namespace Prisma {
     status?: SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
+    jadwalPelajaran?: JadwalPelajaranOrderByRelationAggregateInput
     waliKelasDi?: KelasWaliOrderByRelationAggregateInput
+    ratingGuru?: RatingGuruOrderByRelationAggregateInput
+    timFasilitatorTka?: TimFasilitatorTkaOrderByRelationAggregateInput
     _relevance?: GuruOrderByRelevanceInput
   }
 
@@ -8542,7 +19649,10 @@ export namespace Prisma {
     jenisKelamin?: StringFilter<"Guru"> | string
     status?: BoolFilter<"Guru"> | boolean
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    jadwalPelajaran?: JadwalPelajaranListRelationFilter
     waliKelasDi?: KelasWaliListRelationFilter
+    ratingGuru?: RatingGuruListRelationFilter
+    timFasilitatorTka?: TimFasilitatorTkaListRelationFilter
   }, "id" | "npp" | "userId">
 
   export type GuruOrderByWithAggregationInput = {
@@ -8633,6 +19743,8 @@ export namespace Prisma {
     userId?: StringFilter<"Siswa"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     riwayatKelas?: RiwayatKelasSiswaListRelationFilter
+    presensi?: PresensiSiswaListRelationFilter
+    ratingGuru?: RatingGuruListRelationFilter
   }
 
   export type SiswaOrderByWithRelationInput = {
@@ -8643,6 +19755,8 @@ export namespace Prisma {
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
     riwayatKelas?: RiwayatKelasSiswaOrderByRelationAggregateInput
+    presensi?: PresensiSiswaOrderByRelationAggregateInput
+    ratingGuru?: RatingGuruOrderByRelationAggregateInput
     _relevance?: SiswaOrderByRelevanceInput
   }
 
@@ -8657,6 +19771,8 @@ export namespace Prisma {
     jenisKelamin?: StringFilter<"Siswa"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     riwayatKelas?: RiwayatKelasSiswaListRelationFilter
+    presensi?: PresensiSiswaListRelationFilter
+    ratingGuru?: RatingGuruListRelationFilter
   }, "id" | "nisn" | "nis" | "userId">
 
   export type SiswaOrderByWithAggregationInput = {
@@ -8689,6 +19805,7 @@ export namespace Prisma {
     siswaId?: StringFilter<"RiwayatKelasSiswa"> | string
     kelasId?: StringFilter<"RiwayatKelasSiswa"> | string
     tahunAjaranId?: StringFilter<"RiwayatKelasSiswa"> | string
+    isTka?: BoolFilter<"RiwayatKelasSiswa"> | boolean
     siswa?: XOR<SiswaScalarRelationFilter, SiswaWhereInput>
     kelas?: XOR<KelasScalarRelationFilter, KelasWhereInput>
     tahunAjaran?: XOR<TahunAjaranScalarRelationFilter, TahunAjaranWhereInput>
@@ -8699,6 +19816,7 @@ export namespace Prisma {
     siswaId?: SortOrder
     kelasId?: SortOrder
     tahunAjaranId?: SortOrder
+    isTka?: SortOrder
     siswa?: SiswaOrderByWithRelationInput
     kelas?: KelasOrderByWithRelationInput
     tahunAjaran?: TahunAjaranOrderByWithRelationInput
@@ -8707,23 +19825,25 @@ export namespace Prisma {
 
   export type RiwayatKelasSiswaWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    siswaId_tahunAjaranId?: RiwayatKelasSiswaSiswaIdTahunAjaranIdCompoundUniqueInput
+    siswaId_tahunAjaranId_isTka?: RiwayatKelasSiswaSiswaIdTahunAjaranIdIsTkaCompoundUniqueInput
     AND?: RiwayatKelasSiswaWhereInput | RiwayatKelasSiswaWhereInput[]
     OR?: RiwayatKelasSiswaWhereInput[]
     NOT?: RiwayatKelasSiswaWhereInput | RiwayatKelasSiswaWhereInput[]
     siswaId?: StringFilter<"RiwayatKelasSiswa"> | string
     kelasId?: StringFilter<"RiwayatKelasSiswa"> | string
     tahunAjaranId?: StringFilter<"RiwayatKelasSiswa"> | string
+    isTka?: BoolFilter<"RiwayatKelasSiswa"> | boolean
     siswa?: XOR<SiswaScalarRelationFilter, SiswaWhereInput>
     kelas?: XOR<KelasScalarRelationFilter, KelasWhereInput>
     tahunAjaran?: XOR<TahunAjaranScalarRelationFilter, TahunAjaranWhereInput>
-  }, "id" | "siswaId_tahunAjaranId">
+  }, "id" | "siswaId_tahunAjaranId_isTka">
 
   export type RiwayatKelasSiswaOrderByWithAggregationInput = {
     id?: SortOrder
     siswaId?: SortOrder
     kelasId?: SortOrder
     tahunAjaranId?: SortOrder
+    isTka?: SortOrder
     _count?: RiwayatKelasSiswaCountOrderByAggregateInput
     _max?: RiwayatKelasSiswaMaxOrderByAggregateInput
     _min?: RiwayatKelasSiswaMinOrderByAggregateInput
@@ -8737,6 +19857,373 @@ export namespace Prisma {
     siswaId?: StringWithAggregatesFilter<"RiwayatKelasSiswa"> | string
     kelasId?: StringWithAggregatesFilter<"RiwayatKelasSiswa"> | string
     tahunAjaranId?: StringWithAggregatesFilter<"RiwayatKelasSiswa"> | string
+    isTka?: BoolWithAggregatesFilter<"RiwayatKelasSiswa"> | boolean
+  }
+
+  export type JadwalPelajaranWhereInput = {
+    AND?: JadwalPelajaranWhereInput | JadwalPelajaranWhereInput[]
+    OR?: JadwalPelajaranWhereInput[]
+    NOT?: JadwalPelajaranWhereInput | JadwalPelajaranWhereInput[]
+    id?: StringFilter<"JadwalPelajaran"> | string
+    guruId?: StringFilter<"JadwalPelajaran"> | string
+    mapelId?: StringFilter<"JadwalPelajaran"> | string
+    kelasId?: StringFilter<"JadwalPelajaran"> | string
+    tahunAjaranId?: StringFilter<"JadwalPelajaran"> | string
+    hari?: IntFilter<"JadwalPelajaran"> | number
+    waktuMulai?: StringFilter<"JadwalPelajaran"> | string
+    waktuSelesai?: StringFilter<"JadwalPelajaran"> | string
+    ruang?: StringNullableFilter<"JadwalPelajaran"> | string | null
+    guru?: XOR<GuruScalarRelationFilter, GuruWhereInput>
+    mapel?: XOR<MataPelajaranScalarRelationFilter, MataPelajaranWhereInput>
+    kelas?: XOR<KelasScalarRelationFilter, KelasWhereInput>
+    tahunAjaran?: XOR<TahunAjaranScalarRelationFilter, TahunAjaranWhereInput>
+    jurnal?: JurnalMengajarListRelationFilter
+  }
+
+  export type JadwalPelajaranOrderByWithRelationInput = {
+    id?: SortOrder
+    guruId?: SortOrder
+    mapelId?: SortOrder
+    kelasId?: SortOrder
+    tahunAjaranId?: SortOrder
+    hari?: SortOrder
+    waktuMulai?: SortOrder
+    waktuSelesai?: SortOrder
+    ruang?: SortOrderInput | SortOrder
+    guru?: GuruOrderByWithRelationInput
+    mapel?: MataPelajaranOrderByWithRelationInput
+    kelas?: KelasOrderByWithRelationInput
+    tahunAjaran?: TahunAjaranOrderByWithRelationInput
+    jurnal?: JurnalMengajarOrderByRelationAggregateInput
+    _relevance?: JadwalPelajaranOrderByRelevanceInput
+  }
+
+  export type JadwalPelajaranWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: JadwalPelajaranWhereInput | JadwalPelajaranWhereInput[]
+    OR?: JadwalPelajaranWhereInput[]
+    NOT?: JadwalPelajaranWhereInput | JadwalPelajaranWhereInput[]
+    guruId?: StringFilter<"JadwalPelajaran"> | string
+    mapelId?: StringFilter<"JadwalPelajaran"> | string
+    kelasId?: StringFilter<"JadwalPelajaran"> | string
+    tahunAjaranId?: StringFilter<"JadwalPelajaran"> | string
+    hari?: IntFilter<"JadwalPelajaran"> | number
+    waktuMulai?: StringFilter<"JadwalPelajaran"> | string
+    waktuSelesai?: StringFilter<"JadwalPelajaran"> | string
+    ruang?: StringNullableFilter<"JadwalPelajaran"> | string | null
+    guru?: XOR<GuruScalarRelationFilter, GuruWhereInput>
+    mapel?: XOR<MataPelajaranScalarRelationFilter, MataPelajaranWhereInput>
+    kelas?: XOR<KelasScalarRelationFilter, KelasWhereInput>
+    tahunAjaran?: XOR<TahunAjaranScalarRelationFilter, TahunAjaranWhereInput>
+    jurnal?: JurnalMengajarListRelationFilter
+  }, "id">
+
+  export type JadwalPelajaranOrderByWithAggregationInput = {
+    id?: SortOrder
+    guruId?: SortOrder
+    mapelId?: SortOrder
+    kelasId?: SortOrder
+    tahunAjaranId?: SortOrder
+    hari?: SortOrder
+    waktuMulai?: SortOrder
+    waktuSelesai?: SortOrder
+    ruang?: SortOrderInput | SortOrder
+    _count?: JadwalPelajaranCountOrderByAggregateInput
+    _avg?: JadwalPelajaranAvgOrderByAggregateInput
+    _max?: JadwalPelajaranMaxOrderByAggregateInput
+    _min?: JadwalPelajaranMinOrderByAggregateInput
+    _sum?: JadwalPelajaranSumOrderByAggregateInput
+  }
+
+  export type JadwalPelajaranScalarWhereWithAggregatesInput = {
+    AND?: JadwalPelajaranScalarWhereWithAggregatesInput | JadwalPelajaranScalarWhereWithAggregatesInput[]
+    OR?: JadwalPelajaranScalarWhereWithAggregatesInput[]
+    NOT?: JadwalPelajaranScalarWhereWithAggregatesInput | JadwalPelajaranScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"JadwalPelajaran"> | string
+    guruId?: StringWithAggregatesFilter<"JadwalPelajaran"> | string
+    mapelId?: StringWithAggregatesFilter<"JadwalPelajaran"> | string
+    kelasId?: StringWithAggregatesFilter<"JadwalPelajaran"> | string
+    tahunAjaranId?: StringWithAggregatesFilter<"JadwalPelajaran"> | string
+    hari?: IntWithAggregatesFilter<"JadwalPelajaran"> | number
+    waktuMulai?: StringWithAggregatesFilter<"JadwalPelajaran"> | string
+    waktuSelesai?: StringWithAggregatesFilter<"JadwalPelajaran"> | string
+    ruang?: StringNullableWithAggregatesFilter<"JadwalPelajaran"> | string | null
+  }
+
+  export type JurnalMengajarWhereInput = {
+    AND?: JurnalMengajarWhereInput | JurnalMengajarWhereInput[]
+    OR?: JurnalMengajarWhereInput[]
+    NOT?: JurnalMengajarWhereInput | JurnalMengajarWhereInput[]
+    id?: StringFilter<"JurnalMengajar"> | string
+    jadwalId?: StringFilter<"JurnalMengajar"> | string
+    tanggal?: DateTimeFilter<"JurnalMengajar"> | Date | string
+    materiBab?: StringNullableFilter<"JurnalMengajar"> | string | null
+    catatan?: StringNullableFilter<"JurnalMengajar"> | string | null
+    tugas?: StringNullableFilter<"JurnalMengajar"> | string | null
+    status?: EnumJurnalStatusFilter<"JurnalMengajar"> | $Enums.JurnalStatus
+    waktuMulai?: StringNullableFilter<"JurnalMengajar"> | string | null
+    waktuSelesai?: StringNullableFilter<"JurnalMengajar"> | string | null
+    latAbsen?: FloatNullableFilter<"JurnalMengajar"> | number | null
+    longAbsen?: FloatNullableFilter<"JurnalMengajar"> | number | null
+    qrToken?: StringNullableFilter<"JurnalMengajar"> | string | null
+    jadwal?: XOR<JadwalPelajaranScalarRelationFilter, JadwalPelajaranWhereInput>
+    presensi?: PresensiSiswaListRelationFilter
+  }
+
+  export type JurnalMengajarOrderByWithRelationInput = {
+    id?: SortOrder
+    jadwalId?: SortOrder
+    tanggal?: SortOrder
+    materiBab?: SortOrderInput | SortOrder
+    catatan?: SortOrderInput | SortOrder
+    tugas?: SortOrderInput | SortOrder
+    status?: SortOrder
+    waktuMulai?: SortOrderInput | SortOrder
+    waktuSelesai?: SortOrderInput | SortOrder
+    latAbsen?: SortOrderInput | SortOrder
+    longAbsen?: SortOrderInput | SortOrder
+    qrToken?: SortOrderInput | SortOrder
+    jadwal?: JadwalPelajaranOrderByWithRelationInput
+    presensi?: PresensiSiswaOrderByRelationAggregateInput
+    _relevance?: JurnalMengajarOrderByRelevanceInput
+  }
+
+  export type JurnalMengajarWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: JurnalMengajarWhereInput | JurnalMengajarWhereInput[]
+    OR?: JurnalMengajarWhereInput[]
+    NOT?: JurnalMengajarWhereInput | JurnalMengajarWhereInput[]
+    jadwalId?: StringFilter<"JurnalMengajar"> | string
+    tanggal?: DateTimeFilter<"JurnalMengajar"> | Date | string
+    materiBab?: StringNullableFilter<"JurnalMengajar"> | string | null
+    catatan?: StringNullableFilter<"JurnalMengajar"> | string | null
+    tugas?: StringNullableFilter<"JurnalMengajar"> | string | null
+    status?: EnumJurnalStatusFilter<"JurnalMengajar"> | $Enums.JurnalStatus
+    waktuMulai?: StringNullableFilter<"JurnalMengajar"> | string | null
+    waktuSelesai?: StringNullableFilter<"JurnalMengajar"> | string | null
+    latAbsen?: FloatNullableFilter<"JurnalMengajar"> | number | null
+    longAbsen?: FloatNullableFilter<"JurnalMengajar"> | number | null
+    qrToken?: StringNullableFilter<"JurnalMengajar"> | string | null
+    jadwal?: XOR<JadwalPelajaranScalarRelationFilter, JadwalPelajaranWhereInput>
+    presensi?: PresensiSiswaListRelationFilter
+  }, "id">
+
+  export type JurnalMengajarOrderByWithAggregationInput = {
+    id?: SortOrder
+    jadwalId?: SortOrder
+    tanggal?: SortOrder
+    materiBab?: SortOrderInput | SortOrder
+    catatan?: SortOrderInput | SortOrder
+    tugas?: SortOrderInput | SortOrder
+    status?: SortOrder
+    waktuMulai?: SortOrderInput | SortOrder
+    waktuSelesai?: SortOrderInput | SortOrder
+    latAbsen?: SortOrderInput | SortOrder
+    longAbsen?: SortOrderInput | SortOrder
+    qrToken?: SortOrderInput | SortOrder
+    _count?: JurnalMengajarCountOrderByAggregateInput
+    _avg?: JurnalMengajarAvgOrderByAggregateInput
+    _max?: JurnalMengajarMaxOrderByAggregateInput
+    _min?: JurnalMengajarMinOrderByAggregateInput
+    _sum?: JurnalMengajarSumOrderByAggregateInput
+  }
+
+  export type JurnalMengajarScalarWhereWithAggregatesInput = {
+    AND?: JurnalMengajarScalarWhereWithAggregatesInput | JurnalMengajarScalarWhereWithAggregatesInput[]
+    OR?: JurnalMengajarScalarWhereWithAggregatesInput[]
+    NOT?: JurnalMengajarScalarWhereWithAggregatesInput | JurnalMengajarScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"JurnalMengajar"> | string
+    jadwalId?: StringWithAggregatesFilter<"JurnalMengajar"> | string
+    tanggal?: DateTimeWithAggregatesFilter<"JurnalMengajar"> | Date | string
+    materiBab?: StringNullableWithAggregatesFilter<"JurnalMengajar"> | string | null
+    catatan?: StringNullableWithAggregatesFilter<"JurnalMengajar"> | string | null
+    tugas?: StringNullableWithAggregatesFilter<"JurnalMengajar"> | string | null
+    status?: EnumJurnalStatusWithAggregatesFilter<"JurnalMengajar"> | $Enums.JurnalStatus
+    waktuMulai?: StringNullableWithAggregatesFilter<"JurnalMengajar"> | string | null
+    waktuSelesai?: StringNullableWithAggregatesFilter<"JurnalMengajar"> | string | null
+    latAbsen?: FloatNullableWithAggregatesFilter<"JurnalMengajar"> | number | null
+    longAbsen?: FloatNullableWithAggregatesFilter<"JurnalMengajar"> | number | null
+    qrToken?: StringNullableWithAggregatesFilter<"JurnalMengajar"> | string | null
+  }
+
+  export type PresensiSiswaWhereInput = {
+    AND?: PresensiSiswaWhereInput | PresensiSiswaWhereInput[]
+    OR?: PresensiSiswaWhereInput[]
+    NOT?: PresensiSiswaWhereInput | PresensiSiswaWhereInput[]
+    id?: StringFilter<"PresensiSiswa"> | string
+    jurnalId?: StringFilter<"PresensiSiswa"> | string
+    siswaId?: StringFilter<"PresensiSiswa"> | string
+    status?: EnumStatusHadirFilter<"PresensiSiswa"> | $Enums.StatusHadir
+    waktuScan?: DateTimeNullableFilter<"PresensiSiswa"> | Date | string | null
+    nilaiTugas?: IntNullableFilter<"PresensiSiswa"> | number | null
+    alasanIzin?: StringNullableFilter<"PresensiSiswa"> | string | null
+    isDispensasi?: BoolFilter<"PresensiSiswa"> | boolean
+    isTerlambat?: BoolFilter<"PresensiSiswa"> | boolean
+    alasanTerlambat?: StringNullableFilter<"PresensiSiswa"> | string | null
+    alasan?: StringNullableFilter<"PresensiSiswa"> | string | null
+    fileBukti?: StringNullableFilter<"PresensiSiswa"> | string | null
+    jurnal?: XOR<JurnalMengajarScalarRelationFilter, JurnalMengajarWhereInput>
+    siswa?: XOR<SiswaScalarRelationFilter, SiswaWhereInput>
+  }
+
+  export type PresensiSiswaOrderByWithRelationInput = {
+    id?: SortOrder
+    jurnalId?: SortOrder
+    siswaId?: SortOrder
+    status?: SortOrder
+    waktuScan?: SortOrderInput | SortOrder
+    nilaiTugas?: SortOrderInput | SortOrder
+    alasanIzin?: SortOrderInput | SortOrder
+    isDispensasi?: SortOrder
+    isTerlambat?: SortOrder
+    alasanTerlambat?: SortOrderInput | SortOrder
+    alasan?: SortOrderInput | SortOrder
+    fileBukti?: SortOrderInput | SortOrder
+    jurnal?: JurnalMengajarOrderByWithRelationInput
+    siswa?: SiswaOrderByWithRelationInput
+    _relevance?: PresensiSiswaOrderByRelevanceInput
+  }
+
+  export type PresensiSiswaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    jurnalId_siswaId?: PresensiSiswaJurnalIdSiswaIdCompoundUniqueInput
+    AND?: PresensiSiswaWhereInput | PresensiSiswaWhereInput[]
+    OR?: PresensiSiswaWhereInput[]
+    NOT?: PresensiSiswaWhereInput | PresensiSiswaWhereInput[]
+    jurnalId?: StringFilter<"PresensiSiswa"> | string
+    siswaId?: StringFilter<"PresensiSiswa"> | string
+    status?: EnumStatusHadirFilter<"PresensiSiswa"> | $Enums.StatusHadir
+    waktuScan?: DateTimeNullableFilter<"PresensiSiswa"> | Date | string | null
+    nilaiTugas?: IntNullableFilter<"PresensiSiswa"> | number | null
+    alasanIzin?: StringNullableFilter<"PresensiSiswa"> | string | null
+    isDispensasi?: BoolFilter<"PresensiSiswa"> | boolean
+    isTerlambat?: BoolFilter<"PresensiSiswa"> | boolean
+    alasanTerlambat?: StringNullableFilter<"PresensiSiswa"> | string | null
+    alasan?: StringNullableFilter<"PresensiSiswa"> | string | null
+    fileBukti?: StringNullableFilter<"PresensiSiswa"> | string | null
+    jurnal?: XOR<JurnalMengajarScalarRelationFilter, JurnalMengajarWhereInput>
+    siswa?: XOR<SiswaScalarRelationFilter, SiswaWhereInput>
+  }, "id" | "jurnalId_siswaId">
+
+  export type PresensiSiswaOrderByWithAggregationInput = {
+    id?: SortOrder
+    jurnalId?: SortOrder
+    siswaId?: SortOrder
+    status?: SortOrder
+    waktuScan?: SortOrderInput | SortOrder
+    nilaiTugas?: SortOrderInput | SortOrder
+    alasanIzin?: SortOrderInput | SortOrder
+    isDispensasi?: SortOrder
+    isTerlambat?: SortOrder
+    alasanTerlambat?: SortOrderInput | SortOrder
+    alasan?: SortOrderInput | SortOrder
+    fileBukti?: SortOrderInput | SortOrder
+    _count?: PresensiSiswaCountOrderByAggregateInput
+    _avg?: PresensiSiswaAvgOrderByAggregateInput
+    _max?: PresensiSiswaMaxOrderByAggregateInput
+    _min?: PresensiSiswaMinOrderByAggregateInput
+    _sum?: PresensiSiswaSumOrderByAggregateInput
+  }
+
+  export type PresensiSiswaScalarWhereWithAggregatesInput = {
+    AND?: PresensiSiswaScalarWhereWithAggregatesInput | PresensiSiswaScalarWhereWithAggregatesInput[]
+    OR?: PresensiSiswaScalarWhereWithAggregatesInput[]
+    NOT?: PresensiSiswaScalarWhereWithAggregatesInput | PresensiSiswaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PresensiSiswa"> | string
+    jurnalId?: StringWithAggregatesFilter<"PresensiSiswa"> | string
+    siswaId?: StringWithAggregatesFilter<"PresensiSiswa"> | string
+    status?: EnumStatusHadirWithAggregatesFilter<"PresensiSiswa"> | $Enums.StatusHadir
+    waktuScan?: DateTimeNullableWithAggregatesFilter<"PresensiSiswa"> | Date | string | null
+    nilaiTugas?: IntNullableWithAggregatesFilter<"PresensiSiswa"> | number | null
+    alasanIzin?: StringNullableWithAggregatesFilter<"PresensiSiswa"> | string | null
+    isDispensasi?: BoolWithAggregatesFilter<"PresensiSiswa"> | boolean
+    isTerlambat?: BoolWithAggregatesFilter<"PresensiSiswa"> | boolean
+    alasanTerlambat?: StringNullableWithAggregatesFilter<"PresensiSiswa"> | string | null
+    alasan?: StringNullableWithAggregatesFilter<"PresensiSiswa"> | string | null
+    fileBukti?: StringNullableWithAggregatesFilter<"PresensiSiswa"> | string | null
+  }
+
+  export type RatingGuruWhereInput = {
+    AND?: RatingGuruWhereInput | RatingGuruWhereInput[]
+    OR?: RatingGuruWhereInput[]
+    NOT?: RatingGuruWhereInput | RatingGuruWhereInput[]
+    id?: StringFilter<"RatingGuru"> | string
+    guruId?: StringFilter<"RatingGuru"> | string
+    siswaId?: StringFilter<"RatingGuru"> | string
+    mapelId?: StringFilter<"RatingGuru"> | string
+    tahunAjaranId?: StringFilter<"RatingGuru"> | string
+    rating?: IntFilter<"RatingGuru"> | number
+    komentar?: StringNullableFilter<"RatingGuru"> | string | null
+    createdAt?: DateTimeFilter<"RatingGuru"> | Date | string
+    guru?: XOR<GuruScalarRelationFilter, GuruWhereInput>
+    siswa?: XOR<SiswaScalarRelationFilter, SiswaWhereInput>
+    mapel?: XOR<MataPelajaranScalarRelationFilter, MataPelajaranWhereInput>
+    tahunAjaran?: XOR<TahunAjaranScalarRelationFilter, TahunAjaranWhereInput>
+  }
+
+  export type RatingGuruOrderByWithRelationInput = {
+    id?: SortOrder
+    guruId?: SortOrder
+    siswaId?: SortOrder
+    mapelId?: SortOrder
+    tahunAjaranId?: SortOrder
+    rating?: SortOrder
+    komentar?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    guru?: GuruOrderByWithRelationInput
+    siswa?: SiswaOrderByWithRelationInput
+    mapel?: MataPelajaranOrderByWithRelationInput
+    tahunAjaran?: TahunAjaranOrderByWithRelationInput
+    _relevance?: RatingGuruOrderByRelevanceInput
+  }
+
+  export type RatingGuruWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    siswaId_guruId_mapelId_tahunAjaranId?: RatingGuruSiswaIdGuruIdMapelIdTahunAjaranIdCompoundUniqueInput
+    AND?: RatingGuruWhereInput | RatingGuruWhereInput[]
+    OR?: RatingGuruWhereInput[]
+    NOT?: RatingGuruWhereInput | RatingGuruWhereInput[]
+    guruId?: StringFilter<"RatingGuru"> | string
+    siswaId?: StringFilter<"RatingGuru"> | string
+    mapelId?: StringFilter<"RatingGuru"> | string
+    tahunAjaranId?: StringFilter<"RatingGuru"> | string
+    rating?: IntFilter<"RatingGuru"> | number
+    komentar?: StringNullableFilter<"RatingGuru"> | string | null
+    createdAt?: DateTimeFilter<"RatingGuru"> | Date | string
+    guru?: XOR<GuruScalarRelationFilter, GuruWhereInput>
+    siswa?: XOR<SiswaScalarRelationFilter, SiswaWhereInput>
+    mapel?: XOR<MataPelajaranScalarRelationFilter, MataPelajaranWhereInput>
+    tahunAjaran?: XOR<TahunAjaranScalarRelationFilter, TahunAjaranWhereInput>
+  }, "id" | "siswaId_guruId_mapelId_tahunAjaranId">
+
+  export type RatingGuruOrderByWithAggregationInput = {
+    id?: SortOrder
+    guruId?: SortOrder
+    siswaId?: SortOrder
+    mapelId?: SortOrder
+    tahunAjaranId?: SortOrder
+    rating?: SortOrder
+    komentar?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: RatingGuruCountOrderByAggregateInput
+    _avg?: RatingGuruAvgOrderByAggregateInput
+    _max?: RatingGuruMaxOrderByAggregateInput
+    _min?: RatingGuruMinOrderByAggregateInput
+    _sum?: RatingGuruSumOrderByAggregateInput
+  }
+
+  export type RatingGuruScalarWhereWithAggregatesInput = {
+    AND?: RatingGuruScalarWhereWithAggregatesInput | RatingGuruScalarWhereWithAggregatesInput[]
+    OR?: RatingGuruScalarWhereWithAggregatesInput[]
+    NOT?: RatingGuruScalarWhereWithAggregatesInput | RatingGuruScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RatingGuru"> | string
+    guruId?: StringWithAggregatesFilter<"RatingGuru"> | string
+    siswaId?: StringWithAggregatesFilter<"RatingGuru"> | string
+    mapelId?: StringWithAggregatesFilter<"RatingGuru"> | string
+    tahunAjaranId?: StringWithAggregatesFilter<"RatingGuru"> | string
+    rating?: IntWithAggregatesFilter<"RatingGuru"> | number
+    komentar?: StringNullableWithAggregatesFilter<"RatingGuru"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"RatingGuru"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -8749,6 +20236,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     guru?: GuruCreateNestedOneWithoutUserInput
     siswa?: SiswaCreateNestedOneWithoutUserInput
+    laporanPdca?: LaporanPdcaCreateNestedManyWithoutPembuatInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -8761,6 +20249,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     guru?: GuruUncheckedCreateNestedOneWithoutUserInput
     siswa?: SiswaUncheckedCreateNestedOneWithoutUserInput
+    laporanPdca?: LaporanPdcaUncheckedCreateNestedManyWithoutPembuatInput
   }
 
   export type UserUpdateInput = {
@@ -8773,6 +20262,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     guru?: GuruUpdateOneWithoutUserNestedInput
     siswa?: SiswaUpdateOneWithoutUserNestedInput
+    laporanPdca?: LaporanPdcaUpdateManyWithoutPembuatNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -8785,6 +20275,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     guru?: GuruUncheckedUpdateOneWithoutUserNestedInput
     siswa?: SiswaUncheckedUpdateOneWithoutUserNestedInput
+    laporanPdca?: LaporanPdcaUncheckedUpdateManyWithoutPembuatNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -8821,89 +20312,481 @@ export namespace Prisma {
     id?: string
     nama: string
     isActive?: boolean
+    isRatingActive?: boolean
     riwayatSiswa?: RiwayatKelasSiswaCreateNestedManyWithoutTahunAjaranInput
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutTahunAjaranInput
+    mataPelajaran?: MataPelajaranCreateNestedManyWithoutTahunAjaranInput
+    laporanPdca?: LaporanPdcaCreateNestedManyWithoutTahunAjaranInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutTahunAjaranInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutTahunAjaranInput
   }
 
   export type TahunAjaranUncheckedCreateInput = {
     id?: string
     nama: string
     isActive?: boolean
+    isRatingActive?: boolean
     riwayatSiswa?: RiwayatKelasSiswaUncheckedCreateNestedManyWithoutTahunAjaranInput
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutTahunAjaranInput
+    mataPelajaran?: MataPelajaranUncheckedCreateNestedManyWithoutTahunAjaranInput
+    laporanPdca?: LaporanPdcaUncheckedCreateNestedManyWithoutTahunAjaranInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutTahunAjaranInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutTahunAjaranInput
   }
 
   export type TahunAjaranUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     nama?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
     riwayatSiswa?: RiwayatKelasSiswaUpdateManyWithoutTahunAjaranNestedInput
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutTahunAjaranNestedInput
+    mataPelajaran?: MataPelajaranUpdateManyWithoutTahunAjaranNestedInput
+    laporanPdca?: LaporanPdcaUpdateManyWithoutTahunAjaranNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutTahunAjaranNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutTahunAjaranNestedInput
   }
 
   export type TahunAjaranUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     nama?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
     riwayatSiswa?: RiwayatKelasSiswaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    mataPelajaran?: MataPelajaranUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    laporanPdca?: LaporanPdcaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutTahunAjaranNestedInput
   }
 
   export type TahunAjaranCreateManyInput = {
     id?: string
     nama: string
     isActive?: boolean
+    isRatingActive?: boolean
   }
 
   export type TahunAjaranUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     nama?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type TahunAjaranUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     nama?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type KelasCreateInput = {
     id?: string
     nama: string
+    isTka?: boolean
+    tempat?: string | null
     riwayatSiswa?: RiwayatKelasSiswaCreateNestedManyWithoutKelasInput
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutKelasInput
     waliKelas?: KelasWaliCreateNestedManyWithoutKelasInput
   }
 
   export type KelasUncheckedCreateInput = {
     id?: string
     nama: string
+    isTka?: boolean
+    tempat?: string | null
     riwayatSiswa?: RiwayatKelasSiswaUncheckedCreateNestedManyWithoutKelasInput
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutKelasInput
     waliKelas?: KelasWaliUncheckedCreateNestedManyWithoutKelasInput
   }
 
   export type KelasUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    tempat?: NullableStringFieldUpdateOperationsInput | string | null
     riwayatSiswa?: RiwayatKelasSiswaUpdateManyWithoutKelasNestedInput
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutKelasNestedInput
     waliKelas?: KelasWaliUpdateManyWithoutKelasNestedInput
   }
 
   export type KelasUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    tempat?: NullableStringFieldUpdateOperationsInput | string | null
     riwayatSiswa?: RiwayatKelasSiswaUncheckedUpdateManyWithoutKelasNestedInput
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutKelasNestedInput
     waliKelas?: KelasWaliUncheckedUpdateManyWithoutKelasNestedInput
   }
 
   export type KelasCreateManyInput = {
     id?: string
     nama: string
+    isTka?: boolean
+    tempat?: string | null
   }
 
   export type KelasUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    tempat?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type KelasUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    tempat?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MataPelajaranCreateInput = {
+    id?: string
+    kode: string
+    nama: string
+    isTka?: boolean
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutMapelInput
+    tahunAjaran?: TahunAjaranCreateNestedManyWithoutMataPelajaranInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutMapelInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutMapelInput
+  }
+
+  export type MataPelajaranUncheckedCreateInput = {
+    id?: string
+    kode: string
+    nama: string
+    isTka?: boolean
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutMapelInput
+    tahunAjaran?: TahunAjaranUncheckedCreateNestedManyWithoutMataPelajaranInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutMapelInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutMapelInput
+  }
+
+  export type MataPelajaranUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kode?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutMapelNestedInput
+    tahunAjaran?: TahunAjaranUpdateManyWithoutMataPelajaranNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutMapelNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutMapelNestedInput
+  }
+
+  export type MataPelajaranUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kode?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutMapelNestedInput
+    tahunAjaran?: TahunAjaranUncheckedUpdateManyWithoutMataPelajaranNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutMapelNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutMapelNestedInput
+  }
+
+  export type MataPelajaranCreateManyInput = {
+    id?: string
+    kode: string
+    nama: string
+    isTka?: boolean
+  }
+
+  export type MataPelajaranUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kode?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type MataPelajaranUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kode?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type PengaturanSekolahCreateInput = {
+    id?: string
+    schoolName?: string
+    latitude: number
+    longitude: number
+    radiusToleransi?: number
+    qrExpirySec?: number
+  }
+
+  export type PengaturanSekolahUncheckedCreateInput = {
+    id?: string
+    schoolName?: string
+    latitude: number
+    longitude: number
+    radiusToleransi?: number
+    qrExpirySec?: number
+  }
+
+  export type PengaturanSekolahUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    schoolName?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    radiusToleransi?: FloatFieldUpdateOperationsInput | number
+    qrExpirySec?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PengaturanSekolahUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    schoolName?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    radiusToleransi?: FloatFieldUpdateOperationsInput | number
+    qrExpirySec?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PengaturanSekolahCreateManyInput = {
+    id?: string
+    schoolName?: string
+    latitude: number
+    longitude: number
+    radiusToleransi?: number
+    qrExpirySec?: number
+  }
+
+  export type PengaturanSekolahUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    schoolName?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    radiusToleransi?: FloatFieldUpdateOperationsInput | number
+    qrExpirySec?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PengaturanSekolahUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    schoolName?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    radiusToleransi?: FloatFieldUpdateOperationsInput | number
+    qrExpirySec?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type LaporanPdcaCreateInput = {
+    id?: string
+    judul: string
+    tanggalLaporan?: Date | string
+    status?: string
+    planProblem: string
+    planRootCause: string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta: string
+    checkGap: string
+    actRekomendasi: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tahunAjaran: TahunAjaranCreateNestedOneWithoutLaporanPdcaInput
+    pembuat: UserCreateNestedOneWithoutLaporanPdcaInput
+  }
+
+  export type LaporanPdcaUncheckedCreateInput = {
+    id?: string
+    judul: string
+    tahunAjaranId: string
+    pembuatId: string
+    tanggalLaporan?: Date | string
+    status?: string
+    planProblem: string
+    planRootCause: string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta: string
+    checkGap: string
+    actRekomendasi: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LaporanPdcaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    judul?: StringFieldUpdateOperationsInput | string
+    tanggalLaporan?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    planProblem?: StringFieldUpdateOperationsInput | string
+    planRootCause?: StringFieldUpdateOperationsInput | string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta?: StringFieldUpdateOperationsInput | string
+    checkGap?: StringFieldUpdateOperationsInput | string
+    actRekomendasi?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutLaporanPdcaNestedInput
+    pembuat?: UserUpdateOneRequiredWithoutLaporanPdcaNestedInput
+  }
+
+  export type LaporanPdcaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    judul?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    pembuatId?: StringFieldUpdateOperationsInput | string
+    tanggalLaporan?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    planProblem?: StringFieldUpdateOperationsInput | string
+    planRootCause?: StringFieldUpdateOperationsInput | string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta?: StringFieldUpdateOperationsInput | string
+    checkGap?: StringFieldUpdateOperationsInput | string
+    actRekomendasi?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LaporanPdcaCreateManyInput = {
+    id?: string
+    judul: string
+    tahunAjaranId: string
+    pembuatId: string
+    tanggalLaporan?: Date | string
+    status?: string
+    planProblem: string
+    planRootCause: string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta: string
+    checkGap: string
+    actRekomendasi: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LaporanPdcaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    judul?: StringFieldUpdateOperationsInput | string
+    tanggalLaporan?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    planProblem?: StringFieldUpdateOperationsInput | string
+    planRootCause?: StringFieldUpdateOperationsInput | string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta?: StringFieldUpdateOperationsInput | string
+    checkGap?: StringFieldUpdateOperationsInput | string
+    actRekomendasi?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LaporanPdcaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    judul?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    pembuatId?: StringFieldUpdateOperationsInput | string
+    tanggalLaporan?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    planProblem?: StringFieldUpdateOperationsInput | string
+    planRootCause?: StringFieldUpdateOperationsInput | string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta?: StringFieldUpdateOperationsInput | string
+    checkGap?: StringFieldUpdateOperationsInput | string
+    actRekomendasi?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RekapBulananCreateInput = {
+    id?: string
+    tahunAjaranId: string
+    bulan: number
+    jenisAktivitas: string
+    jumlah: number
+  }
+
+  export type RekapBulananUncheckedCreateInput = {
+    id?: string
+    tahunAjaranId: string
+    bulan: number
+    jenisAktivitas: string
+    jumlah: number
+  }
+
+  export type RekapBulananUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    bulan?: IntFieldUpdateOperationsInput | number
+    jenisAktivitas?: StringFieldUpdateOperationsInput | string
+    jumlah?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RekapBulananUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    bulan?: IntFieldUpdateOperationsInput | number
+    jenisAktivitas?: StringFieldUpdateOperationsInput | string
+    jumlah?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RekapBulananCreateManyInput = {
+    id?: string
+    tahunAjaranId: string
+    bulan: number
+    jenisAktivitas: string
+    jumlah: number
+  }
+
+  export type RekapBulananUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    bulan?: IntFieldUpdateOperationsInput | number
+    jenisAktivitas?: StringFieldUpdateOperationsInput | string
+    jumlah?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RekapBulananUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    bulan?: IntFieldUpdateOperationsInput | number
+    jenisAktivitas?: StringFieldUpdateOperationsInput | string
+    jumlah?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TimFasilitatorTkaCreateInput = {
+    id?: string
+    mapel: MataPelajaranCreateNestedOneWithoutTimFasilitatorTkaInput
+    guru: GuruCreateNestedOneWithoutTimFasilitatorTkaInput
+    tahunAjaran: TahunAjaranCreateNestedOneWithoutTimFasilitatorTkaInput
+  }
+
+  export type TimFasilitatorTkaUncheckedCreateInput = {
+    id?: string
+    mapelId: string
+    guruId: string
+    tahunAjaranId: string
+  }
+
+  export type TimFasilitatorTkaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapel?: MataPelajaranUpdateOneRequiredWithoutTimFasilitatorTkaNestedInput
+    guru?: GuruUpdateOneRequiredWithoutTimFasilitatorTkaNestedInput
+    tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutTimFasilitatorTkaNestedInput
+  }
+
+  export type TimFasilitatorTkaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TimFasilitatorTkaCreateManyInput = {
+    id?: string
+    mapelId: string
+    guruId: string
+    tahunAjaranId: string
+  }
+
+  export type TimFasilitatorTkaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TimFasilitatorTkaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
   }
 
   export type GuruCreateInput = {
@@ -8912,7 +20795,10 @@ export namespace Prisma {
     jenisKelamin: string
     status?: boolean
     user: UserCreateNestedOneWithoutGuruInput
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutGuruInput
     waliKelasDi?: KelasWaliCreateNestedManyWithoutGuruInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutGuruInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutGuruInput
   }
 
   export type GuruUncheckedCreateInput = {
@@ -8921,7 +20807,10 @@ export namespace Prisma {
     jenisKelamin: string
     status?: boolean
     userId: string
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutGuruInput
     waliKelasDi?: KelasWaliUncheckedCreateNestedManyWithoutGuruInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutGuruInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutGuruInput
   }
 
   export type GuruUpdateInput = {
@@ -8930,7 +20819,10 @@ export namespace Prisma {
     jenisKelamin?: StringFieldUpdateOperationsInput | string
     status?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutGuruNestedInput
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutGuruNestedInput
     waliKelasDi?: KelasWaliUpdateManyWithoutGuruNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutGuruNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutGuruNestedInput
   }
 
   export type GuruUncheckedUpdateInput = {
@@ -8939,7 +20831,10 @@ export namespace Prisma {
     jenisKelamin?: StringFieldUpdateOperationsInput | string
     status?: BoolFieldUpdateOperationsInput | boolean
     userId?: StringFieldUpdateOperationsInput | string
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutGuruNestedInput
     waliKelasDi?: KelasWaliUncheckedUpdateManyWithoutGuruNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutGuruNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutGuruNestedInput
   }
 
   export type GuruCreateManyInput = {
@@ -9019,6 +20914,8 @@ export namespace Prisma {
     jenisKelamin: string
     user: UserCreateNestedOneWithoutSiswaInput
     riwayatKelas?: RiwayatKelasSiswaCreateNestedManyWithoutSiswaInput
+    presensi?: PresensiSiswaCreateNestedManyWithoutSiswaInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutSiswaInput
   }
 
   export type SiswaUncheckedCreateInput = {
@@ -9028,6 +20925,8 @@ export namespace Prisma {
     jenisKelamin: string
     userId: string
     riwayatKelas?: RiwayatKelasSiswaUncheckedCreateNestedManyWithoutSiswaInput
+    presensi?: PresensiSiswaUncheckedCreateNestedManyWithoutSiswaInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutSiswaInput
   }
 
   export type SiswaUpdateInput = {
@@ -9037,6 +20936,8 @@ export namespace Prisma {
     jenisKelamin?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutSiswaNestedInput
     riwayatKelas?: RiwayatKelasSiswaUpdateManyWithoutSiswaNestedInput
+    presensi?: PresensiSiswaUpdateManyWithoutSiswaNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutSiswaNestedInput
   }
 
   export type SiswaUncheckedUpdateInput = {
@@ -9046,6 +20947,8 @@ export namespace Prisma {
     jenisKelamin?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     riwayatKelas?: RiwayatKelasSiswaUncheckedUpdateManyWithoutSiswaNestedInput
+    presensi?: PresensiSiswaUncheckedUpdateManyWithoutSiswaNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutSiswaNestedInput
   }
 
   export type SiswaCreateManyInput = {
@@ -9073,6 +20976,7 @@ export namespace Prisma {
 
   export type RiwayatKelasSiswaCreateInput = {
     id?: string
+    isTka?: boolean
     siswa: SiswaCreateNestedOneWithoutRiwayatKelasInput
     kelas: KelasCreateNestedOneWithoutRiwayatSiswaInput
     tahunAjaran: TahunAjaranCreateNestedOneWithoutRiwayatSiswaInput
@@ -9083,10 +20987,12 @@ export namespace Prisma {
     siswaId: string
     kelasId: string
     tahunAjaranId: string
+    isTka?: boolean
   }
 
   export type RiwayatKelasSiswaUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
     siswa?: SiswaUpdateOneRequiredWithoutRiwayatKelasNestedInput
     kelas?: KelasUpdateOneRequiredWithoutRiwayatSiswaNestedInput
     tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutRiwayatSiswaNestedInput
@@ -9097,6 +21003,7 @@ export namespace Prisma {
     siswaId?: StringFieldUpdateOperationsInput | string
     kelasId?: StringFieldUpdateOperationsInput | string
     tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RiwayatKelasSiswaCreateManyInput = {
@@ -9104,10 +21011,12 @@ export namespace Prisma {
     siswaId: string
     kelasId: string
     tahunAjaranId: string
+    isTka?: boolean
   }
 
   export type RiwayatKelasSiswaUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RiwayatKelasSiswaUncheckedUpdateManyInput = {
@@ -9115,6 +21024,375 @@ export namespace Prisma {
     siswaId?: StringFieldUpdateOperationsInput | string
     kelasId?: StringFieldUpdateOperationsInput | string
     tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type JadwalPelajaranCreateInput = {
+    id?: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+    guru: GuruCreateNestedOneWithoutJadwalPelajaranInput
+    mapel: MataPelajaranCreateNestedOneWithoutJadwalPelajaranInput
+    kelas: KelasCreateNestedOneWithoutJadwalPelajaranInput
+    tahunAjaran: TahunAjaranCreateNestedOneWithoutJadwalPelajaranInput
+    jurnal?: JurnalMengajarCreateNestedManyWithoutJadwalInput
+  }
+
+  export type JadwalPelajaranUncheckedCreateInput = {
+    id?: string
+    guruId: string
+    mapelId: string
+    kelasId: string
+    tahunAjaranId: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+    jurnal?: JurnalMengajarUncheckedCreateNestedManyWithoutJadwalInput
+  }
+
+  export type JadwalPelajaranUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+    guru?: GuruUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    mapel?: MataPelajaranUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    kelas?: KelasUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    jurnal?: JurnalMengajarUpdateManyWithoutJadwalNestedInput
+  }
+
+  export type JadwalPelajaranUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    kelasId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+    jurnal?: JurnalMengajarUncheckedUpdateManyWithoutJadwalNestedInput
+  }
+
+  export type JadwalPelajaranCreateManyInput = {
+    id?: string
+    guruId: string
+    mapelId: string
+    kelasId: string
+    tahunAjaranId: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+  }
+
+  export type JadwalPelajaranUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type JadwalPelajaranUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    kelasId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type JurnalMengajarCreateInput = {
+    id?: string
+    tanggal?: Date | string
+    materiBab?: string | null
+    catatan?: string | null
+    tugas?: string | null
+    status?: $Enums.JurnalStatus
+    waktuMulai?: string | null
+    waktuSelesai?: string | null
+    latAbsen?: number | null
+    longAbsen?: number | null
+    qrToken?: string | null
+    jadwal: JadwalPelajaranCreateNestedOneWithoutJurnalInput
+    presensi?: PresensiSiswaCreateNestedManyWithoutJurnalInput
+  }
+
+  export type JurnalMengajarUncheckedCreateInput = {
+    id?: string
+    jadwalId: string
+    tanggal?: Date | string
+    materiBab?: string | null
+    catatan?: string | null
+    tugas?: string | null
+    status?: $Enums.JurnalStatus
+    waktuMulai?: string | null
+    waktuSelesai?: string | null
+    latAbsen?: number | null
+    longAbsen?: number | null
+    qrToken?: string | null
+    presensi?: PresensiSiswaUncheckedCreateNestedManyWithoutJurnalInput
+  }
+
+  export type JurnalMengajarUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiBab?: NullableStringFieldUpdateOperationsInput | string | null
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    tugas?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJurnalStatusFieldUpdateOperationsInput | $Enums.JurnalStatus
+    waktuMulai?: NullableStringFieldUpdateOperationsInput | string | null
+    waktuSelesai?: NullableStringFieldUpdateOperationsInput | string | null
+    latAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    longAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    qrToken?: NullableStringFieldUpdateOperationsInput | string | null
+    jadwal?: JadwalPelajaranUpdateOneRequiredWithoutJurnalNestedInput
+    presensi?: PresensiSiswaUpdateManyWithoutJurnalNestedInput
+  }
+
+  export type JurnalMengajarUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jadwalId?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiBab?: NullableStringFieldUpdateOperationsInput | string | null
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    tugas?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJurnalStatusFieldUpdateOperationsInput | $Enums.JurnalStatus
+    waktuMulai?: NullableStringFieldUpdateOperationsInput | string | null
+    waktuSelesai?: NullableStringFieldUpdateOperationsInput | string | null
+    latAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    longAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    qrToken?: NullableStringFieldUpdateOperationsInput | string | null
+    presensi?: PresensiSiswaUncheckedUpdateManyWithoutJurnalNestedInput
+  }
+
+  export type JurnalMengajarCreateManyInput = {
+    id?: string
+    jadwalId: string
+    tanggal?: Date | string
+    materiBab?: string | null
+    catatan?: string | null
+    tugas?: string | null
+    status?: $Enums.JurnalStatus
+    waktuMulai?: string | null
+    waktuSelesai?: string | null
+    latAbsen?: number | null
+    longAbsen?: number | null
+    qrToken?: string | null
+  }
+
+  export type JurnalMengajarUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiBab?: NullableStringFieldUpdateOperationsInput | string | null
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    tugas?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJurnalStatusFieldUpdateOperationsInput | $Enums.JurnalStatus
+    waktuMulai?: NullableStringFieldUpdateOperationsInput | string | null
+    waktuSelesai?: NullableStringFieldUpdateOperationsInput | string | null
+    latAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    longAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    qrToken?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type JurnalMengajarUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jadwalId?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiBab?: NullableStringFieldUpdateOperationsInput | string | null
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    tugas?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJurnalStatusFieldUpdateOperationsInput | $Enums.JurnalStatus
+    waktuMulai?: NullableStringFieldUpdateOperationsInput | string | null
+    waktuSelesai?: NullableStringFieldUpdateOperationsInput | string | null
+    latAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    longAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    qrToken?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PresensiSiswaCreateInput = {
+    id?: string
+    status?: $Enums.StatusHadir
+    waktuScan?: Date | string | null
+    nilaiTugas?: number | null
+    alasanIzin?: string | null
+    isDispensasi?: boolean
+    isTerlambat?: boolean
+    alasanTerlambat?: string | null
+    alasan?: string | null
+    fileBukti?: string | null
+    jurnal: JurnalMengajarCreateNestedOneWithoutPresensiInput
+    siswa: SiswaCreateNestedOneWithoutPresensiInput
+  }
+
+  export type PresensiSiswaUncheckedCreateInput = {
+    id?: string
+    jurnalId: string
+    siswaId: string
+    status?: $Enums.StatusHadir
+    waktuScan?: Date | string | null
+    nilaiTugas?: number | null
+    alasanIzin?: string | null
+    isDispensasi?: boolean
+    isTerlambat?: boolean
+    alasanTerlambat?: string | null
+    alasan?: string | null
+    fileBukti?: string | null
+  }
+
+  export type PresensiSiswaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusHadirFieldUpdateOperationsInput | $Enums.StatusHadir
+    waktuScan?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nilaiTugas?: NullableIntFieldUpdateOperationsInput | number | null
+    alasanIzin?: NullableStringFieldUpdateOperationsInput | string | null
+    isDispensasi?: BoolFieldUpdateOperationsInput | boolean
+    isTerlambat?: BoolFieldUpdateOperationsInput | boolean
+    alasanTerlambat?: NullableStringFieldUpdateOperationsInput | string | null
+    alasan?: NullableStringFieldUpdateOperationsInput | string | null
+    fileBukti?: NullableStringFieldUpdateOperationsInput | string | null
+    jurnal?: JurnalMengajarUpdateOneRequiredWithoutPresensiNestedInput
+    siswa?: SiswaUpdateOneRequiredWithoutPresensiNestedInput
+  }
+
+  export type PresensiSiswaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jurnalId?: StringFieldUpdateOperationsInput | string
+    siswaId?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusHadirFieldUpdateOperationsInput | $Enums.StatusHadir
+    waktuScan?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nilaiTugas?: NullableIntFieldUpdateOperationsInput | number | null
+    alasanIzin?: NullableStringFieldUpdateOperationsInput | string | null
+    isDispensasi?: BoolFieldUpdateOperationsInput | boolean
+    isTerlambat?: BoolFieldUpdateOperationsInput | boolean
+    alasanTerlambat?: NullableStringFieldUpdateOperationsInput | string | null
+    alasan?: NullableStringFieldUpdateOperationsInput | string | null
+    fileBukti?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PresensiSiswaCreateManyInput = {
+    id?: string
+    jurnalId: string
+    siswaId: string
+    status?: $Enums.StatusHadir
+    waktuScan?: Date | string | null
+    nilaiTugas?: number | null
+    alasanIzin?: string | null
+    isDispensasi?: boolean
+    isTerlambat?: boolean
+    alasanTerlambat?: string | null
+    alasan?: string | null
+    fileBukti?: string | null
+  }
+
+  export type PresensiSiswaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusHadirFieldUpdateOperationsInput | $Enums.StatusHadir
+    waktuScan?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nilaiTugas?: NullableIntFieldUpdateOperationsInput | number | null
+    alasanIzin?: NullableStringFieldUpdateOperationsInput | string | null
+    isDispensasi?: BoolFieldUpdateOperationsInput | boolean
+    isTerlambat?: BoolFieldUpdateOperationsInput | boolean
+    alasanTerlambat?: NullableStringFieldUpdateOperationsInput | string | null
+    alasan?: NullableStringFieldUpdateOperationsInput | string | null
+    fileBukti?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PresensiSiswaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jurnalId?: StringFieldUpdateOperationsInput | string
+    siswaId?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusHadirFieldUpdateOperationsInput | $Enums.StatusHadir
+    waktuScan?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nilaiTugas?: NullableIntFieldUpdateOperationsInput | number | null
+    alasanIzin?: NullableStringFieldUpdateOperationsInput | string | null
+    isDispensasi?: BoolFieldUpdateOperationsInput | boolean
+    isTerlambat?: BoolFieldUpdateOperationsInput | boolean
+    alasanTerlambat?: NullableStringFieldUpdateOperationsInput | string | null
+    alasan?: NullableStringFieldUpdateOperationsInput | string | null
+    fileBukti?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type RatingGuruCreateInput = {
+    id?: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
+    guru: GuruCreateNestedOneWithoutRatingGuruInput
+    siswa: SiswaCreateNestedOneWithoutRatingGuruInput
+    mapel: MataPelajaranCreateNestedOneWithoutRatingGuruInput
+    tahunAjaran: TahunAjaranCreateNestedOneWithoutRatingGuruInput
+  }
+
+  export type RatingGuruUncheckedCreateInput = {
+    id?: string
+    guruId: string
+    siswaId: string
+    mapelId: string
+    tahunAjaranId: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RatingGuruUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guru?: GuruUpdateOneRequiredWithoutRatingGuruNestedInput
+    siswa?: SiswaUpdateOneRequiredWithoutRatingGuruNestedInput
+    mapel?: MataPelajaranUpdateOneRequiredWithoutRatingGuruNestedInput
+    tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutRatingGuruNestedInput
+  }
+
+  export type RatingGuruUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    siswaId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingGuruCreateManyInput = {
+    id?: string
+    guruId: string
+    siswaId: string
+    mapelId: string
+    tahunAjaranId: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RatingGuruUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingGuruUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    siswaId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -9158,6 +21436,16 @@ export namespace Prisma {
   export type SiswaNullableScalarRelationFilter = {
     is?: SiswaWhereInput | null
     isNot?: SiswaWhereInput | null
+  }
+
+  export type LaporanPdcaListRelationFilter = {
+    every?: LaporanPdcaWhereInput
+    some?: LaporanPdcaWhereInput
+    none?: LaporanPdcaWhereInput
+  }
+
+  export type LaporanPdcaOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserOrderByRelevanceInput = {
@@ -9249,7 +21537,47 @@ export namespace Prisma {
     none?: RiwayatKelasSiswaWhereInput
   }
 
+  export type JadwalPelajaranListRelationFilter = {
+    every?: JadwalPelajaranWhereInput
+    some?: JadwalPelajaranWhereInput
+    none?: JadwalPelajaranWhereInput
+  }
+
+  export type MataPelajaranListRelationFilter = {
+    every?: MataPelajaranWhereInput
+    some?: MataPelajaranWhereInput
+    none?: MataPelajaranWhereInput
+  }
+
+  export type RatingGuruListRelationFilter = {
+    every?: RatingGuruWhereInput
+    some?: RatingGuruWhereInput
+    none?: RatingGuruWhereInput
+  }
+
+  export type TimFasilitatorTkaListRelationFilter = {
+    every?: TimFasilitatorTkaWhereInput
+    some?: TimFasilitatorTkaWhereInput
+    none?: TimFasilitatorTkaWhereInput
+  }
+
   export type RiwayatKelasSiswaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type JadwalPelajaranOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MataPelajaranOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RatingGuruOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TimFasilitatorTkaOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -9263,18 +21591,21 @@ export namespace Prisma {
     id?: SortOrder
     nama?: SortOrder
     isActive?: SortOrder
+    isRatingActive?: SortOrder
   }
 
   export type TahunAjaranMaxOrderByAggregateInput = {
     id?: SortOrder
     nama?: SortOrder
     isActive?: SortOrder
+    isRatingActive?: SortOrder
   }
 
   export type TahunAjaranMinOrderByAggregateInput = {
     id?: SortOrder
     nama?: SortOrder
     isActive?: SortOrder
+    isRatingActive?: SortOrder
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -9285,10 +21616,30 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type KelasWaliListRelationFilter = {
     every?: KelasWaliWhereInput
     some?: KelasWaliWhereInput
     none?: KelasWaliWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type KelasWaliOrderByRelationAggregateInput = {
@@ -9304,21 +21655,375 @@ export namespace Prisma {
   export type KelasCountOrderByAggregateInput = {
     id?: SortOrder
     nama?: SortOrder
+    isTka?: SortOrder
+    tempat?: SortOrder
   }
 
   export type KelasMaxOrderByAggregateInput = {
     id?: SortOrder
     nama?: SortOrder
+    isTka?: SortOrder
+    tempat?: SortOrder
   }
 
   export type KelasMinOrderByAggregateInput = {
     id?: SortOrder
     nama?: SortOrder
+    isTka?: SortOrder
+    tempat?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type TahunAjaranListRelationFilter = {
+    every?: TahunAjaranWhereInput
+    some?: TahunAjaranWhereInput
+    none?: TahunAjaranWhereInput
+  }
+
+  export type TahunAjaranOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MataPelajaranOrderByRelevanceInput = {
+    fields: MataPelajaranOrderByRelevanceFieldEnum | MataPelajaranOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type MataPelajaranCountOrderByAggregateInput = {
+    id?: SortOrder
+    kode?: SortOrder
+    nama?: SortOrder
+    isTka?: SortOrder
+  }
+
+  export type MataPelajaranMaxOrderByAggregateInput = {
+    id?: SortOrder
+    kode?: SortOrder
+    nama?: SortOrder
+    isTka?: SortOrder
+  }
+
+  export type MataPelajaranMinOrderByAggregateInput = {
+    id?: SortOrder
+    kode?: SortOrder
+    nama?: SortOrder
+    isTka?: SortOrder
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type PengaturanSekolahOrderByRelevanceInput = {
+    fields: PengaturanSekolahOrderByRelevanceFieldEnum | PengaturanSekolahOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type PengaturanSekolahCountOrderByAggregateInput = {
+    id?: SortOrder
+    schoolName?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    radiusToleransi?: SortOrder
+    qrExpirySec?: SortOrder
+  }
+
+  export type PengaturanSekolahAvgOrderByAggregateInput = {
+    latitude?: SortOrder
+    longitude?: SortOrder
+    radiusToleransi?: SortOrder
+    qrExpirySec?: SortOrder
+  }
+
+  export type PengaturanSekolahMaxOrderByAggregateInput = {
+    id?: SortOrder
+    schoolName?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    radiusToleransi?: SortOrder
+    qrExpirySec?: SortOrder
+  }
+
+  export type PengaturanSekolahMinOrderByAggregateInput = {
+    id?: SortOrder
+    schoolName?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    radiusToleransi?: SortOrder
+    qrExpirySec?: SortOrder
+  }
+
+  export type PengaturanSekolahSumOrderByAggregateInput = {
+    latitude?: SortOrder
+    longitude?: SortOrder
+    radiusToleransi?: SortOrder
+    qrExpirySec?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type TahunAjaranScalarRelationFilter = {
+    is?: TahunAjaranWhereInput
+    isNot?: TahunAjaranWhereInput
   }
 
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
+  }
+
+  export type LaporanPdcaOrderByRelevanceInput = {
+    fields: LaporanPdcaOrderByRelevanceFieldEnum | LaporanPdcaOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type LaporanPdcaCountOrderByAggregateInput = {
+    id?: SortOrder
+    judul?: SortOrder
+    tahunAjaranId?: SortOrder
+    pembuatId?: SortOrder
+    tanggalLaporan?: SortOrder
+    status?: SortOrder
+    planProblem?: SortOrder
+    planRootCause?: SortOrder
+    doImplementasi?: SortOrder
+    checkFakta?: SortOrder
+    checkGap?: SortOrder
+    actRekomendasi?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LaporanPdcaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    judul?: SortOrder
+    tahunAjaranId?: SortOrder
+    pembuatId?: SortOrder
+    tanggalLaporan?: SortOrder
+    status?: SortOrder
+    planProblem?: SortOrder
+    planRootCause?: SortOrder
+    checkFakta?: SortOrder
+    checkGap?: SortOrder
+    actRekomendasi?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LaporanPdcaMinOrderByAggregateInput = {
+    id?: SortOrder
+    judul?: SortOrder
+    tahunAjaranId?: SortOrder
+    pembuatId?: SortOrder
+    tanggalLaporan?: SortOrder
+    status?: SortOrder
+    planProblem?: SortOrder
+    planRootCause?: SortOrder
+    checkFakta?: SortOrder
+    checkGap?: SortOrder
+    actRekomendasi?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type RekapBulananOrderByRelevanceInput = {
+    fields: RekapBulananOrderByRelevanceFieldEnum | RekapBulananOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type RekapBulananCountOrderByAggregateInput = {
+    id?: SortOrder
+    tahunAjaranId?: SortOrder
+    bulan?: SortOrder
+    jenisAktivitas?: SortOrder
+    jumlah?: SortOrder
+  }
+
+  export type RekapBulananAvgOrderByAggregateInput = {
+    bulan?: SortOrder
+    jumlah?: SortOrder
+  }
+
+  export type RekapBulananMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tahunAjaranId?: SortOrder
+    bulan?: SortOrder
+    jenisAktivitas?: SortOrder
+    jumlah?: SortOrder
+  }
+
+  export type RekapBulananMinOrderByAggregateInput = {
+    id?: SortOrder
+    tahunAjaranId?: SortOrder
+    bulan?: SortOrder
+    jenisAktivitas?: SortOrder
+    jumlah?: SortOrder
+  }
+
+  export type RekapBulananSumOrderByAggregateInput = {
+    bulan?: SortOrder
+    jumlah?: SortOrder
+  }
+
+  export type MataPelajaranScalarRelationFilter = {
+    is?: MataPelajaranWhereInput
+    isNot?: MataPelajaranWhereInput
+  }
+
+  export type GuruScalarRelationFilter = {
+    is?: GuruWhereInput
+    isNot?: GuruWhereInput
+  }
+
+  export type TimFasilitatorTkaOrderByRelevanceInput = {
+    fields: TimFasilitatorTkaOrderByRelevanceFieldEnum | TimFasilitatorTkaOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type TimFasilitatorTkaMapelIdGuruIdTahunAjaranIdCompoundUniqueInput = {
+    mapelId: string
+    guruId: string
+    tahunAjaranId: string
+  }
+
+  export type TimFasilitatorTkaCountOrderByAggregateInput = {
+    id?: SortOrder
+    mapelId?: SortOrder
+    guruId?: SortOrder
+    tahunAjaranId?: SortOrder
+  }
+
+  export type TimFasilitatorTkaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    mapelId?: SortOrder
+    guruId?: SortOrder
+    tahunAjaranId?: SortOrder
+  }
+
+  export type TimFasilitatorTkaMinOrderByAggregateInput = {
+    id?: SortOrder
+    mapelId?: SortOrder
+    guruId?: SortOrder
+    tahunAjaranId?: SortOrder
   }
 
   export type GuruOrderByRelevanceInput = {
@@ -9349,11 +22054,6 @@ export namespace Prisma {
     jenisKelamin?: SortOrder
     status?: SortOrder
     userId?: SortOrder
-  }
-
-  export type GuruScalarRelationFilter = {
-    is?: GuruWhereInput
-    isNot?: GuruWhereInput
   }
 
   export type KelasScalarRelationFilter = {
@@ -9393,6 +22093,16 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type PresensiSiswaListRelationFilter = {
+    every?: PresensiSiswaWhereInput
+    some?: PresensiSiswaWhereInput
+    none?: PresensiSiswaWhereInput
+  }
+
+  export type PresensiSiswaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type SiswaOrderByRelevanceInput = {
     fields: SiswaOrderByRelevanceFieldEnum | SiswaOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -9428,20 +22138,16 @@ export namespace Prisma {
     isNot?: SiswaWhereInput
   }
 
-  export type TahunAjaranScalarRelationFilter = {
-    is?: TahunAjaranWhereInput
-    isNot?: TahunAjaranWhereInput
-  }
-
   export type RiwayatKelasSiswaOrderByRelevanceInput = {
     fields: RiwayatKelasSiswaOrderByRelevanceFieldEnum | RiwayatKelasSiswaOrderByRelevanceFieldEnum[]
     sort: SortOrder
     search: string
   }
 
-  export type RiwayatKelasSiswaSiswaIdTahunAjaranIdCompoundUniqueInput = {
+  export type RiwayatKelasSiswaSiswaIdTahunAjaranIdIsTkaCompoundUniqueInput = {
     siswaId: string
     tahunAjaranId: string
+    isTka: boolean
   }
 
   export type RiwayatKelasSiswaCountOrderByAggregateInput = {
@@ -9449,6 +22155,7 @@ export namespace Prisma {
     siswaId?: SortOrder
     kelasId?: SortOrder
     tahunAjaranId?: SortOrder
+    isTka?: SortOrder
   }
 
   export type RiwayatKelasSiswaMaxOrderByAggregateInput = {
@@ -9456,6 +22163,7 @@ export namespace Prisma {
     siswaId?: SortOrder
     kelasId?: SortOrder
     tahunAjaranId?: SortOrder
+    isTka?: SortOrder
   }
 
   export type RiwayatKelasSiswaMinOrderByAggregateInput = {
@@ -9463,6 +22171,369 @@ export namespace Prisma {
     siswaId?: SortOrder
     kelasId?: SortOrder
     tahunAjaranId?: SortOrder
+    isTka?: SortOrder
+  }
+
+  export type JurnalMengajarListRelationFilter = {
+    every?: JurnalMengajarWhereInput
+    some?: JurnalMengajarWhereInput
+    none?: JurnalMengajarWhereInput
+  }
+
+  export type JurnalMengajarOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type JadwalPelajaranOrderByRelevanceInput = {
+    fields: JadwalPelajaranOrderByRelevanceFieldEnum | JadwalPelajaranOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type JadwalPelajaranCountOrderByAggregateInput = {
+    id?: SortOrder
+    guruId?: SortOrder
+    mapelId?: SortOrder
+    kelasId?: SortOrder
+    tahunAjaranId?: SortOrder
+    hari?: SortOrder
+    waktuMulai?: SortOrder
+    waktuSelesai?: SortOrder
+    ruang?: SortOrder
+  }
+
+  export type JadwalPelajaranAvgOrderByAggregateInput = {
+    hari?: SortOrder
+  }
+
+  export type JadwalPelajaranMaxOrderByAggregateInput = {
+    id?: SortOrder
+    guruId?: SortOrder
+    mapelId?: SortOrder
+    kelasId?: SortOrder
+    tahunAjaranId?: SortOrder
+    hari?: SortOrder
+    waktuMulai?: SortOrder
+    waktuSelesai?: SortOrder
+    ruang?: SortOrder
+  }
+
+  export type JadwalPelajaranMinOrderByAggregateInput = {
+    id?: SortOrder
+    guruId?: SortOrder
+    mapelId?: SortOrder
+    kelasId?: SortOrder
+    tahunAjaranId?: SortOrder
+    hari?: SortOrder
+    waktuMulai?: SortOrder
+    waktuSelesai?: SortOrder
+    ruang?: SortOrder
+  }
+
+  export type JadwalPelajaranSumOrderByAggregateInput = {
+    hari?: SortOrder
+  }
+
+  export type EnumJurnalStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.JurnalStatus | EnumJurnalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JurnalStatus[]
+    notIn?: $Enums.JurnalStatus[]
+    not?: NestedEnumJurnalStatusFilter<$PrismaModel> | $Enums.JurnalStatus
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type JadwalPelajaranScalarRelationFilter = {
+    is?: JadwalPelajaranWhereInput
+    isNot?: JadwalPelajaranWhereInput
+  }
+
+  export type JurnalMengajarOrderByRelevanceInput = {
+    fields: JurnalMengajarOrderByRelevanceFieldEnum | JurnalMengajarOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type JurnalMengajarCountOrderByAggregateInput = {
+    id?: SortOrder
+    jadwalId?: SortOrder
+    tanggal?: SortOrder
+    materiBab?: SortOrder
+    catatan?: SortOrder
+    tugas?: SortOrder
+    status?: SortOrder
+    waktuMulai?: SortOrder
+    waktuSelesai?: SortOrder
+    latAbsen?: SortOrder
+    longAbsen?: SortOrder
+    qrToken?: SortOrder
+  }
+
+  export type JurnalMengajarAvgOrderByAggregateInput = {
+    latAbsen?: SortOrder
+    longAbsen?: SortOrder
+  }
+
+  export type JurnalMengajarMaxOrderByAggregateInput = {
+    id?: SortOrder
+    jadwalId?: SortOrder
+    tanggal?: SortOrder
+    materiBab?: SortOrder
+    catatan?: SortOrder
+    tugas?: SortOrder
+    status?: SortOrder
+    waktuMulai?: SortOrder
+    waktuSelesai?: SortOrder
+    latAbsen?: SortOrder
+    longAbsen?: SortOrder
+    qrToken?: SortOrder
+  }
+
+  export type JurnalMengajarMinOrderByAggregateInput = {
+    id?: SortOrder
+    jadwalId?: SortOrder
+    tanggal?: SortOrder
+    materiBab?: SortOrder
+    catatan?: SortOrder
+    tugas?: SortOrder
+    status?: SortOrder
+    waktuMulai?: SortOrder
+    waktuSelesai?: SortOrder
+    latAbsen?: SortOrder
+    longAbsen?: SortOrder
+    qrToken?: SortOrder
+  }
+
+  export type JurnalMengajarSumOrderByAggregateInput = {
+    latAbsen?: SortOrder
+    longAbsen?: SortOrder
+  }
+
+  export type EnumJurnalStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.JurnalStatus | EnumJurnalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JurnalStatus[]
+    notIn?: $Enums.JurnalStatus[]
+    not?: NestedEnumJurnalStatusWithAggregatesFilter<$PrismaModel> | $Enums.JurnalStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumJurnalStatusFilter<$PrismaModel>
+    _max?: NestedEnumJurnalStatusFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type EnumStatusHadirFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusHadir | EnumStatusHadirFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusHadir[]
+    notIn?: $Enums.StatusHadir[]
+    not?: NestedEnumStatusHadirFilter<$PrismaModel> | $Enums.StatusHadir
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type JurnalMengajarScalarRelationFilter = {
+    is?: JurnalMengajarWhereInput
+    isNot?: JurnalMengajarWhereInput
+  }
+
+  export type PresensiSiswaOrderByRelevanceInput = {
+    fields: PresensiSiswaOrderByRelevanceFieldEnum | PresensiSiswaOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type PresensiSiswaJurnalIdSiswaIdCompoundUniqueInput = {
+    jurnalId: string
+    siswaId: string
+  }
+
+  export type PresensiSiswaCountOrderByAggregateInput = {
+    id?: SortOrder
+    jurnalId?: SortOrder
+    siswaId?: SortOrder
+    status?: SortOrder
+    waktuScan?: SortOrder
+    nilaiTugas?: SortOrder
+    alasanIzin?: SortOrder
+    isDispensasi?: SortOrder
+    isTerlambat?: SortOrder
+    alasanTerlambat?: SortOrder
+    alasan?: SortOrder
+    fileBukti?: SortOrder
+  }
+
+  export type PresensiSiswaAvgOrderByAggregateInput = {
+    nilaiTugas?: SortOrder
+  }
+
+  export type PresensiSiswaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    jurnalId?: SortOrder
+    siswaId?: SortOrder
+    status?: SortOrder
+    waktuScan?: SortOrder
+    nilaiTugas?: SortOrder
+    alasanIzin?: SortOrder
+    isDispensasi?: SortOrder
+    isTerlambat?: SortOrder
+    alasanTerlambat?: SortOrder
+    alasan?: SortOrder
+    fileBukti?: SortOrder
+  }
+
+  export type PresensiSiswaMinOrderByAggregateInput = {
+    id?: SortOrder
+    jurnalId?: SortOrder
+    siswaId?: SortOrder
+    status?: SortOrder
+    waktuScan?: SortOrder
+    nilaiTugas?: SortOrder
+    alasanIzin?: SortOrder
+    isDispensasi?: SortOrder
+    isTerlambat?: SortOrder
+    alasanTerlambat?: SortOrder
+    alasan?: SortOrder
+    fileBukti?: SortOrder
+  }
+
+  export type PresensiSiswaSumOrderByAggregateInput = {
+    nilaiTugas?: SortOrder
+  }
+
+  export type EnumStatusHadirWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusHadir | EnumStatusHadirFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusHadir[]
+    notIn?: $Enums.StatusHadir[]
+    not?: NestedEnumStatusHadirWithAggregatesFilter<$PrismaModel> | $Enums.StatusHadir
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusHadirFilter<$PrismaModel>
+    _max?: NestedEnumStatusHadirFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type RatingGuruOrderByRelevanceInput = {
+    fields: RatingGuruOrderByRelevanceFieldEnum | RatingGuruOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type RatingGuruSiswaIdGuruIdMapelIdTahunAjaranIdCompoundUniqueInput = {
+    siswaId: string
+    guruId: string
+    mapelId: string
+    tahunAjaranId: string
+  }
+
+  export type RatingGuruCountOrderByAggregateInput = {
+    id?: SortOrder
+    guruId?: SortOrder
+    siswaId?: SortOrder
+    mapelId?: SortOrder
+    tahunAjaranId?: SortOrder
+    rating?: SortOrder
+    komentar?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RatingGuruAvgOrderByAggregateInput = {
+    rating?: SortOrder
+  }
+
+  export type RatingGuruMaxOrderByAggregateInput = {
+    id?: SortOrder
+    guruId?: SortOrder
+    siswaId?: SortOrder
+    mapelId?: SortOrder
+    tahunAjaranId?: SortOrder
+    rating?: SortOrder
+    komentar?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RatingGuruMinOrderByAggregateInput = {
+    id?: SortOrder
+    guruId?: SortOrder
+    siswaId?: SortOrder
+    mapelId?: SortOrder
+    tahunAjaranId?: SortOrder
+    rating?: SortOrder
+    komentar?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RatingGuruSumOrderByAggregateInput = {
+    rating?: SortOrder
   }
 
   export type GuruCreateNestedOneWithoutUserInput = {
@@ -9477,6 +22548,13 @@ export namespace Prisma {
     connect?: SiswaWhereUniqueInput
   }
 
+  export type LaporanPdcaCreateNestedManyWithoutPembuatInput = {
+    create?: XOR<LaporanPdcaCreateWithoutPembuatInput, LaporanPdcaUncheckedCreateWithoutPembuatInput> | LaporanPdcaCreateWithoutPembuatInput[] | LaporanPdcaUncheckedCreateWithoutPembuatInput[]
+    connectOrCreate?: LaporanPdcaCreateOrConnectWithoutPembuatInput | LaporanPdcaCreateOrConnectWithoutPembuatInput[]
+    createMany?: LaporanPdcaCreateManyPembuatInputEnvelope
+    connect?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+  }
+
   export type GuruUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<GuruCreateWithoutUserInput, GuruUncheckedCreateWithoutUserInput>
     connectOrCreate?: GuruCreateOrConnectWithoutUserInput
@@ -9487,6 +22565,13 @@ export namespace Prisma {
     create?: XOR<SiswaCreateWithoutUserInput, SiswaUncheckedCreateWithoutUserInput>
     connectOrCreate?: SiswaCreateOrConnectWithoutUserInput
     connect?: SiswaWhereUniqueInput
+  }
+
+  export type LaporanPdcaUncheckedCreateNestedManyWithoutPembuatInput = {
+    create?: XOR<LaporanPdcaCreateWithoutPembuatInput, LaporanPdcaUncheckedCreateWithoutPembuatInput> | LaporanPdcaCreateWithoutPembuatInput[] | LaporanPdcaUncheckedCreateWithoutPembuatInput[]
+    connectOrCreate?: LaporanPdcaCreateOrConnectWithoutPembuatInput | LaporanPdcaCreateOrConnectWithoutPembuatInput[]
+    createMany?: LaporanPdcaCreateManyPembuatInputEnvelope
+    connect?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -9521,6 +22606,20 @@ export namespace Prisma {
     update?: XOR<XOR<SiswaUpdateToOneWithWhereWithoutUserInput, SiswaUpdateWithoutUserInput>, SiswaUncheckedUpdateWithoutUserInput>
   }
 
+  export type LaporanPdcaUpdateManyWithoutPembuatNestedInput = {
+    create?: XOR<LaporanPdcaCreateWithoutPembuatInput, LaporanPdcaUncheckedCreateWithoutPembuatInput> | LaporanPdcaCreateWithoutPembuatInput[] | LaporanPdcaUncheckedCreateWithoutPembuatInput[]
+    connectOrCreate?: LaporanPdcaCreateOrConnectWithoutPembuatInput | LaporanPdcaCreateOrConnectWithoutPembuatInput[]
+    upsert?: LaporanPdcaUpsertWithWhereUniqueWithoutPembuatInput | LaporanPdcaUpsertWithWhereUniqueWithoutPembuatInput[]
+    createMany?: LaporanPdcaCreateManyPembuatInputEnvelope
+    set?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    disconnect?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    delete?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    connect?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    update?: LaporanPdcaUpdateWithWhereUniqueWithoutPembuatInput | LaporanPdcaUpdateWithWhereUniqueWithoutPembuatInput[]
+    updateMany?: LaporanPdcaUpdateManyWithWhereWithoutPembuatInput | LaporanPdcaUpdateManyWithWhereWithoutPembuatInput[]
+    deleteMany?: LaporanPdcaScalarWhereInput | LaporanPdcaScalarWhereInput[]
+  }
+
   export type GuruUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<GuruCreateWithoutUserInput, GuruUncheckedCreateWithoutUserInput>
     connectOrCreate?: GuruCreateOrConnectWithoutUserInput
@@ -9541,6 +22640,20 @@ export namespace Prisma {
     update?: XOR<XOR<SiswaUpdateToOneWithWhereWithoutUserInput, SiswaUpdateWithoutUserInput>, SiswaUncheckedUpdateWithoutUserInput>
   }
 
+  export type LaporanPdcaUncheckedUpdateManyWithoutPembuatNestedInput = {
+    create?: XOR<LaporanPdcaCreateWithoutPembuatInput, LaporanPdcaUncheckedCreateWithoutPembuatInput> | LaporanPdcaCreateWithoutPembuatInput[] | LaporanPdcaUncheckedCreateWithoutPembuatInput[]
+    connectOrCreate?: LaporanPdcaCreateOrConnectWithoutPembuatInput | LaporanPdcaCreateOrConnectWithoutPembuatInput[]
+    upsert?: LaporanPdcaUpsertWithWhereUniqueWithoutPembuatInput | LaporanPdcaUpsertWithWhereUniqueWithoutPembuatInput[]
+    createMany?: LaporanPdcaCreateManyPembuatInputEnvelope
+    set?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    disconnect?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    delete?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    connect?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    update?: LaporanPdcaUpdateWithWhereUniqueWithoutPembuatInput | LaporanPdcaUpdateWithWhereUniqueWithoutPembuatInput[]
+    updateMany?: LaporanPdcaUpdateManyWithWhereWithoutPembuatInput | LaporanPdcaUpdateManyWithWhereWithoutPembuatInput[]
+    deleteMany?: LaporanPdcaScalarWhereInput | LaporanPdcaScalarWhereInput[]
+  }
+
   export type RiwayatKelasSiswaCreateNestedManyWithoutTahunAjaranInput = {
     create?: XOR<RiwayatKelasSiswaCreateWithoutTahunAjaranInput, RiwayatKelasSiswaUncheckedCreateWithoutTahunAjaranInput> | RiwayatKelasSiswaCreateWithoutTahunAjaranInput[] | RiwayatKelasSiswaUncheckedCreateWithoutTahunAjaranInput[]
     connectOrCreate?: RiwayatKelasSiswaCreateOrConnectWithoutTahunAjaranInput | RiwayatKelasSiswaCreateOrConnectWithoutTahunAjaranInput[]
@@ -9548,11 +22661,79 @@ export namespace Prisma {
     connect?: RiwayatKelasSiswaWhereUniqueInput | RiwayatKelasSiswaWhereUniqueInput[]
   }
 
+  export type JadwalPelajaranCreateNestedManyWithoutTahunAjaranInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutTahunAjaranInput, JadwalPelajaranUncheckedCreateWithoutTahunAjaranInput> | JadwalPelajaranCreateWithoutTahunAjaranInput[] | JadwalPelajaranUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutTahunAjaranInput | JadwalPelajaranCreateOrConnectWithoutTahunAjaranInput[]
+    createMany?: JadwalPelajaranCreateManyTahunAjaranInputEnvelope
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+  }
+
+  export type MataPelajaranCreateNestedManyWithoutTahunAjaranInput = {
+    create?: XOR<MataPelajaranCreateWithoutTahunAjaranInput, MataPelajaranUncheckedCreateWithoutTahunAjaranInput> | MataPelajaranCreateWithoutTahunAjaranInput[] | MataPelajaranUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: MataPelajaranCreateOrConnectWithoutTahunAjaranInput | MataPelajaranCreateOrConnectWithoutTahunAjaranInput[]
+    connect?: MataPelajaranWhereUniqueInput | MataPelajaranWhereUniqueInput[]
+  }
+
+  export type LaporanPdcaCreateNestedManyWithoutTahunAjaranInput = {
+    create?: XOR<LaporanPdcaCreateWithoutTahunAjaranInput, LaporanPdcaUncheckedCreateWithoutTahunAjaranInput> | LaporanPdcaCreateWithoutTahunAjaranInput[] | LaporanPdcaUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: LaporanPdcaCreateOrConnectWithoutTahunAjaranInput | LaporanPdcaCreateOrConnectWithoutTahunAjaranInput[]
+    createMany?: LaporanPdcaCreateManyTahunAjaranInputEnvelope
+    connect?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+  }
+
+  export type RatingGuruCreateNestedManyWithoutTahunAjaranInput = {
+    create?: XOR<RatingGuruCreateWithoutTahunAjaranInput, RatingGuruUncheckedCreateWithoutTahunAjaranInput> | RatingGuruCreateWithoutTahunAjaranInput[] | RatingGuruUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutTahunAjaranInput | RatingGuruCreateOrConnectWithoutTahunAjaranInput[]
+    createMany?: RatingGuruCreateManyTahunAjaranInputEnvelope
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+  }
+
+  export type TimFasilitatorTkaCreateNestedManyWithoutTahunAjaranInput = {
+    create?: XOR<TimFasilitatorTkaCreateWithoutTahunAjaranInput, TimFasilitatorTkaUncheckedCreateWithoutTahunAjaranInput> | TimFasilitatorTkaCreateWithoutTahunAjaranInput[] | TimFasilitatorTkaUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: TimFasilitatorTkaCreateOrConnectWithoutTahunAjaranInput | TimFasilitatorTkaCreateOrConnectWithoutTahunAjaranInput[]
+    createMany?: TimFasilitatorTkaCreateManyTahunAjaranInputEnvelope
+    connect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+  }
+
   export type RiwayatKelasSiswaUncheckedCreateNestedManyWithoutTahunAjaranInput = {
     create?: XOR<RiwayatKelasSiswaCreateWithoutTahunAjaranInput, RiwayatKelasSiswaUncheckedCreateWithoutTahunAjaranInput> | RiwayatKelasSiswaCreateWithoutTahunAjaranInput[] | RiwayatKelasSiswaUncheckedCreateWithoutTahunAjaranInput[]
     connectOrCreate?: RiwayatKelasSiswaCreateOrConnectWithoutTahunAjaranInput | RiwayatKelasSiswaCreateOrConnectWithoutTahunAjaranInput[]
     createMany?: RiwayatKelasSiswaCreateManyTahunAjaranInputEnvelope
     connect?: RiwayatKelasSiswaWhereUniqueInput | RiwayatKelasSiswaWhereUniqueInput[]
+  }
+
+  export type JadwalPelajaranUncheckedCreateNestedManyWithoutTahunAjaranInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutTahunAjaranInput, JadwalPelajaranUncheckedCreateWithoutTahunAjaranInput> | JadwalPelajaranCreateWithoutTahunAjaranInput[] | JadwalPelajaranUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutTahunAjaranInput | JadwalPelajaranCreateOrConnectWithoutTahunAjaranInput[]
+    createMany?: JadwalPelajaranCreateManyTahunAjaranInputEnvelope
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+  }
+
+  export type MataPelajaranUncheckedCreateNestedManyWithoutTahunAjaranInput = {
+    create?: XOR<MataPelajaranCreateWithoutTahunAjaranInput, MataPelajaranUncheckedCreateWithoutTahunAjaranInput> | MataPelajaranCreateWithoutTahunAjaranInput[] | MataPelajaranUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: MataPelajaranCreateOrConnectWithoutTahunAjaranInput | MataPelajaranCreateOrConnectWithoutTahunAjaranInput[]
+    connect?: MataPelajaranWhereUniqueInput | MataPelajaranWhereUniqueInput[]
+  }
+
+  export type LaporanPdcaUncheckedCreateNestedManyWithoutTahunAjaranInput = {
+    create?: XOR<LaporanPdcaCreateWithoutTahunAjaranInput, LaporanPdcaUncheckedCreateWithoutTahunAjaranInput> | LaporanPdcaCreateWithoutTahunAjaranInput[] | LaporanPdcaUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: LaporanPdcaCreateOrConnectWithoutTahunAjaranInput | LaporanPdcaCreateOrConnectWithoutTahunAjaranInput[]
+    createMany?: LaporanPdcaCreateManyTahunAjaranInputEnvelope
+    connect?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+  }
+
+  export type RatingGuruUncheckedCreateNestedManyWithoutTahunAjaranInput = {
+    create?: XOR<RatingGuruCreateWithoutTahunAjaranInput, RatingGuruUncheckedCreateWithoutTahunAjaranInput> | RatingGuruCreateWithoutTahunAjaranInput[] | RatingGuruUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutTahunAjaranInput | RatingGuruCreateOrConnectWithoutTahunAjaranInput[]
+    createMany?: RatingGuruCreateManyTahunAjaranInputEnvelope
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+  }
+
+  export type TimFasilitatorTkaUncheckedCreateNestedManyWithoutTahunAjaranInput = {
+    create?: XOR<TimFasilitatorTkaCreateWithoutTahunAjaranInput, TimFasilitatorTkaUncheckedCreateWithoutTahunAjaranInput> | TimFasilitatorTkaCreateWithoutTahunAjaranInput[] | TimFasilitatorTkaUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: TimFasilitatorTkaCreateOrConnectWithoutTahunAjaranInput | TimFasilitatorTkaCreateOrConnectWithoutTahunAjaranInput[]
+    createMany?: TimFasilitatorTkaCreateManyTahunAjaranInputEnvelope
+    connect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -9573,6 +22754,75 @@ export namespace Prisma {
     deleteMany?: RiwayatKelasSiswaScalarWhereInput | RiwayatKelasSiswaScalarWhereInput[]
   }
 
+  export type JadwalPelajaranUpdateManyWithoutTahunAjaranNestedInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutTahunAjaranInput, JadwalPelajaranUncheckedCreateWithoutTahunAjaranInput> | JadwalPelajaranCreateWithoutTahunAjaranInput[] | JadwalPelajaranUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutTahunAjaranInput | JadwalPelajaranCreateOrConnectWithoutTahunAjaranInput[]
+    upsert?: JadwalPelajaranUpsertWithWhereUniqueWithoutTahunAjaranInput | JadwalPelajaranUpsertWithWhereUniqueWithoutTahunAjaranInput[]
+    createMany?: JadwalPelajaranCreateManyTahunAjaranInputEnvelope
+    set?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    disconnect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    delete?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    update?: JadwalPelajaranUpdateWithWhereUniqueWithoutTahunAjaranInput | JadwalPelajaranUpdateWithWhereUniqueWithoutTahunAjaranInput[]
+    updateMany?: JadwalPelajaranUpdateManyWithWhereWithoutTahunAjaranInput | JadwalPelajaranUpdateManyWithWhereWithoutTahunAjaranInput[]
+    deleteMany?: JadwalPelajaranScalarWhereInput | JadwalPelajaranScalarWhereInput[]
+  }
+
+  export type MataPelajaranUpdateManyWithoutTahunAjaranNestedInput = {
+    create?: XOR<MataPelajaranCreateWithoutTahunAjaranInput, MataPelajaranUncheckedCreateWithoutTahunAjaranInput> | MataPelajaranCreateWithoutTahunAjaranInput[] | MataPelajaranUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: MataPelajaranCreateOrConnectWithoutTahunAjaranInput | MataPelajaranCreateOrConnectWithoutTahunAjaranInput[]
+    upsert?: MataPelajaranUpsertWithWhereUniqueWithoutTahunAjaranInput | MataPelajaranUpsertWithWhereUniqueWithoutTahunAjaranInput[]
+    set?: MataPelajaranWhereUniqueInput | MataPelajaranWhereUniqueInput[]
+    disconnect?: MataPelajaranWhereUniqueInput | MataPelajaranWhereUniqueInput[]
+    delete?: MataPelajaranWhereUniqueInput | MataPelajaranWhereUniqueInput[]
+    connect?: MataPelajaranWhereUniqueInput | MataPelajaranWhereUniqueInput[]
+    update?: MataPelajaranUpdateWithWhereUniqueWithoutTahunAjaranInput | MataPelajaranUpdateWithWhereUniqueWithoutTahunAjaranInput[]
+    updateMany?: MataPelajaranUpdateManyWithWhereWithoutTahunAjaranInput | MataPelajaranUpdateManyWithWhereWithoutTahunAjaranInput[]
+    deleteMany?: MataPelajaranScalarWhereInput | MataPelajaranScalarWhereInput[]
+  }
+
+  export type LaporanPdcaUpdateManyWithoutTahunAjaranNestedInput = {
+    create?: XOR<LaporanPdcaCreateWithoutTahunAjaranInput, LaporanPdcaUncheckedCreateWithoutTahunAjaranInput> | LaporanPdcaCreateWithoutTahunAjaranInput[] | LaporanPdcaUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: LaporanPdcaCreateOrConnectWithoutTahunAjaranInput | LaporanPdcaCreateOrConnectWithoutTahunAjaranInput[]
+    upsert?: LaporanPdcaUpsertWithWhereUniqueWithoutTahunAjaranInput | LaporanPdcaUpsertWithWhereUniqueWithoutTahunAjaranInput[]
+    createMany?: LaporanPdcaCreateManyTahunAjaranInputEnvelope
+    set?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    disconnect?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    delete?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    connect?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    update?: LaporanPdcaUpdateWithWhereUniqueWithoutTahunAjaranInput | LaporanPdcaUpdateWithWhereUniqueWithoutTahunAjaranInput[]
+    updateMany?: LaporanPdcaUpdateManyWithWhereWithoutTahunAjaranInput | LaporanPdcaUpdateManyWithWhereWithoutTahunAjaranInput[]
+    deleteMany?: LaporanPdcaScalarWhereInput | LaporanPdcaScalarWhereInput[]
+  }
+
+  export type RatingGuruUpdateManyWithoutTahunAjaranNestedInput = {
+    create?: XOR<RatingGuruCreateWithoutTahunAjaranInput, RatingGuruUncheckedCreateWithoutTahunAjaranInput> | RatingGuruCreateWithoutTahunAjaranInput[] | RatingGuruUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutTahunAjaranInput | RatingGuruCreateOrConnectWithoutTahunAjaranInput[]
+    upsert?: RatingGuruUpsertWithWhereUniqueWithoutTahunAjaranInput | RatingGuruUpsertWithWhereUniqueWithoutTahunAjaranInput[]
+    createMany?: RatingGuruCreateManyTahunAjaranInputEnvelope
+    set?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    disconnect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    delete?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    update?: RatingGuruUpdateWithWhereUniqueWithoutTahunAjaranInput | RatingGuruUpdateWithWhereUniqueWithoutTahunAjaranInput[]
+    updateMany?: RatingGuruUpdateManyWithWhereWithoutTahunAjaranInput | RatingGuruUpdateManyWithWhereWithoutTahunAjaranInput[]
+    deleteMany?: RatingGuruScalarWhereInput | RatingGuruScalarWhereInput[]
+  }
+
+  export type TimFasilitatorTkaUpdateManyWithoutTahunAjaranNestedInput = {
+    create?: XOR<TimFasilitatorTkaCreateWithoutTahunAjaranInput, TimFasilitatorTkaUncheckedCreateWithoutTahunAjaranInput> | TimFasilitatorTkaCreateWithoutTahunAjaranInput[] | TimFasilitatorTkaUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: TimFasilitatorTkaCreateOrConnectWithoutTahunAjaranInput | TimFasilitatorTkaCreateOrConnectWithoutTahunAjaranInput[]
+    upsert?: TimFasilitatorTkaUpsertWithWhereUniqueWithoutTahunAjaranInput | TimFasilitatorTkaUpsertWithWhereUniqueWithoutTahunAjaranInput[]
+    createMany?: TimFasilitatorTkaCreateManyTahunAjaranInputEnvelope
+    set?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    disconnect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    delete?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    connect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    update?: TimFasilitatorTkaUpdateWithWhereUniqueWithoutTahunAjaranInput | TimFasilitatorTkaUpdateWithWhereUniqueWithoutTahunAjaranInput[]
+    updateMany?: TimFasilitatorTkaUpdateManyWithWhereWithoutTahunAjaranInput | TimFasilitatorTkaUpdateManyWithWhereWithoutTahunAjaranInput[]
+    deleteMany?: TimFasilitatorTkaScalarWhereInput | TimFasilitatorTkaScalarWhereInput[]
+  }
+
   export type RiwayatKelasSiswaUncheckedUpdateManyWithoutTahunAjaranNestedInput = {
     create?: XOR<RiwayatKelasSiswaCreateWithoutTahunAjaranInput, RiwayatKelasSiswaUncheckedCreateWithoutTahunAjaranInput> | RiwayatKelasSiswaCreateWithoutTahunAjaranInput[] | RiwayatKelasSiswaUncheckedCreateWithoutTahunAjaranInput[]
     connectOrCreate?: RiwayatKelasSiswaCreateOrConnectWithoutTahunAjaranInput | RiwayatKelasSiswaCreateOrConnectWithoutTahunAjaranInput[]
@@ -9587,11 +22837,87 @@ export namespace Prisma {
     deleteMany?: RiwayatKelasSiswaScalarWhereInput | RiwayatKelasSiswaScalarWhereInput[]
   }
 
+  export type JadwalPelajaranUncheckedUpdateManyWithoutTahunAjaranNestedInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutTahunAjaranInput, JadwalPelajaranUncheckedCreateWithoutTahunAjaranInput> | JadwalPelajaranCreateWithoutTahunAjaranInput[] | JadwalPelajaranUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutTahunAjaranInput | JadwalPelajaranCreateOrConnectWithoutTahunAjaranInput[]
+    upsert?: JadwalPelajaranUpsertWithWhereUniqueWithoutTahunAjaranInput | JadwalPelajaranUpsertWithWhereUniqueWithoutTahunAjaranInput[]
+    createMany?: JadwalPelajaranCreateManyTahunAjaranInputEnvelope
+    set?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    disconnect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    delete?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    update?: JadwalPelajaranUpdateWithWhereUniqueWithoutTahunAjaranInput | JadwalPelajaranUpdateWithWhereUniqueWithoutTahunAjaranInput[]
+    updateMany?: JadwalPelajaranUpdateManyWithWhereWithoutTahunAjaranInput | JadwalPelajaranUpdateManyWithWhereWithoutTahunAjaranInput[]
+    deleteMany?: JadwalPelajaranScalarWhereInput | JadwalPelajaranScalarWhereInput[]
+  }
+
+  export type MataPelajaranUncheckedUpdateManyWithoutTahunAjaranNestedInput = {
+    create?: XOR<MataPelajaranCreateWithoutTahunAjaranInput, MataPelajaranUncheckedCreateWithoutTahunAjaranInput> | MataPelajaranCreateWithoutTahunAjaranInput[] | MataPelajaranUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: MataPelajaranCreateOrConnectWithoutTahunAjaranInput | MataPelajaranCreateOrConnectWithoutTahunAjaranInput[]
+    upsert?: MataPelajaranUpsertWithWhereUniqueWithoutTahunAjaranInput | MataPelajaranUpsertWithWhereUniqueWithoutTahunAjaranInput[]
+    set?: MataPelajaranWhereUniqueInput | MataPelajaranWhereUniqueInput[]
+    disconnect?: MataPelajaranWhereUniqueInput | MataPelajaranWhereUniqueInput[]
+    delete?: MataPelajaranWhereUniqueInput | MataPelajaranWhereUniqueInput[]
+    connect?: MataPelajaranWhereUniqueInput | MataPelajaranWhereUniqueInput[]
+    update?: MataPelajaranUpdateWithWhereUniqueWithoutTahunAjaranInput | MataPelajaranUpdateWithWhereUniqueWithoutTahunAjaranInput[]
+    updateMany?: MataPelajaranUpdateManyWithWhereWithoutTahunAjaranInput | MataPelajaranUpdateManyWithWhereWithoutTahunAjaranInput[]
+    deleteMany?: MataPelajaranScalarWhereInput | MataPelajaranScalarWhereInput[]
+  }
+
+  export type LaporanPdcaUncheckedUpdateManyWithoutTahunAjaranNestedInput = {
+    create?: XOR<LaporanPdcaCreateWithoutTahunAjaranInput, LaporanPdcaUncheckedCreateWithoutTahunAjaranInput> | LaporanPdcaCreateWithoutTahunAjaranInput[] | LaporanPdcaUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: LaporanPdcaCreateOrConnectWithoutTahunAjaranInput | LaporanPdcaCreateOrConnectWithoutTahunAjaranInput[]
+    upsert?: LaporanPdcaUpsertWithWhereUniqueWithoutTahunAjaranInput | LaporanPdcaUpsertWithWhereUniqueWithoutTahunAjaranInput[]
+    createMany?: LaporanPdcaCreateManyTahunAjaranInputEnvelope
+    set?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    disconnect?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    delete?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    connect?: LaporanPdcaWhereUniqueInput | LaporanPdcaWhereUniqueInput[]
+    update?: LaporanPdcaUpdateWithWhereUniqueWithoutTahunAjaranInput | LaporanPdcaUpdateWithWhereUniqueWithoutTahunAjaranInput[]
+    updateMany?: LaporanPdcaUpdateManyWithWhereWithoutTahunAjaranInput | LaporanPdcaUpdateManyWithWhereWithoutTahunAjaranInput[]
+    deleteMany?: LaporanPdcaScalarWhereInput | LaporanPdcaScalarWhereInput[]
+  }
+
+  export type RatingGuruUncheckedUpdateManyWithoutTahunAjaranNestedInput = {
+    create?: XOR<RatingGuruCreateWithoutTahunAjaranInput, RatingGuruUncheckedCreateWithoutTahunAjaranInput> | RatingGuruCreateWithoutTahunAjaranInput[] | RatingGuruUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutTahunAjaranInput | RatingGuruCreateOrConnectWithoutTahunAjaranInput[]
+    upsert?: RatingGuruUpsertWithWhereUniqueWithoutTahunAjaranInput | RatingGuruUpsertWithWhereUniqueWithoutTahunAjaranInput[]
+    createMany?: RatingGuruCreateManyTahunAjaranInputEnvelope
+    set?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    disconnect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    delete?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    update?: RatingGuruUpdateWithWhereUniqueWithoutTahunAjaranInput | RatingGuruUpdateWithWhereUniqueWithoutTahunAjaranInput[]
+    updateMany?: RatingGuruUpdateManyWithWhereWithoutTahunAjaranInput | RatingGuruUpdateManyWithWhereWithoutTahunAjaranInput[]
+    deleteMany?: RatingGuruScalarWhereInput | RatingGuruScalarWhereInput[]
+  }
+
+  export type TimFasilitatorTkaUncheckedUpdateManyWithoutTahunAjaranNestedInput = {
+    create?: XOR<TimFasilitatorTkaCreateWithoutTahunAjaranInput, TimFasilitatorTkaUncheckedCreateWithoutTahunAjaranInput> | TimFasilitatorTkaCreateWithoutTahunAjaranInput[] | TimFasilitatorTkaUncheckedCreateWithoutTahunAjaranInput[]
+    connectOrCreate?: TimFasilitatorTkaCreateOrConnectWithoutTahunAjaranInput | TimFasilitatorTkaCreateOrConnectWithoutTahunAjaranInput[]
+    upsert?: TimFasilitatorTkaUpsertWithWhereUniqueWithoutTahunAjaranInput | TimFasilitatorTkaUpsertWithWhereUniqueWithoutTahunAjaranInput[]
+    createMany?: TimFasilitatorTkaCreateManyTahunAjaranInputEnvelope
+    set?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    disconnect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    delete?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    connect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    update?: TimFasilitatorTkaUpdateWithWhereUniqueWithoutTahunAjaranInput | TimFasilitatorTkaUpdateWithWhereUniqueWithoutTahunAjaranInput[]
+    updateMany?: TimFasilitatorTkaUpdateManyWithWhereWithoutTahunAjaranInput | TimFasilitatorTkaUpdateManyWithWhereWithoutTahunAjaranInput[]
+    deleteMany?: TimFasilitatorTkaScalarWhereInput | TimFasilitatorTkaScalarWhereInput[]
+  }
+
   export type RiwayatKelasSiswaCreateNestedManyWithoutKelasInput = {
     create?: XOR<RiwayatKelasSiswaCreateWithoutKelasInput, RiwayatKelasSiswaUncheckedCreateWithoutKelasInput> | RiwayatKelasSiswaCreateWithoutKelasInput[] | RiwayatKelasSiswaUncheckedCreateWithoutKelasInput[]
     connectOrCreate?: RiwayatKelasSiswaCreateOrConnectWithoutKelasInput | RiwayatKelasSiswaCreateOrConnectWithoutKelasInput[]
     createMany?: RiwayatKelasSiswaCreateManyKelasInputEnvelope
     connect?: RiwayatKelasSiswaWhereUniqueInput | RiwayatKelasSiswaWhereUniqueInput[]
+  }
+
+  export type JadwalPelajaranCreateNestedManyWithoutKelasInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutKelasInput, JadwalPelajaranUncheckedCreateWithoutKelasInput> | JadwalPelajaranCreateWithoutKelasInput[] | JadwalPelajaranUncheckedCreateWithoutKelasInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutKelasInput | JadwalPelajaranCreateOrConnectWithoutKelasInput[]
+    createMany?: JadwalPelajaranCreateManyKelasInputEnvelope
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
   }
 
   export type KelasWaliCreateNestedManyWithoutKelasInput = {
@@ -9608,11 +22934,22 @@ export namespace Prisma {
     connect?: RiwayatKelasSiswaWhereUniqueInput | RiwayatKelasSiswaWhereUniqueInput[]
   }
 
+  export type JadwalPelajaranUncheckedCreateNestedManyWithoutKelasInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutKelasInput, JadwalPelajaranUncheckedCreateWithoutKelasInput> | JadwalPelajaranCreateWithoutKelasInput[] | JadwalPelajaranUncheckedCreateWithoutKelasInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutKelasInput | JadwalPelajaranCreateOrConnectWithoutKelasInput[]
+    createMany?: JadwalPelajaranCreateManyKelasInputEnvelope
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+  }
+
   export type KelasWaliUncheckedCreateNestedManyWithoutKelasInput = {
     create?: XOR<KelasWaliCreateWithoutKelasInput, KelasWaliUncheckedCreateWithoutKelasInput> | KelasWaliCreateWithoutKelasInput[] | KelasWaliUncheckedCreateWithoutKelasInput[]
     connectOrCreate?: KelasWaliCreateOrConnectWithoutKelasInput | KelasWaliCreateOrConnectWithoutKelasInput[]
     createMany?: KelasWaliCreateManyKelasInputEnvelope
     connect?: KelasWaliWhereUniqueInput | KelasWaliWhereUniqueInput[]
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type RiwayatKelasSiswaUpdateManyWithoutKelasNestedInput = {
@@ -9627,6 +22964,20 @@ export namespace Prisma {
     update?: RiwayatKelasSiswaUpdateWithWhereUniqueWithoutKelasInput | RiwayatKelasSiswaUpdateWithWhereUniqueWithoutKelasInput[]
     updateMany?: RiwayatKelasSiswaUpdateManyWithWhereWithoutKelasInput | RiwayatKelasSiswaUpdateManyWithWhereWithoutKelasInput[]
     deleteMany?: RiwayatKelasSiswaScalarWhereInput | RiwayatKelasSiswaScalarWhereInput[]
+  }
+
+  export type JadwalPelajaranUpdateManyWithoutKelasNestedInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutKelasInput, JadwalPelajaranUncheckedCreateWithoutKelasInput> | JadwalPelajaranCreateWithoutKelasInput[] | JadwalPelajaranUncheckedCreateWithoutKelasInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutKelasInput | JadwalPelajaranCreateOrConnectWithoutKelasInput[]
+    upsert?: JadwalPelajaranUpsertWithWhereUniqueWithoutKelasInput | JadwalPelajaranUpsertWithWhereUniqueWithoutKelasInput[]
+    createMany?: JadwalPelajaranCreateManyKelasInputEnvelope
+    set?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    disconnect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    delete?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    update?: JadwalPelajaranUpdateWithWhereUniqueWithoutKelasInput | JadwalPelajaranUpdateWithWhereUniqueWithoutKelasInput[]
+    updateMany?: JadwalPelajaranUpdateManyWithWhereWithoutKelasInput | JadwalPelajaranUpdateManyWithWhereWithoutKelasInput[]
+    deleteMany?: JadwalPelajaranScalarWhereInput | JadwalPelajaranScalarWhereInput[]
   }
 
   export type KelasWaliUpdateManyWithoutKelasNestedInput = {
@@ -9657,6 +23008,20 @@ export namespace Prisma {
     deleteMany?: RiwayatKelasSiswaScalarWhereInput | RiwayatKelasSiswaScalarWhereInput[]
   }
 
+  export type JadwalPelajaranUncheckedUpdateManyWithoutKelasNestedInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutKelasInput, JadwalPelajaranUncheckedCreateWithoutKelasInput> | JadwalPelajaranCreateWithoutKelasInput[] | JadwalPelajaranUncheckedCreateWithoutKelasInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutKelasInput | JadwalPelajaranCreateOrConnectWithoutKelasInput[]
+    upsert?: JadwalPelajaranUpsertWithWhereUniqueWithoutKelasInput | JadwalPelajaranUpsertWithWhereUniqueWithoutKelasInput[]
+    createMany?: JadwalPelajaranCreateManyKelasInputEnvelope
+    set?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    disconnect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    delete?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    update?: JadwalPelajaranUpdateWithWhereUniqueWithoutKelasInput | JadwalPelajaranUpdateWithWhereUniqueWithoutKelasInput[]
+    updateMany?: JadwalPelajaranUpdateManyWithWhereWithoutKelasInput | JadwalPelajaranUpdateManyWithWhereWithoutKelasInput[]
+    deleteMany?: JadwalPelajaranScalarWhereInput | JadwalPelajaranScalarWhereInput[]
+  }
+
   export type KelasWaliUncheckedUpdateManyWithoutKelasNestedInput = {
     create?: XOR<KelasWaliCreateWithoutKelasInput, KelasWaliUncheckedCreateWithoutKelasInput> | KelasWaliCreateWithoutKelasInput[] | KelasWaliUncheckedCreateWithoutKelasInput[]
     connectOrCreate?: KelasWaliCreateOrConnectWithoutKelasInput | KelasWaliCreateOrConnectWithoutKelasInput[]
@@ -9671,10 +23036,267 @@ export namespace Prisma {
     deleteMany?: KelasWaliScalarWhereInput | KelasWaliScalarWhereInput[]
   }
 
+  export type JadwalPelajaranCreateNestedManyWithoutMapelInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutMapelInput, JadwalPelajaranUncheckedCreateWithoutMapelInput> | JadwalPelajaranCreateWithoutMapelInput[] | JadwalPelajaranUncheckedCreateWithoutMapelInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutMapelInput | JadwalPelajaranCreateOrConnectWithoutMapelInput[]
+    createMany?: JadwalPelajaranCreateManyMapelInputEnvelope
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+  }
+
+  export type TahunAjaranCreateNestedManyWithoutMataPelajaranInput = {
+    create?: XOR<TahunAjaranCreateWithoutMataPelajaranInput, TahunAjaranUncheckedCreateWithoutMataPelajaranInput> | TahunAjaranCreateWithoutMataPelajaranInput[] | TahunAjaranUncheckedCreateWithoutMataPelajaranInput[]
+    connectOrCreate?: TahunAjaranCreateOrConnectWithoutMataPelajaranInput | TahunAjaranCreateOrConnectWithoutMataPelajaranInput[]
+    connect?: TahunAjaranWhereUniqueInput | TahunAjaranWhereUniqueInput[]
+  }
+
+  export type RatingGuruCreateNestedManyWithoutMapelInput = {
+    create?: XOR<RatingGuruCreateWithoutMapelInput, RatingGuruUncheckedCreateWithoutMapelInput> | RatingGuruCreateWithoutMapelInput[] | RatingGuruUncheckedCreateWithoutMapelInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutMapelInput | RatingGuruCreateOrConnectWithoutMapelInput[]
+    createMany?: RatingGuruCreateManyMapelInputEnvelope
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+  }
+
+  export type TimFasilitatorTkaCreateNestedManyWithoutMapelInput = {
+    create?: XOR<TimFasilitatorTkaCreateWithoutMapelInput, TimFasilitatorTkaUncheckedCreateWithoutMapelInput> | TimFasilitatorTkaCreateWithoutMapelInput[] | TimFasilitatorTkaUncheckedCreateWithoutMapelInput[]
+    connectOrCreate?: TimFasilitatorTkaCreateOrConnectWithoutMapelInput | TimFasilitatorTkaCreateOrConnectWithoutMapelInput[]
+    createMany?: TimFasilitatorTkaCreateManyMapelInputEnvelope
+    connect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+  }
+
+  export type JadwalPelajaranUncheckedCreateNestedManyWithoutMapelInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutMapelInput, JadwalPelajaranUncheckedCreateWithoutMapelInput> | JadwalPelajaranCreateWithoutMapelInput[] | JadwalPelajaranUncheckedCreateWithoutMapelInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutMapelInput | JadwalPelajaranCreateOrConnectWithoutMapelInput[]
+    createMany?: JadwalPelajaranCreateManyMapelInputEnvelope
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+  }
+
+  export type TahunAjaranUncheckedCreateNestedManyWithoutMataPelajaranInput = {
+    create?: XOR<TahunAjaranCreateWithoutMataPelajaranInput, TahunAjaranUncheckedCreateWithoutMataPelajaranInput> | TahunAjaranCreateWithoutMataPelajaranInput[] | TahunAjaranUncheckedCreateWithoutMataPelajaranInput[]
+    connectOrCreate?: TahunAjaranCreateOrConnectWithoutMataPelajaranInput | TahunAjaranCreateOrConnectWithoutMataPelajaranInput[]
+    connect?: TahunAjaranWhereUniqueInput | TahunAjaranWhereUniqueInput[]
+  }
+
+  export type RatingGuruUncheckedCreateNestedManyWithoutMapelInput = {
+    create?: XOR<RatingGuruCreateWithoutMapelInput, RatingGuruUncheckedCreateWithoutMapelInput> | RatingGuruCreateWithoutMapelInput[] | RatingGuruUncheckedCreateWithoutMapelInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutMapelInput | RatingGuruCreateOrConnectWithoutMapelInput[]
+    createMany?: RatingGuruCreateManyMapelInputEnvelope
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+  }
+
+  export type TimFasilitatorTkaUncheckedCreateNestedManyWithoutMapelInput = {
+    create?: XOR<TimFasilitatorTkaCreateWithoutMapelInput, TimFasilitatorTkaUncheckedCreateWithoutMapelInput> | TimFasilitatorTkaCreateWithoutMapelInput[] | TimFasilitatorTkaUncheckedCreateWithoutMapelInput[]
+    connectOrCreate?: TimFasilitatorTkaCreateOrConnectWithoutMapelInput | TimFasilitatorTkaCreateOrConnectWithoutMapelInput[]
+    createMany?: TimFasilitatorTkaCreateManyMapelInputEnvelope
+    connect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+  }
+
+  export type JadwalPelajaranUpdateManyWithoutMapelNestedInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutMapelInput, JadwalPelajaranUncheckedCreateWithoutMapelInput> | JadwalPelajaranCreateWithoutMapelInput[] | JadwalPelajaranUncheckedCreateWithoutMapelInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutMapelInput | JadwalPelajaranCreateOrConnectWithoutMapelInput[]
+    upsert?: JadwalPelajaranUpsertWithWhereUniqueWithoutMapelInput | JadwalPelajaranUpsertWithWhereUniqueWithoutMapelInput[]
+    createMany?: JadwalPelajaranCreateManyMapelInputEnvelope
+    set?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    disconnect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    delete?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    update?: JadwalPelajaranUpdateWithWhereUniqueWithoutMapelInput | JadwalPelajaranUpdateWithWhereUniqueWithoutMapelInput[]
+    updateMany?: JadwalPelajaranUpdateManyWithWhereWithoutMapelInput | JadwalPelajaranUpdateManyWithWhereWithoutMapelInput[]
+    deleteMany?: JadwalPelajaranScalarWhereInput | JadwalPelajaranScalarWhereInput[]
+  }
+
+  export type TahunAjaranUpdateManyWithoutMataPelajaranNestedInput = {
+    create?: XOR<TahunAjaranCreateWithoutMataPelajaranInput, TahunAjaranUncheckedCreateWithoutMataPelajaranInput> | TahunAjaranCreateWithoutMataPelajaranInput[] | TahunAjaranUncheckedCreateWithoutMataPelajaranInput[]
+    connectOrCreate?: TahunAjaranCreateOrConnectWithoutMataPelajaranInput | TahunAjaranCreateOrConnectWithoutMataPelajaranInput[]
+    upsert?: TahunAjaranUpsertWithWhereUniqueWithoutMataPelajaranInput | TahunAjaranUpsertWithWhereUniqueWithoutMataPelajaranInput[]
+    set?: TahunAjaranWhereUniqueInput | TahunAjaranWhereUniqueInput[]
+    disconnect?: TahunAjaranWhereUniqueInput | TahunAjaranWhereUniqueInput[]
+    delete?: TahunAjaranWhereUniqueInput | TahunAjaranWhereUniqueInput[]
+    connect?: TahunAjaranWhereUniqueInput | TahunAjaranWhereUniqueInput[]
+    update?: TahunAjaranUpdateWithWhereUniqueWithoutMataPelajaranInput | TahunAjaranUpdateWithWhereUniqueWithoutMataPelajaranInput[]
+    updateMany?: TahunAjaranUpdateManyWithWhereWithoutMataPelajaranInput | TahunAjaranUpdateManyWithWhereWithoutMataPelajaranInput[]
+    deleteMany?: TahunAjaranScalarWhereInput | TahunAjaranScalarWhereInput[]
+  }
+
+  export type RatingGuruUpdateManyWithoutMapelNestedInput = {
+    create?: XOR<RatingGuruCreateWithoutMapelInput, RatingGuruUncheckedCreateWithoutMapelInput> | RatingGuruCreateWithoutMapelInput[] | RatingGuruUncheckedCreateWithoutMapelInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutMapelInput | RatingGuruCreateOrConnectWithoutMapelInput[]
+    upsert?: RatingGuruUpsertWithWhereUniqueWithoutMapelInput | RatingGuruUpsertWithWhereUniqueWithoutMapelInput[]
+    createMany?: RatingGuruCreateManyMapelInputEnvelope
+    set?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    disconnect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    delete?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    update?: RatingGuruUpdateWithWhereUniqueWithoutMapelInput | RatingGuruUpdateWithWhereUniqueWithoutMapelInput[]
+    updateMany?: RatingGuruUpdateManyWithWhereWithoutMapelInput | RatingGuruUpdateManyWithWhereWithoutMapelInput[]
+    deleteMany?: RatingGuruScalarWhereInput | RatingGuruScalarWhereInput[]
+  }
+
+  export type TimFasilitatorTkaUpdateManyWithoutMapelNestedInput = {
+    create?: XOR<TimFasilitatorTkaCreateWithoutMapelInput, TimFasilitatorTkaUncheckedCreateWithoutMapelInput> | TimFasilitatorTkaCreateWithoutMapelInput[] | TimFasilitatorTkaUncheckedCreateWithoutMapelInput[]
+    connectOrCreate?: TimFasilitatorTkaCreateOrConnectWithoutMapelInput | TimFasilitatorTkaCreateOrConnectWithoutMapelInput[]
+    upsert?: TimFasilitatorTkaUpsertWithWhereUniqueWithoutMapelInput | TimFasilitatorTkaUpsertWithWhereUniqueWithoutMapelInput[]
+    createMany?: TimFasilitatorTkaCreateManyMapelInputEnvelope
+    set?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    disconnect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    delete?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    connect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    update?: TimFasilitatorTkaUpdateWithWhereUniqueWithoutMapelInput | TimFasilitatorTkaUpdateWithWhereUniqueWithoutMapelInput[]
+    updateMany?: TimFasilitatorTkaUpdateManyWithWhereWithoutMapelInput | TimFasilitatorTkaUpdateManyWithWhereWithoutMapelInput[]
+    deleteMany?: TimFasilitatorTkaScalarWhereInput | TimFasilitatorTkaScalarWhereInput[]
+  }
+
+  export type JadwalPelajaranUncheckedUpdateManyWithoutMapelNestedInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutMapelInput, JadwalPelajaranUncheckedCreateWithoutMapelInput> | JadwalPelajaranCreateWithoutMapelInput[] | JadwalPelajaranUncheckedCreateWithoutMapelInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutMapelInput | JadwalPelajaranCreateOrConnectWithoutMapelInput[]
+    upsert?: JadwalPelajaranUpsertWithWhereUniqueWithoutMapelInput | JadwalPelajaranUpsertWithWhereUniqueWithoutMapelInput[]
+    createMany?: JadwalPelajaranCreateManyMapelInputEnvelope
+    set?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    disconnect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    delete?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    update?: JadwalPelajaranUpdateWithWhereUniqueWithoutMapelInput | JadwalPelajaranUpdateWithWhereUniqueWithoutMapelInput[]
+    updateMany?: JadwalPelajaranUpdateManyWithWhereWithoutMapelInput | JadwalPelajaranUpdateManyWithWhereWithoutMapelInput[]
+    deleteMany?: JadwalPelajaranScalarWhereInput | JadwalPelajaranScalarWhereInput[]
+  }
+
+  export type TahunAjaranUncheckedUpdateManyWithoutMataPelajaranNestedInput = {
+    create?: XOR<TahunAjaranCreateWithoutMataPelajaranInput, TahunAjaranUncheckedCreateWithoutMataPelajaranInput> | TahunAjaranCreateWithoutMataPelajaranInput[] | TahunAjaranUncheckedCreateWithoutMataPelajaranInput[]
+    connectOrCreate?: TahunAjaranCreateOrConnectWithoutMataPelajaranInput | TahunAjaranCreateOrConnectWithoutMataPelajaranInput[]
+    upsert?: TahunAjaranUpsertWithWhereUniqueWithoutMataPelajaranInput | TahunAjaranUpsertWithWhereUniqueWithoutMataPelajaranInput[]
+    set?: TahunAjaranWhereUniqueInput | TahunAjaranWhereUniqueInput[]
+    disconnect?: TahunAjaranWhereUniqueInput | TahunAjaranWhereUniqueInput[]
+    delete?: TahunAjaranWhereUniqueInput | TahunAjaranWhereUniqueInput[]
+    connect?: TahunAjaranWhereUniqueInput | TahunAjaranWhereUniqueInput[]
+    update?: TahunAjaranUpdateWithWhereUniqueWithoutMataPelajaranInput | TahunAjaranUpdateWithWhereUniqueWithoutMataPelajaranInput[]
+    updateMany?: TahunAjaranUpdateManyWithWhereWithoutMataPelajaranInput | TahunAjaranUpdateManyWithWhereWithoutMataPelajaranInput[]
+    deleteMany?: TahunAjaranScalarWhereInput | TahunAjaranScalarWhereInput[]
+  }
+
+  export type RatingGuruUncheckedUpdateManyWithoutMapelNestedInput = {
+    create?: XOR<RatingGuruCreateWithoutMapelInput, RatingGuruUncheckedCreateWithoutMapelInput> | RatingGuruCreateWithoutMapelInput[] | RatingGuruUncheckedCreateWithoutMapelInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutMapelInput | RatingGuruCreateOrConnectWithoutMapelInput[]
+    upsert?: RatingGuruUpsertWithWhereUniqueWithoutMapelInput | RatingGuruUpsertWithWhereUniqueWithoutMapelInput[]
+    createMany?: RatingGuruCreateManyMapelInputEnvelope
+    set?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    disconnect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    delete?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    update?: RatingGuruUpdateWithWhereUniqueWithoutMapelInput | RatingGuruUpdateWithWhereUniqueWithoutMapelInput[]
+    updateMany?: RatingGuruUpdateManyWithWhereWithoutMapelInput | RatingGuruUpdateManyWithWhereWithoutMapelInput[]
+    deleteMany?: RatingGuruScalarWhereInput | RatingGuruScalarWhereInput[]
+  }
+
+  export type TimFasilitatorTkaUncheckedUpdateManyWithoutMapelNestedInput = {
+    create?: XOR<TimFasilitatorTkaCreateWithoutMapelInput, TimFasilitatorTkaUncheckedCreateWithoutMapelInput> | TimFasilitatorTkaCreateWithoutMapelInput[] | TimFasilitatorTkaUncheckedCreateWithoutMapelInput[]
+    connectOrCreate?: TimFasilitatorTkaCreateOrConnectWithoutMapelInput | TimFasilitatorTkaCreateOrConnectWithoutMapelInput[]
+    upsert?: TimFasilitatorTkaUpsertWithWhereUniqueWithoutMapelInput | TimFasilitatorTkaUpsertWithWhereUniqueWithoutMapelInput[]
+    createMany?: TimFasilitatorTkaCreateManyMapelInputEnvelope
+    set?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    disconnect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    delete?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    connect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    update?: TimFasilitatorTkaUpdateWithWhereUniqueWithoutMapelInput | TimFasilitatorTkaUpdateWithWhereUniqueWithoutMapelInput[]
+    updateMany?: TimFasilitatorTkaUpdateManyWithWhereWithoutMapelInput | TimFasilitatorTkaUpdateManyWithWhereWithoutMapelInput[]
+    deleteMany?: TimFasilitatorTkaScalarWhereInput | TimFasilitatorTkaScalarWhereInput[]
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type TahunAjaranCreateNestedOneWithoutLaporanPdcaInput = {
+    create?: XOR<TahunAjaranCreateWithoutLaporanPdcaInput, TahunAjaranUncheckedCreateWithoutLaporanPdcaInput>
+    connectOrCreate?: TahunAjaranCreateOrConnectWithoutLaporanPdcaInput
+    connect?: TahunAjaranWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutLaporanPdcaInput = {
+    create?: XOR<UserCreateWithoutLaporanPdcaInput, UserUncheckedCreateWithoutLaporanPdcaInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLaporanPdcaInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TahunAjaranUpdateOneRequiredWithoutLaporanPdcaNestedInput = {
+    create?: XOR<TahunAjaranCreateWithoutLaporanPdcaInput, TahunAjaranUncheckedCreateWithoutLaporanPdcaInput>
+    connectOrCreate?: TahunAjaranCreateOrConnectWithoutLaporanPdcaInput
+    upsert?: TahunAjaranUpsertWithoutLaporanPdcaInput
+    connect?: TahunAjaranWhereUniqueInput
+    update?: XOR<XOR<TahunAjaranUpdateToOneWithWhereWithoutLaporanPdcaInput, TahunAjaranUpdateWithoutLaporanPdcaInput>, TahunAjaranUncheckedUpdateWithoutLaporanPdcaInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutLaporanPdcaNestedInput = {
+    create?: XOR<UserCreateWithoutLaporanPdcaInput, UserUncheckedCreateWithoutLaporanPdcaInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLaporanPdcaInput
+    upsert?: UserUpsertWithoutLaporanPdcaInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLaporanPdcaInput, UserUpdateWithoutLaporanPdcaInput>, UserUncheckedUpdateWithoutLaporanPdcaInput>
+  }
+
+  export type MataPelajaranCreateNestedOneWithoutTimFasilitatorTkaInput = {
+    create?: XOR<MataPelajaranCreateWithoutTimFasilitatorTkaInput, MataPelajaranUncheckedCreateWithoutTimFasilitatorTkaInput>
+    connectOrCreate?: MataPelajaranCreateOrConnectWithoutTimFasilitatorTkaInput
+    connect?: MataPelajaranWhereUniqueInput
+  }
+
+  export type GuruCreateNestedOneWithoutTimFasilitatorTkaInput = {
+    create?: XOR<GuruCreateWithoutTimFasilitatorTkaInput, GuruUncheckedCreateWithoutTimFasilitatorTkaInput>
+    connectOrCreate?: GuruCreateOrConnectWithoutTimFasilitatorTkaInput
+    connect?: GuruWhereUniqueInput
+  }
+
+  export type TahunAjaranCreateNestedOneWithoutTimFasilitatorTkaInput = {
+    create?: XOR<TahunAjaranCreateWithoutTimFasilitatorTkaInput, TahunAjaranUncheckedCreateWithoutTimFasilitatorTkaInput>
+    connectOrCreate?: TahunAjaranCreateOrConnectWithoutTimFasilitatorTkaInput
+    connect?: TahunAjaranWhereUniqueInput
+  }
+
+  export type MataPelajaranUpdateOneRequiredWithoutTimFasilitatorTkaNestedInput = {
+    create?: XOR<MataPelajaranCreateWithoutTimFasilitatorTkaInput, MataPelajaranUncheckedCreateWithoutTimFasilitatorTkaInput>
+    connectOrCreate?: MataPelajaranCreateOrConnectWithoutTimFasilitatorTkaInput
+    upsert?: MataPelajaranUpsertWithoutTimFasilitatorTkaInput
+    connect?: MataPelajaranWhereUniqueInput
+    update?: XOR<XOR<MataPelajaranUpdateToOneWithWhereWithoutTimFasilitatorTkaInput, MataPelajaranUpdateWithoutTimFasilitatorTkaInput>, MataPelajaranUncheckedUpdateWithoutTimFasilitatorTkaInput>
+  }
+
+  export type GuruUpdateOneRequiredWithoutTimFasilitatorTkaNestedInput = {
+    create?: XOR<GuruCreateWithoutTimFasilitatorTkaInput, GuruUncheckedCreateWithoutTimFasilitatorTkaInput>
+    connectOrCreate?: GuruCreateOrConnectWithoutTimFasilitatorTkaInput
+    upsert?: GuruUpsertWithoutTimFasilitatorTkaInput
+    connect?: GuruWhereUniqueInput
+    update?: XOR<XOR<GuruUpdateToOneWithWhereWithoutTimFasilitatorTkaInput, GuruUpdateWithoutTimFasilitatorTkaInput>, GuruUncheckedUpdateWithoutTimFasilitatorTkaInput>
+  }
+
+  export type TahunAjaranUpdateOneRequiredWithoutTimFasilitatorTkaNestedInput = {
+    create?: XOR<TahunAjaranCreateWithoutTimFasilitatorTkaInput, TahunAjaranUncheckedCreateWithoutTimFasilitatorTkaInput>
+    connectOrCreate?: TahunAjaranCreateOrConnectWithoutTimFasilitatorTkaInput
+    upsert?: TahunAjaranUpsertWithoutTimFasilitatorTkaInput
+    connect?: TahunAjaranWhereUniqueInput
+    update?: XOR<XOR<TahunAjaranUpdateToOneWithWhereWithoutTimFasilitatorTkaInput, TahunAjaranUpdateWithoutTimFasilitatorTkaInput>, TahunAjaranUncheckedUpdateWithoutTimFasilitatorTkaInput>
+  }
+
   export type UserCreateNestedOneWithoutGuruInput = {
     create?: XOR<UserCreateWithoutGuruInput, UserUncheckedCreateWithoutGuruInput>
     connectOrCreate?: UserCreateOrConnectWithoutGuruInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type JadwalPelajaranCreateNestedManyWithoutGuruInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutGuruInput, JadwalPelajaranUncheckedCreateWithoutGuruInput> | JadwalPelajaranCreateWithoutGuruInput[] | JadwalPelajaranUncheckedCreateWithoutGuruInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutGuruInput | JadwalPelajaranCreateOrConnectWithoutGuruInput[]
+    createMany?: JadwalPelajaranCreateManyGuruInputEnvelope
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
   }
 
   export type KelasWaliCreateNestedManyWithoutGuruInput = {
@@ -9684,11 +23306,46 @@ export namespace Prisma {
     connect?: KelasWaliWhereUniqueInput | KelasWaliWhereUniqueInput[]
   }
 
+  export type RatingGuruCreateNestedManyWithoutGuruInput = {
+    create?: XOR<RatingGuruCreateWithoutGuruInput, RatingGuruUncheckedCreateWithoutGuruInput> | RatingGuruCreateWithoutGuruInput[] | RatingGuruUncheckedCreateWithoutGuruInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutGuruInput | RatingGuruCreateOrConnectWithoutGuruInput[]
+    createMany?: RatingGuruCreateManyGuruInputEnvelope
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+  }
+
+  export type TimFasilitatorTkaCreateNestedManyWithoutGuruInput = {
+    create?: XOR<TimFasilitatorTkaCreateWithoutGuruInput, TimFasilitatorTkaUncheckedCreateWithoutGuruInput> | TimFasilitatorTkaCreateWithoutGuruInput[] | TimFasilitatorTkaUncheckedCreateWithoutGuruInput[]
+    connectOrCreate?: TimFasilitatorTkaCreateOrConnectWithoutGuruInput | TimFasilitatorTkaCreateOrConnectWithoutGuruInput[]
+    createMany?: TimFasilitatorTkaCreateManyGuruInputEnvelope
+    connect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+  }
+
+  export type JadwalPelajaranUncheckedCreateNestedManyWithoutGuruInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutGuruInput, JadwalPelajaranUncheckedCreateWithoutGuruInput> | JadwalPelajaranCreateWithoutGuruInput[] | JadwalPelajaranUncheckedCreateWithoutGuruInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutGuruInput | JadwalPelajaranCreateOrConnectWithoutGuruInput[]
+    createMany?: JadwalPelajaranCreateManyGuruInputEnvelope
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+  }
+
   export type KelasWaliUncheckedCreateNestedManyWithoutGuruInput = {
     create?: XOR<KelasWaliCreateWithoutGuruInput, KelasWaliUncheckedCreateWithoutGuruInput> | KelasWaliCreateWithoutGuruInput[] | KelasWaliUncheckedCreateWithoutGuruInput[]
     connectOrCreate?: KelasWaliCreateOrConnectWithoutGuruInput | KelasWaliCreateOrConnectWithoutGuruInput[]
     createMany?: KelasWaliCreateManyGuruInputEnvelope
     connect?: KelasWaliWhereUniqueInput | KelasWaliWhereUniqueInput[]
+  }
+
+  export type RatingGuruUncheckedCreateNestedManyWithoutGuruInput = {
+    create?: XOR<RatingGuruCreateWithoutGuruInput, RatingGuruUncheckedCreateWithoutGuruInput> | RatingGuruCreateWithoutGuruInput[] | RatingGuruUncheckedCreateWithoutGuruInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutGuruInput | RatingGuruCreateOrConnectWithoutGuruInput[]
+    createMany?: RatingGuruCreateManyGuruInputEnvelope
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+  }
+
+  export type TimFasilitatorTkaUncheckedCreateNestedManyWithoutGuruInput = {
+    create?: XOR<TimFasilitatorTkaCreateWithoutGuruInput, TimFasilitatorTkaUncheckedCreateWithoutGuruInput> | TimFasilitatorTkaCreateWithoutGuruInput[] | TimFasilitatorTkaUncheckedCreateWithoutGuruInput[]
+    connectOrCreate?: TimFasilitatorTkaCreateOrConnectWithoutGuruInput | TimFasilitatorTkaCreateOrConnectWithoutGuruInput[]
+    createMany?: TimFasilitatorTkaCreateManyGuruInputEnvelope
+    connect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutGuruNestedInput = {
@@ -9697,6 +23354,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutGuruInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGuruInput, UserUpdateWithoutGuruInput>, UserUncheckedUpdateWithoutGuruInput>
+  }
+
+  export type JadwalPelajaranUpdateManyWithoutGuruNestedInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutGuruInput, JadwalPelajaranUncheckedCreateWithoutGuruInput> | JadwalPelajaranCreateWithoutGuruInput[] | JadwalPelajaranUncheckedCreateWithoutGuruInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutGuruInput | JadwalPelajaranCreateOrConnectWithoutGuruInput[]
+    upsert?: JadwalPelajaranUpsertWithWhereUniqueWithoutGuruInput | JadwalPelajaranUpsertWithWhereUniqueWithoutGuruInput[]
+    createMany?: JadwalPelajaranCreateManyGuruInputEnvelope
+    set?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    disconnect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    delete?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    update?: JadwalPelajaranUpdateWithWhereUniqueWithoutGuruInput | JadwalPelajaranUpdateWithWhereUniqueWithoutGuruInput[]
+    updateMany?: JadwalPelajaranUpdateManyWithWhereWithoutGuruInput | JadwalPelajaranUpdateManyWithWhereWithoutGuruInput[]
+    deleteMany?: JadwalPelajaranScalarWhereInput | JadwalPelajaranScalarWhereInput[]
   }
 
   export type KelasWaliUpdateManyWithoutGuruNestedInput = {
@@ -9713,6 +23384,48 @@ export namespace Prisma {
     deleteMany?: KelasWaliScalarWhereInput | KelasWaliScalarWhereInput[]
   }
 
+  export type RatingGuruUpdateManyWithoutGuruNestedInput = {
+    create?: XOR<RatingGuruCreateWithoutGuruInput, RatingGuruUncheckedCreateWithoutGuruInput> | RatingGuruCreateWithoutGuruInput[] | RatingGuruUncheckedCreateWithoutGuruInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutGuruInput | RatingGuruCreateOrConnectWithoutGuruInput[]
+    upsert?: RatingGuruUpsertWithWhereUniqueWithoutGuruInput | RatingGuruUpsertWithWhereUniqueWithoutGuruInput[]
+    createMany?: RatingGuruCreateManyGuruInputEnvelope
+    set?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    disconnect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    delete?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    update?: RatingGuruUpdateWithWhereUniqueWithoutGuruInput | RatingGuruUpdateWithWhereUniqueWithoutGuruInput[]
+    updateMany?: RatingGuruUpdateManyWithWhereWithoutGuruInput | RatingGuruUpdateManyWithWhereWithoutGuruInput[]
+    deleteMany?: RatingGuruScalarWhereInput | RatingGuruScalarWhereInput[]
+  }
+
+  export type TimFasilitatorTkaUpdateManyWithoutGuruNestedInput = {
+    create?: XOR<TimFasilitatorTkaCreateWithoutGuruInput, TimFasilitatorTkaUncheckedCreateWithoutGuruInput> | TimFasilitatorTkaCreateWithoutGuruInput[] | TimFasilitatorTkaUncheckedCreateWithoutGuruInput[]
+    connectOrCreate?: TimFasilitatorTkaCreateOrConnectWithoutGuruInput | TimFasilitatorTkaCreateOrConnectWithoutGuruInput[]
+    upsert?: TimFasilitatorTkaUpsertWithWhereUniqueWithoutGuruInput | TimFasilitatorTkaUpsertWithWhereUniqueWithoutGuruInput[]
+    createMany?: TimFasilitatorTkaCreateManyGuruInputEnvelope
+    set?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    disconnect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    delete?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    connect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    update?: TimFasilitatorTkaUpdateWithWhereUniqueWithoutGuruInput | TimFasilitatorTkaUpdateWithWhereUniqueWithoutGuruInput[]
+    updateMany?: TimFasilitatorTkaUpdateManyWithWhereWithoutGuruInput | TimFasilitatorTkaUpdateManyWithWhereWithoutGuruInput[]
+    deleteMany?: TimFasilitatorTkaScalarWhereInput | TimFasilitatorTkaScalarWhereInput[]
+  }
+
+  export type JadwalPelajaranUncheckedUpdateManyWithoutGuruNestedInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutGuruInput, JadwalPelajaranUncheckedCreateWithoutGuruInput> | JadwalPelajaranCreateWithoutGuruInput[] | JadwalPelajaranUncheckedCreateWithoutGuruInput[]
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutGuruInput | JadwalPelajaranCreateOrConnectWithoutGuruInput[]
+    upsert?: JadwalPelajaranUpsertWithWhereUniqueWithoutGuruInput | JadwalPelajaranUpsertWithWhereUniqueWithoutGuruInput[]
+    createMany?: JadwalPelajaranCreateManyGuruInputEnvelope
+    set?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    disconnect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    delete?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    connect?: JadwalPelajaranWhereUniqueInput | JadwalPelajaranWhereUniqueInput[]
+    update?: JadwalPelajaranUpdateWithWhereUniqueWithoutGuruInput | JadwalPelajaranUpdateWithWhereUniqueWithoutGuruInput[]
+    updateMany?: JadwalPelajaranUpdateManyWithWhereWithoutGuruInput | JadwalPelajaranUpdateManyWithWhereWithoutGuruInput[]
+    deleteMany?: JadwalPelajaranScalarWhereInput | JadwalPelajaranScalarWhereInput[]
+  }
+
   export type KelasWaliUncheckedUpdateManyWithoutGuruNestedInput = {
     create?: XOR<KelasWaliCreateWithoutGuruInput, KelasWaliUncheckedCreateWithoutGuruInput> | KelasWaliCreateWithoutGuruInput[] | KelasWaliUncheckedCreateWithoutGuruInput[]
     connectOrCreate?: KelasWaliCreateOrConnectWithoutGuruInput | KelasWaliCreateOrConnectWithoutGuruInput[]
@@ -9725,6 +23438,34 @@ export namespace Prisma {
     update?: KelasWaliUpdateWithWhereUniqueWithoutGuruInput | KelasWaliUpdateWithWhereUniqueWithoutGuruInput[]
     updateMany?: KelasWaliUpdateManyWithWhereWithoutGuruInput | KelasWaliUpdateManyWithWhereWithoutGuruInput[]
     deleteMany?: KelasWaliScalarWhereInput | KelasWaliScalarWhereInput[]
+  }
+
+  export type RatingGuruUncheckedUpdateManyWithoutGuruNestedInput = {
+    create?: XOR<RatingGuruCreateWithoutGuruInput, RatingGuruUncheckedCreateWithoutGuruInput> | RatingGuruCreateWithoutGuruInput[] | RatingGuruUncheckedCreateWithoutGuruInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutGuruInput | RatingGuruCreateOrConnectWithoutGuruInput[]
+    upsert?: RatingGuruUpsertWithWhereUniqueWithoutGuruInput | RatingGuruUpsertWithWhereUniqueWithoutGuruInput[]
+    createMany?: RatingGuruCreateManyGuruInputEnvelope
+    set?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    disconnect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    delete?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    update?: RatingGuruUpdateWithWhereUniqueWithoutGuruInput | RatingGuruUpdateWithWhereUniqueWithoutGuruInput[]
+    updateMany?: RatingGuruUpdateManyWithWhereWithoutGuruInput | RatingGuruUpdateManyWithWhereWithoutGuruInput[]
+    deleteMany?: RatingGuruScalarWhereInput | RatingGuruScalarWhereInput[]
+  }
+
+  export type TimFasilitatorTkaUncheckedUpdateManyWithoutGuruNestedInput = {
+    create?: XOR<TimFasilitatorTkaCreateWithoutGuruInput, TimFasilitatorTkaUncheckedCreateWithoutGuruInput> | TimFasilitatorTkaCreateWithoutGuruInput[] | TimFasilitatorTkaUncheckedCreateWithoutGuruInput[]
+    connectOrCreate?: TimFasilitatorTkaCreateOrConnectWithoutGuruInput | TimFasilitatorTkaCreateOrConnectWithoutGuruInput[]
+    upsert?: TimFasilitatorTkaUpsertWithWhereUniqueWithoutGuruInput | TimFasilitatorTkaUpsertWithWhereUniqueWithoutGuruInput[]
+    createMany?: TimFasilitatorTkaCreateManyGuruInputEnvelope
+    set?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    disconnect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    delete?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    connect?: TimFasilitatorTkaWhereUniqueInput | TimFasilitatorTkaWhereUniqueInput[]
+    update?: TimFasilitatorTkaUpdateWithWhereUniqueWithoutGuruInput | TimFasilitatorTkaUpdateWithWhereUniqueWithoutGuruInput[]
+    updateMany?: TimFasilitatorTkaUpdateManyWithWhereWithoutGuruInput | TimFasilitatorTkaUpdateManyWithWhereWithoutGuruInput[]
+    deleteMany?: TimFasilitatorTkaScalarWhereInput | TimFasilitatorTkaScalarWhereInput[]
   }
 
   export type GuruCreateNestedOneWithoutWaliKelasDiInput = {
@@ -9768,11 +23509,39 @@ export namespace Prisma {
     connect?: RiwayatKelasSiswaWhereUniqueInput | RiwayatKelasSiswaWhereUniqueInput[]
   }
 
+  export type PresensiSiswaCreateNestedManyWithoutSiswaInput = {
+    create?: XOR<PresensiSiswaCreateWithoutSiswaInput, PresensiSiswaUncheckedCreateWithoutSiswaInput> | PresensiSiswaCreateWithoutSiswaInput[] | PresensiSiswaUncheckedCreateWithoutSiswaInput[]
+    connectOrCreate?: PresensiSiswaCreateOrConnectWithoutSiswaInput | PresensiSiswaCreateOrConnectWithoutSiswaInput[]
+    createMany?: PresensiSiswaCreateManySiswaInputEnvelope
+    connect?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+  }
+
+  export type RatingGuruCreateNestedManyWithoutSiswaInput = {
+    create?: XOR<RatingGuruCreateWithoutSiswaInput, RatingGuruUncheckedCreateWithoutSiswaInput> | RatingGuruCreateWithoutSiswaInput[] | RatingGuruUncheckedCreateWithoutSiswaInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutSiswaInput | RatingGuruCreateOrConnectWithoutSiswaInput[]
+    createMany?: RatingGuruCreateManySiswaInputEnvelope
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+  }
+
   export type RiwayatKelasSiswaUncheckedCreateNestedManyWithoutSiswaInput = {
     create?: XOR<RiwayatKelasSiswaCreateWithoutSiswaInput, RiwayatKelasSiswaUncheckedCreateWithoutSiswaInput> | RiwayatKelasSiswaCreateWithoutSiswaInput[] | RiwayatKelasSiswaUncheckedCreateWithoutSiswaInput[]
     connectOrCreate?: RiwayatKelasSiswaCreateOrConnectWithoutSiswaInput | RiwayatKelasSiswaCreateOrConnectWithoutSiswaInput[]
     createMany?: RiwayatKelasSiswaCreateManySiswaInputEnvelope
     connect?: RiwayatKelasSiswaWhereUniqueInput | RiwayatKelasSiswaWhereUniqueInput[]
+  }
+
+  export type PresensiSiswaUncheckedCreateNestedManyWithoutSiswaInput = {
+    create?: XOR<PresensiSiswaCreateWithoutSiswaInput, PresensiSiswaUncheckedCreateWithoutSiswaInput> | PresensiSiswaCreateWithoutSiswaInput[] | PresensiSiswaUncheckedCreateWithoutSiswaInput[]
+    connectOrCreate?: PresensiSiswaCreateOrConnectWithoutSiswaInput | PresensiSiswaCreateOrConnectWithoutSiswaInput[]
+    createMany?: PresensiSiswaCreateManySiswaInputEnvelope
+    connect?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+  }
+
+  export type RatingGuruUncheckedCreateNestedManyWithoutSiswaInput = {
+    create?: XOR<RatingGuruCreateWithoutSiswaInput, RatingGuruUncheckedCreateWithoutSiswaInput> | RatingGuruCreateWithoutSiswaInput[] | RatingGuruUncheckedCreateWithoutSiswaInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutSiswaInput | RatingGuruCreateOrConnectWithoutSiswaInput[]
+    createMany?: RatingGuruCreateManySiswaInputEnvelope
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutSiswaNestedInput = {
@@ -9797,6 +23566,34 @@ export namespace Prisma {
     deleteMany?: RiwayatKelasSiswaScalarWhereInput | RiwayatKelasSiswaScalarWhereInput[]
   }
 
+  export type PresensiSiswaUpdateManyWithoutSiswaNestedInput = {
+    create?: XOR<PresensiSiswaCreateWithoutSiswaInput, PresensiSiswaUncheckedCreateWithoutSiswaInput> | PresensiSiswaCreateWithoutSiswaInput[] | PresensiSiswaUncheckedCreateWithoutSiswaInput[]
+    connectOrCreate?: PresensiSiswaCreateOrConnectWithoutSiswaInput | PresensiSiswaCreateOrConnectWithoutSiswaInput[]
+    upsert?: PresensiSiswaUpsertWithWhereUniqueWithoutSiswaInput | PresensiSiswaUpsertWithWhereUniqueWithoutSiswaInput[]
+    createMany?: PresensiSiswaCreateManySiswaInputEnvelope
+    set?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    disconnect?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    delete?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    connect?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    update?: PresensiSiswaUpdateWithWhereUniqueWithoutSiswaInput | PresensiSiswaUpdateWithWhereUniqueWithoutSiswaInput[]
+    updateMany?: PresensiSiswaUpdateManyWithWhereWithoutSiswaInput | PresensiSiswaUpdateManyWithWhereWithoutSiswaInput[]
+    deleteMany?: PresensiSiswaScalarWhereInput | PresensiSiswaScalarWhereInput[]
+  }
+
+  export type RatingGuruUpdateManyWithoutSiswaNestedInput = {
+    create?: XOR<RatingGuruCreateWithoutSiswaInput, RatingGuruUncheckedCreateWithoutSiswaInput> | RatingGuruCreateWithoutSiswaInput[] | RatingGuruUncheckedCreateWithoutSiswaInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutSiswaInput | RatingGuruCreateOrConnectWithoutSiswaInput[]
+    upsert?: RatingGuruUpsertWithWhereUniqueWithoutSiswaInput | RatingGuruUpsertWithWhereUniqueWithoutSiswaInput[]
+    createMany?: RatingGuruCreateManySiswaInputEnvelope
+    set?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    disconnect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    delete?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    update?: RatingGuruUpdateWithWhereUniqueWithoutSiswaInput | RatingGuruUpdateWithWhereUniqueWithoutSiswaInput[]
+    updateMany?: RatingGuruUpdateManyWithWhereWithoutSiswaInput | RatingGuruUpdateManyWithWhereWithoutSiswaInput[]
+    deleteMany?: RatingGuruScalarWhereInput | RatingGuruScalarWhereInput[]
+  }
+
   export type RiwayatKelasSiswaUncheckedUpdateManyWithoutSiswaNestedInput = {
     create?: XOR<RiwayatKelasSiswaCreateWithoutSiswaInput, RiwayatKelasSiswaUncheckedCreateWithoutSiswaInput> | RiwayatKelasSiswaCreateWithoutSiswaInput[] | RiwayatKelasSiswaUncheckedCreateWithoutSiswaInput[]
     connectOrCreate?: RiwayatKelasSiswaCreateOrConnectWithoutSiswaInput | RiwayatKelasSiswaCreateOrConnectWithoutSiswaInput[]
@@ -9809,6 +23606,34 @@ export namespace Prisma {
     update?: RiwayatKelasSiswaUpdateWithWhereUniqueWithoutSiswaInput | RiwayatKelasSiswaUpdateWithWhereUniqueWithoutSiswaInput[]
     updateMany?: RiwayatKelasSiswaUpdateManyWithWhereWithoutSiswaInput | RiwayatKelasSiswaUpdateManyWithWhereWithoutSiswaInput[]
     deleteMany?: RiwayatKelasSiswaScalarWhereInput | RiwayatKelasSiswaScalarWhereInput[]
+  }
+
+  export type PresensiSiswaUncheckedUpdateManyWithoutSiswaNestedInput = {
+    create?: XOR<PresensiSiswaCreateWithoutSiswaInput, PresensiSiswaUncheckedCreateWithoutSiswaInput> | PresensiSiswaCreateWithoutSiswaInput[] | PresensiSiswaUncheckedCreateWithoutSiswaInput[]
+    connectOrCreate?: PresensiSiswaCreateOrConnectWithoutSiswaInput | PresensiSiswaCreateOrConnectWithoutSiswaInput[]
+    upsert?: PresensiSiswaUpsertWithWhereUniqueWithoutSiswaInput | PresensiSiswaUpsertWithWhereUniqueWithoutSiswaInput[]
+    createMany?: PresensiSiswaCreateManySiswaInputEnvelope
+    set?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    disconnect?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    delete?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    connect?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    update?: PresensiSiswaUpdateWithWhereUniqueWithoutSiswaInput | PresensiSiswaUpdateWithWhereUniqueWithoutSiswaInput[]
+    updateMany?: PresensiSiswaUpdateManyWithWhereWithoutSiswaInput | PresensiSiswaUpdateManyWithWhereWithoutSiswaInput[]
+    deleteMany?: PresensiSiswaScalarWhereInput | PresensiSiswaScalarWhereInput[]
+  }
+
+  export type RatingGuruUncheckedUpdateManyWithoutSiswaNestedInput = {
+    create?: XOR<RatingGuruCreateWithoutSiswaInput, RatingGuruUncheckedCreateWithoutSiswaInput> | RatingGuruCreateWithoutSiswaInput[] | RatingGuruUncheckedCreateWithoutSiswaInput[]
+    connectOrCreate?: RatingGuruCreateOrConnectWithoutSiswaInput | RatingGuruCreateOrConnectWithoutSiswaInput[]
+    upsert?: RatingGuruUpsertWithWhereUniqueWithoutSiswaInput | RatingGuruUpsertWithWhereUniqueWithoutSiswaInput[]
+    createMany?: RatingGuruCreateManySiswaInputEnvelope
+    set?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    disconnect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    delete?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    connect?: RatingGuruWhereUniqueInput | RatingGuruWhereUniqueInput[]
+    update?: RatingGuruUpdateWithWhereUniqueWithoutSiswaInput | RatingGuruUpdateWithWhereUniqueWithoutSiswaInput[]
+    updateMany?: RatingGuruUpdateManyWithWhereWithoutSiswaInput | RatingGuruUpdateManyWithWhereWithoutSiswaInput[]
+    deleteMany?: RatingGuruScalarWhereInput | RatingGuruScalarWhereInput[]
   }
 
   export type SiswaCreateNestedOneWithoutRiwayatKelasInput = {
@@ -9851,6 +23676,272 @@ export namespace Prisma {
     upsert?: TahunAjaranUpsertWithoutRiwayatSiswaInput
     connect?: TahunAjaranWhereUniqueInput
     update?: XOR<XOR<TahunAjaranUpdateToOneWithWhereWithoutRiwayatSiswaInput, TahunAjaranUpdateWithoutRiwayatSiswaInput>, TahunAjaranUncheckedUpdateWithoutRiwayatSiswaInput>
+  }
+
+  export type GuruCreateNestedOneWithoutJadwalPelajaranInput = {
+    create?: XOR<GuruCreateWithoutJadwalPelajaranInput, GuruUncheckedCreateWithoutJadwalPelajaranInput>
+    connectOrCreate?: GuruCreateOrConnectWithoutJadwalPelajaranInput
+    connect?: GuruWhereUniqueInput
+  }
+
+  export type MataPelajaranCreateNestedOneWithoutJadwalPelajaranInput = {
+    create?: XOR<MataPelajaranCreateWithoutJadwalPelajaranInput, MataPelajaranUncheckedCreateWithoutJadwalPelajaranInput>
+    connectOrCreate?: MataPelajaranCreateOrConnectWithoutJadwalPelajaranInput
+    connect?: MataPelajaranWhereUniqueInput
+  }
+
+  export type KelasCreateNestedOneWithoutJadwalPelajaranInput = {
+    create?: XOR<KelasCreateWithoutJadwalPelajaranInput, KelasUncheckedCreateWithoutJadwalPelajaranInput>
+    connectOrCreate?: KelasCreateOrConnectWithoutJadwalPelajaranInput
+    connect?: KelasWhereUniqueInput
+  }
+
+  export type TahunAjaranCreateNestedOneWithoutJadwalPelajaranInput = {
+    create?: XOR<TahunAjaranCreateWithoutJadwalPelajaranInput, TahunAjaranUncheckedCreateWithoutJadwalPelajaranInput>
+    connectOrCreate?: TahunAjaranCreateOrConnectWithoutJadwalPelajaranInput
+    connect?: TahunAjaranWhereUniqueInput
+  }
+
+  export type JurnalMengajarCreateNestedManyWithoutJadwalInput = {
+    create?: XOR<JurnalMengajarCreateWithoutJadwalInput, JurnalMengajarUncheckedCreateWithoutJadwalInput> | JurnalMengajarCreateWithoutJadwalInput[] | JurnalMengajarUncheckedCreateWithoutJadwalInput[]
+    connectOrCreate?: JurnalMengajarCreateOrConnectWithoutJadwalInput | JurnalMengajarCreateOrConnectWithoutJadwalInput[]
+    createMany?: JurnalMengajarCreateManyJadwalInputEnvelope
+    connect?: JurnalMengajarWhereUniqueInput | JurnalMengajarWhereUniqueInput[]
+  }
+
+  export type JurnalMengajarUncheckedCreateNestedManyWithoutJadwalInput = {
+    create?: XOR<JurnalMengajarCreateWithoutJadwalInput, JurnalMengajarUncheckedCreateWithoutJadwalInput> | JurnalMengajarCreateWithoutJadwalInput[] | JurnalMengajarUncheckedCreateWithoutJadwalInput[]
+    connectOrCreate?: JurnalMengajarCreateOrConnectWithoutJadwalInput | JurnalMengajarCreateOrConnectWithoutJadwalInput[]
+    createMany?: JurnalMengajarCreateManyJadwalInputEnvelope
+    connect?: JurnalMengajarWhereUniqueInput | JurnalMengajarWhereUniqueInput[]
+  }
+
+  export type GuruUpdateOneRequiredWithoutJadwalPelajaranNestedInput = {
+    create?: XOR<GuruCreateWithoutJadwalPelajaranInput, GuruUncheckedCreateWithoutJadwalPelajaranInput>
+    connectOrCreate?: GuruCreateOrConnectWithoutJadwalPelajaranInput
+    upsert?: GuruUpsertWithoutJadwalPelajaranInput
+    connect?: GuruWhereUniqueInput
+    update?: XOR<XOR<GuruUpdateToOneWithWhereWithoutJadwalPelajaranInput, GuruUpdateWithoutJadwalPelajaranInput>, GuruUncheckedUpdateWithoutJadwalPelajaranInput>
+  }
+
+  export type MataPelajaranUpdateOneRequiredWithoutJadwalPelajaranNestedInput = {
+    create?: XOR<MataPelajaranCreateWithoutJadwalPelajaranInput, MataPelajaranUncheckedCreateWithoutJadwalPelajaranInput>
+    connectOrCreate?: MataPelajaranCreateOrConnectWithoutJadwalPelajaranInput
+    upsert?: MataPelajaranUpsertWithoutJadwalPelajaranInput
+    connect?: MataPelajaranWhereUniqueInput
+    update?: XOR<XOR<MataPelajaranUpdateToOneWithWhereWithoutJadwalPelajaranInput, MataPelajaranUpdateWithoutJadwalPelajaranInput>, MataPelajaranUncheckedUpdateWithoutJadwalPelajaranInput>
+  }
+
+  export type KelasUpdateOneRequiredWithoutJadwalPelajaranNestedInput = {
+    create?: XOR<KelasCreateWithoutJadwalPelajaranInput, KelasUncheckedCreateWithoutJadwalPelajaranInput>
+    connectOrCreate?: KelasCreateOrConnectWithoutJadwalPelajaranInput
+    upsert?: KelasUpsertWithoutJadwalPelajaranInput
+    connect?: KelasWhereUniqueInput
+    update?: XOR<XOR<KelasUpdateToOneWithWhereWithoutJadwalPelajaranInput, KelasUpdateWithoutJadwalPelajaranInput>, KelasUncheckedUpdateWithoutJadwalPelajaranInput>
+  }
+
+  export type TahunAjaranUpdateOneRequiredWithoutJadwalPelajaranNestedInput = {
+    create?: XOR<TahunAjaranCreateWithoutJadwalPelajaranInput, TahunAjaranUncheckedCreateWithoutJadwalPelajaranInput>
+    connectOrCreate?: TahunAjaranCreateOrConnectWithoutJadwalPelajaranInput
+    upsert?: TahunAjaranUpsertWithoutJadwalPelajaranInput
+    connect?: TahunAjaranWhereUniqueInput
+    update?: XOR<XOR<TahunAjaranUpdateToOneWithWhereWithoutJadwalPelajaranInput, TahunAjaranUpdateWithoutJadwalPelajaranInput>, TahunAjaranUncheckedUpdateWithoutJadwalPelajaranInput>
+  }
+
+  export type JurnalMengajarUpdateManyWithoutJadwalNestedInput = {
+    create?: XOR<JurnalMengajarCreateWithoutJadwalInput, JurnalMengajarUncheckedCreateWithoutJadwalInput> | JurnalMengajarCreateWithoutJadwalInput[] | JurnalMengajarUncheckedCreateWithoutJadwalInput[]
+    connectOrCreate?: JurnalMengajarCreateOrConnectWithoutJadwalInput | JurnalMengajarCreateOrConnectWithoutJadwalInput[]
+    upsert?: JurnalMengajarUpsertWithWhereUniqueWithoutJadwalInput | JurnalMengajarUpsertWithWhereUniqueWithoutJadwalInput[]
+    createMany?: JurnalMengajarCreateManyJadwalInputEnvelope
+    set?: JurnalMengajarWhereUniqueInput | JurnalMengajarWhereUniqueInput[]
+    disconnect?: JurnalMengajarWhereUniqueInput | JurnalMengajarWhereUniqueInput[]
+    delete?: JurnalMengajarWhereUniqueInput | JurnalMengajarWhereUniqueInput[]
+    connect?: JurnalMengajarWhereUniqueInput | JurnalMengajarWhereUniqueInput[]
+    update?: JurnalMengajarUpdateWithWhereUniqueWithoutJadwalInput | JurnalMengajarUpdateWithWhereUniqueWithoutJadwalInput[]
+    updateMany?: JurnalMengajarUpdateManyWithWhereWithoutJadwalInput | JurnalMengajarUpdateManyWithWhereWithoutJadwalInput[]
+    deleteMany?: JurnalMengajarScalarWhereInput | JurnalMengajarScalarWhereInput[]
+  }
+
+  export type JurnalMengajarUncheckedUpdateManyWithoutJadwalNestedInput = {
+    create?: XOR<JurnalMengajarCreateWithoutJadwalInput, JurnalMengajarUncheckedCreateWithoutJadwalInput> | JurnalMengajarCreateWithoutJadwalInput[] | JurnalMengajarUncheckedCreateWithoutJadwalInput[]
+    connectOrCreate?: JurnalMengajarCreateOrConnectWithoutJadwalInput | JurnalMengajarCreateOrConnectWithoutJadwalInput[]
+    upsert?: JurnalMengajarUpsertWithWhereUniqueWithoutJadwalInput | JurnalMengajarUpsertWithWhereUniqueWithoutJadwalInput[]
+    createMany?: JurnalMengajarCreateManyJadwalInputEnvelope
+    set?: JurnalMengajarWhereUniqueInput | JurnalMengajarWhereUniqueInput[]
+    disconnect?: JurnalMengajarWhereUniqueInput | JurnalMengajarWhereUniqueInput[]
+    delete?: JurnalMengajarWhereUniqueInput | JurnalMengajarWhereUniqueInput[]
+    connect?: JurnalMengajarWhereUniqueInput | JurnalMengajarWhereUniqueInput[]
+    update?: JurnalMengajarUpdateWithWhereUniqueWithoutJadwalInput | JurnalMengajarUpdateWithWhereUniqueWithoutJadwalInput[]
+    updateMany?: JurnalMengajarUpdateManyWithWhereWithoutJadwalInput | JurnalMengajarUpdateManyWithWhereWithoutJadwalInput[]
+    deleteMany?: JurnalMengajarScalarWhereInput | JurnalMengajarScalarWhereInput[]
+  }
+
+  export type JadwalPelajaranCreateNestedOneWithoutJurnalInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutJurnalInput, JadwalPelajaranUncheckedCreateWithoutJurnalInput>
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutJurnalInput
+    connect?: JadwalPelajaranWhereUniqueInput
+  }
+
+  export type PresensiSiswaCreateNestedManyWithoutJurnalInput = {
+    create?: XOR<PresensiSiswaCreateWithoutJurnalInput, PresensiSiswaUncheckedCreateWithoutJurnalInput> | PresensiSiswaCreateWithoutJurnalInput[] | PresensiSiswaUncheckedCreateWithoutJurnalInput[]
+    connectOrCreate?: PresensiSiswaCreateOrConnectWithoutJurnalInput | PresensiSiswaCreateOrConnectWithoutJurnalInput[]
+    createMany?: PresensiSiswaCreateManyJurnalInputEnvelope
+    connect?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+  }
+
+  export type PresensiSiswaUncheckedCreateNestedManyWithoutJurnalInput = {
+    create?: XOR<PresensiSiswaCreateWithoutJurnalInput, PresensiSiswaUncheckedCreateWithoutJurnalInput> | PresensiSiswaCreateWithoutJurnalInput[] | PresensiSiswaUncheckedCreateWithoutJurnalInput[]
+    connectOrCreate?: PresensiSiswaCreateOrConnectWithoutJurnalInput | PresensiSiswaCreateOrConnectWithoutJurnalInput[]
+    createMany?: PresensiSiswaCreateManyJurnalInputEnvelope
+    connect?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+  }
+
+  export type EnumJurnalStatusFieldUpdateOperationsInput = {
+    set?: $Enums.JurnalStatus
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type JadwalPelajaranUpdateOneRequiredWithoutJurnalNestedInput = {
+    create?: XOR<JadwalPelajaranCreateWithoutJurnalInput, JadwalPelajaranUncheckedCreateWithoutJurnalInput>
+    connectOrCreate?: JadwalPelajaranCreateOrConnectWithoutJurnalInput
+    upsert?: JadwalPelajaranUpsertWithoutJurnalInput
+    connect?: JadwalPelajaranWhereUniqueInput
+    update?: XOR<XOR<JadwalPelajaranUpdateToOneWithWhereWithoutJurnalInput, JadwalPelajaranUpdateWithoutJurnalInput>, JadwalPelajaranUncheckedUpdateWithoutJurnalInput>
+  }
+
+  export type PresensiSiswaUpdateManyWithoutJurnalNestedInput = {
+    create?: XOR<PresensiSiswaCreateWithoutJurnalInput, PresensiSiswaUncheckedCreateWithoutJurnalInput> | PresensiSiswaCreateWithoutJurnalInput[] | PresensiSiswaUncheckedCreateWithoutJurnalInput[]
+    connectOrCreate?: PresensiSiswaCreateOrConnectWithoutJurnalInput | PresensiSiswaCreateOrConnectWithoutJurnalInput[]
+    upsert?: PresensiSiswaUpsertWithWhereUniqueWithoutJurnalInput | PresensiSiswaUpsertWithWhereUniqueWithoutJurnalInput[]
+    createMany?: PresensiSiswaCreateManyJurnalInputEnvelope
+    set?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    disconnect?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    delete?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    connect?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    update?: PresensiSiswaUpdateWithWhereUniqueWithoutJurnalInput | PresensiSiswaUpdateWithWhereUniqueWithoutJurnalInput[]
+    updateMany?: PresensiSiswaUpdateManyWithWhereWithoutJurnalInput | PresensiSiswaUpdateManyWithWhereWithoutJurnalInput[]
+    deleteMany?: PresensiSiswaScalarWhereInput | PresensiSiswaScalarWhereInput[]
+  }
+
+  export type PresensiSiswaUncheckedUpdateManyWithoutJurnalNestedInput = {
+    create?: XOR<PresensiSiswaCreateWithoutJurnalInput, PresensiSiswaUncheckedCreateWithoutJurnalInput> | PresensiSiswaCreateWithoutJurnalInput[] | PresensiSiswaUncheckedCreateWithoutJurnalInput[]
+    connectOrCreate?: PresensiSiswaCreateOrConnectWithoutJurnalInput | PresensiSiswaCreateOrConnectWithoutJurnalInput[]
+    upsert?: PresensiSiswaUpsertWithWhereUniqueWithoutJurnalInput | PresensiSiswaUpsertWithWhereUniqueWithoutJurnalInput[]
+    createMany?: PresensiSiswaCreateManyJurnalInputEnvelope
+    set?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    disconnect?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    delete?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    connect?: PresensiSiswaWhereUniqueInput | PresensiSiswaWhereUniqueInput[]
+    update?: PresensiSiswaUpdateWithWhereUniqueWithoutJurnalInput | PresensiSiswaUpdateWithWhereUniqueWithoutJurnalInput[]
+    updateMany?: PresensiSiswaUpdateManyWithWhereWithoutJurnalInput | PresensiSiswaUpdateManyWithWhereWithoutJurnalInput[]
+    deleteMany?: PresensiSiswaScalarWhereInput | PresensiSiswaScalarWhereInput[]
+  }
+
+  export type JurnalMengajarCreateNestedOneWithoutPresensiInput = {
+    create?: XOR<JurnalMengajarCreateWithoutPresensiInput, JurnalMengajarUncheckedCreateWithoutPresensiInput>
+    connectOrCreate?: JurnalMengajarCreateOrConnectWithoutPresensiInput
+    connect?: JurnalMengajarWhereUniqueInput
+  }
+
+  export type SiswaCreateNestedOneWithoutPresensiInput = {
+    create?: XOR<SiswaCreateWithoutPresensiInput, SiswaUncheckedCreateWithoutPresensiInput>
+    connectOrCreate?: SiswaCreateOrConnectWithoutPresensiInput
+    connect?: SiswaWhereUniqueInput
+  }
+
+  export type EnumStatusHadirFieldUpdateOperationsInput = {
+    set?: $Enums.StatusHadir
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type JurnalMengajarUpdateOneRequiredWithoutPresensiNestedInput = {
+    create?: XOR<JurnalMengajarCreateWithoutPresensiInput, JurnalMengajarUncheckedCreateWithoutPresensiInput>
+    connectOrCreate?: JurnalMengajarCreateOrConnectWithoutPresensiInput
+    upsert?: JurnalMengajarUpsertWithoutPresensiInput
+    connect?: JurnalMengajarWhereUniqueInput
+    update?: XOR<XOR<JurnalMengajarUpdateToOneWithWhereWithoutPresensiInput, JurnalMengajarUpdateWithoutPresensiInput>, JurnalMengajarUncheckedUpdateWithoutPresensiInput>
+  }
+
+  export type SiswaUpdateOneRequiredWithoutPresensiNestedInput = {
+    create?: XOR<SiswaCreateWithoutPresensiInput, SiswaUncheckedCreateWithoutPresensiInput>
+    connectOrCreate?: SiswaCreateOrConnectWithoutPresensiInput
+    upsert?: SiswaUpsertWithoutPresensiInput
+    connect?: SiswaWhereUniqueInput
+    update?: XOR<XOR<SiswaUpdateToOneWithWhereWithoutPresensiInput, SiswaUpdateWithoutPresensiInput>, SiswaUncheckedUpdateWithoutPresensiInput>
+  }
+
+  export type GuruCreateNestedOneWithoutRatingGuruInput = {
+    create?: XOR<GuruCreateWithoutRatingGuruInput, GuruUncheckedCreateWithoutRatingGuruInput>
+    connectOrCreate?: GuruCreateOrConnectWithoutRatingGuruInput
+    connect?: GuruWhereUniqueInput
+  }
+
+  export type SiswaCreateNestedOneWithoutRatingGuruInput = {
+    create?: XOR<SiswaCreateWithoutRatingGuruInput, SiswaUncheckedCreateWithoutRatingGuruInput>
+    connectOrCreate?: SiswaCreateOrConnectWithoutRatingGuruInput
+    connect?: SiswaWhereUniqueInput
+  }
+
+  export type MataPelajaranCreateNestedOneWithoutRatingGuruInput = {
+    create?: XOR<MataPelajaranCreateWithoutRatingGuruInput, MataPelajaranUncheckedCreateWithoutRatingGuruInput>
+    connectOrCreate?: MataPelajaranCreateOrConnectWithoutRatingGuruInput
+    connect?: MataPelajaranWhereUniqueInput
+  }
+
+  export type TahunAjaranCreateNestedOneWithoutRatingGuruInput = {
+    create?: XOR<TahunAjaranCreateWithoutRatingGuruInput, TahunAjaranUncheckedCreateWithoutRatingGuruInput>
+    connectOrCreate?: TahunAjaranCreateOrConnectWithoutRatingGuruInput
+    connect?: TahunAjaranWhereUniqueInput
+  }
+
+  export type GuruUpdateOneRequiredWithoutRatingGuruNestedInput = {
+    create?: XOR<GuruCreateWithoutRatingGuruInput, GuruUncheckedCreateWithoutRatingGuruInput>
+    connectOrCreate?: GuruCreateOrConnectWithoutRatingGuruInput
+    upsert?: GuruUpsertWithoutRatingGuruInput
+    connect?: GuruWhereUniqueInput
+    update?: XOR<XOR<GuruUpdateToOneWithWhereWithoutRatingGuruInput, GuruUpdateWithoutRatingGuruInput>, GuruUncheckedUpdateWithoutRatingGuruInput>
+  }
+
+  export type SiswaUpdateOneRequiredWithoutRatingGuruNestedInput = {
+    create?: XOR<SiswaCreateWithoutRatingGuruInput, SiswaUncheckedCreateWithoutRatingGuruInput>
+    connectOrCreate?: SiswaCreateOrConnectWithoutRatingGuruInput
+    upsert?: SiswaUpsertWithoutRatingGuruInput
+    connect?: SiswaWhereUniqueInput
+    update?: XOR<XOR<SiswaUpdateToOneWithWhereWithoutRatingGuruInput, SiswaUpdateWithoutRatingGuruInput>, SiswaUncheckedUpdateWithoutRatingGuruInput>
+  }
+
+  export type MataPelajaranUpdateOneRequiredWithoutRatingGuruNestedInput = {
+    create?: XOR<MataPelajaranCreateWithoutRatingGuruInput, MataPelajaranUncheckedCreateWithoutRatingGuruInput>
+    connectOrCreate?: MataPelajaranCreateOrConnectWithoutRatingGuruInput
+    upsert?: MataPelajaranUpsertWithoutRatingGuruInput
+    connect?: MataPelajaranWhereUniqueInput
+    update?: XOR<XOR<MataPelajaranUpdateToOneWithWhereWithoutRatingGuruInput, MataPelajaranUpdateWithoutRatingGuruInput>, MataPelajaranUncheckedUpdateWithoutRatingGuruInput>
+  }
+
+  export type TahunAjaranUpdateOneRequiredWithoutRatingGuruNestedInput = {
+    create?: XOR<TahunAjaranCreateWithoutRatingGuruInput, TahunAjaranUncheckedCreateWithoutRatingGuruInput>
+    connectOrCreate?: TahunAjaranCreateOrConnectWithoutRatingGuruInput
+    upsert?: TahunAjaranUpsertWithoutRatingGuruInput
+    connect?: TahunAjaranWhereUniqueInput
+    update?: XOR<XOR<TahunAjaranUpdateToOneWithWhereWithoutRatingGuruInput, TahunAjaranUpdateWithoutRatingGuruInput>, TahunAjaranUncheckedUpdateWithoutRatingGuruInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -9952,12 +24043,227 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumJurnalStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.JurnalStatus | EnumJurnalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JurnalStatus[]
+    notIn?: $Enums.JurnalStatus[]
+    not?: NestedEnumJurnalStatusFilter<$PrismaModel> | $Enums.JurnalStatus
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumJurnalStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.JurnalStatus | EnumJurnalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JurnalStatus[]
+    notIn?: $Enums.JurnalStatus[]
+    not?: NestedEnumJurnalStatusWithAggregatesFilter<$PrismaModel> | $Enums.JurnalStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumJurnalStatusFilter<$PrismaModel>
+    _max?: NestedEnumJurnalStatusFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumStatusHadirFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusHadir | EnumStatusHadirFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusHadir[]
+    notIn?: $Enums.StatusHadir[]
+    not?: NestedEnumStatusHadirFilter<$PrismaModel> | $Enums.StatusHadir
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumStatusHadirWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusHadir | EnumStatusHadirFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusHadir[]
+    notIn?: $Enums.StatusHadir[]
+    not?: NestedEnumStatusHadirWithAggregatesFilter<$PrismaModel> | $Enums.StatusHadir
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusHadirFilter<$PrismaModel>
+    _max?: NestedEnumStatusHadirFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type GuruCreateWithoutUserInput = {
     id?: string
     npp: string
     jenisKelamin: string
     status?: boolean
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutGuruInput
     waliKelasDi?: KelasWaliCreateNestedManyWithoutGuruInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutGuruInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutGuruInput
   }
 
   export type GuruUncheckedCreateWithoutUserInput = {
@@ -9965,7 +24271,10 @@ export namespace Prisma {
     npp: string
     jenisKelamin: string
     status?: boolean
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutGuruInput
     waliKelasDi?: KelasWaliUncheckedCreateNestedManyWithoutGuruInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutGuruInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutGuruInput
   }
 
   export type GuruCreateOrConnectWithoutUserInput = {
@@ -9979,6 +24288,8 @@ export namespace Prisma {
     nis: string
     jenisKelamin: string
     riwayatKelas?: RiwayatKelasSiswaCreateNestedManyWithoutSiswaInput
+    presensi?: PresensiSiswaCreateNestedManyWithoutSiswaInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutSiswaInput
   }
 
   export type SiswaUncheckedCreateWithoutUserInput = {
@@ -9987,11 +24298,55 @@ export namespace Prisma {
     nis: string
     jenisKelamin: string
     riwayatKelas?: RiwayatKelasSiswaUncheckedCreateNestedManyWithoutSiswaInput
+    presensi?: PresensiSiswaUncheckedCreateNestedManyWithoutSiswaInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutSiswaInput
   }
 
   export type SiswaCreateOrConnectWithoutUserInput = {
     where: SiswaWhereUniqueInput
     create: XOR<SiswaCreateWithoutUserInput, SiswaUncheckedCreateWithoutUserInput>
+  }
+
+  export type LaporanPdcaCreateWithoutPembuatInput = {
+    id?: string
+    judul: string
+    tanggalLaporan?: Date | string
+    status?: string
+    planProblem: string
+    planRootCause: string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta: string
+    checkGap: string
+    actRekomendasi: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tahunAjaran: TahunAjaranCreateNestedOneWithoutLaporanPdcaInput
+  }
+
+  export type LaporanPdcaUncheckedCreateWithoutPembuatInput = {
+    id?: string
+    judul: string
+    tahunAjaranId: string
+    tanggalLaporan?: Date | string
+    status?: string
+    planProblem: string
+    planRootCause: string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta: string
+    checkGap: string
+    actRekomendasi: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LaporanPdcaCreateOrConnectWithoutPembuatInput = {
+    where: LaporanPdcaWhereUniqueInput
+    create: XOR<LaporanPdcaCreateWithoutPembuatInput, LaporanPdcaUncheckedCreateWithoutPembuatInput>
+  }
+
+  export type LaporanPdcaCreateManyPembuatInputEnvelope = {
+    data: LaporanPdcaCreateManyPembuatInput | LaporanPdcaCreateManyPembuatInput[]
+    skipDuplicates?: boolean
   }
 
   export type GuruUpsertWithoutUserInput = {
@@ -10010,7 +24365,10 @@ export namespace Prisma {
     npp?: StringFieldUpdateOperationsInput | string
     jenisKelamin?: StringFieldUpdateOperationsInput | string
     status?: BoolFieldUpdateOperationsInput | boolean
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutGuruNestedInput
     waliKelasDi?: KelasWaliUpdateManyWithoutGuruNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutGuruNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutGuruNestedInput
   }
 
   export type GuruUncheckedUpdateWithoutUserInput = {
@@ -10018,7 +24376,10 @@ export namespace Prisma {
     npp?: StringFieldUpdateOperationsInput | string
     jenisKelamin?: StringFieldUpdateOperationsInput | string
     status?: BoolFieldUpdateOperationsInput | boolean
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutGuruNestedInput
     waliKelasDi?: KelasWaliUncheckedUpdateManyWithoutGuruNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutGuruNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutGuruNestedInput
   }
 
   export type SiswaUpsertWithoutUserInput = {
@@ -10038,6 +24399,8 @@ export namespace Prisma {
     nis?: StringFieldUpdateOperationsInput | string
     jenisKelamin?: StringFieldUpdateOperationsInput | string
     riwayatKelas?: RiwayatKelasSiswaUpdateManyWithoutSiswaNestedInput
+    presensi?: PresensiSiswaUpdateManyWithoutSiswaNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutSiswaNestedInput
   }
 
   export type SiswaUncheckedUpdateWithoutUserInput = {
@@ -10046,10 +24409,49 @@ export namespace Prisma {
     nis?: StringFieldUpdateOperationsInput | string
     jenisKelamin?: StringFieldUpdateOperationsInput | string
     riwayatKelas?: RiwayatKelasSiswaUncheckedUpdateManyWithoutSiswaNestedInput
+    presensi?: PresensiSiswaUncheckedUpdateManyWithoutSiswaNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutSiswaNestedInput
+  }
+
+  export type LaporanPdcaUpsertWithWhereUniqueWithoutPembuatInput = {
+    where: LaporanPdcaWhereUniqueInput
+    update: XOR<LaporanPdcaUpdateWithoutPembuatInput, LaporanPdcaUncheckedUpdateWithoutPembuatInput>
+    create: XOR<LaporanPdcaCreateWithoutPembuatInput, LaporanPdcaUncheckedCreateWithoutPembuatInput>
+  }
+
+  export type LaporanPdcaUpdateWithWhereUniqueWithoutPembuatInput = {
+    where: LaporanPdcaWhereUniqueInput
+    data: XOR<LaporanPdcaUpdateWithoutPembuatInput, LaporanPdcaUncheckedUpdateWithoutPembuatInput>
+  }
+
+  export type LaporanPdcaUpdateManyWithWhereWithoutPembuatInput = {
+    where: LaporanPdcaScalarWhereInput
+    data: XOR<LaporanPdcaUpdateManyMutationInput, LaporanPdcaUncheckedUpdateManyWithoutPembuatInput>
+  }
+
+  export type LaporanPdcaScalarWhereInput = {
+    AND?: LaporanPdcaScalarWhereInput | LaporanPdcaScalarWhereInput[]
+    OR?: LaporanPdcaScalarWhereInput[]
+    NOT?: LaporanPdcaScalarWhereInput | LaporanPdcaScalarWhereInput[]
+    id?: StringFilter<"LaporanPdca"> | string
+    judul?: StringFilter<"LaporanPdca"> | string
+    tahunAjaranId?: StringFilter<"LaporanPdca"> | string
+    pembuatId?: StringFilter<"LaporanPdca"> | string
+    tanggalLaporan?: DateTimeFilter<"LaporanPdca"> | Date | string
+    status?: StringFilter<"LaporanPdca"> | string
+    planProblem?: StringFilter<"LaporanPdca"> | string
+    planRootCause?: StringFilter<"LaporanPdca"> | string
+    doImplementasi?: JsonNullableFilter<"LaporanPdca">
+    checkFakta?: StringFilter<"LaporanPdca"> | string
+    checkGap?: StringFilter<"LaporanPdca"> | string
+    actRekomendasi?: StringFilter<"LaporanPdca"> | string
+    createdAt?: DateTimeFilter<"LaporanPdca"> | Date | string
+    updatedAt?: DateTimeFilter<"LaporanPdca"> | Date | string
   }
 
   export type RiwayatKelasSiswaCreateWithoutTahunAjaranInput = {
     id?: string
+    isTka?: boolean
     siswa: SiswaCreateNestedOneWithoutRiwayatKelasInput
     kelas: KelasCreateNestedOneWithoutRiwayatSiswaInput
   }
@@ -10058,6 +24460,7 @@ export namespace Prisma {
     id?: string
     siswaId: string
     kelasId: string
+    isTka?: boolean
   }
 
   export type RiwayatKelasSiswaCreateOrConnectWithoutTahunAjaranInput = {
@@ -10067,6 +24470,159 @@ export namespace Prisma {
 
   export type RiwayatKelasSiswaCreateManyTahunAjaranInputEnvelope = {
     data: RiwayatKelasSiswaCreateManyTahunAjaranInput | RiwayatKelasSiswaCreateManyTahunAjaranInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type JadwalPelajaranCreateWithoutTahunAjaranInput = {
+    id?: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+    guru: GuruCreateNestedOneWithoutJadwalPelajaranInput
+    mapel: MataPelajaranCreateNestedOneWithoutJadwalPelajaranInput
+    kelas: KelasCreateNestedOneWithoutJadwalPelajaranInput
+    jurnal?: JurnalMengajarCreateNestedManyWithoutJadwalInput
+  }
+
+  export type JadwalPelajaranUncheckedCreateWithoutTahunAjaranInput = {
+    id?: string
+    guruId: string
+    mapelId: string
+    kelasId: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+    jurnal?: JurnalMengajarUncheckedCreateNestedManyWithoutJadwalInput
+  }
+
+  export type JadwalPelajaranCreateOrConnectWithoutTahunAjaranInput = {
+    where: JadwalPelajaranWhereUniqueInput
+    create: XOR<JadwalPelajaranCreateWithoutTahunAjaranInput, JadwalPelajaranUncheckedCreateWithoutTahunAjaranInput>
+  }
+
+  export type JadwalPelajaranCreateManyTahunAjaranInputEnvelope = {
+    data: JadwalPelajaranCreateManyTahunAjaranInput | JadwalPelajaranCreateManyTahunAjaranInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MataPelajaranCreateWithoutTahunAjaranInput = {
+    id?: string
+    kode: string
+    nama: string
+    isTka?: boolean
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutMapelInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutMapelInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutMapelInput
+  }
+
+  export type MataPelajaranUncheckedCreateWithoutTahunAjaranInput = {
+    id?: string
+    kode: string
+    nama: string
+    isTka?: boolean
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutMapelInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutMapelInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutMapelInput
+  }
+
+  export type MataPelajaranCreateOrConnectWithoutTahunAjaranInput = {
+    where: MataPelajaranWhereUniqueInput
+    create: XOR<MataPelajaranCreateWithoutTahunAjaranInput, MataPelajaranUncheckedCreateWithoutTahunAjaranInput>
+  }
+
+  export type LaporanPdcaCreateWithoutTahunAjaranInput = {
+    id?: string
+    judul: string
+    tanggalLaporan?: Date | string
+    status?: string
+    planProblem: string
+    planRootCause: string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta: string
+    checkGap: string
+    actRekomendasi: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    pembuat: UserCreateNestedOneWithoutLaporanPdcaInput
+  }
+
+  export type LaporanPdcaUncheckedCreateWithoutTahunAjaranInput = {
+    id?: string
+    judul: string
+    pembuatId: string
+    tanggalLaporan?: Date | string
+    status?: string
+    planProblem: string
+    planRootCause: string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta: string
+    checkGap: string
+    actRekomendasi: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LaporanPdcaCreateOrConnectWithoutTahunAjaranInput = {
+    where: LaporanPdcaWhereUniqueInput
+    create: XOR<LaporanPdcaCreateWithoutTahunAjaranInput, LaporanPdcaUncheckedCreateWithoutTahunAjaranInput>
+  }
+
+  export type LaporanPdcaCreateManyTahunAjaranInputEnvelope = {
+    data: LaporanPdcaCreateManyTahunAjaranInput | LaporanPdcaCreateManyTahunAjaranInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RatingGuruCreateWithoutTahunAjaranInput = {
+    id?: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
+    guru: GuruCreateNestedOneWithoutRatingGuruInput
+    siswa: SiswaCreateNestedOneWithoutRatingGuruInput
+    mapel: MataPelajaranCreateNestedOneWithoutRatingGuruInput
+  }
+
+  export type RatingGuruUncheckedCreateWithoutTahunAjaranInput = {
+    id?: string
+    guruId: string
+    siswaId: string
+    mapelId: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RatingGuruCreateOrConnectWithoutTahunAjaranInput = {
+    where: RatingGuruWhereUniqueInput
+    create: XOR<RatingGuruCreateWithoutTahunAjaranInput, RatingGuruUncheckedCreateWithoutTahunAjaranInput>
+  }
+
+  export type RatingGuruCreateManyTahunAjaranInputEnvelope = {
+    data: RatingGuruCreateManyTahunAjaranInput | RatingGuruCreateManyTahunAjaranInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TimFasilitatorTkaCreateWithoutTahunAjaranInput = {
+    id?: string
+    mapel: MataPelajaranCreateNestedOneWithoutTimFasilitatorTkaInput
+    guru: GuruCreateNestedOneWithoutTimFasilitatorTkaInput
+  }
+
+  export type TimFasilitatorTkaUncheckedCreateWithoutTahunAjaranInput = {
+    id?: string
+    mapelId: string
+    guruId: string
+  }
+
+  export type TimFasilitatorTkaCreateOrConnectWithoutTahunAjaranInput = {
+    where: TimFasilitatorTkaWhereUniqueInput
+    create: XOR<TimFasilitatorTkaCreateWithoutTahunAjaranInput, TimFasilitatorTkaUncheckedCreateWithoutTahunAjaranInput>
+  }
+
+  export type TimFasilitatorTkaCreateManyTahunAjaranInputEnvelope = {
+    data: TimFasilitatorTkaCreateManyTahunAjaranInput | TimFasilitatorTkaCreateManyTahunAjaranInput[]
     skipDuplicates?: boolean
   }
 
@@ -10094,10 +24650,141 @@ export namespace Prisma {
     siswaId?: StringFilter<"RiwayatKelasSiswa"> | string
     kelasId?: StringFilter<"RiwayatKelasSiswa"> | string
     tahunAjaranId?: StringFilter<"RiwayatKelasSiswa"> | string
+    isTka?: BoolFilter<"RiwayatKelasSiswa"> | boolean
+  }
+
+  export type JadwalPelajaranUpsertWithWhereUniqueWithoutTahunAjaranInput = {
+    where: JadwalPelajaranWhereUniqueInput
+    update: XOR<JadwalPelajaranUpdateWithoutTahunAjaranInput, JadwalPelajaranUncheckedUpdateWithoutTahunAjaranInput>
+    create: XOR<JadwalPelajaranCreateWithoutTahunAjaranInput, JadwalPelajaranUncheckedCreateWithoutTahunAjaranInput>
+  }
+
+  export type JadwalPelajaranUpdateWithWhereUniqueWithoutTahunAjaranInput = {
+    where: JadwalPelajaranWhereUniqueInput
+    data: XOR<JadwalPelajaranUpdateWithoutTahunAjaranInput, JadwalPelajaranUncheckedUpdateWithoutTahunAjaranInput>
+  }
+
+  export type JadwalPelajaranUpdateManyWithWhereWithoutTahunAjaranInput = {
+    where: JadwalPelajaranScalarWhereInput
+    data: XOR<JadwalPelajaranUpdateManyMutationInput, JadwalPelajaranUncheckedUpdateManyWithoutTahunAjaranInput>
+  }
+
+  export type JadwalPelajaranScalarWhereInput = {
+    AND?: JadwalPelajaranScalarWhereInput | JadwalPelajaranScalarWhereInput[]
+    OR?: JadwalPelajaranScalarWhereInput[]
+    NOT?: JadwalPelajaranScalarWhereInput | JadwalPelajaranScalarWhereInput[]
+    id?: StringFilter<"JadwalPelajaran"> | string
+    guruId?: StringFilter<"JadwalPelajaran"> | string
+    mapelId?: StringFilter<"JadwalPelajaran"> | string
+    kelasId?: StringFilter<"JadwalPelajaran"> | string
+    tahunAjaranId?: StringFilter<"JadwalPelajaran"> | string
+    hari?: IntFilter<"JadwalPelajaran"> | number
+    waktuMulai?: StringFilter<"JadwalPelajaran"> | string
+    waktuSelesai?: StringFilter<"JadwalPelajaran"> | string
+    ruang?: StringNullableFilter<"JadwalPelajaran"> | string | null
+  }
+
+  export type MataPelajaranUpsertWithWhereUniqueWithoutTahunAjaranInput = {
+    where: MataPelajaranWhereUniqueInput
+    update: XOR<MataPelajaranUpdateWithoutTahunAjaranInput, MataPelajaranUncheckedUpdateWithoutTahunAjaranInput>
+    create: XOR<MataPelajaranCreateWithoutTahunAjaranInput, MataPelajaranUncheckedCreateWithoutTahunAjaranInput>
+  }
+
+  export type MataPelajaranUpdateWithWhereUniqueWithoutTahunAjaranInput = {
+    where: MataPelajaranWhereUniqueInput
+    data: XOR<MataPelajaranUpdateWithoutTahunAjaranInput, MataPelajaranUncheckedUpdateWithoutTahunAjaranInput>
+  }
+
+  export type MataPelajaranUpdateManyWithWhereWithoutTahunAjaranInput = {
+    where: MataPelajaranScalarWhereInput
+    data: XOR<MataPelajaranUpdateManyMutationInput, MataPelajaranUncheckedUpdateManyWithoutTahunAjaranInput>
+  }
+
+  export type MataPelajaranScalarWhereInput = {
+    AND?: MataPelajaranScalarWhereInput | MataPelajaranScalarWhereInput[]
+    OR?: MataPelajaranScalarWhereInput[]
+    NOT?: MataPelajaranScalarWhereInput | MataPelajaranScalarWhereInput[]
+    id?: StringFilter<"MataPelajaran"> | string
+    kode?: StringFilter<"MataPelajaran"> | string
+    nama?: StringFilter<"MataPelajaran"> | string
+    isTka?: BoolFilter<"MataPelajaran"> | boolean
+  }
+
+  export type LaporanPdcaUpsertWithWhereUniqueWithoutTahunAjaranInput = {
+    where: LaporanPdcaWhereUniqueInput
+    update: XOR<LaporanPdcaUpdateWithoutTahunAjaranInput, LaporanPdcaUncheckedUpdateWithoutTahunAjaranInput>
+    create: XOR<LaporanPdcaCreateWithoutTahunAjaranInput, LaporanPdcaUncheckedCreateWithoutTahunAjaranInput>
+  }
+
+  export type LaporanPdcaUpdateWithWhereUniqueWithoutTahunAjaranInput = {
+    where: LaporanPdcaWhereUniqueInput
+    data: XOR<LaporanPdcaUpdateWithoutTahunAjaranInput, LaporanPdcaUncheckedUpdateWithoutTahunAjaranInput>
+  }
+
+  export type LaporanPdcaUpdateManyWithWhereWithoutTahunAjaranInput = {
+    where: LaporanPdcaScalarWhereInput
+    data: XOR<LaporanPdcaUpdateManyMutationInput, LaporanPdcaUncheckedUpdateManyWithoutTahunAjaranInput>
+  }
+
+  export type RatingGuruUpsertWithWhereUniqueWithoutTahunAjaranInput = {
+    where: RatingGuruWhereUniqueInput
+    update: XOR<RatingGuruUpdateWithoutTahunAjaranInput, RatingGuruUncheckedUpdateWithoutTahunAjaranInput>
+    create: XOR<RatingGuruCreateWithoutTahunAjaranInput, RatingGuruUncheckedCreateWithoutTahunAjaranInput>
+  }
+
+  export type RatingGuruUpdateWithWhereUniqueWithoutTahunAjaranInput = {
+    where: RatingGuruWhereUniqueInput
+    data: XOR<RatingGuruUpdateWithoutTahunAjaranInput, RatingGuruUncheckedUpdateWithoutTahunAjaranInput>
+  }
+
+  export type RatingGuruUpdateManyWithWhereWithoutTahunAjaranInput = {
+    where: RatingGuruScalarWhereInput
+    data: XOR<RatingGuruUpdateManyMutationInput, RatingGuruUncheckedUpdateManyWithoutTahunAjaranInput>
+  }
+
+  export type RatingGuruScalarWhereInput = {
+    AND?: RatingGuruScalarWhereInput | RatingGuruScalarWhereInput[]
+    OR?: RatingGuruScalarWhereInput[]
+    NOT?: RatingGuruScalarWhereInput | RatingGuruScalarWhereInput[]
+    id?: StringFilter<"RatingGuru"> | string
+    guruId?: StringFilter<"RatingGuru"> | string
+    siswaId?: StringFilter<"RatingGuru"> | string
+    mapelId?: StringFilter<"RatingGuru"> | string
+    tahunAjaranId?: StringFilter<"RatingGuru"> | string
+    rating?: IntFilter<"RatingGuru"> | number
+    komentar?: StringNullableFilter<"RatingGuru"> | string | null
+    createdAt?: DateTimeFilter<"RatingGuru"> | Date | string
+  }
+
+  export type TimFasilitatorTkaUpsertWithWhereUniqueWithoutTahunAjaranInput = {
+    where: TimFasilitatorTkaWhereUniqueInput
+    update: XOR<TimFasilitatorTkaUpdateWithoutTahunAjaranInput, TimFasilitatorTkaUncheckedUpdateWithoutTahunAjaranInput>
+    create: XOR<TimFasilitatorTkaCreateWithoutTahunAjaranInput, TimFasilitatorTkaUncheckedCreateWithoutTahunAjaranInput>
+  }
+
+  export type TimFasilitatorTkaUpdateWithWhereUniqueWithoutTahunAjaranInput = {
+    where: TimFasilitatorTkaWhereUniqueInput
+    data: XOR<TimFasilitatorTkaUpdateWithoutTahunAjaranInput, TimFasilitatorTkaUncheckedUpdateWithoutTahunAjaranInput>
+  }
+
+  export type TimFasilitatorTkaUpdateManyWithWhereWithoutTahunAjaranInput = {
+    where: TimFasilitatorTkaScalarWhereInput
+    data: XOR<TimFasilitatorTkaUpdateManyMutationInput, TimFasilitatorTkaUncheckedUpdateManyWithoutTahunAjaranInput>
+  }
+
+  export type TimFasilitatorTkaScalarWhereInput = {
+    AND?: TimFasilitatorTkaScalarWhereInput | TimFasilitatorTkaScalarWhereInput[]
+    OR?: TimFasilitatorTkaScalarWhereInput[]
+    NOT?: TimFasilitatorTkaScalarWhereInput | TimFasilitatorTkaScalarWhereInput[]
+    id?: StringFilter<"TimFasilitatorTka"> | string
+    mapelId?: StringFilter<"TimFasilitatorTka"> | string
+    guruId?: StringFilter<"TimFasilitatorTka"> | string
+    tahunAjaranId?: StringFilter<"TimFasilitatorTka"> | string
   }
 
   export type RiwayatKelasSiswaCreateWithoutKelasInput = {
     id?: string
+    isTka?: boolean
     siswa: SiswaCreateNestedOneWithoutRiwayatKelasInput
     tahunAjaran: TahunAjaranCreateNestedOneWithoutRiwayatSiswaInput
   }
@@ -10106,6 +24793,7 @@ export namespace Prisma {
     id?: string
     siswaId: string
     tahunAjaranId: string
+    isTka?: boolean
   }
 
   export type RiwayatKelasSiswaCreateOrConnectWithoutKelasInput = {
@@ -10115,6 +24803,40 @@ export namespace Prisma {
 
   export type RiwayatKelasSiswaCreateManyKelasInputEnvelope = {
     data: RiwayatKelasSiswaCreateManyKelasInput | RiwayatKelasSiswaCreateManyKelasInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type JadwalPelajaranCreateWithoutKelasInput = {
+    id?: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+    guru: GuruCreateNestedOneWithoutJadwalPelajaranInput
+    mapel: MataPelajaranCreateNestedOneWithoutJadwalPelajaranInput
+    tahunAjaran: TahunAjaranCreateNestedOneWithoutJadwalPelajaranInput
+    jurnal?: JurnalMengajarCreateNestedManyWithoutJadwalInput
+  }
+
+  export type JadwalPelajaranUncheckedCreateWithoutKelasInput = {
+    id?: string
+    guruId: string
+    mapelId: string
+    tahunAjaranId: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+    jurnal?: JurnalMengajarUncheckedCreateNestedManyWithoutJadwalInput
+  }
+
+  export type JadwalPelajaranCreateOrConnectWithoutKelasInput = {
+    where: JadwalPelajaranWhereUniqueInput
+    create: XOR<JadwalPelajaranCreateWithoutKelasInput, JadwalPelajaranUncheckedCreateWithoutKelasInput>
+  }
+
+  export type JadwalPelajaranCreateManyKelasInputEnvelope = {
+    data: JadwalPelajaranCreateManyKelasInput | JadwalPelajaranCreateManyKelasInput[]
     skipDuplicates?: boolean
   }
 
@@ -10156,6 +24878,22 @@ export namespace Prisma {
     data: XOR<RiwayatKelasSiswaUpdateManyMutationInput, RiwayatKelasSiswaUncheckedUpdateManyWithoutKelasInput>
   }
 
+  export type JadwalPelajaranUpsertWithWhereUniqueWithoutKelasInput = {
+    where: JadwalPelajaranWhereUniqueInput
+    update: XOR<JadwalPelajaranUpdateWithoutKelasInput, JadwalPelajaranUncheckedUpdateWithoutKelasInput>
+    create: XOR<JadwalPelajaranCreateWithoutKelasInput, JadwalPelajaranUncheckedCreateWithoutKelasInput>
+  }
+
+  export type JadwalPelajaranUpdateWithWhereUniqueWithoutKelasInput = {
+    where: JadwalPelajaranWhereUniqueInput
+    data: XOR<JadwalPelajaranUpdateWithoutKelasInput, JadwalPelajaranUncheckedUpdateWithoutKelasInput>
+  }
+
+  export type JadwalPelajaranUpdateManyWithWhereWithoutKelasInput = {
+    where: JadwalPelajaranScalarWhereInput
+    data: XOR<JadwalPelajaranUpdateManyMutationInput, JadwalPelajaranUncheckedUpdateManyWithoutKelasInput>
+  }
+
   export type KelasWaliUpsertWithWhereUniqueWithoutKelasInput = {
     where: KelasWaliWhereUniqueInput
     update: XOR<KelasWaliUpdateWithoutKelasInput, KelasWaliUncheckedUpdateWithoutKelasInput>
@@ -10182,6 +24920,503 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"KelasWali"> | Date | string
   }
 
+  export type JadwalPelajaranCreateWithoutMapelInput = {
+    id?: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+    guru: GuruCreateNestedOneWithoutJadwalPelajaranInput
+    kelas: KelasCreateNestedOneWithoutJadwalPelajaranInput
+    tahunAjaran: TahunAjaranCreateNestedOneWithoutJadwalPelajaranInput
+    jurnal?: JurnalMengajarCreateNestedManyWithoutJadwalInput
+  }
+
+  export type JadwalPelajaranUncheckedCreateWithoutMapelInput = {
+    id?: string
+    guruId: string
+    kelasId: string
+    tahunAjaranId: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+    jurnal?: JurnalMengajarUncheckedCreateNestedManyWithoutJadwalInput
+  }
+
+  export type JadwalPelajaranCreateOrConnectWithoutMapelInput = {
+    where: JadwalPelajaranWhereUniqueInput
+    create: XOR<JadwalPelajaranCreateWithoutMapelInput, JadwalPelajaranUncheckedCreateWithoutMapelInput>
+  }
+
+  export type JadwalPelajaranCreateManyMapelInputEnvelope = {
+    data: JadwalPelajaranCreateManyMapelInput | JadwalPelajaranCreateManyMapelInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TahunAjaranCreateWithoutMataPelajaranInput = {
+    id?: string
+    nama: string
+    isActive?: boolean
+    isRatingActive?: boolean
+    riwayatSiswa?: RiwayatKelasSiswaCreateNestedManyWithoutTahunAjaranInput
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutTahunAjaranInput
+    laporanPdca?: LaporanPdcaCreateNestedManyWithoutTahunAjaranInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutTahunAjaranInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutTahunAjaranInput
+  }
+
+  export type TahunAjaranUncheckedCreateWithoutMataPelajaranInput = {
+    id?: string
+    nama: string
+    isActive?: boolean
+    isRatingActive?: boolean
+    riwayatSiswa?: RiwayatKelasSiswaUncheckedCreateNestedManyWithoutTahunAjaranInput
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutTahunAjaranInput
+    laporanPdca?: LaporanPdcaUncheckedCreateNestedManyWithoutTahunAjaranInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutTahunAjaranInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutTahunAjaranInput
+  }
+
+  export type TahunAjaranCreateOrConnectWithoutMataPelajaranInput = {
+    where: TahunAjaranWhereUniqueInput
+    create: XOR<TahunAjaranCreateWithoutMataPelajaranInput, TahunAjaranUncheckedCreateWithoutMataPelajaranInput>
+  }
+
+  export type RatingGuruCreateWithoutMapelInput = {
+    id?: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
+    guru: GuruCreateNestedOneWithoutRatingGuruInput
+    siswa: SiswaCreateNestedOneWithoutRatingGuruInput
+    tahunAjaran: TahunAjaranCreateNestedOneWithoutRatingGuruInput
+  }
+
+  export type RatingGuruUncheckedCreateWithoutMapelInput = {
+    id?: string
+    guruId: string
+    siswaId: string
+    tahunAjaranId: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RatingGuruCreateOrConnectWithoutMapelInput = {
+    where: RatingGuruWhereUniqueInput
+    create: XOR<RatingGuruCreateWithoutMapelInput, RatingGuruUncheckedCreateWithoutMapelInput>
+  }
+
+  export type RatingGuruCreateManyMapelInputEnvelope = {
+    data: RatingGuruCreateManyMapelInput | RatingGuruCreateManyMapelInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TimFasilitatorTkaCreateWithoutMapelInput = {
+    id?: string
+    guru: GuruCreateNestedOneWithoutTimFasilitatorTkaInput
+    tahunAjaran: TahunAjaranCreateNestedOneWithoutTimFasilitatorTkaInput
+  }
+
+  export type TimFasilitatorTkaUncheckedCreateWithoutMapelInput = {
+    id?: string
+    guruId: string
+    tahunAjaranId: string
+  }
+
+  export type TimFasilitatorTkaCreateOrConnectWithoutMapelInput = {
+    where: TimFasilitatorTkaWhereUniqueInput
+    create: XOR<TimFasilitatorTkaCreateWithoutMapelInput, TimFasilitatorTkaUncheckedCreateWithoutMapelInput>
+  }
+
+  export type TimFasilitatorTkaCreateManyMapelInputEnvelope = {
+    data: TimFasilitatorTkaCreateManyMapelInput | TimFasilitatorTkaCreateManyMapelInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type JadwalPelajaranUpsertWithWhereUniqueWithoutMapelInput = {
+    where: JadwalPelajaranWhereUniqueInput
+    update: XOR<JadwalPelajaranUpdateWithoutMapelInput, JadwalPelajaranUncheckedUpdateWithoutMapelInput>
+    create: XOR<JadwalPelajaranCreateWithoutMapelInput, JadwalPelajaranUncheckedCreateWithoutMapelInput>
+  }
+
+  export type JadwalPelajaranUpdateWithWhereUniqueWithoutMapelInput = {
+    where: JadwalPelajaranWhereUniqueInput
+    data: XOR<JadwalPelajaranUpdateWithoutMapelInput, JadwalPelajaranUncheckedUpdateWithoutMapelInput>
+  }
+
+  export type JadwalPelajaranUpdateManyWithWhereWithoutMapelInput = {
+    where: JadwalPelajaranScalarWhereInput
+    data: XOR<JadwalPelajaranUpdateManyMutationInput, JadwalPelajaranUncheckedUpdateManyWithoutMapelInput>
+  }
+
+  export type TahunAjaranUpsertWithWhereUniqueWithoutMataPelajaranInput = {
+    where: TahunAjaranWhereUniqueInput
+    update: XOR<TahunAjaranUpdateWithoutMataPelajaranInput, TahunAjaranUncheckedUpdateWithoutMataPelajaranInput>
+    create: XOR<TahunAjaranCreateWithoutMataPelajaranInput, TahunAjaranUncheckedCreateWithoutMataPelajaranInput>
+  }
+
+  export type TahunAjaranUpdateWithWhereUniqueWithoutMataPelajaranInput = {
+    where: TahunAjaranWhereUniqueInput
+    data: XOR<TahunAjaranUpdateWithoutMataPelajaranInput, TahunAjaranUncheckedUpdateWithoutMataPelajaranInput>
+  }
+
+  export type TahunAjaranUpdateManyWithWhereWithoutMataPelajaranInput = {
+    where: TahunAjaranScalarWhereInput
+    data: XOR<TahunAjaranUpdateManyMutationInput, TahunAjaranUncheckedUpdateManyWithoutMataPelajaranInput>
+  }
+
+  export type TahunAjaranScalarWhereInput = {
+    AND?: TahunAjaranScalarWhereInput | TahunAjaranScalarWhereInput[]
+    OR?: TahunAjaranScalarWhereInput[]
+    NOT?: TahunAjaranScalarWhereInput | TahunAjaranScalarWhereInput[]
+    id?: StringFilter<"TahunAjaran"> | string
+    nama?: StringFilter<"TahunAjaran"> | string
+    isActive?: BoolFilter<"TahunAjaran"> | boolean
+    isRatingActive?: BoolFilter<"TahunAjaran"> | boolean
+  }
+
+  export type RatingGuruUpsertWithWhereUniqueWithoutMapelInput = {
+    where: RatingGuruWhereUniqueInput
+    update: XOR<RatingGuruUpdateWithoutMapelInput, RatingGuruUncheckedUpdateWithoutMapelInput>
+    create: XOR<RatingGuruCreateWithoutMapelInput, RatingGuruUncheckedCreateWithoutMapelInput>
+  }
+
+  export type RatingGuruUpdateWithWhereUniqueWithoutMapelInput = {
+    where: RatingGuruWhereUniqueInput
+    data: XOR<RatingGuruUpdateWithoutMapelInput, RatingGuruUncheckedUpdateWithoutMapelInput>
+  }
+
+  export type RatingGuruUpdateManyWithWhereWithoutMapelInput = {
+    where: RatingGuruScalarWhereInput
+    data: XOR<RatingGuruUpdateManyMutationInput, RatingGuruUncheckedUpdateManyWithoutMapelInput>
+  }
+
+  export type TimFasilitatorTkaUpsertWithWhereUniqueWithoutMapelInput = {
+    where: TimFasilitatorTkaWhereUniqueInput
+    update: XOR<TimFasilitatorTkaUpdateWithoutMapelInput, TimFasilitatorTkaUncheckedUpdateWithoutMapelInput>
+    create: XOR<TimFasilitatorTkaCreateWithoutMapelInput, TimFasilitatorTkaUncheckedCreateWithoutMapelInput>
+  }
+
+  export type TimFasilitatorTkaUpdateWithWhereUniqueWithoutMapelInput = {
+    where: TimFasilitatorTkaWhereUniqueInput
+    data: XOR<TimFasilitatorTkaUpdateWithoutMapelInput, TimFasilitatorTkaUncheckedUpdateWithoutMapelInput>
+  }
+
+  export type TimFasilitatorTkaUpdateManyWithWhereWithoutMapelInput = {
+    where: TimFasilitatorTkaScalarWhereInput
+    data: XOR<TimFasilitatorTkaUpdateManyMutationInput, TimFasilitatorTkaUncheckedUpdateManyWithoutMapelInput>
+  }
+
+  export type TahunAjaranCreateWithoutLaporanPdcaInput = {
+    id?: string
+    nama: string
+    isActive?: boolean
+    isRatingActive?: boolean
+    riwayatSiswa?: RiwayatKelasSiswaCreateNestedManyWithoutTahunAjaranInput
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutTahunAjaranInput
+    mataPelajaran?: MataPelajaranCreateNestedManyWithoutTahunAjaranInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutTahunAjaranInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutTahunAjaranInput
+  }
+
+  export type TahunAjaranUncheckedCreateWithoutLaporanPdcaInput = {
+    id?: string
+    nama: string
+    isActive?: boolean
+    isRatingActive?: boolean
+    riwayatSiswa?: RiwayatKelasSiswaUncheckedCreateNestedManyWithoutTahunAjaranInput
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutTahunAjaranInput
+    mataPelajaran?: MataPelajaranUncheckedCreateNestedManyWithoutTahunAjaranInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutTahunAjaranInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutTahunAjaranInput
+  }
+
+  export type TahunAjaranCreateOrConnectWithoutLaporanPdcaInput = {
+    where: TahunAjaranWhereUniqueInput
+    create: XOR<TahunAjaranCreateWithoutLaporanPdcaInput, TahunAjaranUncheckedCreateWithoutLaporanPdcaInput>
+  }
+
+  export type UserCreateWithoutLaporanPdcaInput = {
+    id?: string
+    username: string
+    password: string
+    nama: string
+    role: $Enums.Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    guru?: GuruCreateNestedOneWithoutUserInput
+    siswa?: SiswaCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutLaporanPdcaInput = {
+    id?: string
+    username: string
+    password: string
+    nama: string
+    role: $Enums.Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    guru?: GuruUncheckedCreateNestedOneWithoutUserInput
+    siswa?: SiswaUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutLaporanPdcaInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutLaporanPdcaInput, UserUncheckedCreateWithoutLaporanPdcaInput>
+  }
+
+  export type TahunAjaranUpsertWithoutLaporanPdcaInput = {
+    update: XOR<TahunAjaranUpdateWithoutLaporanPdcaInput, TahunAjaranUncheckedUpdateWithoutLaporanPdcaInput>
+    create: XOR<TahunAjaranCreateWithoutLaporanPdcaInput, TahunAjaranUncheckedCreateWithoutLaporanPdcaInput>
+    where?: TahunAjaranWhereInput
+  }
+
+  export type TahunAjaranUpdateToOneWithWhereWithoutLaporanPdcaInput = {
+    where?: TahunAjaranWhereInput
+    data: XOR<TahunAjaranUpdateWithoutLaporanPdcaInput, TahunAjaranUncheckedUpdateWithoutLaporanPdcaInput>
+  }
+
+  export type TahunAjaranUpdateWithoutLaporanPdcaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
+    riwayatSiswa?: RiwayatKelasSiswaUpdateManyWithoutTahunAjaranNestedInput
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutTahunAjaranNestedInput
+    mataPelajaran?: MataPelajaranUpdateManyWithoutTahunAjaranNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutTahunAjaranNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutTahunAjaranNestedInput
+  }
+
+  export type TahunAjaranUncheckedUpdateWithoutLaporanPdcaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
+    riwayatSiswa?: RiwayatKelasSiswaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    mataPelajaran?: MataPelajaranUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+  }
+
+  export type UserUpsertWithoutLaporanPdcaInput = {
+    update: XOR<UserUpdateWithoutLaporanPdcaInput, UserUncheckedUpdateWithoutLaporanPdcaInput>
+    create: XOR<UserCreateWithoutLaporanPdcaInput, UserUncheckedCreateWithoutLaporanPdcaInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutLaporanPdcaInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutLaporanPdcaInput, UserUncheckedUpdateWithoutLaporanPdcaInput>
+  }
+
+  export type UserUpdateWithoutLaporanPdcaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guru?: GuruUpdateOneWithoutUserNestedInput
+    siswa?: SiswaUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutLaporanPdcaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guru?: GuruUncheckedUpdateOneWithoutUserNestedInput
+    siswa?: SiswaUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type MataPelajaranCreateWithoutTimFasilitatorTkaInput = {
+    id?: string
+    kode: string
+    nama: string
+    isTka?: boolean
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutMapelInput
+    tahunAjaran?: TahunAjaranCreateNestedManyWithoutMataPelajaranInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutMapelInput
+  }
+
+  export type MataPelajaranUncheckedCreateWithoutTimFasilitatorTkaInput = {
+    id?: string
+    kode: string
+    nama: string
+    isTka?: boolean
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutMapelInput
+    tahunAjaran?: TahunAjaranUncheckedCreateNestedManyWithoutMataPelajaranInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutMapelInput
+  }
+
+  export type MataPelajaranCreateOrConnectWithoutTimFasilitatorTkaInput = {
+    where: MataPelajaranWhereUniqueInput
+    create: XOR<MataPelajaranCreateWithoutTimFasilitatorTkaInput, MataPelajaranUncheckedCreateWithoutTimFasilitatorTkaInput>
+  }
+
+  export type GuruCreateWithoutTimFasilitatorTkaInput = {
+    id?: string
+    npp: string
+    jenisKelamin: string
+    status?: boolean
+    user: UserCreateNestedOneWithoutGuruInput
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutGuruInput
+    waliKelasDi?: KelasWaliCreateNestedManyWithoutGuruInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutGuruInput
+  }
+
+  export type GuruUncheckedCreateWithoutTimFasilitatorTkaInput = {
+    id?: string
+    npp: string
+    jenisKelamin: string
+    status?: boolean
+    userId: string
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutGuruInput
+    waliKelasDi?: KelasWaliUncheckedCreateNestedManyWithoutGuruInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutGuruInput
+  }
+
+  export type GuruCreateOrConnectWithoutTimFasilitatorTkaInput = {
+    where: GuruWhereUniqueInput
+    create: XOR<GuruCreateWithoutTimFasilitatorTkaInput, GuruUncheckedCreateWithoutTimFasilitatorTkaInput>
+  }
+
+  export type TahunAjaranCreateWithoutTimFasilitatorTkaInput = {
+    id?: string
+    nama: string
+    isActive?: boolean
+    isRatingActive?: boolean
+    riwayatSiswa?: RiwayatKelasSiswaCreateNestedManyWithoutTahunAjaranInput
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutTahunAjaranInput
+    mataPelajaran?: MataPelajaranCreateNestedManyWithoutTahunAjaranInput
+    laporanPdca?: LaporanPdcaCreateNestedManyWithoutTahunAjaranInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutTahunAjaranInput
+  }
+
+  export type TahunAjaranUncheckedCreateWithoutTimFasilitatorTkaInput = {
+    id?: string
+    nama: string
+    isActive?: boolean
+    isRatingActive?: boolean
+    riwayatSiswa?: RiwayatKelasSiswaUncheckedCreateNestedManyWithoutTahunAjaranInput
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutTahunAjaranInput
+    mataPelajaran?: MataPelajaranUncheckedCreateNestedManyWithoutTahunAjaranInput
+    laporanPdca?: LaporanPdcaUncheckedCreateNestedManyWithoutTahunAjaranInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutTahunAjaranInput
+  }
+
+  export type TahunAjaranCreateOrConnectWithoutTimFasilitatorTkaInput = {
+    where: TahunAjaranWhereUniqueInput
+    create: XOR<TahunAjaranCreateWithoutTimFasilitatorTkaInput, TahunAjaranUncheckedCreateWithoutTimFasilitatorTkaInput>
+  }
+
+  export type MataPelajaranUpsertWithoutTimFasilitatorTkaInput = {
+    update: XOR<MataPelajaranUpdateWithoutTimFasilitatorTkaInput, MataPelajaranUncheckedUpdateWithoutTimFasilitatorTkaInput>
+    create: XOR<MataPelajaranCreateWithoutTimFasilitatorTkaInput, MataPelajaranUncheckedCreateWithoutTimFasilitatorTkaInput>
+    where?: MataPelajaranWhereInput
+  }
+
+  export type MataPelajaranUpdateToOneWithWhereWithoutTimFasilitatorTkaInput = {
+    where?: MataPelajaranWhereInput
+    data: XOR<MataPelajaranUpdateWithoutTimFasilitatorTkaInput, MataPelajaranUncheckedUpdateWithoutTimFasilitatorTkaInput>
+  }
+
+  export type MataPelajaranUpdateWithoutTimFasilitatorTkaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kode?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutMapelNestedInput
+    tahunAjaran?: TahunAjaranUpdateManyWithoutMataPelajaranNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutMapelNestedInput
+  }
+
+  export type MataPelajaranUncheckedUpdateWithoutTimFasilitatorTkaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kode?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutMapelNestedInput
+    tahunAjaran?: TahunAjaranUncheckedUpdateManyWithoutMataPelajaranNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutMapelNestedInput
+  }
+
+  export type GuruUpsertWithoutTimFasilitatorTkaInput = {
+    update: XOR<GuruUpdateWithoutTimFasilitatorTkaInput, GuruUncheckedUpdateWithoutTimFasilitatorTkaInput>
+    create: XOR<GuruCreateWithoutTimFasilitatorTkaInput, GuruUncheckedCreateWithoutTimFasilitatorTkaInput>
+    where?: GuruWhereInput
+  }
+
+  export type GuruUpdateToOneWithWhereWithoutTimFasilitatorTkaInput = {
+    where?: GuruWhereInput
+    data: XOR<GuruUpdateWithoutTimFasilitatorTkaInput, GuruUncheckedUpdateWithoutTimFasilitatorTkaInput>
+  }
+
+  export type GuruUpdateWithoutTimFasilitatorTkaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    npp?: StringFieldUpdateOperationsInput | string
+    jenisKelamin?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    user?: UserUpdateOneRequiredWithoutGuruNestedInput
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutGuruNestedInput
+    waliKelasDi?: KelasWaliUpdateManyWithoutGuruNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutGuruNestedInput
+  }
+
+  export type GuruUncheckedUpdateWithoutTimFasilitatorTkaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    npp?: StringFieldUpdateOperationsInput | string
+    jenisKelamin?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    userId?: StringFieldUpdateOperationsInput | string
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutGuruNestedInput
+    waliKelasDi?: KelasWaliUncheckedUpdateManyWithoutGuruNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutGuruNestedInput
+  }
+
+  export type TahunAjaranUpsertWithoutTimFasilitatorTkaInput = {
+    update: XOR<TahunAjaranUpdateWithoutTimFasilitatorTkaInput, TahunAjaranUncheckedUpdateWithoutTimFasilitatorTkaInput>
+    create: XOR<TahunAjaranCreateWithoutTimFasilitatorTkaInput, TahunAjaranUncheckedCreateWithoutTimFasilitatorTkaInput>
+    where?: TahunAjaranWhereInput
+  }
+
+  export type TahunAjaranUpdateToOneWithWhereWithoutTimFasilitatorTkaInput = {
+    where?: TahunAjaranWhereInput
+    data: XOR<TahunAjaranUpdateWithoutTimFasilitatorTkaInput, TahunAjaranUncheckedUpdateWithoutTimFasilitatorTkaInput>
+  }
+
+  export type TahunAjaranUpdateWithoutTimFasilitatorTkaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
+    riwayatSiswa?: RiwayatKelasSiswaUpdateManyWithoutTahunAjaranNestedInput
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutTahunAjaranNestedInput
+    mataPelajaran?: MataPelajaranUpdateManyWithoutTahunAjaranNestedInput
+    laporanPdca?: LaporanPdcaUpdateManyWithoutTahunAjaranNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutTahunAjaranNestedInput
+  }
+
+  export type TahunAjaranUncheckedUpdateWithoutTimFasilitatorTkaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
+    riwayatSiswa?: RiwayatKelasSiswaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    mataPelajaran?: MataPelajaranUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    laporanPdca?: LaporanPdcaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutTahunAjaranNestedInput
+  }
+
   export type UserCreateWithoutGuruInput = {
     id?: string
     username: string
@@ -10191,6 +25426,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     siswa?: SiswaCreateNestedOneWithoutUserInput
+    laporanPdca?: LaporanPdcaCreateNestedManyWithoutPembuatInput
   }
 
   export type UserUncheckedCreateWithoutGuruInput = {
@@ -10202,11 +25438,46 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     siswa?: SiswaUncheckedCreateNestedOneWithoutUserInput
+    laporanPdca?: LaporanPdcaUncheckedCreateNestedManyWithoutPembuatInput
   }
 
   export type UserCreateOrConnectWithoutGuruInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutGuruInput, UserUncheckedCreateWithoutGuruInput>
+  }
+
+  export type JadwalPelajaranCreateWithoutGuruInput = {
+    id?: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+    mapel: MataPelajaranCreateNestedOneWithoutJadwalPelajaranInput
+    kelas: KelasCreateNestedOneWithoutJadwalPelajaranInput
+    tahunAjaran: TahunAjaranCreateNestedOneWithoutJadwalPelajaranInput
+    jurnal?: JurnalMengajarCreateNestedManyWithoutJadwalInput
+  }
+
+  export type JadwalPelajaranUncheckedCreateWithoutGuruInput = {
+    id?: string
+    mapelId: string
+    kelasId: string
+    tahunAjaranId: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+    jurnal?: JurnalMengajarUncheckedCreateNestedManyWithoutJadwalInput
+  }
+
+  export type JadwalPelajaranCreateOrConnectWithoutGuruInput = {
+    where: JadwalPelajaranWhereUniqueInput
+    create: XOR<JadwalPelajaranCreateWithoutGuruInput, JadwalPelajaranUncheckedCreateWithoutGuruInput>
+  }
+
+  export type JadwalPelajaranCreateManyGuruInputEnvelope = {
+    data: JadwalPelajaranCreateManyGuruInput | JadwalPelajaranCreateManyGuruInput[]
+    skipDuplicates?: boolean
   }
 
   export type KelasWaliCreateWithoutGuruInput = {
@@ -10231,6 +25502,58 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type RatingGuruCreateWithoutGuruInput = {
+    id?: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
+    siswa: SiswaCreateNestedOneWithoutRatingGuruInput
+    mapel: MataPelajaranCreateNestedOneWithoutRatingGuruInput
+    tahunAjaran: TahunAjaranCreateNestedOneWithoutRatingGuruInput
+  }
+
+  export type RatingGuruUncheckedCreateWithoutGuruInput = {
+    id?: string
+    siswaId: string
+    mapelId: string
+    tahunAjaranId: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RatingGuruCreateOrConnectWithoutGuruInput = {
+    where: RatingGuruWhereUniqueInput
+    create: XOR<RatingGuruCreateWithoutGuruInput, RatingGuruUncheckedCreateWithoutGuruInput>
+  }
+
+  export type RatingGuruCreateManyGuruInputEnvelope = {
+    data: RatingGuruCreateManyGuruInput | RatingGuruCreateManyGuruInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TimFasilitatorTkaCreateWithoutGuruInput = {
+    id?: string
+    mapel: MataPelajaranCreateNestedOneWithoutTimFasilitatorTkaInput
+    tahunAjaran: TahunAjaranCreateNestedOneWithoutTimFasilitatorTkaInput
+  }
+
+  export type TimFasilitatorTkaUncheckedCreateWithoutGuruInput = {
+    id?: string
+    mapelId: string
+    tahunAjaranId: string
+  }
+
+  export type TimFasilitatorTkaCreateOrConnectWithoutGuruInput = {
+    where: TimFasilitatorTkaWhereUniqueInput
+    create: XOR<TimFasilitatorTkaCreateWithoutGuruInput, TimFasilitatorTkaUncheckedCreateWithoutGuruInput>
+  }
+
+  export type TimFasilitatorTkaCreateManyGuruInputEnvelope = {
+    data: TimFasilitatorTkaCreateManyGuruInput | TimFasilitatorTkaCreateManyGuruInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutGuruInput = {
     update: XOR<UserUpdateWithoutGuruInput, UserUncheckedUpdateWithoutGuruInput>
     create: XOR<UserCreateWithoutGuruInput, UserUncheckedCreateWithoutGuruInput>
@@ -10251,6 +25574,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     siswa?: SiswaUpdateOneWithoutUserNestedInput
+    laporanPdca?: LaporanPdcaUpdateManyWithoutPembuatNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGuruInput = {
@@ -10262,6 +25586,23 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     siswa?: SiswaUncheckedUpdateOneWithoutUserNestedInput
+    laporanPdca?: LaporanPdcaUncheckedUpdateManyWithoutPembuatNestedInput
+  }
+
+  export type JadwalPelajaranUpsertWithWhereUniqueWithoutGuruInput = {
+    where: JadwalPelajaranWhereUniqueInput
+    update: XOR<JadwalPelajaranUpdateWithoutGuruInput, JadwalPelajaranUncheckedUpdateWithoutGuruInput>
+    create: XOR<JadwalPelajaranCreateWithoutGuruInput, JadwalPelajaranUncheckedCreateWithoutGuruInput>
+  }
+
+  export type JadwalPelajaranUpdateWithWhereUniqueWithoutGuruInput = {
+    where: JadwalPelajaranWhereUniqueInput
+    data: XOR<JadwalPelajaranUpdateWithoutGuruInput, JadwalPelajaranUncheckedUpdateWithoutGuruInput>
+  }
+
+  export type JadwalPelajaranUpdateManyWithWhereWithoutGuruInput = {
+    where: JadwalPelajaranScalarWhereInput
+    data: XOR<JadwalPelajaranUpdateManyMutationInput, JadwalPelajaranUncheckedUpdateManyWithoutGuruInput>
   }
 
   export type KelasWaliUpsertWithWhereUniqueWithoutGuruInput = {
@@ -10280,12 +25621,47 @@ export namespace Prisma {
     data: XOR<KelasWaliUpdateManyMutationInput, KelasWaliUncheckedUpdateManyWithoutGuruInput>
   }
 
+  export type RatingGuruUpsertWithWhereUniqueWithoutGuruInput = {
+    where: RatingGuruWhereUniqueInput
+    update: XOR<RatingGuruUpdateWithoutGuruInput, RatingGuruUncheckedUpdateWithoutGuruInput>
+    create: XOR<RatingGuruCreateWithoutGuruInput, RatingGuruUncheckedCreateWithoutGuruInput>
+  }
+
+  export type RatingGuruUpdateWithWhereUniqueWithoutGuruInput = {
+    where: RatingGuruWhereUniqueInput
+    data: XOR<RatingGuruUpdateWithoutGuruInput, RatingGuruUncheckedUpdateWithoutGuruInput>
+  }
+
+  export type RatingGuruUpdateManyWithWhereWithoutGuruInput = {
+    where: RatingGuruScalarWhereInput
+    data: XOR<RatingGuruUpdateManyMutationInput, RatingGuruUncheckedUpdateManyWithoutGuruInput>
+  }
+
+  export type TimFasilitatorTkaUpsertWithWhereUniqueWithoutGuruInput = {
+    where: TimFasilitatorTkaWhereUniqueInput
+    update: XOR<TimFasilitatorTkaUpdateWithoutGuruInput, TimFasilitatorTkaUncheckedUpdateWithoutGuruInput>
+    create: XOR<TimFasilitatorTkaCreateWithoutGuruInput, TimFasilitatorTkaUncheckedCreateWithoutGuruInput>
+  }
+
+  export type TimFasilitatorTkaUpdateWithWhereUniqueWithoutGuruInput = {
+    where: TimFasilitatorTkaWhereUniqueInput
+    data: XOR<TimFasilitatorTkaUpdateWithoutGuruInput, TimFasilitatorTkaUncheckedUpdateWithoutGuruInput>
+  }
+
+  export type TimFasilitatorTkaUpdateManyWithWhereWithoutGuruInput = {
+    where: TimFasilitatorTkaScalarWhereInput
+    data: XOR<TimFasilitatorTkaUpdateManyMutationInput, TimFasilitatorTkaUncheckedUpdateManyWithoutGuruInput>
+  }
+
   export type GuruCreateWithoutWaliKelasDiInput = {
     id?: string
     npp: string
     jenisKelamin: string
     status?: boolean
     user: UserCreateNestedOneWithoutGuruInput
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutGuruInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutGuruInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutGuruInput
   }
 
   export type GuruUncheckedCreateWithoutWaliKelasDiInput = {
@@ -10294,6 +25670,9 @@ export namespace Prisma {
     jenisKelamin: string
     status?: boolean
     userId: string
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutGuruInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutGuruInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutGuruInput
   }
 
   export type GuruCreateOrConnectWithoutWaliKelasDiInput = {
@@ -10304,13 +25683,19 @@ export namespace Prisma {
   export type KelasCreateWithoutWaliKelasInput = {
     id?: string
     nama: string
+    isTka?: boolean
+    tempat?: string | null
     riwayatSiswa?: RiwayatKelasSiswaCreateNestedManyWithoutKelasInput
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutKelasInput
   }
 
   export type KelasUncheckedCreateWithoutWaliKelasInput = {
     id?: string
     nama: string
+    isTka?: boolean
+    tempat?: string | null
     riwayatSiswa?: RiwayatKelasSiswaUncheckedCreateNestedManyWithoutKelasInput
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutKelasInput
   }
 
   export type KelasCreateOrConnectWithoutWaliKelasInput = {
@@ -10335,6 +25720,9 @@ export namespace Prisma {
     jenisKelamin?: StringFieldUpdateOperationsInput | string
     status?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutGuruNestedInput
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutGuruNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutGuruNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutGuruNestedInput
   }
 
   export type GuruUncheckedUpdateWithoutWaliKelasDiInput = {
@@ -10343,6 +25731,9 @@ export namespace Prisma {
     jenisKelamin?: StringFieldUpdateOperationsInput | string
     status?: BoolFieldUpdateOperationsInput | boolean
     userId?: StringFieldUpdateOperationsInput | string
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutGuruNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutGuruNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutGuruNestedInput
   }
 
   export type KelasUpsertWithoutWaliKelasInput = {
@@ -10359,13 +25750,19 @@ export namespace Prisma {
   export type KelasUpdateWithoutWaliKelasInput = {
     id?: StringFieldUpdateOperationsInput | string
     nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    tempat?: NullableStringFieldUpdateOperationsInput | string | null
     riwayatSiswa?: RiwayatKelasSiswaUpdateManyWithoutKelasNestedInput
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutKelasNestedInput
   }
 
   export type KelasUncheckedUpdateWithoutWaliKelasInput = {
     id?: StringFieldUpdateOperationsInput | string
     nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    tempat?: NullableStringFieldUpdateOperationsInput | string | null
     riwayatSiswa?: RiwayatKelasSiswaUncheckedUpdateManyWithoutKelasNestedInput
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutKelasNestedInput
   }
 
   export type UserCreateWithoutSiswaInput = {
@@ -10377,6 +25774,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     guru?: GuruCreateNestedOneWithoutUserInput
+    laporanPdca?: LaporanPdcaCreateNestedManyWithoutPembuatInput
   }
 
   export type UserUncheckedCreateWithoutSiswaInput = {
@@ -10388,6 +25786,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     guru?: GuruUncheckedCreateNestedOneWithoutUserInput
+    laporanPdca?: LaporanPdcaUncheckedCreateNestedManyWithoutPembuatInput
   }
 
   export type UserCreateOrConnectWithoutSiswaInput = {
@@ -10397,6 +25796,7 @@ export namespace Prisma {
 
   export type RiwayatKelasSiswaCreateWithoutSiswaInput = {
     id?: string
+    isTka?: boolean
     kelas: KelasCreateNestedOneWithoutRiwayatSiswaInput
     tahunAjaran: TahunAjaranCreateNestedOneWithoutRiwayatSiswaInput
   }
@@ -10405,6 +25805,7 @@ export namespace Prisma {
     id?: string
     kelasId: string
     tahunAjaranId: string
+    isTka?: boolean
   }
 
   export type RiwayatKelasSiswaCreateOrConnectWithoutSiswaInput = {
@@ -10414,6 +25815,74 @@ export namespace Prisma {
 
   export type RiwayatKelasSiswaCreateManySiswaInputEnvelope = {
     data: RiwayatKelasSiswaCreateManySiswaInput | RiwayatKelasSiswaCreateManySiswaInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PresensiSiswaCreateWithoutSiswaInput = {
+    id?: string
+    status?: $Enums.StatusHadir
+    waktuScan?: Date | string | null
+    nilaiTugas?: number | null
+    alasanIzin?: string | null
+    isDispensasi?: boolean
+    isTerlambat?: boolean
+    alasanTerlambat?: string | null
+    alasan?: string | null
+    fileBukti?: string | null
+    jurnal: JurnalMengajarCreateNestedOneWithoutPresensiInput
+  }
+
+  export type PresensiSiswaUncheckedCreateWithoutSiswaInput = {
+    id?: string
+    jurnalId: string
+    status?: $Enums.StatusHadir
+    waktuScan?: Date | string | null
+    nilaiTugas?: number | null
+    alasanIzin?: string | null
+    isDispensasi?: boolean
+    isTerlambat?: boolean
+    alasanTerlambat?: string | null
+    alasan?: string | null
+    fileBukti?: string | null
+  }
+
+  export type PresensiSiswaCreateOrConnectWithoutSiswaInput = {
+    where: PresensiSiswaWhereUniqueInput
+    create: XOR<PresensiSiswaCreateWithoutSiswaInput, PresensiSiswaUncheckedCreateWithoutSiswaInput>
+  }
+
+  export type PresensiSiswaCreateManySiswaInputEnvelope = {
+    data: PresensiSiswaCreateManySiswaInput | PresensiSiswaCreateManySiswaInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RatingGuruCreateWithoutSiswaInput = {
+    id?: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
+    guru: GuruCreateNestedOneWithoutRatingGuruInput
+    mapel: MataPelajaranCreateNestedOneWithoutRatingGuruInput
+    tahunAjaran: TahunAjaranCreateNestedOneWithoutRatingGuruInput
+  }
+
+  export type RatingGuruUncheckedCreateWithoutSiswaInput = {
+    id?: string
+    guruId: string
+    mapelId: string
+    tahunAjaranId: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RatingGuruCreateOrConnectWithoutSiswaInput = {
+    where: RatingGuruWhereUniqueInput
+    create: XOR<RatingGuruCreateWithoutSiswaInput, RatingGuruUncheckedCreateWithoutSiswaInput>
+  }
+
+  export type RatingGuruCreateManySiswaInputEnvelope = {
+    data: RatingGuruCreateManySiswaInput | RatingGuruCreateManySiswaInput[]
     skipDuplicates?: boolean
   }
 
@@ -10437,6 +25906,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     guru?: GuruUpdateOneWithoutUserNestedInput
+    laporanPdca?: LaporanPdcaUpdateManyWithoutPembuatNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSiswaInput = {
@@ -10448,6 +25918,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     guru?: GuruUncheckedUpdateOneWithoutUserNestedInput
+    laporanPdca?: LaporanPdcaUncheckedUpdateManyWithoutPembuatNestedInput
   }
 
   export type RiwayatKelasSiswaUpsertWithWhereUniqueWithoutSiswaInput = {
@@ -10466,12 +25937,64 @@ export namespace Prisma {
     data: XOR<RiwayatKelasSiswaUpdateManyMutationInput, RiwayatKelasSiswaUncheckedUpdateManyWithoutSiswaInput>
   }
 
+  export type PresensiSiswaUpsertWithWhereUniqueWithoutSiswaInput = {
+    where: PresensiSiswaWhereUniqueInput
+    update: XOR<PresensiSiswaUpdateWithoutSiswaInput, PresensiSiswaUncheckedUpdateWithoutSiswaInput>
+    create: XOR<PresensiSiswaCreateWithoutSiswaInput, PresensiSiswaUncheckedCreateWithoutSiswaInput>
+  }
+
+  export type PresensiSiswaUpdateWithWhereUniqueWithoutSiswaInput = {
+    where: PresensiSiswaWhereUniqueInput
+    data: XOR<PresensiSiswaUpdateWithoutSiswaInput, PresensiSiswaUncheckedUpdateWithoutSiswaInput>
+  }
+
+  export type PresensiSiswaUpdateManyWithWhereWithoutSiswaInput = {
+    where: PresensiSiswaScalarWhereInput
+    data: XOR<PresensiSiswaUpdateManyMutationInput, PresensiSiswaUncheckedUpdateManyWithoutSiswaInput>
+  }
+
+  export type PresensiSiswaScalarWhereInput = {
+    AND?: PresensiSiswaScalarWhereInput | PresensiSiswaScalarWhereInput[]
+    OR?: PresensiSiswaScalarWhereInput[]
+    NOT?: PresensiSiswaScalarWhereInput | PresensiSiswaScalarWhereInput[]
+    id?: StringFilter<"PresensiSiswa"> | string
+    jurnalId?: StringFilter<"PresensiSiswa"> | string
+    siswaId?: StringFilter<"PresensiSiswa"> | string
+    status?: EnumStatusHadirFilter<"PresensiSiswa"> | $Enums.StatusHadir
+    waktuScan?: DateTimeNullableFilter<"PresensiSiswa"> | Date | string | null
+    nilaiTugas?: IntNullableFilter<"PresensiSiswa"> | number | null
+    alasanIzin?: StringNullableFilter<"PresensiSiswa"> | string | null
+    isDispensasi?: BoolFilter<"PresensiSiswa"> | boolean
+    isTerlambat?: BoolFilter<"PresensiSiswa"> | boolean
+    alasanTerlambat?: StringNullableFilter<"PresensiSiswa"> | string | null
+    alasan?: StringNullableFilter<"PresensiSiswa"> | string | null
+    fileBukti?: StringNullableFilter<"PresensiSiswa"> | string | null
+  }
+
+  export type RatingGuruUpsertWithWhereUniqueWithoutSiswaInput = {
+    where: RatingGuruWhereUniqueInput
+    update: XOR<RatingGuruUpdateWithoutSiswaInput, RatingGuruUncheckedUpdateWithoutSiswaInput>
+    create: XOR<RatingGuruCreateWithoutSiswaInput, RatingGuruUncheckedCreateWithoutSiswaInput>
+  }
+
+  export type RatingGuruUpdateWithWhereUniqueWithoutSiswaInput = {
+    where: RatingGuruWhereUniqueInput
+    data: XOR<RatingGuruUpdateWithoutSiswaInput, RatingGuruUncheckedUpdateWithoutSiswaInput>
+  }
+
+  export type RatingGuruUpdateManyWithWhereWithoutSiswaInput = {
+    where: RatingGuruScalarWhereInput
+    data: XOR<RatingGuruUpdateManyMutationInput, RatingGuruUncheckedUpdateManyWithoutSiswaInput>
+  }
+
   export type SiswaCreateWithoutRiwayatKelasInput = {
     id?: string
     nisn: string
     nis: string
     jenisKelamin: string
     user: UserCreateNestedOneWithoutSiswaInput
+    presensi?: PresensiSiswaCreateNestedManyWithoutSiswaInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutSiswaInput
   }
 
   export type SiswaUncheckedCreateWithoutRiwayatKelasInput = {
@@ -10480,6 +26003,8 @@ export namespace Prisma {
     nis: string
     jenisKelamin: string
     userId: string
+    presensi?: PresensiSiswaUncheckedCreateNestedManyWithoutSiswaInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutSiswaInput
   }
 
   export type SiswaCreateOrConnectWithoutRiwayatKelasInput = {
@@ -10490,12 +26015,18 @@ export namespace Prisma {
   export type KelasCreateWithoutRiwayatSiswaInput = {
     id?: string
     nama: string
+    isTka?: boolean
+    tempat?: string | null
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutKelasInput
     waliKelas?: KelasWaliCreateNestedManyWithoutKelasInput
   }
 
   export type KelasUncheckedCreateWithoutRiwayatSiswaInput = {
     id?: string
     nama: string
+    isTka?: boolean
+    tempat?: string | null
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutKelasInput
     waliKelas?: KelasWaliUncheckedCreateNestedManyWithoutKelasInput
   }
 
@@ -10508,12 +26039,24 @@ export namespace Prisma {
     id?: string
     nama: string
     isActive?: boolean
+    isRatingActive?: boolean
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutTahunAjaranInput
+    mataPelajaran?: MataPelajaranCreateNestedManyWithoutTahunAjaranInput
+    laporanPdca?: LaporanPdcaCreateNestedManyWithoutTahunAjaranInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutTahunAjaranInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutTahunAjaranInput
   }
 
   export type TahunAjaranUncheckedCreateWithoutRiwayatSiswaInput = {
     id?: string
     nama: string
     isActive?: boolean
+    isRatingActive?: boolean
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutTahunAjaranInput
+    mataPelajaran?: MataPelajaranUncheckedCreateNestedManyWithoutTahunAjaranInput
+    laporanPdca?: LaporanPdcaUncheckedCreateNestedManyWithoutTahunAjaranInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutTahunAjaranInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutTahunAjaranInput
   }
 
   export type TahunAjaranCreateOrConnectWithoutRiwayatSiswaInput = {
@@ -10538,6 +26081,8 @@ export namespace Prisma {
     nis?: StringFieldUpdateOperationsInput | string
     jenisKelamin?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutSiswaNestedInput
+    presensi?: PresensiSiswaUpdateManyWithoutSiswaNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutSiswaNestedInput
   }
 
   export type SiswaUncheckedUpdateWithoutRiwayatKelasInput = {
@@ -10546,6 +26091,8 @@ export namespace Prisma {
     nis?: StringFieldUpdateOperationsInput | string
     jenisKelamin?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    presensi?: PresensiSiswaUncheckedUpdateManyWithoutSiswaNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutSiswaNestedInput
   }
 
   export type KelasUpsertWithoutRiwayatSiswaInput = {
@@ -10562,12 +26109,18 @@ export namespace Prisma {
   export type KelasUpdateWithoutRiwayatSiswaInput = {
     id?: StringFieldUpdateOperationsInput | string
     nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    tempat?: NullableStringFieldUpdateOperationsInput | string | null
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutKelasNestedInput
     waliKelas?: KelasWaliUpdateManyWithoutKelasNestedInput
   }
 
   export type KelasUncheckedUpdateWithoutRiwayatSiswaInput = {
     id?: StringFieldUpdateOperationsInput | string
     nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    tempat?: NullableStringFieldUpdateOperationsInput | string | null
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutKelasNestedInput
     waliKelas?: KelasWaliUncheckedUpdateManyWithoutKelasNestedInput
   }
 
@@ -10586,22 +26139,935 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nama?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutTahunAjaranNestedInput
+    mataPelajaran?: MataPelajaranUpdateManyWithoutTahunAjaranNestedInput
+    laporanPdca?: LaporanPdcaUpdateManyWithoutTahunAjaranNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutTahunAjaranNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutTahunAjaranNestedInput
   }
 
   export type TahunAjaranUncheckedUpdateWithoutRiwayatSiswaInput = {
     id?: StringFieldUpdateOperationsInput | string
     nama?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    mataPelajaran?: MataPelajaranUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    laporanPdca?: LaporanPdcaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+  }
+
+  export type GuruCreateWithoutJadwalPelajaranInput = {
+    id?: string
+    npp: string
+    jenisKelamin: string
+    status?: boolean
+    user: UserCreateNestedOneWithoutGuruInput
+    waliKelasDi?: KelasWaliCreateNestedManyWithoutGuruInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutGuruInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutGuruInput
+  }
+
+  export type GuruUncheckedCreateWithoutJadwalPelajaranInput = {
+    id?: string
+    npp: string
+    jenisKelamin: string
+    status?: boolean
+    userId: string
+    waliKelasDi?: KelasWaliUncheckedCreateNestedManyWithoutGuruInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutGuruInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutGuruInput
+  }
+
+  export type GuruCreateOrConnectWithoutJadwalPelajaranInput = {
+    where: GuruWhereUniqueInput
+    create: XOR<GuruCreateWithoutJadwalPelajaranInput, GuruUncheckedCreateWithoutJadwalPelajaranInput>
+  }
+
+  export type MataPelajaranCreateWithoutJadwalPelajaranInput = {
+    id?: string
+    kode: string
+    nama: string
+    isTka?: boolean
+    tahunAjaran?: TahunAjaranCreateNestedManyWithoutMataPelajaranInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutMapelInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutMapelInput
+  }
+
+  export type MataPelajaranUncheckedCreateWithoutJadwalPelajaranInput = {
+    id?: string
+    kode: string
+    nama: string
+    isTka?: boolean
+    tahunAjaran?: TahunAjaranUncheckedCreateNestedManyWithoutMataPelajaranInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutMapelInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutMapelInput
+  }
+
+  export type MataPelajaranCreateOrConnectWithoutJadwalPelajaranInput = {
+    where: MataPelajaranWhereUniqueInput
+    create: XOR<MataPelajaranCreateWithoutJadwalPelajaranInput, MataPelajaranUncheckedCreateWithoutJadwalPelajaranInput>
+  }
+
+  export type KelasCreateWithoutJadwalPelajaranInput = {
+    id?: string
+    nama: string
+    isTka?: boolean
+    tempat?: string | null
+    riwayatSiswa?: RiwayatKelasSiswaCreateNestedManyWithoutKelasInput
+    waliKelas?: KelasWaliCreateNestedManyWithoutKelasInput
+  }
+
+  export type KelasUncheckedCreateWithoutJadwalPelajaranInput = {
+    id?: string
+    nama: string
+    isTka?: boolean
+    tempat?: string | null
+    riwayatSiswa?: RiwayatKelasSiswaUncheckedCreateNestedManyWithoutKelasInput
+    waliKelas?: KelasWaliUncheckedCreateNestedManyWithoutKelasInput
+  }
+
+  export type KelasCreateOrConnectWithoutJadwalPelajaranInput = {
+    where: KelasWhereUniqueInput
+    create: XOR<KelasCreateWithoutJadwalPelajaranInput, KelasUncheckedCreateWithoutJadwalPelajaranInput>
+  }
+
+  export type TahunAjaranCreateWithoutJadwalPelajaranInput = {
+    id?: string
+    nama: string
+    isActive?: boolean
+    isRatingActive?: boolean
+    riwayatSiswa?: RiwayatKelasSiswaCreateNestedManyWithoutTahunAjaranInput
+    mataPelajaran?: MataPelajaranCreateNestedManyWithoutTahunAjaranInput
+    laporanPdca?: LaporanPdcaCreateNestedManyWithoutTahunAjaranInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutTahunAjaranInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutTahunAjaranInput
+  }
+
+  export type TahunAjaranUncheckedCreateWithoutJadwalPelajaranInput = {
+    id?: string
+    nama: string
+    isActive?: boolean
+    isRatingActive?: boolean
+    riwayatSiswa?: RiwayatKelasSiswaUncheckedCreateNestedManyWithoutTahunAjaranInput
+    mataPelajaran?: MataPelajaranUncheckedCreateNestedManyWithoutTahunAjaranInput
+    laporanPdca?: LaporanPdcaUncheckedCreateNestedManyWithoutTahunAjaranInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutTahunAjaranInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutTahunAjaranInput
+  }
+
+  export type TahunAjaranCreateOrConnectWithoutJadwalPelajaranInput = {
+    where: TahunAjaranWhereUniqueInput
+    create: XOR<TahunAjaranCreateWithoutJadwalPelajaranInput, TahunAjaranUncheckedCreateWithoutJadwalPelajaranInput>
+  }
+
+  export type JurnalMengajarCreateWithoutJadwalInput = {
+    id?: string
+    tanggal?: Date | string
+    materiBab?: string | null
+    catatan?: string | null
+    tugas?: string | null
+    status?: $Enums.JurnalStatus
+    waktuMulai?: string | null
+    waktuSelesai?: string | null
+    latAbsen?: number | null
+    longAbsen?: number | null
+    qrToken?: string | null
+    presensi?: PresensiSiswaCreateNestedManyWithoutJurnalInput
+  }
+
+  export type JurnalMengajarUncheckedCreateWithoutJadwalInput = {
+    id?: string
+    tanggal?: Date | string
+    materiBab?: string | null
+    catatan?: string | null
+    tugas?: string | null
+    status?: $Enums.JurnalStatus
+    waktuMulai?: string | null
+    waktuSelesai?: string | null
+    latAbsen?: number | null
+    longAbsen?: number | null
+    qrToken?: string | null
+    presensi?: PresensiSiswaUncheckedCreateNestedManyWithoutJurnalInput
+  }
+
+  export type JurnalMengajarCreateOrConnectWithoutJadwalInput = {
+    where: JurnalMengajarWhereUniqueInput
+    create: XOR<JurnalMengajarCreateWithoutJadwalInput, JurnalMengajarUncheckedCreateWithoutJadwalInput>
+  }
+
+  export type JurnalMengajarCreateManyJadwalInputEnvelope = {
+    data: JurnalMengajarCreateManyJadwalInput | JurnalMengajarCreateManyJadwalInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GuruUpsertWithoutJadwalPelajaranInput = {
+    update: XOR<GuruUpdateWithoutJadwalPelajaranInput, GuruUncheckedUpdateWithoutJadwalPelajaranInput>
+    create: XOR<GuruCreateWithoutJadwalPelajaranInput, GuruUncheckedCreateWithoutJadwalPelajaranInput>
+    where?: GuruWhereInput
+  }
+
+  export type GuruUpdateToOneWithWhereWithoutJadwalPelajaranInput = {
+    where?: GuruWhereInput
+    data: XOR<GuruUpdateWithoutJadwalPelajaranInput, GuruUncheckedUpdateWithoutJadwalPelajaranInput>
+  }
+
+  export type GuruUpdateWithoutJadwalPelajaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    npp?: StringFieldUpdateOperationsInput | string
+    jenisKelamin?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    user?: UserUpdateOneRequiredWithoutGuruNestedInput
+    waliKelasDi?: KelasWaliUpdateManyWithoutGuruNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutGuruNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutGuruNestedInput
+  }
+
+  export type GuruUncheckedUpdateWithoutJadwalPelajaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    npp?: StringFieldUpdateOperationsInput | string
+    jenisKelamin?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    userId?: StringFieldUpdateOperationsInput | string
+    waliKelasDi?: KelasWaliUncheckedUpdateManyWithoutGuruNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutGuruNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutGuruNestedInput
+  }
+
+  export type MataPelajaranUpsertWithoutJadwalPelajaranInput = {
+    update: XOR<MataPelajaranUpdateWithoutJadwalPelajaranInput, MataPelajaranUncheckedUpdateWithoutJadwalPelajaranInput>
+    create: XOR<MataPelajaranCreateWithoutJadwalPelajaranInput, MataPelajaranUncheckedCreateWithoutJadwalPelajaranInput>
+    where?: MataPelajaranWhereInput
+  }
+
+  export type MataPelajaranUpdateToOneWithWhereWithoutJadwalPelajaranInput = {
+    where?: MataPelajaranWhereInput
+    data: XOR<MataPelajaranUpdateWithoutJadwalPelajaranInput, MataPelajaranUncheckedUpdateWithoutJadwalPelajaranInput>
+  }
+
+  export type MataPelajaranUpdateWithoutJadwalPelajaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kode?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    tahunAjaran?: TahunAjaranUpdateManyWithoutMataPelajaranNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutMapelNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutMapelNestedInput
+  }
+
+  export type MataPelajaranUncheckedUpdateWithoutJadwalPelajaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kode?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    tahunAjaran?: TahunAjaranUncheckedUpdateManyWithoutMataPelajaranNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutMapelNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutMapelNestedInput
+  }
+
+  export type KelasUpsertWithoutJadwalPelajaranInput = {
+    update: XOR<KelasUpdateWithoutJadwalPelajaranInput, KelasUncheckedUpdateWithoutJadwalPelajaranInput>
+    create: XOR<KelasCreateWithoutJadwalPelajaranInput, KelasUncheckedCreateWithoutJadwalPelajaranInput>
+    where?: KelasWhereInput
+  }
+
+  export type KelasUpdateToOneWithWhereWithoutJadwalPelajaranInput = {
+    where?: KelasWhereInput
+    data: XOR<KelasUpdateWithoutJadwalPelajaranInput, KelasUncheckedUpdateWithoutJadwalPelajaranInput>
+  }
+
+  export type KelasUpdateWithoutJadwalPelajaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    tempat?: NullableStringFieldUpdateOperationsInput | string | null
+    riwayatSiswa?: RiwayatKelasSiswaUpdateManyWithoutKelasNestedInput
+    waliKelas?: KelasWaliUpdateManyWithoutKelasNestedInput
+  }
+
+  export type KelasUncheckedUpdateWithoutJadwalPelajaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    tempat?: NullableStringFieldUpdateOperationsInput | string | null
+    riwayatSiswa?: RiwayatKelasSiswaUncheckedUpdateManyWithoutKelasNestedInput
+    waliKelas?: KelasWaliUncheckedUpdateManyWithoutKelasNestedInput
+  }
+
+  export type TahunAjaranUpsertWithoutJadwalPelajaranInput = {
+    update: XOR<TahunAjaranUpdateWithoutJadwalPelajaranInput, TahunAjaranUncheckedUpdateWithoutJadwalPelajaranInput>
+    create: XOR<TahunAjaranCreateWithoutJadwalPelajaranInput, TahunAjaranUncheckedCreateWithoutJadwalPelajaranInput>
+    where?: TahunAjaranWhereInput
+  }
+
+  export type TahunAjaranUpdateToOneWithWhereWithoutJadwalPelajaranInput = {
+    where?: TahunAjaranWhereInput
+    data: XOR<TahunAjaranUpdateWithoutJadwalPelajaranInput, TahunAjaranUncheckedUpdateWithoutJadwalPelajaranInput>
+  }
+
+  export type TahunAjaranUpdateWithoutJadwalPelajaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
+    riwayatSiswa?: RiwayatKelasSiswaUpdateManyWithoutTahunAjaranNestedInput
+    mataPelajaran?: MataPelajaranUpdateManyWithoutTahunAjaranNestedInput
+    laporanPdca?: LaporanPdcaUpdateManyWithoutTahunAjaranNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutTahunAjaranNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutTahunAjaranNestedInput
+  }
+
+  export type TahunAjaranUncheckedUpdateWithoutJadwalPelajaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
+    riwayatSiswa?: RiwayatKelasSiswaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    mataPelajaran?: MataPelajaranUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    laporanPdca?: LaporanPdcaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+  }
+
+  export type JurnalMengajarUpsertWithWhereUniqueWithoutJadwalInput = {
+    where: JurnalMengajarWhereUniqueInput
+    update: XOR<JurnalMengajarUpdateWithoutJadwalInput, JurnalMengajarUncheckedUpdateWithoutJadwalInput>
+    create: XOR<JurnalMengajarCreateWithoutJadwalInput, JurnalMengajarUncheckedCreateWithoutJadwalInput>
+  }
+
+  export type JurnalMengajarUpdateWithWhereUniqueWithoutJadwalInput = {
+    where: JurnalMengajarWhereUniqueInput
+    data: XOR<JurnalMengajarUpdateWithoutJadwalInput, JurnalMengajarUncheckedUpdateWithoutJadwalInput>
+  }
+
+  export type JurnalMengajarUpdateManyWithWhereWithoutJadwalInput = {
+    where: JurnalMengajarScalarWhereInput
+    data: XOR<JurnalMengajarUpdateManyMutationInput, JurnalMengajarUncheckedUpdateManyWithoutJadwalInput>
+  }
+
+  export type JurnalMengajarScalarWhereInput = {
+    AND?: JurnalMengajarScalarWhereInput | JurnalMengajarScalarWhereInput[]
+    OR?: JurnalMengajarScalarWhereInput[]
+    NOT?: JurnalMengajarScalarWhereInput | JurnalMengajarScalarWhereInput[]
+    id?: StringFilter<"JurnalMengajar"> | string
+    jadwalId?: StringFilter<"JurnalMengajar"> | string
+    tanggal?: DateTimeFilter<"JurnalMengajar"> | Date | string
+    materiBab?: StringNullableFilter<"JurnalMengajar"> | string | null
+    catatan?: StringNullableFilter<"JurnalMengajar"> | string | null
+    tugas?: StringNullableFilter<"JurnalMengajar"> | string | null
+    status?: EnumJurnalStatusFilter<"JurnalMengajar"> | $Enums.JurnalStatus
+    waktuMulai?: StringNullableFilter<"JurnalMengajar"> | string | null
+    waktuSelesai?: StringNullableFilter<"JurnalMengajar"> | string | null
+    latAbsen?: FloatNullableFilter<"JurnalMengajar"> | number | null
+    longAbsen?: FloatNullableFilter<"JurnalMengajar"> | number | null
+    qrToken?: StringNullableFilter<"JurnalMengajar"> | string | null
+  }
+
+  export type JadwalPelajaranCreateWithoutJurnalInput = {
+    id?: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+    guru: GuruCreateNestedOneWithoutJadwalPelajaranInput
+    mapel: MataPelajaranCreateNestedOneWithoutJadwalPelajaranInput
+    kelas: KelasCreateNestedOneWithoutJadwalPelajaranInput
+    tahunAjaran: TahunAjaranCreateNestedOneWithoutJadwalPelajaranInput
+  }
+
+  export type JadwalPelajaranUncheckedCreateWithoutJurnalInput = {
+    id?: string
+    guruId: string
+    mapelId: string
+    kelasId: string
+    tahunAjaranId: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+  }
+
+  export type JadwalPelajaranCreateOrConnectWithoutJurnalInput = {
+    where: JadwalPelajaranWhereUniqueInput
+    create: XOR<JadwalPelajaranCreateWithoutJurnalInput, JadwalPelajaranUncheckedCreateWithoutJurnalInput>
+  }
+
+  export type PresensiSiswaCreateWithoutJurnalInput = {
+    id?: string
+    status?: $Enums.StatusHadir
+    waktuScan?: Date | string | null
+    nilaiTugas?: number | null
+    alasanIzin?: string | null
+    isDispensasi?: boolean
+    isTerlambat?: boolean
+    alasanTerlambat?: string | null
+    alasan?: string | null
+    fileBukti?: string | null
+    siswa: SiswaCreateNestedOneWithoutPresensiInput
+  }
+
+  export type PresensiSiswaUncheckedCreateWithoutJurnalInput = {
+    id?: string
+    siswaId: string
+    status?: $Enums.StatusHadir
+    waktuScan?: Date | string | null
+    nilaiTugas?: number | null
+    alasanIzin?: string | null
+    isDispensasi?: boolean
+    isTerlambat?: boolean
+    alasanTerlambat?: string | null
+    alasan?: string | null
+    fileBukti?: string | null
+  }
+
+  export type PresensiSiswaCreateOrConnectWithoutJurnalInput = {
+    where: PresensiSiswaWhereUniqueInput
+    create: XOR<PresensiSiswaCreateWithoutJurnalInput, PresensiSiswaUncheckedCreateWithoutJurnalInput>
+  }
+
+  export type PresensiSiswaCreateManyJurnalInputEnvelope = {
+    data: PresensiSiswaCreateManyJurnalInput | PresensiSiswaCreateManyJurnalInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type JadwalPelajaranUpsertWithoutJurnalInput = {
+    update: XOR<JadwalPelajaranUpdateWithoutJurnalInput, JadwalPelajaranUncheckedUpdateWithoutJurnalInput>
+    create: XOR<JadwalPelajaranCreateWithoutJurnalInput, JadwalPelajaranUncheckedCreateWithoutJurnalInput>
+    where?: JadwalPelajaranWhereInput
+  }
+
+  export type JadwalPelajaranUpdateToOneWithWhereWithoutJurnalInput = {
+    where?: JadwalPelajaranWhereInput
+    data: XOR<JadwalPelajaranUpdateWithoutJurnalInput, JadwalPelajaranUncheckedUpdateWithoutJurnalInput>
+  }
+
+  export type JadwalPelajaranUpdateWithoutJurnalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+    guru?: GuruUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    mapel?: MataPelajaranUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    kelas?: KelasUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+  }
+
+  export type JadwalPelajaranUncheckedUpdateWithoutJurnalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    kelasId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PresensiSiswaUpsertWithWhereUniqueWithoutJurnalInput = {
+    where: PresensiSiswaWhereUniqueInput
+    update: XOR<PresensiSiswaUpdateWithoutJurnalInput, PresensiSiswaUncheckedUpdateWithoutJurnalInput>
+    create: XOR<PresensiSiswaCreateWithoutJurnalInput, PresensiSiswaUncheckedCreateWithoutJurnalInput>
+  }
+
+  export type PresensiSiswaUpdateWithWhereUniqueWithoutJurnalInput = {
+    where: PresensiSiswaWhereUniqueInput
+    data: XOR<PresensiSiswaUpdateWithoutJurnalInput, PresensiSiswaUncheckedUpdateWithoutJurnalInput>
+  }
+
+  export type PresensiSiswaUpdateManyWithWhereWithoutJurnalInput = {
+    where: PresensiSiswaScalarWhereInput
+    data: XOR<PresensiSiswaUpdateManyMutationInput, PresensiSiswaUncheckedUpdateManyWithoutJurnalInput>
+  }
+
+  export type JurnalMengajarCreateWithoutPresensiInput = {
+    id?: string
+    tanggal?: Date | string
+    materiBab?: string | null
+    catatan?: string | null
+    tugas?: string | null
+    status?: $Enums.JurnalStatus
+    waktuMulai?: string | null
+    waktuSelesai?: string | null
+    latAbsen?: number | null
+    longAbsen?: number | null
+    qrToken?: string | null
+    jadwal: JadwalPelajaranCreateNestedOneWithoutJurnalInput
+  }
+
+  export type JurnalMengajarUncheckedCreateWithoutPresensiInput = {
+    id?: string
+    jadwalId: string
+    tanggal?: Date | string
+    materiBab?: string | null
+    catatan?: string | null
+    tugas?: string | null
+    status?: $Enums.JurnalStatus
+    waktuMulai?: string | null
+    waktuSelesai?: string | null
+    latAbsen?: number | null
+    longAbsen?: number | null
+    qrToken?: string | null
+  }
+
+  export type JurnalMengajarCreateOrConnectWithoutPresensiInput = {
+    where: JurnalMengajarWhereUniqueInput
+    create: XOR<JurnalMengajarCreateWithoutPresensiInput, JurnalMengajarUncheckedCreateWithoutPresensiInput>
+  }
+
+  export type SiswaCreateWithoutPresensiInput = {
+    id?: string
+    nisn: string
+    nis: string
+    jenisKelamin: string
+    user: UserCreateNestedOneWithoutSiswaInput
+    riwayatKelas?: RiwayatKelasSiswaCreateNestedManyWithoutSiswaInput
+    ratingGuru?: RatingGuruCreateNestedManyWithoutSiswaInput
+  }
+
+  export type SiswaUncheckedCreateWithoutPresensiInput = {
+    id?: string
+    nisn: string
+    nis: string
+    jenisKelamin: string
+    userId: string
+    riwayatKelas?: RiwayatKelasSiswaUncheckedCreateNestedManyWithoutSiswaInput
+    ratingGuru?: RatingGuruUncheckedCreateNestedManyWithoutSiswaInput
+  }
+
+  export type SiswaCreateOrConnectWithoutPresensiInput = {
+    where: SiswaWhereUniqueInput
+    create: XOR<SiswaCreateWithoutPresensiInput, SiswaUncheckedCreateWithoutPresensiInput>
+  }
+
+  export type JurnalMengajarUpsertWithoutPresensiInput = {
+    update: XOR<JurnalMengajarUpdateWithoutPresensiInput, JurnalMengajarUncheckedUpdateWithoutPresensiInput>
+    create: XOR<JurnalMengajarCreateWithoutPresensiInput, JurnalMengajarUncheckedCreateWithoutPresensiInput>
+    where?: JurnalMengajarWhereInput
+  }
+
+  export type JurnalMengajarUpdateToOneWithWhereWithoutPresensiInput = {
+    where?: JurnalMengajarWhereInput
+    data: XOR<JurnalMengajarUpdateWithoutPresensiInput, JurnalMengajarUncheckedUpdateWithoutPresensiInput>
+  }
+
+  export type JurnalMengajarUpdateWithoutPresensiInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiBab?: NullableStringFieldUpdateOperationsInput | string | null
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    tugas?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJurnalStatusFieldUpdateOperationsInput | $Enums.JurnalStatus
+    waktuMulai?: NullableStringFieldUpdateOperationsInput | string | null
+    waktuSelesai?: NullableStringFieldUpdateOperationsInput | string | null
+    latAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    longAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    qrToken?: NullableStringFieldUpdateOperationsInput | string | null
+    jadwal?: JadwalPelajaranUpdateOneRequiredWithoutJurnalNestedInput
+  }
+
+  export type JurnalMengajarUncheckedUpdateWithoutPresensiInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jadwalId?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiBab?: NullableStringFieldUpdateOperationsInput | string | null
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    tugas?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJurnalStatusFieldUpdateOperationsInput | $Enums.JurnalStatus
+    waktuMulai?: NullableStringFieldUpdateOperationsInput | string | null
+    waktuSelesai?: NullableStringFieldUpdateOperationsInput | string | null
+    latAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    longAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    qrToken?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SiswaUpsertWithoutPresensiInput = {
+    update: XOR<SiswaUpdateWithoutPresensiInput, SiswaUncheckedUpdateWithoutPresensiInput>
+    create: XOR<SiswaCreateWithoutPresensiInput, SiswaUncheckedCreateWithoutPresensiInput>
+    where?: SiswaWhereInput
+  }
+
+  export type SiswaUpdateToOneWithWhereWithoutPresensiInput = {
+    where?: SiswaWhereInput
+    data: XOR<SiswaUpdateWithoutPresensiInput, SiswaUncheckedUpdateWithoutPresensiInput>
+  }
+
+  export type SiswaUpdateWithoutPresensiInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nisn?: StringFieldUpdateOperationsInput | string
+    nis?: StringFieldUpdateOperationsInput | string
+    jenisKelamin?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutSiswaNestedInput
+    riwayatKelas?: RiwayatKelasSiswaUpdateManyWithoutSiswaNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutSiswaNestedInput
+  }
+
+  export type SiswaUncheckedUpdateWithoutPresensiInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nisn?: StringFieldUpdateOperationsInput | string
+    nis?: StringFieldUpdateOperationsInput | string
+    jenisKelamin?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    riwayatKelas?: RiwayatKelasSiswaUncheckedUpdateManyWithoutSiswaNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutSiswaNestedInput
+  }
+
+  export type GuruCreateWithoutRatingGuruInput = {
+    id?: string
+    npp: string
+    jenisKelamin: string
+    status?: boolean
+    user: UserCreateNestedOneWithoutGuruInput
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutGuruInput
+    waliKelasDi?: KelasWaliCreateNestedManyWithoutGuruInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutGuruInput
+  }
+
+  export type GuruUncheckedCreateWithoutRatingGuruInput = {
+    id?: string
+    npp: string
+    jenisKelamin: string
+    status?: boolean
+    userId: string
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutGuruInput
+    waliKelasDi?: KelasWaliUncheckedCreateNestedManyWithoutGuruInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutGuruInput
+  }
+
+  export type GuruCreateOrConnectWithoutRatingGuruInput = {
+    where: GuruWhereUniqueInput
+    create: XOR<GuruCreateWithoutRatingGuruInput, GuruUncheckedCreateWithoutRatingGuruInput>
+  }
+
+  export type SiswaCreateWithoutRatingGuruInput = {
+    id?: string
+    nisn: string
+    nis: string
+    jenisKelamin: string
+    user: UserCreateNestedOneWithoutSiswaInput
+    riwayatKelas?: RiwayatKelasSiswaCreateNestedManyWithoutSiswaInput
+    presensi?: PresensiSiswaCreateNestedManyWithoutSiswaInput
+  }
+
+  export type SiswaUncheckedCreateWithoutRatingGuruInput = {
+    id?: string
+    nisn: string
+    nis: string
+    jenisKelamin: string
+    userId: string
+    riwayatKelas?: RiwayatKelasSiswaUncheckedCreateNestedManyWithoutSiswaInput
+    presensi?: PresensiSiswaUncheckedCreateNestedManyWithoutSiswaInput
+  }
+
+  export type SiswaCreateOrConnectWithoutRatingGuruInput = {
+    where: SiswaWhereUniqueInput
+    create: XOR<SiswaCreateWithoutRatingGuruInput, SiswaUncheckedCreateWithoutRatingGuruInput>
+  }
+
+  export type MataPelajaranCreateWithoutRatingGuruInput = {
+    id?: string
+    kode: string
+    nama: string
+    isTka?: boolean
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutMapelInput
+    tahunAjaran?: TahunAjaranCreateNestedManyWithoutMataPelajaranInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutMapelInput
+  }
+
+  export type MataPelajaranUncheckedCreateWithoutRatingGuruInput = {
+    id?: string
+    kode: string
+    nama: string
+    isTka?: boolean
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutMapelInput
+    tahunAjaran?: TahunAjaranUncheckedCreateNestedManyWithoutMataPelajaranInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutMapelInput
+  }
+
+  export type MataPelajaranCreateOrConnectWithoutRatingGuruInput = {
+    where: MataPelajaranWhereUniqueInput
+    create: XOR<MataPelajaranCreateWithoutRatingGuruInput, MataPelajaranUncheckedCreateWithoutRatingGuruInput>
+  }
+
+  export type TahunAjaranCreateWithoutRatingGuruInput = {
+    id?: string
+    nama: string
+    isActive?: boolean
+    isRatingActive?: boolean
+    riwayatSiswa?: RiwayatKelasSiswaCreateNestedManyWithoutTahunAjaranInput
+    jadwalPelajaran?: JadwalPelajaranCreateNestedManyWithoutTahunAjaranInput
+    mataPelajaran?: MataPelajaranCreateNestedManyWithoutTahunAjaranInput
+    laporanPdca?: LaporanPdcaCreateNestedManyWithoutTahunAjaranInput
+    timFasilitatorTka?: TimFasilitatorTkaCreateNestedManyWithoutTahunAjaranInput
+  }
+
+  export type TahunAjaranUncheckedCreateWithoutRatingGuruInput = {
+    id?: string
+    nama: string
+    isActive?: boolean
+    isRatingActive?: boolean
+    riwayatSiswa?: RiwayatKelasSiswaUncheckedCreateNestedManyWithoutTahunAjaranInput
+    jadwalPelajaran?: JadwalPelajaranUncheckedCreateNestedManyWithoutTahunAjaranInput
+    mataPelajaran?: MataPelajaranUncheckedCreateNestedManyWithoutTahunAjaranInput
+    laporanPdca?: LaporanPdcaUncheckedCreateNestedManyWithoutTahunAjaranInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedCreateNestedManyWithoutTahunAjaranInput
+  }
+
+  export type TahunAjaranCreateOrConnectWithoutRatingGuruInput = {
+    where: TahunAjaranWhereUniqueInput
+    create: XOR<TahunAjaranCreateWithoutRatingGuruInput, TahunAjaranUncheckedCreateWithoutRatingGuruInput>
+  }
+
+  export type GuruUpsertWithoutRatingGuruInput = {
+    update: XOR<GuruUpdateWithoutRatingGuruInput, GuruUncheckedUpdateWithoutRatingGuruInput>
+    create: XOR<GuruCreateWithoutRatingGuruInput, GuruUncheckedCreateWithoutRatingGuruInput>
+    where?: GuruWhereInput
+  }
+
+  export type GuruUpdateToOneWithWhereWithoutRatingGuruInput = {
+    where?: GuruWhereInput
+    data: XOR<GuruUpdateWithoutRatingGuruInput, GuruUncheckedUpdateWithoutRatingGuruInput>
+  }
+
+  export type GuruUpdateWithoutRatingGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    npp?: StringFieldUpdateOperationsInput | string
+    jenisKelamin?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    user?: UserUpdateOneRequiredWithoutGuruNestedInput
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutGuruNestedInput
+    waliKelasDi?: KelasWaliUpdateManyWithoutGuruNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutGuruNestedInput
+  }
+
+  export type GuruUncheckedUpdateWithoutRatingGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    npp?: StringFieldUpdateOperationsInput | string
+    jenisKelamin?: StringFieldUpdateOperationsInput | string
+    status?: BoolFieldUpdateOperationsInput | boolean
+    userId?: StringFieldUpdateOperationsInput | string
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutGuruNestedInput
+    waliKelasDi?: KelasWaliUncheckedUpdateManyWithoutGuruNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutGuruNestedInput
+  }
+
+  export type SiswaUpsertWithoutRatingGuruInput = {
+    update: XOR<SiswaUpdateWithoutRatingGuruInput, SiswaUncheckedUpdateWithoutRatingGuruInput>
+    create: XOR<SiswaCreateWithoutRatingGuruInput, SiswaUncheckedCreateWithoutRatingGuruInput>
+    where?: SiswaWhereInput
+  }
+
+  export type SiswaUpdateToOneWithWhereWithoutRatingGuruInput = {
+    where?: SiswaWhereInput
+    data: XOR<SiswaUpdateWithoutRatingGuruInput, SiswaUncheckedUpdateWithoutRatingGuruInput>
+  }
+
+  export type SiswaUpdateWithoutRatingGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nisn?: StringFieldUpdateOperationsInput | string
+    nis?: StringFieldUpdateOperationsInput | string
+    jenisKelamin?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutSiswaNestedInput
+    riwayatKelas?: RiwayatKelasSiswaUpdateManyWithoutSiswaNestedInput
+    presensi?: PresensiSiswaUpdateManyWithoutSiswaNestedInput
+  }
+
+  export type SiswaUncheckedUpdateWithoutRatingGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nisn?: StringFieldUpdateOperationsInput | string
+    nis?: StringFieldUpdateOperationsInput | string
+    jenisKelamin?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    riwayatKelas?: RiwayatKelasSiswaUncheckedUpdateManyWithoutSiswaNestedInput
+    presensi?: PresensiSiswaUncheckedUpdateManyWithoutSiswaNestedInput
+  }
+
+  export type MataPelajaranUpsertWithoutRatingGuruInput = {
+    update: XOR<MataPelajaranUpdateWithoutRatingGuruInput, MataPelajaranUncheckedUpdateWithoutRatingGuruInput>
+    create: XOR<MataPelajaranCreateWithoutRatingGuruInput, MataPelajaranUncheckedCreateWithoutRatingGuruInput>
+    where?: MataPelajaranWhereInput
+  }
+
+  export type MataPelajaranUpdateToOneWithWhereWithoutRatingGuruInput = {
+    where?: MataPelajaranWhereInput
+    data: XOR<MataPelajaranUpdateWithoutRatingGuruInput, MataPelajaranUncheckedUpdateWithoutRatingGuruInput>
+  }
+
+  export type MataPelajaranUpdateWithoutRatingGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kode?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutMapelNestedInput
+    tahunAjaran?: TahunAjaranUpdateManyWithoutMataPelajaranNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutMapelNestedInput
+  }
+
+  export type MataPelajaranUncheckedUpdateWithoutRatingGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kode?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutMapelNestedInput
+    tahunAjaran?: TahunAjaranUncheckedUpdateManyWithoutMataPelajaranNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutMapelNestedInput
+  }
+
+  export type TahunAjaranUpsertWithoutRatingGuruInput = {
+    update: XOR<TahunAjaranUpdateWithoutRatingGuruInput, TahunAjaranUncheckedUpdateWithoutRatingGuruInput>
+    create: XOR<TahunAjaranCreateWithoutRatingGuruInput, TahunAjaranUncheckedCreateWithoutRatingGuruInput>
+    where?: TahunAjaranWhereInput
+  }
+
+  export type TahunAjaranUpdateToOneWithWhereWithoutRatingGuruInput = {
+    where?: TahunAjaranWhereInput
+    data: XOR<TahunAjaranUpdateWithoutRatingGuruInput, TahunAjaranUncheckedUpdateWithoutRatingGuruInput>
+  }
+
+  export type TahunAjaranUpdateWithoutRatingGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
+    riwayatSiswa?: RiwayatKelasSiswaUpdateManyWithoutTahunAjaranNestedInput
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutTahunAjaranNestedInput
+    mataPelajaran?: MataPelajaranUpdateManyWithoutTahunAjaranNestedInput
+    laporanPdca?: LaporanPdcaUpdateManyWithoutTahunAjaranNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutTahunAjaranNestedInput
+  }
+
+  export type TahunAjaranUncheckedUpdateWithoutRatingGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
+    riwayatSiswa?: RiwayatKelasSiswaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    mataPelajaran?: MataPelajaranUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    laporanPdca?: LaporanPdcaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+  }
+
+  export type LaporanPdcaCreateManyPembuatInput = {
+    id?: string
+    judul: string
+    tahunAjaranId: string
+    tanggalLaporan?: Date | string
+    status?: string
+    planProblem: string
+    planRootCause: string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta: string
+    checkGap: string
+    actRekomendasi: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LaporanPdcaUpdateWithoutPembuatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    judul?: StringFieldUpdateOperationsInput | string
+    tanggalLaporan?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    planProblem?: StringFieldUpdateOperationsInput | string
+    planRootCause?: StringFieldUpdateOperationsInput | string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta?: StringFieldUpdateOperationsInput | string
+    checkGap?: StringFieldUpdateOperationsInput | string
+    actRekomendasi?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutLaporanPdcaNestedInput
+  }
+
+  export type LaporanPdcaUncheckedUpdateWithoutPembuatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    judul?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    tanggalLaporan?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    planProblem?: StringFieldUpdateOperationsInput | string
+    planRootCause?: StringFieldUpdateOperationsInput | string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta?: StringFieldUpdateOperationsInput | string
+    checkGap?: StringFieldUpdateOperationsInput | string
+    actRekomendasi?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LaporanPdcaUncheckedUpdateManyWithoutPembuatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    judul?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    tanggalLaporan?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    planProblem?: StringFieldUpdateOperationsInput | string
+    planRootCause?: StringFieldUpdateOperationsInput | string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta?: StringFieldUpdateOperationsInput | string
+    checkGap?: StringFieldUpdateOperationsInput | string
+    actRekomendasi?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RiwayatKelasSiswaCreateManyTahunAjaranInput = {
     id?: string
     siswaId: string
     kelasId: string
+    isTka?: boolean
+  }
+
+  export type JadwalPelajaranCreateManyTahunAjaranInput = {
+    id?: string
+    guruId: string
+    mapelId: string
+    kelasId: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+  }
+
+  export type LaporanPdcaCreateManyTahunAjaranInput = {
+    id?: string
+    judul: string
+    pembuatId: string
+    tanggalLaporan?: Date | string
+    status?: string
+    planProblem: string
+    planRootCause: string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta: string
+    checkGap: string
+    actRekomendasi: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RatingGuruCreateManyTahunAjaranInput = {
+    id?: string
+    guruId: string
+    siswaId: string
+    mapelId: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
+  }
+
+  export type TimFasilitatorTkaCreateManyTahunAjaranInput = {
+    id?: string
+    mapelId: string
+    guruId: string
   }
 
   export type RiwayatKelasSiswaUpdateWithoutTahunAjaranInput = {
     id?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
     siswa?: SiswaUpdateOneRequiredWithoutRiwayatKelasNestedInput
     kelas?: KelasUpdateOneRequiredWithoutRiwayatSiswaNestedInput
   }
@@ -10610,18 +27076,190 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     siswaId?: StringFieldUpdateOperationsInput | string
     kelasId?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RiwayatKelasSiswaUncheckedUpdateManyWithoutTahunAjaranInput = {
     id?: StringFieldUpdateOperationsInput | string
     siswaId?: StringFieldUpdateOperationsInput | string
     kelasId?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type JadwalPelajaranUpdateWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+    guru?: GuruUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    mapel?: MataPelajaranUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    kelas?: KelasUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    jurnal?: JurnalMengajarUpdateManyWithoutJadwalNestedInput
+  }
+
+  export type JadwalPelajaranUncheckedUpdateWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    kelasId?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+    jurnal?: JurnalMengajarUncheckedUpdateManyWithoutJadwalNestedInput
+  }
+
+  export type JadwalPelajaranUncheckedUpdateManyWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    kelasId?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MataPelajaranUpdateWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kode?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutMapelNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutMapelNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutMapelNestedInput
+  }
+
+  export type MataPelajaranUncheckedUpdateWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kode?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutMapelNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutMapelNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutMapelNestedInput
+  }
+
+  export type MataPelajaranUncheckedUpdateManyWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kode?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type LaporanPdcaUpdateWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    judul?: StringFieldUpdateOperationsInput | string
+    tanggalLaporan?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    planProblem?: StringFieldUpdateOperationsInput | string
+    planRootCause?: StringFieldUpdateOperationsInput | string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta?: StringFieldUpdateOperationsInput | string
+    checkGap?: StringFieldUpdateOperationsInput | string
+    actRekomendasi?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pembuat?: UserUpdateOneRequiredWithoutLaporanPdcaNestedInput
+  }
+
+  export type LaporanPdcaUncheckedUpdateWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    judul?: StringFieldUpdateOperationsInput | string
+    pembuatId?: StringFieldUpdateOperationsInput | string
+    tanggalLaporan?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    planProblem?: StringFieldUpdateOperationsInput | string
+    planRootCause?: StringFieldUpdateOperationsInput | string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta?: StringFieldUpdateOperationsInput | string
+    checkGap?: StringFieldUpdateOperationsInput | string
+    actRekomendasi?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LaporanPdcaUncheckedUpdateManyWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    judul?: StringFieldUpdateOperationsInput | string
+    pembuatId?: StringFieldUpdateOperationsInput | string
+    tanggalLaporan?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    planProblem?: StringFieldUpdateOperationsInput | string
+    planRootCause?: StringFieldUpdateOperationsInput | string
+    doImplementasi?: NullableJsonNullValueInput | InputJsonValue
+    checkFakta?: StringFieldUpdateOperationsInput | string
+    checkGap?: StringFieldUpdateOperationsInput | string
+    actRekomendasi?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingGuruUpdateWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guru?: GuruUpdateOneRequiredWithoutRatingGuruNestedInput
+    siswa?: SiswaUpdateOneRequiredWithoutRatingGuruNestedInput
+    mapel?: MataPelajaranUpdateOneRequiredWithoutRatingGuruNestedInput
+  }
+
+  export type RatingGuruUncheckedUpdateWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    siswaId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingGuruUncheckedUpdateManyWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    siswaId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimFasilitatorTkaUpdateWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapel?: MataPelajaranUpdateOneRequiredWithoutTimFasilitatorTkaNestedInput
+    guru?: GuruUpdateOneRequiredWithoutTimFasilitatorTkaNestedInput
+  }
+
+  export type TimFasilitatorTkaUncheckedUpdateWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TimFasilitatorTkaUncheckedUpdateManyWithoutTahunAjaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
   }
 
   export type RiwayatKelasSiswaCreateManyKelasInput = {
     id?: string
     siswaId: string
     tahunAjaranId: string
+    isTka?: boolean
+  }
+
+  export type JadwalPelajaranCreateManyKelasInput = {
+    id?: string
+    guruId: string
+    mapelId: string
+    tahunAjaranId: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
   }
 
   export type KelasWaliCreateManyKelasInput = {
@@ -10632,6 +27270,7 @@ export namespace Prisma {
 
   export type RiwayatKelasSiswaUpdateWithoutKelasInput = {
     id?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
     siswa?: SiswaUpdateOneRequiredWithoutRiwayatKelasNestedInput
     tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutRiwayatSiswaNestedInput
   }
@@ -10640,12 +27279,49 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     siswaId?: StringFieldUpdateOperationsInput | string
     tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RiwayatKelasSiswaUncheckedUpdateManyWithoutKelasInput = {
     id?: StringFieldUpdateOperationsInput | string
     siswaId?: StringFieldUpdateOperationsInput | string
     tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type JadwalPelajaranUpdateWithoutKelasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+    guru?: GuruUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    mapel?: MataPelajaranUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    jurnal?: JurnalMengajarUpdateManyWithoutJadwalNestedInput
+  }
+
+  export type JadwalPelajaranUncheckedUpdateWithoutKelasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+    jurnal?: JurnalMengajarUncheckedUpdateManyWithoutJadwalNestedInput
+  }
+
+  export type JadwalPelajaranUncheckedUpdateManyWithoutKelasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type KelasWaliUpdateWithoutKelasInput = {
@@ -10666,10 +27342,213 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type JadwalPelajaranCreateManyMapelInput = {
+    id?: string
+    guruId: string
+    kelasId: string
+    tahunAjaranId: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+  }
+
+  export type RatingGuruCreateManyMapelInput = {
+    id?: string
+    guruId: string
+    siswaId: string
+    tahunAjaranId: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
+  }
+
+  export type TimFasilitatorTkaCreateManyMapelInput = {
+    id?: string
+    guruId: string
+    tahunAjaranId: string
+  }
+
+  export type JadwalPelajaranUpdateWithoutMapelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+    guru?: GuruUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    kelas?: KelasUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    jurnal?: JurnalMengajarUpdateManyWithoutJadwalNestedInput
+  }
+
+  export type JadwalPelajaranUncheckedUpdateWithoutMapelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    kelasId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+    jurnal?: JurnalMengajarUncheckedUpdateManyWithoutJadwalNestedInput
+  }
+
+  export type JadwalPelajaranUncheckedUpdateManyWithoutMapelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    kelasId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TahunAjaranUpdateWithoutMataPelajaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
+    riwayatSiswa?: RiwayatKelasSiswaUpdateManyWithoutTahunAjaranNestedInput
+    jadwalPelajaran?: JadwalPelajaranUpdateManyWithoutTahunAjaranNestedInput
+    laporanPdca?: LaporanPdcaUpdateManyWithoutTahunAjaranNestedInput
+    ratingGuru?: RatingGuruUpdateManyWithoutTahunAjaranNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUpdateManyWithoutTahunAjaranNestedInput
+  }
+
+  export type TahunAjaranUncheckedUpdateWithoutMataPelajaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
+    riwayatSiswa?: RiwayatKelasSiswaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    jadwalPelajaran?: JadwalPelajaranUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    laporanPdca?: LaporanPdcaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    ratingGuru?: RatingGuruUncheckedUpdateManyWithoutTahunAjaranNestedInput
+    timFasilitatorTka?: TimFasilitatorTkaUncheckedUpdateManyWithoutTahunAjaranNestedInput
+  }
+
+  export type TahunAjaranUncheckedUpdateManyWithoutMataPelajaranInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nama?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRatingActive?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type RatingGuruUpdateWithoutMapelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guru?: GuruUpdateOneRequiredWithoutRatingGuruNestedInput
+    siswa?: SiswaUpdateOneRequiredWithoutRatingGuruNestedInput
+    tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutRatingGuruNestedInput
+  }
+
+  export type RatingGuruUncheckedUpdateWithoutMapelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    siswaId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingGuruUncheckedUpdateManyWithoutMapelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    siswaId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimFasilitatorTkaUpdateWithoutMapelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guru?: GuruUpdateOneRequiredWithoutTimFasilitatorTkaNestedInput
+    tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutTimFasilitatorTkaNestedInput
+  }
+
+  export type TimFasilitatorTkaUncheckedUpdateWithoutMapelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TimFasilitatorTkaUncheckedUpdateManyWithoutMapelInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type JadwalPelajaranCreateManyGuruInput = {
+    id?: string
+    mapelId: string
+    kelasId: string
+    tahunAjaranId: string
+    hari: number
+    waktuMulai: string
+    waktuSelesai: string
+    ruang?: string | null
+  }
+
   export type KelasWaliCreateManyGuruInput = {
     id?: string
     kelasId: string
     createdAt?: Date | string
+  }
+
+  export type RatingGuruCreateManyGuruInput = {
+    id?: string
+    siswaId: string
+    mapelId: string
+    tahunAjaranId: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
+  }
+
+  export type TimFasilitatorTkaCreateManyGuruInput = {
+    id?: string
+    mapelId: string
+    tahunAjaranId: string
+  }
+
+  export type JadwalPelajaranUpdateWithoutGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+    mapel?: MataPelajaranUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    kelas?: KelasUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutJadwalPelajaranNestedInput
+    jurnal?: JurnalMengajarUpdateManyWithoutJadwalNestedInput
+  }
+
+  export type JadwalPelajaranUncheckedUpdateWithoutGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    kelasId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
+    jurnal?: JurnalMengajarUncheckedUpdateManyWithoutJadwalNestedInput
+  }
+
+  export type JadwalPelajaranUncheckedUpdateManyWithoutGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    kelasId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    hari?: IntFieldUpdateOperationsInput | number
+    waktuMulai?: StringFieldUpdateOperationsInput | string
+    waktuSelesai?: StringFieldUpdateOperationsInput | string
+    ruang?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type KelasWaliUpdateWithoutGuruInput = {
@@ -10690,14 +27569,88 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RatingGuruUpdateWithoutGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    siswa?: SiswaUpdateOneRequiredWithoutRatingGuruNestedInput
+    mapel?: MataPelajaranUpdateOneRequiredWithoutRatingGuruNestedInput
+    tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutRatingGuruNestedInput
+  }
+
+  export type RatingGuruUncheckedUpdateWithoutGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    siswaId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingGuruUncheckedUpdateManyWithoutGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    siswaId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimFasilitatorTkaUpdateWithoutGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapel?: MataPelajaranUpdateOneRequiredWithoutTimFasilitatorTkaNestedInput
+    tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutTimFasilitatorTkaNestedInput
+  }
+
+  export type TimFasilitatorTkaUncheckedUpdateWithoutGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TimFasilitatorTkaUncheckedUpdateManyWithoutGuruInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type RiwayatKelasSiswaCreateManySiswaInput = {
     id?: string
     kelasId: string
     tahunAjaranId: string
+    isTka?: boolean
+  }
+
+  export type PresensiSiswaCreateManySiswaInput = {
+    id?: string
+    jurnalId: string
+    status?: $Enums.StatusHadir
+    waktuScan?: Date | string | null
+    nilaiTugas?: number | null
+    alasanIzin?: string | null
+    isDispensasi?: boolean
+    isTerlambat?: boolean
+    alasanTerlambat?: string | null
+    alasan?: string | null
+    fileBukti?: string | null
+  }
+
+  export type RatingGuruCreateManySiswaInput = {
+    id?: string
+    guruId: string
+    mapelId: string
+    tahunAjaranId: string
+    rating: number
+    komentar?: string | null
+    createdAt?: Date | string
   }
 
   export type RiwayatKelasSiswaUpdateWithoutSiswaInput = {
     id?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
     kelas?: KelasUpdateOneRequiredWithoutRiwayatSiswaNestedInput
     tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutRiwayatSiswaNestedInput
   }
@@ -10706,12 +27659,200 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kelasId?: StringFieldUpdateOperationsInput | string
     tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RiwayatKelasSiswaUncheckedUpdateManyWithoutSiswaInput = {
     id?: StringFieldUpdateOperationsInput | string
     kelasId?: StringFieldUpdateOperationsInput | string
     tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    isTka?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type PresensiSiswaUpdateWithoutSiswaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusHadirFieldUpdateOperationsInput | $Enums.StatusHadir
+    waktuScan?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nilaiTugas?: NullableIntFieldUpdateOperationsInput | number | null
+    alasanIzin?: NullableStringFieldUpdateOperationsInput | string | null
+    isDispensasi?: BoolFieldUpdateOperationsInput | boolean
+    isTerlambat?: BoolFieldUpdateOperationsInput | boolean
+    alasanTerlambat?: NullableStringFieldUpdateOperationsInput | string | null
+    alasan?: NullableStringFieldUpdateOperationsInput | string | null
+    fileBukti?: NullableStringFieldUpdateOperationsInput | string | null
+    jurnal?: JurnalMengajarUpdateOneRequiredWithoutPresensiNestedInput
+  }
+
+  export type PresensiSiswaUncheckedUpdateWithoutSiswaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jurnalId?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusHadirFieldUpdateOperationsInput | $Enums.StatusHadir
+    waktuScan?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nilaiTugas?: NullableIntFieldUpdateOperationsInput | number | null
+    alasanIzin?: NullableStringFieldUpdateOperationsInput | string | null
+    isDispensasi?: BoolFieldUpdateOperationsInput | boolean
+    isTerlambat?: BoolFieldUpdateOperationsInput | boolean
+    alasanTerlambat?: NullableStringFieldUpdateOperationsInput | string | null
+    alasan?: NullableStringFieldUpdateOperationsInput | string | null
+    fileBukti?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PresensiSiswaUncheckedUpdateManyWithoutSiswaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jurnalId?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusHadirFieldUpdateOperationsInput | $Enums.StatusHadir
+    waktuScan?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nilaiTugas?: NullableIntFieldUpdateOperationsInput | number | null
+    alasanIzin?: NullableStringFieldUpdateOperationsInput | string | null
+    isDispensasi?: BoolFieldUpdateOperationsInput | boolean
+    isTerlambat?: BoolFieldUpdateOperationsInput | boolean
+    alasanTerlambat?: NullableStringFieldUpdateOperationsInput | string | null
+    alasan?: NullableStringFieldUpdateOperationsInput | string | null
+    fileBukti?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type RatingGuruUpdateWithoutSiswaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guru?: GuruUpdateOneRequiredWithoutRatingGuruNestedInput
+    mapel?: MataPelajaranUpdateOneRequiredWithoutRatingGuruNestedInput
+    tahunAjaran?: TahunAjaranUpdateOneRequiredWithoutRatingGuruNestedInput
+  }
+
+  export type RatingGuruUncheckedUpdateWithoutSiswaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingGuruUncheckedUpdateManyWithoutSiswaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    guruId?: StringFieldUpdateOperationsInput | string
+    mapelId?: StringFieldUpdateOperationsInput | string
+    tahunAjaranId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    komentar?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JurnalMengajarCreateManyJadwalInput = {
+    id?: string
+    tanggal?: Date | string
+    materiBab?: string | null
+    catatan?: string | null
+    tugas?: string | null
+    status?: $Enums.JurnalStatus
+    waktuMulai?: string | null
+    waktuSelesai?: string | null
+    latAbsen?: number | null
+    longAbsen?: number | null
+    qrToken?: string | null
+  }
+
+  export type JurnalMengajarUpdateWithoutJadwalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiBab?: NullableStringFieldUpdateOperationsInput | string | null
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    tugas?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJurnalStatusFieldUpdateOperationsInput | $Enums.JurnalStatus
+    waktuMulai?: NullableStringFieldUpdateOperationsInput | string | null
+    waktuSelesai?: NullableStringFieldUpdateOperationsInput | string | null
+    latAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    longAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    qrToken?: NullableStringFieldUpdateOperationsInput | string | null
+    presensi?: PresensiSiswaUpdateManyWithoutJurnalNestedInput
+  }
+
+  export type JurnalMengajarUncheckedUpdateWithoutJadwalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiBab?: NullableStringFieldUpdateOperationsInput | string | null
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    tugas?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJurnalStatusFieldUpdateOperationsInput | $Enums.JurnalStatus
+    waktuMulai?: NullableStringFieldUpdateOperationsInput | string | null
+    waktuSelesai?: NullableStringFieldUpdateOperationsInput | string | null
+    latAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    longAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    qrToken?: NullableStringFieldUpdateOperationsInput | string | null
+    presensi?: PresensiSiswaUncheckedUpdateManyWithoutJurnalNestedInput
+  }
+
+  export type JurnalMengajarUncheckedUpdateManyWithoutJadwalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tanggal?: DateTimeFieldUpdateOperationsInput | Date | string
+    materiBab?: NullableStringFieldUpdateOperationsInput | string | null
+    catatan?: NullableStringFieldUpdateOperationsInput | string | null
+    tugas?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumJurnalStatusFieldUpdateOperationsInput | $Enums.JurnalStatus
+    waktuMulai?: NullableStringFieldUpdateOperationsInput | string | null
+    waktuSelesai?: NullableStringFieldUpdateOperationsInput | string | null
+    latAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    longAbsen?: NullableFloatFieldUpdateOperationsInput | number | null
+    qrToken?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PresensiSiswaCreateManyJurnalInput = {
+    id?: string
+    siswaId: string
+    status?: $Enums.StatusHadir
+    waktuScan?: Date | string | null
+    nilaiTugas?: number | null
+    alasanIzin?: string | null
+    isDispensasi?: boolean
+    isTerlambat?: boolean
+    alasanTerlambat?: string | null
+    alasan?: string | null
+    fileBukti?: string | null
+  }
+
+  export type PresensiSiswaUpdateWithoutJurnalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusHadirFieldUpdateOperationsInput | $Enums.StatusHadir
+    waktuScan?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nilaiTugas?: NullableIntFieldUpdateOperationsInput | number | null
+    alasanIzin?: NullableStringFieldUpdateOperationsInput | string | null
+    isDispensasi?: BoolFieldUpdateOperationsInput | boolean
+    isTerlambat?: BoolFieldUpdateOperationsInput | boolean
+    alasanTerlambat?: NullableStringFieldUpdateOperationsInput | string | null
+    alasan?: NullableStringFieldUpdateOperationsInput | string | null
+    fileBukti?: NullableStringFieldUpdateOperationsInput | string | null
+    siswa?: SiswaUpdateOneRequiredWithoutPresensiNestedInput
+  }
+
+  export type PresensiSiswaUncheckedUpdateWithoutJurnalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    siswaId?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusHadirFieldUpdateOperationsInput | $Enums.StatusHadir
+    waktuScan?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nilaiTugas?: NullableIntFieldUpdateOperationsInput | number | null
+    alasanIzin?: NullableStringFieldUpdateOperationsInput | string | null
+    isDispensasi?: BoolFieldUpdateOperationsInput | boolean
+    isTerlambat?: BoolFieldUpdateOperationsInput | boolean
+    alasanTerlambat?: NullableStringFieldUpdateOperationsInput | string | null
+    alasan?: NullableStringFieldUpdateOperationsInput | string | null
+    fileBukti?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PresensiSiswaUncheckedUpdateManyWithoutJurnalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    siswaId?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusHadirFieldUpdateOperationsInput | $Enums.StatusHadir
+    waktuScan?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nilaiTugas?: NullableIntFieldUpdateOperationsInput | number | null
+    alasanIzin?: NullableStringFieldUpdateOperationsInput | string | null
+    isDispensasi?: BoolFieldUpdateOperationsInput | boolean
+    isTerlambat?: BoolFieldUpdateOperationsInput | boolean
+    alasanTerlambat?: NullableStringFieldUpdateOperationsInput | string | null
+    alasan?: NullableStringFieldUpdateOperationsInput | string | null
+    fileBukti?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

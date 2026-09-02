@@ -57,8 +57,7 @@ export default async function PimpinanLiterasiPage({ searchParams }: { searchPar
 		prismaEjournal.kelas.findMany({
 			where: syaratKelasAktif,
 			include: { 
-				waliKelas: { include: { guru: { include: { user: true } } } },
-				pendamping: { include: { user: true } }
+				waliKelas: { include: { guru: { include: { user: true } } } }
 			},
 			orderBy: { nama: "asc" },
 		}),

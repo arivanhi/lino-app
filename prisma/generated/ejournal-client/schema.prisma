@@ -1,7 +1,7 @@
-// lino-app/prisma/ejournal.prisma
 generator client {
-  provider = "prisma-client-js"
-  output   = "./generated/ejournal-client"
+  provider      = "prisma-client-js"
+  output        = "./generated/ejournal-client"
+  binaryTargets = ["native", "linux-musl", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -9,52 +9,166 @@ datasource db {
   url      = env("DATABASE_URL_EJOURNAL")
 }
 
-// Enum Wajib dari E-Journal
+// =======================
+// ENUMS (TIPE DATA FIX)
+// =======================
+// 1. Tambahkan KEPSEK di enum Role
 enum Role {
   ADMIN_TU
   WAKA
-  KEPSEK
+  KEPSEK // <-- TAMBAHAN BARU
+  KOORDINATOR // <-- KOORDINATOR LINO
   WALI_KELAS
   GURU
   SISWA
 }
 
-// Tabel Induk Auth
+enum StatusHadir {
+  H // Hadir
+  S // Sakit
+  I // Izin
+  A // Alpa
+}
+
+enum JurnalStatus {
+  DRAFT
+  SUBMITTED
+}
+
+// =======================
+// ENTITAS MASTER & AUTH
+// =======================
 model User {
   id        String   @id @default(uuid())
-  username  String   @unique
+  username  String   @unique // Untuk Guru/Admin pakai NPP, Siswa pakai NISN
   password  String
   nama      String
   role      Role
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  guru  Guru?
-  siswa Siswa?
+  // Relasi opsional, tergantung rolenya
+  guru        Guru?
+  siswa       Siswa?
+  laporanPdca LaporanPdca[]
 }
 
 model TahunAjaran {
-  id           String              @id @default(uuid())
-  nama         String              @unique
-  isActive     Boolean             @default(false)
-  riwayatSiswa RiwayatKelasSiswa[]
+  id             String  @id @default(uuid())
+  nama           String  @unique // Contoh: "2026/2027 Ganjil"
+  isActive       Boolean @default(false)
+  isRatingActive Boolean @default(false)
+
+  riwayatSiswa      RiwayatKelasSiswa[]
+  jadwalPelajaran   JadwalPelajaran[]
+  mataPelajaran     MataPelajaran[]
+  laporanPdca       LaporanPdca[]
+  ratingGuru        RatingGuru[]
+  timFasilitatorTka TimFasilitatorTka[]
 }
 
 model Kelas {
-  id           String              @id @default(uuid())
-  nama         String              @unique
-  riwayatSiswa RiwayatKelasSiswa[]
-  waliKelas    KelasWali[]
+  id     String  @id @default(uuid())
+  nama   String  @unique // Contoh: "X-A", "XI-MIPA 1"
+  isTka  Boolean @default(false)
+  tempat String?
+
+  riwayatSiswa    RiwayatKelasSiswa[]
+  jadwalPelajaran JadwalPelajaran[]
+  waliKelas       KelasWali[]
+}
+
+model MataPelajaran {
+  id    String  @id @default(uuid())
+  kode  String  @unique
+  nama  String
+  isTka Boolean @default(false)
+
+  jadwalPelajaran   JadwalPelajaran[]
+  tahunAjaran       TahunAjaran[]
+  ratingGuru        RatingGuru[]
+  timFasilitatorTka TimFasilitatorTka[]
+}
+
+model PengaturanSekolah {
+  id              String @id @default(uuid())
+  schoolName      String @default("SMA Negeri 2 Brebes")
+  latitude        Float
+  longitude       Float
+  radiusToleransi Float  @default(100.0) // Jarak Geofencing dalam meter
+  qrExpirySec     Int    @default(15) // Durasi refresh Dynamic QR
+}
+
+// =======================
+// ENTITAS AKTOR SPESIFIK
+// =======================
+
+// 2. Tambahkan Model Baru untuk Laporan PDCA
+model LaporanPdca {
+  id    String @id @default(cuid())
+  judul String // Contoh: "Evaluasi Ketercapaian Mapel Fisika Semester Ganjil"
+
+  tahunAjaranId String
+  tahunAjaran   TahunAjaran @relation(fields: [tahunAjaranId], references: [id])
+
+  pembuatId String
+  pembuat   User   @relation(fields: [pembuatId], references: [id])
+
+  tanggalLaporan DateTime @default(now())
+  status         String   @default("DRAFT") // DRAFT, TERVERIFIKASI
+
+  // --- P: PLAN (Perencanaan & Analisis Masalah) ---
+  planProblem   String @db.Text // Mengambil inspirasi dari "Problem" di dokumen[cite: 1]
+  planRootCause String @db.Text // Mengambil inspirasi dari "Root Cause" di dokumen[cite: 1]
+
+  // --- D: DO (Tindakan Implementasi) ---
+  // Kita simpan sebagai JSON array karena isinya berupa tabel (Implementation, PIC, Due Date)[cite: 1]
+  doImplementasi Json?
+
+  // --- C: CHECK (Evaluasi & Cek Fakta) ---
+  checkFakta String @db.Text // Mengambil inspirasi dari "Fakta CPL/Kondisi"[cite: 1]
+  checkGap   String @db.Text // Mengambil inspirasi dari "Gap Problem"[cite: 1]
+
+  // --- A: ACTION (Tindak Lanjut) ---
+  actRekomendasi String @db.Text // Mengambil inspirasi dari "Rekomendasi"[cite: 1]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model RekapBulanan {
+  id             String @id @default(uuid())
+  tahunAjaranId  String
+  bulan          Int
+  jenisAktivitas String
+  jumlah         Int
+}
+
+model TimFasilitatorTka {
+  id            String @id @default(uuid())
+  mapelId       String
+  guruId        String
+  tahunAjaranId String
+
+  mapel       MataPelajaran @relation(fields: [mapelId], references: [id], onDelete: Cascade)
+  guru        Guru          @relation(fields: [guruId], references: [id], onDelete: Cascade)
+  tahunAjaran TahunAjaran   @relation(fields: [tahunAjaranId], references: [id], onDelete: Cascade)
+
+  @@unique([mapelId, guruId, tahunAjaranId])
 }
 
 model Guru {
-  id           String      @id @default(uuid())
-  npp          String      @unique
-  jenisKelamin String
-  status       Boolean     @default(true)
-  userId       String      @unique
-  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  waliKelasDi  KelasWali[]
+  id           String  @id @default(uuid())
+  npp          String  @unique
+  jenisKelamin String // <--- TAMBAHAN BARU
+  status       Boolean @default(true) // <--- TAMBAHAN BARU
+  userId       String  @unique
+  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  jadwalPelajaran   JadwalPelajaran[]
+  waliKelasDi       KelasWali[]
+  ratingGuru        RatingGuru[]
+  timFasilitatorTka TimFasilitatorTka[]
 }
 
 model KelasWali {
@@ -69,23 +183,111 @@ model KelasWali {
 }
 
 model Siswa {
-  id           String              @id @default(uuid())
-  nisn         String              @unique
-  nis          String              @unique
-  jenisKelamin String
-  userId       String              @unique
-  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String @id @default(uuid())
+  nisn         String @unique
+  nis          String @unique
+  jenisKelamin String // <--- TAMBAHAN BARU
+  userId       String @unique
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   riwayatKelas RiwayatKelasSiswa[]
+  presensi     PresensiSiswa[]
+  ratingGuru   RatingGuru[]
 }
 
+// Relasi historis agar data absen aman saat siswa pindah kelas
 model RiwayatKelasSiswa {
-  id            String      @id @default(uuid())
+  id            String  @id @default(uuid())
   siswaId       String
   kelasId       String
   tahunAjaranId String
-  siswa         Siswa       @relation(fields: [siswaId], references: [id], onDelete: Cascade)
-  kelas         Kelas       @relation(fields: [kelasId], references: [id], onDelete: Cascade)
-  tahunAjaran   TahunAjaran @relation(fields: [tahunAjaranId], references: [id], onDelete: Cascade)
+  isTka         Boolean @default(false)
 
-  @@unique([siswaId, tahunAjaranId])
+  siswa       Siswa       @relation(fields: [siswaId], references: [id], onDelete: Cascade)
+  kelas       Kelas       @relation(fields: [kelasId], references: [id], onDelete: Cascade)
+  tahunAjaran TahunAjaran @relation(fields: [tahunAjaranId], references: [id], onDelete: Cascade)
+
+  // Menjamin 1 siswa hanya berada di 1 kelas reguler dan 1 rombel TKA pada tahun ajaran yang sama
+  @@unique([siswaId, tahunAjaranId, isTka])
+}
+
+// =======================
+// ENTITAS TRANSAKSIONAL (JADWAL & JURNAL)
+// =======================
+model JadwalPelajaran {
+  id            String  @id @default(uuid())
+  guruId        String
+  mapelId       String
+  kelasId       String
+  tahunAjaranId String
+  hari          Int // 1 = Senin, 2 = Selasa, dst.
+  waktuMulai    String // Format "07:00"
+  waktuSelesai  String // Format "08:30"
+  ruang         String?
+
+  guru        Guru             @relation(fields: [guruId], references: [id])
+  mapel       MataPelajaran    @relation(fields: [mapelId], references: [id])
+  kelas       Kelas            @relation(fields: [kelasId], references: [id])
+  tahunAjaran TahunAjaran      @relation(fields: [tahunAjaranId], references: [id])
+  jurnal      JurnalMengajar[]
+}
+
+model JurnalMengajar {
+  id           String       @id @default(uuid())
+  jadwalId     String
+  tanggal      DateTime     @default(now())
+  materiBab    String?      @db.Text
+  catatan      String?      @db.Text
+  tugas        String?      @db.Text
+  status       JurnalStatus @default(DRAFT)
+  waktuMulai   String? // <-- TAMBAHKAN INI
+  waktuSelesai String? // <-- TAMBAHKAN INI
+
+  // Data Audit Geofencing Guru
+  latAbsen  Float?
+  longAbsen Float?
+
+  // Token Dynamic QR
+  qrToken String? @db.VarChar(500)
+
+  jadwal   JadwalPelajaran @relation(fields: [jadwalId], references: [id], onDelete: Cascade)
+  presensi PresensiSiswa[]
+}
+
+model PresensiSiswa {
+  id              String         @id @default(uuid())
+  jurnalId        String
+  siswaId         String
+  status          StatusHadir    @default(A)
+  waktuScan       DateTime? // Null jika dia absen manual oleh guru (bukan scan QR)
+  nilaiTugas      Int? // <-- TAMBAHAN BARU
+  alasanIzin      String? // <-- Alasan izin jika status Izin
+  isDispensasi    Boolean        @default(false)
+  isTerlambat     Boolean        @default(false)
+  alasanTerlambat String?        @db.Text
+  alasan          String?        @db.Text
+  fileBukti       String?
+  jurnal          JurnalMengajar @relation(fields: [jurnalId], references: [id], onDelete: Cascade)
+  siswa           Siswa          @relation(fields: [siswaId], references: [id], onDelete: Cascade)
+
+  // 1 Jurnal hanya boleh ada 1 record presensi per siswa
+  @@unique([jurnalId, siswaId])
+}
+
+model RatingGuru {
+  id            String   @id @default(uuid())
+  guruId        String
+  siswaId       String
+  mapelId       String
+  tahunAjaranId String
+  rating        Int // Skala 1-5
+  komentar      String?  @db.Text
+  createdAt     DateTime @default(now())
+
+  guru        Guru          @relation(fields: [guruId], references: [id], onDelete: Cascade)
+  siswa       Siswa         @relation(fields: [siswaId], references: [id], onDelete: Cascade)
+  mapel       MataPelajaran @relation(fields: [mapelId], references: [id], onDelete: Cascade)
+  tahunAjaran TahunAjaran   @relation(fields: [tahunAjaranId], references: [id], onDelete: Cascade)
+
+  @@unique([siswaId, guruId, mapelId, tahunAjaranId]) // 1 siswa max 1 rating per guru per mapel per tahun ajaran
 }

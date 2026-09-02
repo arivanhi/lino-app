@@ -134,12 +134,63 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.TahunAjaranScalarFieldEnum = {
   id: 'id',
   nama: 'nama',
-  isActive: 'isActive'
+  isActive: 'isActive',
+  isRatingActive: 'isRatingActive'
 };
 
 exports.Prisma.KelasScalarFieldEnum = {
   id: 'id',
-  nama: 'nama'
+  nama: 'nama',
+  isTka: 'isTka',
+  tempat: 'tempat'
+};
+
+exports.Prisma.MataPelajaranScalarFieldEnum = {
+  id: 'id',
+  kode: 'kode',
+  nama: 'nama',
+  isTka: 'isTka'
+};
+
+exports.Prisma.PengaturanSekolahScalarFieldEnum = {
+  id: 'id',
+  schoolName: 'schoolName',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  radiusToleransi: 'radiusToleransi',
+  qrExpirySec: 'qrExpirySec'
+};
+
+exports.Prisma.LaporanPdcaScalarFieldEnum = {
+  id: 'id',
+  judul: 'judul',
+  tahunAjaranId: 'tahunAjaranId',
+  pembuatId: 'pembuatId',
+  tanggalLaporan: 'tanggalLaporan',
+  status: 'status',
+  planProblem: 'planProblem',
+  planRootCause: 'planRootCause',
+  doImplementasi: 'doImplementasi',
+  checkFakta: 'checkFakta',
+  checkGap: 'checkGap',
+  actRekomendasi: 'actRekomendasi',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RekapBulananScalarFieldEnum = {
+  id: 'id',
+  tahunAjaranId: 'tahunAjaranId',
+  bulan: 'bulan',
+  jenisAktivitas: 'jenisAktivitas',
+  jumlah: 'jumlah'
+};
+
+exports.Prisma.TimFasilitatorTkaScalarFieldEnum = {
+  id: 'id',
+  mapelId: 'mapelId',
+  guruId: 'guruId',
+  tahunAjaranId: 'tahunAjaranId'
 };
 
 exports.Prisma.GuruScalarFieldEnum = {
@@ -169,12 +220,71 @@ exports.Prisma.RiwayatKelasSiswaScalarFieldEnum = {
   id: 'id',
   siswaId: 'siswaId',
   kelasId: 'kelasId',
-  tahunAjaranId: 'tahunAjaranId'
+  tahunAjaranId: 'tahunAjaranId',
+  isTka: 'isTka'
+};
+
+exports.Prisma.JadwalPelajaranScalarFieldEnum = {
+  id: 'id',
+  guruId: 'guruId',
+  mapelId: 'mapelId',
+  kelasId: 'kelasId',
+  tahunAjaranId: 'tahunAjaranId',
+  hari: 'hari',
+  waktuMulai: 'waktuMulai',
+  waktuSelesai: 'waktuSelesai',
+  ruang: 'ruang'
+};
+
+exports.Prisma.JurnalMengajarScalarFieldEnum = {
+  id: 'id',
+  jadwalId: 'jadwalId',
+  tanggal: 'tanggal',
+  materiBab: 'materiBab',
+  catatan: 'catatan',
+  tugas: 'tugas',
+  status: 'status',
+  waktuMulai: 'waktuMulai',
+  waktuSelesai: 'waktuSelesai',
+  latAbsen: 'latAbsen',
+  longAbsen: 'longAbsen',
+  qrToken: 'qrToken'
+};
+
+exports.Prisma.PresensiSiswaScalarFieldEnum = {
+  id: 'id',
+  jurnalId: 'jurnalId',
+  siswaId: 'siswaId',
+  status: 'status',
+  waktuScan: 'waktuScan',
+  nilaiTugas: 'nilaiTugas',
+  alasanIzin: 'alasanIzin',
+  isDispensasi: 'isDispensasi',
+  isTerlambat: 'isTerlambat',
+  alasanTerlambat: 'alasanTerlambat',
+  alasan: 'alasan',
+  fileBukti: 'fileBukti'
+};
+
+exports.Prisma.RatingGuruScalarFieldEnum = {
+  id: 'id',
+  guruId: 'guruId',
+  siswaId: 'siswaId',
+  mapelId: 'mapelId',
+  tahunAjaranId: 'tahunAjaranId',
+  rating: 'rating',
+  komentar: 'komentar',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.UserOrderByRelevanceFieldEnum = {
@@ -189,9 +299,63 @@ exports.Prisma.TahunAjaranOrderByRelevanceFieldEnum = {
   nama: 'nama'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 exports.Prisma.KelasOrderByRelevanceFieldEnum = {
   id: 'id',
+  nama: 'nama',
+  tempat: 'tempat'
+};
+
+exports.Prisma.MataPelajaranOrderByRelevanceFieldEnum = {
+  id: 'id',
+  kode: 'kode',
   nama: 'nama'
+};
+
+exports.Prisma.PengaturanSekolahOrderByRelevanceFieldEnum = {
+  id: 'id',
+  schoolName: 'schoolName'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
+exports.Prisma.LaporanPdcaOrderByRelevanceFieldEnum = {
+  id: 'id',
+  judul: 'judul',
+  tahunAjaranId: 'tahunAjaranId',
+  pembuatId: 'pembuatId',
+  status: 'status',
+  planProblem: 'planProblem',
+  planRootCause: 'planRootCause',
+  checkFakta: 'checkFakta',
+  checkGap: 'checkGap',
+  actRekomendasi: 'actRekomendasi'
+};
+
+exports.Prisma.RekapBulananOrderByRelevanceFieldEnum = {
+  id: 'id',
+  tahunAjaranId: 'tahunAjaranId',
+  jenisAktivitas: 'jenisAktivitas'
+};
+
+exports.Prisma.TimFasilitatorTkaOrderByRelevanceFieldEnum = {
+  id: 'id',
+  mapelId: 'mapelId',
+  guruId: 'guruId',
+  tahunAjaranId: 'tahunAjaranId'
 };
 
 exports.Prisma.GuruOrderByRelevanceFieldEnum = {
@@ -221,23 +385,86 @@ exports.Prisma.RiwayatKelasSiswaOrderByRelevanceFieldEnum = {
   kelasId: 'kelasId',
   tahunAjaranId: 'tahunAjaranId'
 };
+
+exports.Prisma.JadwalPelajaranOrderByRelevanceFieldEnum = {
+  id: 'id',
+  guruId: 'guruId',
+  mapelId: 'mapelId',
+  kelasId: 'kelasId',
+  tahunAjaranId: 'tahunAjaranId',
+  waktuMulai: 'waktuMulai',
+  waktuSelesai: 'waktuSelesai',
+  ruang: 'ruang'
+};
+
+exports.Prisma.JurnalMengajarOrderByRelevanceFieldEnum = {
+  id: 'id',
+  jadwalId: 'jadwalId',
+  materiBab: 'materiBab',
+  catatan: 'catatan',
+  tugas: 'tugas',
+  waktuMulai: 'waktuMulai',
+  waktuSelesai: 'waktuSelesai',
+  qrToken: 'qrToken'
+};
+
+exports.Prisma.PresensiSiswaOrderByRelevanceFieldEnum = {
+  id: 'id',
+  jurnalId: 'jurnalId',
+  siswaId: 'siswaId',
+  alasanIzin: 'alasanIzin',
+  alasanTerlambat: 'alasanTerlambat',
+  alasan: 'alasan',
+  fileBukti: 'fileBukti'
+};
+
+exports.Prisma.RatingGuruOrderByRelevanceFieldEnum = {
+  id: 'id',
+  guruId: 'guruId',
+  siswaId: 'siswaId',
+  mapelId: 'mapelId',
+  tahunAjaranId: 'tahunAjaranId',
+  komentar: 'komentar'
+};
 exports.Role = exports.$Enums.Role = {
   ADMIN_TU: 'ADMIN_TU',
   WAKA: 'WAKA',
   KEPSEK: 'KEPSEK',
+  KOORDINATOR: 'KOORDINATOR',
   WALI_KELAS: 'WALI_KELAS',
   GURU: 'GURU',
   SISWA: 'SISWA'
+};
+
+exports.JurnalStatus = exports.$Enums.JurnalStatus = {
+  DRAFT: 'DRAFT',
+  SUBMITTED: 'SUBMITTED'
+};
+
+exports.StatusHadir = exports.$Enums.StatusHadir = {
+  H: 'H',
+  S: 'S',
+  I: 'I',
+  A: 'A'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
   TahunAjaran: 'TahunAjaran',
   Kelas: 'Kelas',
+  MataPelajaran: 'MataPelajaran',
+  PengaturanSekolah: 'PengaturanSekolah',
+  LaporanPdca: 'LaporanPdca',
+  RekapBulanan: 'RekapBulanan',
+  TimFasilitatorTka: 'TimFasilitatorTka',
   Guru: 'Guru',
   KelasWali: 'KelasWali',
   Siswa: 'Siswa',
-  RiwayatKelasSiswa: 'RiwayatKelasSiswa'
+  RiwayatKelasSiswa: 'RiwayatKelasSiswa',
+  JadwalPelajaran: 'JadwalPelajaran',
+  JurnalMengajar: 'JurnalMengajar',
+  PresensiSiswa: 'PresensiSiswa',
+  RatingGuru: 'RatingGuru'
 };
 
 /**

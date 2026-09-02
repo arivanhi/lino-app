@@ -106,12 +106,63 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.TahunAjaranScalarFieldEnum = {
   id: 'id',
   nama: 'nama',
-  isActive: 'isActive'
+  isActive: 'isActive',
+  isRatingActive: 'isRatingActive'
 };
 
 exports.Prisma.KelasScalarFieldEnum = {
   id: 'id',
-  nama: 'nama'
+  nama: 'nama',
+  isTka: 'isTka',
+  tempat: 'tempat'
+};
+
+exports.Prisma.MataPelajaranScalarFieldEnum = {
+  id: 'id',
+  kode: 'kode',
+  nama: 'nama',
+  isTka: 'isTka'
+};
+
+exports.Prisma.PengaturanSekolahScalarFieldEnum = {
+  id: 'id',
+  schoolName: 'schoolName',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  radiusToleransi: 'radiusToleransi',
+  qrExpirySec: 'qrExpirySec'
+};
+
+exports.Prisma.LaporanPdcaScalarFieldEnum = {
+  id: 'id',
+  judul: 'judul',
+  tahunAjaranId: 'tahunAjaranId',
+  pembuatId: 'pembuatId',
+  tanggalLaporan: 'tanggalLaporan',
+  status: 'status',
+  planProblem: 'planProblem',
+  planRootCause: 'planRootCause',
+  doImplementasi: 'doImplementasi',
+  checkFakta: 'checkFakta',
+  checkGap: 'checkGap',
+  actRekomendasi: 'actRekomendasi',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RekapBulananScalarFieldEnum = {
+  id: 'id',
+  tahunAjaranId: 'tahunAjaranId',
+  bulan: 'bulan',
+  jenisAktivitas: 'jenisAktivitas',
+  jumlah: 'jumlah'
+};
+
+exports.Prisma.TimFasilitatorTkaScalarFieldEnum = {
+  id: 'id',
+  mapelId: 'mapelId',
+  guruId: 'guruId',
+  tahunAjaranId: 'tahunAjaranId'
 };
 
 exports.Prisma.GuruScalarFieldEnum = {
@@ -141,12 +192,71 @@ exports.Prisma.RiwayatKelasSiswaScalarFieldEnum = {
   id: 'id',
   siswaId: 'siswaId',
   kelasId: 'kelasId',
-  tahunAjaranId: 'tahunAjaranId'
+  tahunAjaranId: 'tahunAjaranId',
+  isTka: 'isTka'
+};
+
+exports.Prisma.JadwalPelajaranScalarFieldEnum = {
+  id: 'id',
+  guruId: 'guruId',
+  mapelId: 'mapelId',
+  kelasId: 'kelasId',
+  tahunAjaranId: 'tahunAjaranId',
+  hari: 'hari',
+  waktuMulai: 'waktuMulai',
+  waktuSelesai: 'waktuSelesai',
+  ruang: 'ruang'
+};
+
+exports.Prisma.JurnalMengajarScalarFieldEnum = {
+  id: 'id',
+  jadwalId: 'jadwalId',
+  tanggal: 'tanggal',
+  materiBab: 'materiBab',
+  catatan: 'catatan',
+  tugas: 'tugas',
+  status: 'status',
+  waktuMulai: 'waktuMulai',
+  waktuSelesai: 'waktuSelesai',
+  latAbsen: 'latAbsen',
+  longAbsen: 'longAbsen',
+  qrToken: 'qrToken'
+};
+
+exports.Prisma.PresensiSiswaScalarFieldEnum = {
+  id: 'id',
+  jurnalId: 'jurnalId',
+  siswaId: 'siswaId',
+  status: 'status',
+  waktuScan: 'waktuScan',
+  nilaiTugas: 'nilaiTugas',
+  alasanIzin: 'alasanIzin',
+  isDispensasi: 'isDispensasi',
+  isTerlambat: 'isTerlambat',
+  alasanTerlambat: 'alasanTerlambat',
+  alasan: 'alasan',
+  fileBukti: 'fileBukti'
+};
+
+exports.Prisma.RatingGuruScalarFieldEnum = {
+  id: 'id',
+  guruId: 'guruId',
+  siswaId: 'siswaId',
+  mapelId: 'mapelId',
+  tahunAjaranId: 'tahunAjaranId',
+  rating: 'rating',
+  komentar: 'komentar',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.UserOrderByRelevanceFieldEnum = {
@@ -161,9 +271,63 @@ exports.Prisma.TahunAjaranOrderByRelevanceFieldEnum = {
   nama: 'nama'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 exports.Prisma.KelasOrderByRelevanceFieldEnum = {
   id: 'id',
+  nama: 'nama',
+  tempat: 'tempat'
+};
+
+exports.Prisma.MataPelajaranOrderByRelevanceFieldEnum = {
+  id: 'id',
+  kode: 'kode',
   nama: 'nama'
+};
+
+exports.Prisma.PengaturanSekolahOrderByRelevanceFieldEnum = {
+  id: 'id',
+  schoolName: 'schoolName'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
+exports.Prisma.LaporanPdcaOrderByRelevanceFieldEnum = {
+  id: 'id',
+  judul: 'judul',
+  tahunAjaranId: 'tahunAjaranId',
+  pembuatId: 'pembuatId',
+  status: 'status',
+  planProblem: 'planProblem',
+  planRootCause: 'planRootCause',
+  checkFakta: 'checkFakta',
+  checkGap: 'checkGap',
+  actRekomendasi: 'actRekomendasi'
+};
+
+exports.Prisma.RekapBulananOrderByRelevanceFieldEnum = {
+  id: 'id',
+  tahunAjaranId: 'tahunAjaranId',
+  jenisAktivitas: 'jenisAktivitas'
+};
+
+exports.Prisma.TimFasilitatorTkaOrderByRelevanceFieldEnum = {
+  id: 'id',
+  mapelId: 'mapelId',
+  guruId: 'guruId',
+  tahunAjaranId: 'tahunAjaranId'
 };
 
 exports.Prisma.GuruOrderByRelevanceFieldEnum = {
@@ -193,23 +357,86 @@ exports.Prisma.RiwayatKelasSiswaOrderByRelevanceFieldEnum = {
   kelasId: 'kelasId',
   tahunAjaranId: 'tahunAjaranId'
 };
+
+exports.Prisma.JadwalPelajaranOrderByRelevanceFieldEnum = {
+  id: 'id',
+  guruId: 'guruId',
+  mapelId: 'mapelId',
+  kelasId: 'kelasId',
+  tahunAjaranId: 'tahunAjaranId',
+  waktuMulai: 'waktuMulai',
+  waktuSelesai: 'waktuSelesai',
+  ruang: 'ruang'
+};
+
+exports.Prisma.JurnalMengajarOrderByRelevanceFieldEnum = {
+  id: 'id',
+  jadwalId: 'jadwalId',
+  materiBab: 'materiBab',
+  catatan: 'catatan',
+  tugas: 'tugas',
+  waktuMulai: 'waktuMulai',
+  waktuSelesai: 'waktuSelesai',
+  qrToken: 'qrToken'
+};
+
+exports.Prisma.PresensiSiswaOrderByRelevanceFieldEnum = {
+  id: 'id',
+  jurnalId: 'jurnalId',
+  siswaId: 'siswaId',
+  alasanIzin: 'alasanIzin',
+  alasanTerlambat: 'alasanTerlambat',
+  alasan: 'alasan',
+  fileBukti: 'fileBukti'
+};
+
+exports.Prisma.RatingGuruOrderByRelevanceFieldEnum = {
+  id: 'id',
+  guruId: 'guruId',
+  siswaId: 'siswaId',
+  mapelId: 'mapelId',
+  tahunAjaranId: 'tahunAjaranId',
+  komentar: 'komentar'
+};
 exports.Role = exports.$Enums.Role = {
   ADMIN_TU: 'ADMIN_TU',
   WAKA: 'WAKA',
   KEPSEK: 'KEPSEK',
+  KOORDINATOR: 'KOORDINATOR',
   WALI_KELAS: 'WALI_KELAS',
   GURU: 'GURU',
   SISWA: 'SISWA'
+};
+
+exports.StatusHadir = exports.$Enums.StatusHadir = {
+  H: 'H',
+  S: 'S',
+  I: 'I',
+  A: 'A'
+};
+
+exports.JurnalStatus = exports.$Enums.JurnalStatus = {
+  DRAFT: 'DRAFT',
+  SUBMITTED: 'SUBMITTED'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
   TahunAjaran: 'TahunAjaran',
   Kelas: 'Kelas',
+  MataPelajaran: 'MataPelajaran',
+  PengaturanSekolah: 'PengaturanSekolah',
+  LaporanPdca: 'LaporanPdca',
+  RekapBulanan: 'RekapBulanan',
+  TimFasilitatorTka: 'TimFasilitatorTka',
   Guru: 'Guru',
   KelasWali: 'KelasWali',
   Siswa: 'Siswa',
-  RiwayatKelasSiswa: 'RiwayatKelasSiswa'
+  RiwayatKelasSiswa: 'RiwayatKelasSiswa',
+  JadwalPelajaran: 'JadwalPelajaran',
+  JurnalMengajar: 'JurnalMengajar',
+  PresensiSiswa: 'PresensiSiswa',
+  RatingGuru: 'RatingGuru'
 };
 /**
  * Create the Client
@@ -233,6 +460,14 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "linux-musl"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "linux-musl-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -240,7 +475,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../..",
@@ -259,13 +494,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// lino-app/prisma/ejournal.prisma\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/ejournal-client\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL_EJOURNAL\")\n}\n\n// Enum Wajib dari E-Journal\nenum Role {\n  ADMIN_TU\n  WAKA\n  KEPSEK\n  WALI_KELAS\n  GURU\n  SISWA\n}\n\n// Tabel Induk Auth\nmodel User {\n  id        String   @id @default(uuid())\n  username  String   @unique\n  password  String\n  nama      String\n  role      Role\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  guru  Guru?\n  siswa Siswa?\n}\n\nmodel TahunAjaran {\n  id           String              @id @default(uuid())\n  nama         String              @unique\n  isActive     Boolean             @default(false)\n  riwayatSiswa RiwayatKelasSiswa[]\n}\n\nmodel Kelas {\n  id           String              @id @default(uuid())\n  nama         String              @unique\n  riwayatSiswa RiwayatKelasSiswa[]\n  waliKelas    KelasWali[]\n}\n\nmodel Guru {\n  id           String      @id @default(uuid())\n  npp          String      @unique\n  jenisKelamin String\n  status       Boolean     @default(true)\n  userId       String      @unique\n  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)\n  waliKelasDi  KelasWali[]\n}\n\nmodel KelasWali {\n  id        String   @id @default(uuid())\n  guruId    String\n  kelasId   String\n  guru      Guru     @relation(fields: [guruId], references: [id], onDelete: Cascade)\n  kelas     Kelas    @relation(fields: [kelasId], references: [id], onDelete: Cascade)\n  createdAt DateTime @default(now())\n\n  @@unique([guruId, kelasId])\n}\n\nmodel Siswa {\n  id           String              @id @default(uuid())\n  nisn         String              @unique\n  nis          String              @unique\n  jenisKelamin String\n  userId       String              @unique\n  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)\n  riwayatKelas RiwayatKelasSiswa[]\n}\n\nmodel RiwayatKelasSiswa {\n  id            String      @id @default(uuid())\n  siswaId       String\n  kelasId       String\n  tahunAjaranId String\n  siswa         Siswa       @relation(fields: [siswaId], references: [id], onDelete: Cascade)\n  kelas         Kelas       @relation(fields: [kelasId], references: [id], onDelete: Cascade)\n  tahunAjaran   TahunAjaran @relation(fields: [tahunAjaranId], references: [id], onDelete: Cascade)\n\n  @@unique([siswaId, tahunAjaranId])\n}\n",
-  "inlineSchemaHash": "a67136cc47533f034a478bf708b477af5bf7bc72ea108ae42a3ff040adb6631d",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"./generated/ejournal-client\"\n  binaryTargets = [\"native\", \"linux-musl\", \"linux-musl-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL_EJOURNAL\")\n}\n\n// =======================\n// ENUMS (TIPE DATA FIX)\n// =======================\n// 1. Tambahkan KEPSEK di enum Role\nenum Role {\n  ADMIN_TU\n  WAKA\n  KEPSEK // <-- TAMBAHAN BARU\n  KOORDINATOR // <-- KOORDINATOR LINO\n  WALI_KELAS\n  GURU\n  SISWA\n}\n\nenum StatusHadir {\n  H // Hadir\n  S // Sakit\n  I // Izin\n  A // Alpa\n}\n\nenum JurnalStatus {\n  DRAFT\n  SUBMITTED\n}\n\n// =======================\n// ENTITAS MASTER & AUTH\n// =======================\nmodel User {\n  id        String   @id @default(uuid())\n  username  String   @unique // Untuk Guru/Admin pakai NPP, Siswa pakai NISN\n  password  String\n  nama      String\n  role      Role\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relasi opsional, tergantung rolenya\n  guru        Guru?\n  siswa       Siswa?\n  laporanPdca LaporanPdca[]\n}\n\nmodel TahunAjaran {\n  id             String  @id @default(uuid())\n  nama           String  @unique // Contoh: \"2026/2027 Ganjil\"\n  isActive       Boolean @default(false)\n  isRatingActive Boolean @default(false)\n\n  riwayatSiswa      RiwayatKelasSiswa[]\n  jadwalPelajaran   JadwalPelajaran[]\n  mataPelajaran     MataPelajaran[]\n  laporanPdca       LaporanPdca[]\n  ratingGuru        RatingGuru[]\n  timFasilitatorTka TimFasilitatorTka[]\n}\n\nmodel Kelas {\n  id     String  @id @default(uuid())\n  nama   String  @unique // Contoh: \"X-A\", \"XI-MIPA 1\"\n  isTka  Boolean @default(false)\n  tempat String?\n\n  riwayatSiswa    RiwayatKelasSiswa[]\n  jadwalPelajaran JadwalPelajaran[]\n  waliKelas       KelasWali[]\n}\n\nmodel MataPelajaran {\n  id    String  @id @default(uuid())\n  kode  String  @unique\n  nama  String\n  isTka Boolean @default(false)\n\n  jadwalPelajaran   JadwalPelajaran[]\n  tahunAjaran       TahunAjaran[]\n  ratingGuru        RatingGuru[]\n  timFasilitatorTka TimFasilitatorTka[]\n}\n\nmodel PengaturanSekolah {\n  id              String @id @default(uuid())\n  schoolName      String @default(\"SMA Negeri 2 Brebes\")\n  latitude        Float\n  longitude       Float\n  radiusToleransi Float  @default(100.0) // Jarak Geofencing dalam meter\n  qrExpirySec     Int    @default(15) // Durasi refresh Dynamic QR\n}\n\n// =======================\n// ENTITAS AKTOR SPESIFIK\n// =======================\n\n// 2. Tambahkan Model Baru untuk Laporan PDCA\nmodel LaporanPdca {\n  id    String @id @default(cuid())\n  judul String // Contoh: \"Evaluasi Ketercapaian Mapel Fisika Semester Ganjil\"\n\n  tahunAjaranId String\n  tahunAjaran   TahunAjaran @relation(fields: [tahunAjaranId], references: [id])\n\n  pembuatId String\n  pembuat   User   @relation(fields: [pembuatId], references: [id])\n\n  tanggalLaporan DateTime @default(now())\n  status         String   @default(\"DRAFT\") // DRAFT, TERVERIFIKASI\n\n  // --- P: PLAN (Perencanaan & Analisis Masalah) ---\n  planProblem   String @db.Text // Mengambil inspirasi dari \"Problem\" di dokumen[cite: 1]\n  planRootCause String @db.Text // Mengambil inspirasi dari \"Root Cause\" di dokumen[cite: 1]\n\n  // --- D: DO (Tindakan Implementasi) ---\n  // Kita simpan sebagai JSON array karena isinya berupa tabel (Implementation, PIC, Due Date)[cite: 1]\n  doImplementasi Json?\n\n  // --- C: CHECK (Evaluasi & Cek Fakta) ---\n  checkFakta String @db.Text // Mengambil inspirasi dari \"Fakta CPL/Kondisi\"[cite: 1]\n  checkGap   String @db.Text // Mengambil inspirasi dari \"Gap Problem\"[cite: 1]\n\n  // --- A: ACTION (Tindak Lanjut) ---\n  actRekomendasi String @db.Text // Mengambil inspirasi dari \"Rekomendasi\"[cite: 1]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel RekapBulanan {\n  id             String @id @default(uuid())\n  tahunAjaranId  String\n  bulan          Int\n  jenisAktivitas String\n  jumlah         Int\n}\n\nmodel TimFasilitatorTka {\n  id            String @id @default(uuid())\n  mapelId       String\n  guruId        String\n  tahunAjaranId String\n\n  mapel       MataPelajaran @relation(fields: [mapelId], references: [id], onDelete: Cascade)\n  guru        Guru          @relation(fields: [guruId], references: [id], onDelete: Cascade)\n  tahunAjaran TahunAjaran   @relation(fields: [tahunAjaranId], references: [id], onDelete: Cascade)\n\n  @@unique([mapelId, guruId, tahunAjaranId])\n}\n\nmodel Guru {\n  id           String  @id @default(uuid())\n  npp          String  @unique\n  jenisKelamin String // <--- TAMBAHAN BARU\n  status       Boolean @default(true) // <--- TAMBAHAN BARU\n  userId       String  @unique\n  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  jadwalPelajaran   JadwalPelajaran[]\n  waliKelasDi       KelasWali[]\n  ratingGuru        RatingGuru[]\n  timFasilitatorTka TimFasilitatorTka[]\n}\n\nmodel KelasWali {\n  id        String   @id @default(uuid())\n  guruId    String\n  kelasId   String\n  guru      Guru     @relation(fields: [guruId], references: [id], onDelete: Cascade)\n  kelas     Kelas    @relation(fields: [kelasId], references: [id], onDelete: Cascade)\n  createdAt DateTime @default(now())\n\n  @@unique([guruId, kelasId])\n}\n\nmodel Siswa {\n  id           String @id @default(uuid())\n  nisn         String @unique\n  nis          String @unique\n  jenisKelamin String // <--- TAMBAHAN BARU\n  userId       String @unique\n  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  riwayatKelas RiwayatKelasSiswa[]\n  presensi     PresensiSiswa[]\n  ratingGuru   RatingGuru[]\n}\n\n// Relasi historis agar data absen aman saat siswa pindah kelas\nmodel RiwayatKelasSiswa {\n  id            String  @id @default(uuid())\n  siswaId       String\n  kelasId       String\n  tahunAjaranId String\n  isTka         Boolean @default(false)\n\n  siswa       Siswa       @relation(fields: [siswaId], references: [id], onDelete: Cascade)\n  kelas       Kelas       @relation(fields: [kelasId], references: [id], onDelete: Cascade)\n  tahunAjaran TahunAjaran @relation(fields: [tahunAjaranId], references: [id], onDelete: Cascade)\n\n  // Menjamin 1 siswa hanya berada di 1 kelas reguler dan 1 rombel TKA pada tahun ajaran yang sama\n  @@unique([siswaId, tahunAjaranId, isTka])\n}\n\n// =======================\n// ENTITAS TRANSAKSIONAL (JADWAL & JURNAL)\n// =======================\nmodel JadwalPelajaran {\n  id            String  @id @default(uuid())\n  guruId        String\n  mapelId       String\n  kelasId       String\n  tahunAjaranId String\n  hari          Int // 1 = Senin, 2 = Selasa, dst.\n  waktuMulai    String // Format \"07:00\"\n  waktuSelesai  String // Format \"08:30\"\n  ruang         String?\n\n  guru        Guru             @relation(fields: [guruId], references: [id])\n  mapel       MataPelajaran    @relation(fields: [mapelId], references: [id])\n  kelas       Kelas            @relation(fields: [kelasId], references: [id])\n  tahunAjaran TahunAjaran      @relation(fields: [tahunAjaranId], references: [id])\n  jurnal      JurnalMengajar[]\n}\n\nmodel JurnalMengajar {\n  id           String       @id @default(uuid())\n  jadwalId     String\n  tanggal      DateTime     @default(now())\n  materiBab    String?      @db.Text\n  catatan      String?      @db.Text\n  tugas        String?      @db.Text\n  status       JurnalStatus @default(DRAFT)\n  waktuMulai   String? // <-- TAMBAHKAN INI\n  waktuSelesai String? // <-- TAMBAHKAN INI\n\n  // Data Audit Geofencing Guru\n  latAbsen  Float?\n  longAbsen Float?\n\n  // Token Dynamic QR\n  qrToken String? @db.VarChar(500)\n\n  jadwal   JadwalPelajaran @relation(fields: [jadwalId], references: [id], onDelete: Cascade)\n  presensi PresensiSiswa[]\n}\n\nmodel PresensiSiswa {\n  id              String         @id @default(uuid())\n  jurnalId        String\n  siswaId         String\n  status          StatusHadir    @default(A)\n  waktuScan       DateTime? // Null jika dia absen manual oleh guru (bukan scan QR)\n  nilaiTugas      Int? // <-- TAMBAHAN BARU\n  alasanIzin      String? // <-- Alasan izin jika status Izin\n  isDispensasi    Boolean        @default(false)\n  isTerlambat     Boolean        @default(false)\n  alasanTerlambat String?        @db.Text\n  alasan          String?        @db.Text\n  fileBukti       String?\n  jurnal          JurnalMengajar @relation(fields: [jurnalId], references: [id], onDelete: Cascade)\n  siswa           Siswa          @relation(fields: [siswaId], references: [id], onDelete: Cascade)\n\n  // 1 Jurnal hanya boleh ada 1 record presensi per siswa\n  @@unique([jurnalId, siswaId])\n}\n\nmodel RatingGuru {\n  id            String   @id @default(uuid())\n  guruId        String\n  siswaId       String\n  mapelId       String\n  tahunAjaranId String\n  rating        Int // Skala 1-5\n  komentar      String?  @db.Text\n  createdAt     DateTime @default(now())\n\n  guru        Guru          @relation(fields: [guruId], references: [id], onDelete: Cascade)\n  siswa       Siswa         @relation(fields: [siswaId], references: [id], onDelete: Cascade)\n  mapel       MataPelajaran @relation(fields: [mapelId], references: [id], onDelete: Cascade)\n  tahunAjaran TahunAjaran   @relation(fields: [tahunAjaranId], references: [id], onDelete: Cascade)\n\n  @@unique([siswaId, guruId, mapelId, tahunAjaranId]) // 1 siswa max 1 rating per guru per mapel per tahun ajaran\n}\n",
+  "inlineSchemaHash": "9c13502f29cc5cd93e5a61c1ddb7eadf3e75dccbeb200a409d7421a2c6567dc6",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nama\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"guru\",\"kind\":\"object\",\"type\":\"Guru\",\"relationName\":\"GuruToUser\"},{\"name\":\"siswa\",\"kind\":\"object\",\"type\":\"Siswa\",\"relationName\":\"SiswaToUser\"}],\"dbName\":null},\"TahunAjaran\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nama\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"riwayatSiswa\",\"kind\":\"object\",\"type\":\"RiwayatKelasSiswa\",\"relationName\":\"RiwayatKelasSiswaToTahunAjaran\"}],\"dbName\":null},\"Kelas\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nama\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"riwayatSiswa\",\"kind\":\"object\",\"type\":\"RiwayatKelasSiswa\",\"relationName\":\"KelasToRiwayatKelasSiswa\"},{\"name\":\"waliKelas\",\"kind\":\"object\",\"type\":\"KelasWali\",\"relationName\":\"KelasToKelasWali\"}],\"dbName\":null},\"Guru\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"npp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jenisKelamin\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"GuruToUser\"},{\"name\":\"waliKelasDi\",\"kind\":\"object\",\"type\":\"KelasWali\",\"relationName\":\"GuruToKelasWali\"}],\"dbName\":null},\"KelasWali\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"guruId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"kelasId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"guru\",\"kind\":\"object\",\"type\":\"Guru\",\"relationName\":\"GuruToKelasWali\"},{\"name\":\"kelas\",\"kind\":\"object\",\"type\":\"Kelas\",\"relationName\":\"KelasToKelasWali\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Siswa\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nisn\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nis\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jenisKelamin\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SiswaToUser\"},{\"name\":\"riwayatKelas\",\"kind\":\"object\",\"type\":\"RiwayatKelasSiswa\",\"relationName\":\"RiwayatKelasSiswaToSiswa\"}],\"dbName\":null},\"RiwayatKelasSiswa\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"siswaId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"kelasId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tahunAjaranId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"siswa\",\"kind\":\"object\",\"type\":\"Siswa\",\"relationName\":\"RiwayatKelasSiswaToSiswa\"},{\"name\":\"kelas\",\"kind\":\"object\",\"type\":\"Kelas\",\"relationName\":\"KelasToRiwayatKelasSiswa\"},{\"name\":\"tahunAjaran\",\"kind\":\"object\",\"type\":\"TahunAjaran\",\"relationName\":\"RiwayatKelasSiswaToTahunAjaran\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nama\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"guru\",\"kind\":\"object\",\"type\":\"Guru\",\"relationName\":\"GuruToUser\"},{\"name\":\"siswa\",\"kind\":\"object\",\"type\":\"Siswa\",\"relationName\":\"SiswaToUser\"},{\"name\":\"laporanPdca\",\"kind\":\"object\",\"type\":\"LaporanPdca\",\"relationName\":\"LaporanPdcaToUser\"}],\"dbName\":null},\"TahunAjaran\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nama\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isRatingActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"riwayatSiswa\",\"kind\":\"object\",\"type\":\"RiwayatKelasSiswa\",\"relationName\":\"RiwayatKelasSiswaToTahunAjaran\"},{\"name\":\"jadwalPelajaran\",\"kind\":\"object\",\"type\":\"JadwalPelajaran\",\"relationName\":\"JadwalPelajaranToTahunAjaran\"},{\"name\":\"mataPelajaran\",\"kind\":\"object\",\"type\":\"MataPelajaran\",\"relationName\":\"MataPelajaranToTahunAjaran\"},{\"name\":\"laporanPdca\",\"kind\":\"object\",\"type\":\"LaporanPdca\",\"relationName\":\"LaporanPdcaToTahunAjaran\"},{\"name\":\"ratingGuru\",\"kind\":\"object\",\"type\":\"RatingGuru\",\"relationName\":\"RatingGuruToTahunAjaran\"},{\"name\":\"timFasilitatorTka\",\"kind\":\"object\",\"type\":\"TimFasilitatorTka\",\"relationName\":\"TahunAjaranToTimFasilitatorTka\"}],\"dbName\":null},\"Kelas\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nama\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isTka\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"tempat\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"riwayatSiswa\",\"kind\":\"object\",\"type\":\"RiwayatKelasSiswa\",\"relationName\":\"KelasToRiwayatKelasSiswa\"},{\"name\":\"jadwalPelajaran\",\"kind\":\"object\",\"type\":\"JadwalPelajaran\",\"relationName\":\"JadwalPelajaranToKelas\"},{\"name\":\"waliKelas\",\"kind\":\"object\",\"type\":\"KelasWali\",\"relationName\":\"KelasToKelasWali\"}],\"dbName\":null},\"MataPelajaran\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"kode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nama\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isTka\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"jadwalPelajaran\",\"kind\":\"object\",\"type\":\"JadwalPelajaran\",\"relationName\":\"JadwalPelajaranToMataPelajaran\"},{\"name\":\"tahunAjaran\",\"kind\":\"object\",\"type\":\"TahunAjaran\",\"relationName\":\"MataPelajaranToTahunAjaran\"},{\"name\":\"ratingGuru\",\"kind\":\"object\",\"type\":\"RatingGuru\",\"relationName\":\"MataPelajaranToRatingGuru\"},{\"name\":\"timFasilitatorTka\",\"kind\":\"object\",\"type\":\"TimFasilitatorTka\",\"relationName\":\"MataPelajaranToTimFasilitatorTka\"}],\"dbName\":null},\"PengaturanSekolah\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"schoolName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"latitude\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"longitude\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"radiusToleransi\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"qrExpirySec\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"LaporanPdca\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"judul\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tahunAjaranId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tahunAjaran\",\"kind\":\"object\",\"type\":\"TahunAjaran\",\"relationName\":\"LaporanPdcaToTahunAjaran\"},{\"name\":\"pembuatId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"pembuat\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"LaporanPdcaToUser\"},{\"name\":\"tanggalLaporan\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"planProblem\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"planRootCause\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"doImplementasi\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"checkFakta\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"checkGap\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"actRekomendasi\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"RekapBulanan\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tahunAjaranId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bulan\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"jenisAktivitas\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jumlah\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"TimFasilitatorTka\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mapelId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"guruId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tahunAjaranId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mapel\",\"kind\":\"object\",\"type\":\"MataPelajaran\",\"relationName\":\"MataPelajaranToTimFasilitatorTka\"},{\"name\":\"guru\",\"kind\":\"object\",\"type\":\"Guru\",\"relationName\":\"GuruToTimFasilitatorTka\"},{\"name\":\"tahunAjaran\",\"kind\":\"object\",\"type\":\"TahunAjaran\",\"relationName\":\"TahunAjaranToTimFasilitatorTka\"}],\"dbName\":null},\"Guru\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"npp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jenisKelamin\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"GuruToUser\"},{\"name\":\"jadwalPelajaran\",\"kind\":\"object\",\"type\":\"JadwalPelajaran\",\"relationName\":\"GuruToJadwalPelajaran\"},{\"name\":\"waliKelasDi\",\"kind\":\"object\",\"type\":\"KelasWali\",\"relationName\":\"GuruToKelasWali\"},{\"name\":\"ratingGuru\",\"kind\":\"object\",\"type\":\"RatingGuru\",\"relationName\":\"GuruToRatingGuru\"},{\"name\":\"timFasilitatorTka\",\"kind\":\"object\",\"type\":\"TimFasilitatorTka\",\"relationName\":\"GuruToTimFasilitatorTka\"}],\"dbName\":null},\"KelasWali\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"guruId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"kelasId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"guru\",\"kind\":\"object\",\"type\":\"Guru\",\"relationName\":\"GuruToKelasWali\"},{\"name\":\"kelas\",\"kind\":\"object\",\"type\":\"Kelas\",\"relationName\":\"KelasToKelasWali\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Siswa\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nisn\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"nis\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jenisKelamin\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SiswaToUser\"},{\"name\":\"riwayatKelas\",\"kind\":\"object\",\"type\":\"RiwayatKelasSiswa\",\"relationName\":\"RiwayatKelasSiswaToSiswa\"},{\"name\":\"presensi\",\"kind\":\"object\",\"type\":\"PresensiSiswa\",\"relationName\":\"PresensiSiswaToSiswa\"},{\"name\":\"ratingGuru\",\"kind\":\"object\",\"type\":\"RatingGuru\",\"relationName\":\"RatingGuruToSiswa\"}],\"dbName\":null},\"RiwayatKelasSiswa\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"siswaId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"kelasId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tahunAjaranId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isTka\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"siswa\",\"kind\":\"object\",\"type\":\"Siswa\",\"relationName\":\"RiwayatKelasSiswaToSiswa\"},{\"name\":\"kelas\",\"kind\":\"object\",\"type\":\"Kelas\",\"relationName\":\"KelasToRiwayatKelasSiswa\"},{\"name\":\"tahunAjaran\",\"kind\":\"object\",\"type\":\"TahunAjaran\",\"relationName\":\"RiwayatKelasSiswaToTahunAjaran\"}],\"dbName\":null},\"JadwalPelajaran\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"guruId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mapelId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"kelasId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tahunAjaranId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hari\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"waktuMulai\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"waktuSelesai\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ruang\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"guru\",\"kind\":\"object\",\"type\":\"Guru\",\"relationName\":\"GuruToJadwalPelajaran\"},{\"name\":\"mapel\",\"kind\":\"object\",\"type\":\"MataPelajaran\",\"relationName\":\"JadwalPelajaranToMataPelajaran\"},{\"name\":\"kelas\",\"kind\":\"object\",\"type\":\"Kelas\",\"relationName\":\"JadwalPelajaranToKelas\"},{\"name\":\"tahunAjaran\",\"kind\":\"object\",\"type\":\"TahunAjaran\",\"relationName\":\"JadwalPelajaranToTahunAjaran\"},{\"name\":\"jurnal\",\"kind\":\"object\",\"type\":\"JurnalMengajar\",\"relationName\":\"JadwalPelajaranToJurnalMengajar\"}],\"dbName\":null},\"JurnalMengajar\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jadwalId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tanggal\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"materiBab\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"catatan\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tugas\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"JurnalStatus\"},{\"name\":\"waktuMulai\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"waktuSelesai\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"latAbsen\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"longAbsen\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"qrToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jadwal\",\"kind\":\"object\",\"type\":\"JadwalPelajaran\",\"relationName\":\"JadwalPelajaranToJurnalMengajar\"},{\"name\":\"presensi\",\"kind\":\"object\",\"type\":\"PresensiSiswa\",\"relationName\":\"JurnalMengajarToPresensiSiswa\"}],\"dbName\":null},\"PresensiSiswa\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jurnalId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"siswaId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"StatusHadir\"},{\"name\":\"waktuScan\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"nilaiTugas\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"alasanIzin\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isDispensasi\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isTerlambat\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"alasanTerlambat\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"alasan\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fileBukti\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jurnal\",\"kind\":\"object\",\"type\":\"JurnalMengajar\",\"relationName\":\"JurnalMengajarToPresensiSiswa\"},{\"name\":\"siswa\",\"kind\":\"object\",\"type\":\"Siswa\",\"relationName\":\"PresensiSiswaToSiswa\"}],\"dbName\":null},\"RatingGuru\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"guruId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"siswaId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mapelId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tahunAjaranId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rating\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"komentar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"guru\",\"kind\":\"object\",\"type\":\"Guru\",\"relationName\":\"GuruToRatingGuru\"},{\"name\":\"siswa\",\"kind\":\"object\",\"type\":\"Siswa\",\"relationName\":\"RatingGuruToSiswa\"},{\"name\":\"mapel\",\"kind\":\"object\",\"type\":\"MataPelajaran\",\"relationName\":\"MataPelajaranToRatingGuru\"},{\"name\":\"tahunAjaran\",\"kind\":\"object\",\"type\":\"TahunAjaran\",\"relationName\":\"RatingGuruToTahunAjaran\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

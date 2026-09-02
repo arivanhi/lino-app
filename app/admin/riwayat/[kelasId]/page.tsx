@@ -19,8 +19,7 @@ export default async function RiwayatDetailServer({ params }: { params: Promise<
 	const kelas = await prismaEjournal.kelas.findUnique({
 		where: { id: kelasId },
 		include: { 
-			waliKelas: { include: { guru: { include: { user: true } } } },
-			pendamping: { include: { user: true } }
+			waliKelas: { include: { guru: { include: { user: true } } } }
 		},
 	});
 	if (!kelas) return notFound();
